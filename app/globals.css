@@ -2,95 +2,294 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   APLESI Enterprise — Design System
+   Institutional portal for Asosiasi Pembudidaya Ikan Indonesia
+   Colors: Navy Blue + Aqua / Teal
+   ============================================ */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --color-primary: #16a34a;
-  --color-primary-dark: #15803d;
-  --color-secondary: #0ea5e9;
-  --color-accent: #f59e0b;
+  --radius: 0.75rem;
+
+  /* === APLESI Brand Palette (dari Lovable theme) === */
+  --navy-deep: oklch(0.22 0.07 255);
+  --navy:      oklch(0.32 0.11 255);
+  --aqua:      oklch(0.72 0.14 210);
+  --aqua-glow: oklch(0.82 0.13 200);
+
+  /* === Semantic tokens (light mode) === */
+  --background:           oklch(0.99 0.005 220);
+  --foreground:           oklch(0.22 0.05 255);
+  --card:                 oklch(1 0 0);
+  --card-foreground:      oklch(0.22 0.05 255);
+  --popover:              oklch(1 0 0);
+  --popover-foreground:   oklch(0.22 0.05 255);
+  --primary:              oklch(0.32 0.11 255);
+  --primary-foreground:   oklch(0.99 0.005 220);
+  --secondary:            oklch(0.95 0.02 220);
+  --secondary-foreground: oklch(0.32 0.11 255);
+  --muted:                oklch(0.96 0.01 220);
+  --muted-foreground:     oklch(0.5 0.03 255);
+  --accent:               oklch(0.72 0.14 210);
+  --accent-foreground:    oklch(0.22 0.07 255);
+  --destructive:          oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0.005 220);
+  --border: oklch(0.92 0.015 220);
+  --input:  oklch(0.92 0.015 220);
+  --ring:   oklch(0.72 0.14 210);
 }
 
 @layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply text-gray-800 bg-white;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
   }
 
   h1, h2, h3, h4 {
     @apply font-semibold leading-tight;
   }
 
-  /* Prose styling untuk konten artikel */
+  /* === Prose styling untuk konten artikel === */
   .prose h2 {
-    @apply text-2xl font-bold text-gray-900 mt-8 mb-4 border-b border-gray-200 pb-2;
+    @apply text-2xl font-bold mt-8 mb-4 border-b pb-2;
+    color: var(--foreground);
+    border-color: var(--border);
   }
 
   .prose h3 {
-    @apply text-xl font-semibold text-gray-800 mt-6 mb-3;
+    @apply text-xl font-semibold mt-6 mb-3;
+    color: var(--foreground);
   }
 
   .prose p {
-    @apply text-gray-700 leading-relaxed mb-4;
+    @apply leading-relaxed mb-4;
+    color: var(--muted-foreground);
   }
 
   .prose ul {
-    @apply list-disc list-inside space-y-1 mb-4 text-gray-700;
+    @apply list-disc list-inside space-y-1 mb-4;
+    color: var(--muted-foreground);
   }
 
   .prose ol {
-    @apply list-decimal list-inside space-y-1 mb-4 text-gray-700;
+    @apply list-decimal list-inside space-y-1 mb-4;
+    color: var(--muted-foreground);
   }
 
   .prose blockquote {
-    @apply border-l-4 border-green-500 pl-4 italic text-gray-600 my-4;
+    @apply border-l-4 pl-4 italic my-4;
+    border-color: var(--aqua);
+    color: var(--muted-foreground);
   }
 
   .prose code {
-    @apply bg-gray-100 text-green-700 px-1.5 py-0.5 rounded text-sm font-mono;
+    @apply px-1.5 py-0.5 rounded text-sm font-mono;
+    background-color: var(--muted);
+    color: var(--accent);
   }
 
   .prose pre {
-    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+    @apply p-4 rounded-lg overflow-x-auto my-4;
+    background-color: var(--navy-deep);
+    color: oklch(0.99 0.005 220);
   }
 
   .prose a {
-    @apply text-green-600 hover:text-green-700 underline;
+    @apply underline transition-colors;
+    color: var(--aqua);
+  }
+
+  .prose a:hover {
+    color: var(--aqua-glow);
+  }
+
+  .prose table {
+    @apply w-full border-collapse mb-4;
+  }
+
+  .prose th {
+    @apply px-3 py-2 text-sm font-semibold text-left;
+    background-color: var(--muted);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+  }
+
+  .prose td {
+    @apply px-3 py-2 text-sm;
+    color: var(--muted-foreground);
+    border: 1px solid var(--border);
   }
 }
 
 @layer components {
+  /* === Tombol Utama === */
   .btn-primary {
-    @apply bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+    @apply inline-flex items-center justify-center font-semibold px-5 py-2.5 rounded-lg transition-all duration-200;
+    background: linear-gradient(135deg, oklch(0.32 0.11 255) 0%, oklch(0.52 0.14 220) 100%);
+    color: white;
+    box-shadow: 0 4px 15px -5px oklch(0.32 0.11 255 / 50%);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px -5px oklch(0.32 0.11 255 / 60%);
   }
 
   .btn-secondary {
-    @apply bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+    @apply inline-flex items-center justify-center font-semibold px-5 py-2.5 rounded-lg transition-all duration-200;
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
   }
 
+  .btn-secondary:hover {
+    background: var(--secondary);
+  }
+
+  .btn-aqua {
+    @apply inline-flex items-center justify-center font-semibold px-5 py-2.5 rounded-lg transition-all duration-200;
+    background: linear-gradient(135deg, oklch(0.72 0.14 210) 0%, oklch(0.82 0.13 200) 100%);
+    color: var(--navy-deep);
+    box-shadow: 0 4px 15px -5px oklch(0.72 0.14 210 / 50%);
+  }
+
+  .btn-aqua:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px -5px oklch(0.72 0.14 210 / 60%);
+  }
+
+  /* === Cards === */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200;
+    @apply rounded-xl overflow-hidden transition-all duration-300;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px -8px color-mix(in srgb, #1e2d5a 20%, transparent);
   }
 
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px -15px color-mix(in srgb, #1e2d5a 30%, transparent);
+  }
+
+  /* === Badges === */
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
   }
 
-  .badge-green {
-    @apply badge bg-green-100 text-green-700;
+  .badge-navy {
+    @apply badge;
+    background-color: oklch(0.32 0.11 255 / 10%);
+    color: var(--navy);
   }
 
-  .badge-blue {
-    @apply badge bg-blue-100 text-blue-700;
+  .badge-aqua {
+    @apply badge;
+    background-color: oklch(0.72 0.14 210 / 15%);
+    color: oklch(0.45 0.14 210);
   }
 
-  /* Admin panel */
+  /* Legasi — backward compatibility */
+  .badge-green { @apply badge bg-green-100 text-green-700; }
+  .badge-blue  { @apply badge bg-blue-100 text-blue-700; }
+
+  /* === Admin Panel === */
   .admin-card {
-    @apply bg-white rounded-xl border border-gray-200 shadow-sm p-6;
+    @apply rounded-xl p-6;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px -8px color-mix(in srgb, #1e2d5a 15%, transparent);
   }
 
   .admin-input {
-    @apply w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent;
+    @apply w-full rounded-lg px-3 py-2 text-sm transition-all duration-200 outline-none;
+    background-color: var(--background);
+    border: 1.5px solid var(--border);
+    color: var(--foreground);
+  }
+
+  .admin-input:focus {
+    border-color: var(--aqua);
+    box-shadow: 0 0 0 3px oklch(0.72 0.14 210 / 15%);
   }
 
   .admin-label {
-    @apply block text-sm font-medium text-gray-700 mb-1;
+    @apply block text-sm font-medium mb-1;
+    color: var(--foreground);
+  }
+}
+
+@layer utilities {
+  /* === Glassmorphism === */
+  .glass {
+    background: color-mix(in srgb, white 70%, transparent);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    border: 1px solid color-mix(in srgb, white 60%, transparent);
+  }
+
+  .glass-dark {
+    background: color-mix(in srgb, oklch(0.22 0.07 255) 60%, transparent);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    border: 1px solid color-mix(in srgb, white 10%, transparent);
+  }
+
+  /* === Gradients === */
+  .gradient-hero {
+    background: linear-gradient(135deg, oklch(0.22 0.07 255) 0%, oklch(0.32 0.11 255) 45%, oklch(0.52 0.14 220) 100%);
+  }
+
+  .gradient-aqua {
+    background: linear-gradient(135deg, oklch(0.72 0.14 210) 0%, oklch(0.82 0.13 200) 100%);
+  }
+
+  .text-gradient-aqua {
+    background: linear-gradient(135deg, oklch(0.82 0.13 200), white);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-navy {
+    background: linear-gradient(135deg, oklch(0.32 0.11 255), oklch(0.52 0.14 220));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* === Shadows === */
+  .shadow-glow {
+    box-shadow: 0 20px 60px -20px color-mix(in srgb, #5dc8e0 50%, transparent);
+  }
+
+  .shadow-card {
+    box-shadow: 0 4px 20px -8px color-mix(in srgb, #1e2d5a 25%, transparent);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 20px 50px -15px color-mix(in srgb, #1e2d5a 35%, transparent);
+  }
+
+  /* === Animasi Micro === */
+  .hover-lift {
+    @apply transition-transform duration-300;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
   }
 }
