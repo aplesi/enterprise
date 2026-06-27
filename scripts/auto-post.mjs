@@ -1,0 +1,155 @@
+// scripts/auto-post.mjs
+// Script yang dijalankan oleh GitHub Actions setiap hari
+
+import { writeFile, mkdir } from 'fs/promises'
+import { join } from 'path'
+import Groq from 'groq-sdk'
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+
+// Daftar topik yang dirotasi otomatis
+const TOPIK_ROTASI = [
+  'cara budidaya lele dumbo untuk pemula',
+  'pakan lele organik hemat biaya',
+  'mengatasi penyakit white spot pada lele',
+  'kolam terpal vs kolam tanah untuk lele',
+  'teknik pembenihan lele modern',
+  'manajemen kualitas air kolam lele',
+  'panen lele yang menguntungkan',
+  'bisnis lele asap peluang usaha menjanjikan',
+  'suplemen probiotik untuk pertumbuhan lele',
+  'sistem bioflok budidaya lele intensif',
+]
+
+function pilihTopik() {
+  const custom = process.env.TOPIK_CUSTOM
+  if (custom) return custom
+
+  // Rotasi berdasarkan hari dalam tahun
+  const hari = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
+  return TOPIK_ROTASI[hari % TOPIK_ROTASI.length]
+}
+
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim()
+}
+
+async function generateArtikel(topik) {
+  console.log(`📝 Generating artikel: "${topik}"`)
+
+  const completion = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      {
+        role: 'system',
+        content: 'Kamu adalah penulis konten profesional untuk website budidaya lele. Tulis dalam Bahasa Indonesia yang baik. Selalu kembalikan respons dalam format JSON valid.'
+      },
+      {
+        role: 'user',
+        content: `Tulis artikel lengkap tentang: "${topik}"
+        
+Panjang: 1000-1500 kata, format Markdown, dengan heading H2 dan H3.
+Respons hanya JSON:
+{
+  "judul": "...",
+  "ringkasan": "... (max 160 karakter)",
+  "konten": "... (markdown)",
+  "tags": ["tag1", "tag2", "tag3"],
+  "seoTitle": "... (max 60 karakter)",
+  "seoDesc": "... (max 160 karakter)",
+  "kategori": "..."
+}`
+      }
+    ],
+    temperature: 0.7,
+    max_tokens: 4096,
+    response_format: { type: 'json_object' }
+  })
+
+  return JSON.parse(completion.choices[0].message.content)
+}
+
+async function generateGambar(prompt) {
+  console.log(`🖼️ Generating gambar...`)
+  try {
+    const response = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.CF_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: `${prompt}, fish farming Indonesia, professional photography, high quality`,
+          num_steps: 20,
+          width: 1200,
+          height: 630,
+        }),
+      }
+    )
+    if (!response.ok) throw new Error(await response.text())
+    return Buffer.from(await response.arrayBuffer())
+  } catch (err) {
+    console.warn('⚠️ Generate gambar gagal:', err.message)
+    return null
+  }
+}
+
+async function main() {
+  const jumlah = parseInt(process.env.JUMLAH_ARTIKEL || '1')
+  const tanggal = new Date().toISOString().split('T')[0]
+
+  for (let i = 0; i < jumlah; i++) {
+    try {
+      const topik = pilihTopik()
+      const artikel = await generateArtikel(topik)
+      const slug = slugify(artikel.judul)
+
+      // Generate dan simpan gambar
+      let gambarPath = '/images/og-default.png'
+      const gambarBuffer = await generateGambar(artikel.judul)
+      if (gambarBuffer) {
+        const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
+        await mkdir(imgDir, { recursive: true })
+        const imgFile = `${slug}.png`
+        await writeFile(join(imgDir, imgFile), gambarBuffer)
+        gambarPath = `/images/artikel/${imgFile}`
+        console.log(`✅ Gambar disimpan: ${imgFile}`)
+      }
+
+      // Buat file markdown dengan frontmatter
+      const frontmatter = `---
+judul: "${artikel.judul}"
+slug: "${slug}"
+ringkasan: "${artikel.ringkasan}"
+gambar: "${gambarPath}"
+kategori: "${artikel.kategori || 'Budidaya'}"
+tags: [${artikel.tags.map(t => `"${t}"`).join(', ')}]
+penulis: "Aplesi AI"
+tanggal: "${tanggal}"
+status: "published"
+seoTitle: "${artikel.seoTitle}"
+seoDesc: "${artikel.seoDesc}"
+---
+
+${artikel.konten}`
+
+      const artikelDir = join(process.cwd(), 'content', 'artikel')
+      await mkdir(artikelDir, { recursive: true })
+      await writeFile(join(artikelDir, `${slug}.md`), frontmatter)
+
+      console.log(`✅ Artikel disimpan: ${slug}.md`)
+    } catch (err) {
+      console.error(`❌ Error generate artikel ${i + 1}:`, err.message)
+    }
+  }
+
+  console.log('🎉 Auto-post selesai!')
+}
+
+main()

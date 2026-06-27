@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #16a34a;
+  --color-primary-dark: #15803d;
+  --color-secondary: #0ea5e9;
+  --color-accent: #f59e0b;
+}
+
+@layer base {
+  body {
+    @apply text-gray-800 bg-white;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-semibold leading-tight;
+  }
+
+  /* Prose styling untuk konten artikel */
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mt-8 mb-4 border-b border-gray-200 pb-2;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold text-gray-800 mt-6 mb-3;
+  }
+
+  .prose p {
+    @apply text-gray-700 leading-relaxed mb-4;
+  }
+
+  .prose ul {
+    @apply list-disc list-inside space-y-1 mb-4 text-gray-700;
+  }
+
+  .prose ol {
+    @apply list-decimal list-inside space-y-1 mb-4 text-gray-700;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-green-500 pl-4 italic text-gray-600 my-4;
+  }
+
+  .prose code {
+    @apply bg-gray-100 text-green-700 px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose pre {
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+  }
+
+  .prose a {
+    @apply text-green-600 hover:text-green-700 underline;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-green {
+    @apply badge bg-green-100 text-green-700;
+  }
+
+  .badge-blue {
+    @apply badge bg-blue-100 text-blue-700;
+  }
+
+  /* Admin panel */
+  .admin-card {
+    @apply bg-white rounded-xl border border-gray-200 shadow-sm p-6;
+  }
+
+  .admin-input {
+    @apply w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent;
+  }
+
+  .admin-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+}
