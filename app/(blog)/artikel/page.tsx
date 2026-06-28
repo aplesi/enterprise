@@ -14,13 +14,14 @@ export const metadata: Metadata = {
 
 const KATEGORI_LIST = ['Semua', 'Pembenihan', 'Pakan', 'Penyakit & Pengobatan', 'Manajemen Kolam', 'Panen & Pascapanen', 'Bisnis & Pemasaran', 'Tips & Trik', 'Teknologi']
 
-export default function ArtikelIndexPage({
+export default async function ArtikelIndexPage({
   searchParams,
 }: {
-  searchParams: { kategori?: string; halaman?: string }
+  searchParams: Promise<{ kategori?: string; halaman?: string }>
 }) {
-  const kategoriAktif = searchParams.kategori || 'Semua'
-  const halaman = parseInt(searchParams.halaman || '1')
+  const { kategori, halaman: halamanStr } = await searchParams
+  const kategoriAktif = kategori || 'Semua'
+  const halaman = parseInt(halamanStr || '1')
   const perHalaman = 12
 
   let semuaArtikel = getAllArtikel()

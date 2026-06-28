@@ -12,12 +12,13 @@ export const metadata: Metadata = {
   robots: { index: false }, // jangan index halaman hasil pencarian
 }
 
-export default function CariPage({
+export default async function CariPage({
   searchParams,
 }: {
-  searchParams: { q?: string }
+  searchParams: Promise<{ q?: string }>
 }) {
-  const query = searchParams.q?.toLowerCase().trim() || ''
+  const { q } = await searchParams
+  const query = q?.toLowerCase().trim() || ''
 
   const hasil = query
     ? getAllArtikel().filter(
