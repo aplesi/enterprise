@@ -1,4 +1,6 @@
 // app/(blog)/artikel/[slug]/page.tsx
+export const runtime = 'edge'
+
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'

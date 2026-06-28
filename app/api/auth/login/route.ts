@@ -1,4 +1,6 @@
 // app/api/auth/login/route.ts
+export const runtime = 'edge'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 

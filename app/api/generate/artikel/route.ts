@@ -1,4 +1,6 @@
 // app/api/generate/artikel/route.ts
+export const runtime = 'edge'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { generateArtikel } from '@/lib/ai/groq'
 import { generateGambarDanSimpan } from '@/lib/ai/cloudflare-image'

@@ -1,4 +1,6 @@
 // app/(blog)/kategori/[slug]/page.tsx
+export const runtime = 'edge'
+
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'

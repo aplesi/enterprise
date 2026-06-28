@@ -1,5 +1,6 @@
 // app/go/[slug]/route.ts
 // Tracking klik afiliasi + redirect ke URL asli
+export const runtime = 'edge'
 
 import { NextRequest, NextResponse } from 'next/server'
 
