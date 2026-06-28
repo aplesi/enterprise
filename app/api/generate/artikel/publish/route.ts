@@ -1,5 +1,4 @@
 // app/api/generate/artikel/publish/route.ts
-export const runtime = 'edge'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { simpanArtikelLokal } from '@/lib/db/artikel'

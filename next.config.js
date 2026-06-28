@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Cloudflare Pages compatibility
-  output: 'standalone',
-
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.cloudflare.com' },
       { protocol: 'https', hostname: '**.aplesi.my.id' },
     ],
+    unoptimized: true,
   },
 
   // SEO: redirect trailing slash

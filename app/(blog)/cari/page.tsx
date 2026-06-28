@@ -1,5 +1,4 @@
 // app/(blog)/cari/page.tsx
-export const runtime = 'edge'
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
