@@ -1,6 +1,7 @@
 // app/(blog)/layout.tsx
 import Link from 'next/link'
 import { OrganizationJsonLd, WebsiteJsonLd } from '@/components/seo/JsonLd'
+import { SiteHeader } from '@/components/blog/SiteHeader'
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,55 +10,12 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
       <OrganizationJsonLd />
       <WebsiteJsonLd />
 
-      <div className="min-h-screen flex flex-col bg-white">
-        {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
-          <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-              <span className="text-2xl">🐟</span>
-              <div className="hidden sm:block">
-                <div className="font-bold text-gray-900 leading-none">Aplesi</div>
-                <div className="text-xs text-gray-400 leading-none">Budidaya Lele</div>
-              </div>
-            </Link>
-
-            {/* Nav */}
-            <nav className="hidden md:flex items-center gap-1">
-              {[
-                { href: '/artikel', label: 'Artikel' },
-                { href: '/kategori/pembenihan', label: 'Pembenihan' },
-                { href: '/kategori/pakan', label: 'Pakan' },
-                { href: '/kategori/penyakit', label: 'Penyakit' },
-                { href: '/produk', label: 'Produk' },
-              ].map((nav) => (
-                <Link
-                  key={nav.href}
-                  href={nav.href}
-                  className="px-3 py-2 text-sm text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors font-medium"
-                >
-                  {nav.label}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Kanan */}
-            <div className="flex items-center gap-2">
-              <Link href="/cari" className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors" aria-label="Cari artikel">
-                🔍
-              </Link>
-              <Link href="/rss.xml" className="p-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" aria-label="RSS Feed" target="_blank">
-                📡
-              </Link>
-              <Link href="/admin" className="hidden sm:block btn-primary text-sm py-1.5">
-                Admin
-              </Link>
-            </div>
-          </div>
-        </header>
+      <div className="min-h-screen flex flex-col bg-slate-50">
+        {/* Header (Scroll-reactive) */}
+        <SiteHeader />
 
         {/* Konten utama */}
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full bg-slate-50">{children}</main>
 
         {/* Footer */}
         <footer className="bg-gray-900 text-gray-300 mt-16">
@@ -66,7 +24,9 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
               {/* Brand */}
               <div className="md:col-span-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-2xl">🐟</span>
+                  <span className="text-aqua">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 6 6-.06 3.46-2.44 6-6 6-3.56 0-7.56-2.54-8.5-6Z"/><path d="M18 12v.01"/><path d="M11.52 17c-2.28 1.7-5.52 1.46-7.52-1C1.6 13.16 2.5 10 5 9c2.5-1 3.9-3.16 6-5"/></svg>
+                  </span>
                   <span className="font-bold text-white text-lg">Aplesi</span>
                 </div>
                 <p className="text-sm text-gray-400 leading-relaxed">

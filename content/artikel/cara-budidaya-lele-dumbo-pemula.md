@@ -105,7 +105,7 @@ Kualitas air yang baik adalah kunci keberhasilan budidaya lele. Pantau parameter
 | Suhu | 25–30°C |
 | pH | 7–8 |
 | DO (Oksigen terlarut) | >4 mg/L |
-| Amonia | <0,02 mg/L |
+| Amonia | < 0,02 mg/L |
 
 ### Pergantian Air
 

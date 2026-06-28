@@ -61,7 +61,7 @@ export async function uploadKeCloudflareImages(
   fileName: string
 ): Promise<string> {
   const formData = new FormData()
-  const blob = new Blob([buffer], { type: 'image/png' })
+  const blob = new Blob([new Uint8Array(buffer)], { type: 'image/png' })
   formData.append('file', blob, fileName)
 
   const response = await fetch(

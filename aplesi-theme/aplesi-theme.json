@@ -1,0 +1,61 @@
+{
+  "name": "APLESI Enterprise Theme",
+  "description": "Institutional-grade design system for the Asosiasi Pembudidaya Ikan Indonesia web portal.",
+  "version": "1.0.0",
+  "typography": {
+    "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+    "fontFeatureSettings": "\"cv11\", \"ss01\"",
+    "antialiased": true
+  },
+  "colors": {
+    "navyDeep": "oklch(0.22 0.07 255)",
+    "navy": "oklch(0.32 0.11 255)",
+    "aqua": "oklch(0.72 0.14 210)",
+    "aquaGlow": "oklch(0.82 0.13 200)",
+    "background": "oklch(0.99 0.005 220)",
+    "foreground": "oklch(0.22 0.05 255)",
+    "card": "oklch(1 0 0)",
+    "cardForeground": "oklch(0.22 0.05 255)",
+    "primary": "oklch(0.32 0.11 255)",
+    "primaryForeground": "oklch(0.99 0.005 220)",
+    "secondary": "oklch(0.95 0.02 220)",
+    "secondaryForeground": "oklch(0.32 0.11 255)",
+    "muted": "oklch(0.96 0.01 220)",
+    "mutedForeground": "oklch(0.5 0.03 255)",
+    "accent": "oklch(0.72 0.14 210)",
+    "accentForeground": "oklch(0.22 0.07 255)",
+    "destructive": "oklch(0.577 0.245 27.325)",
+    "destructiveForeground": "oklch(0.99 0.005 220)",
+    "border": "oklch(0.92 0.015 220)",
+    "input": "oklch(0.92 0.015 220)",
+    "ring": "oklch(0.72 0.14 210)"
+  },
+  "gradients": {
+    "hero": "linear-gradient(135deg, oklch(0.22 0.07 255) 0%, oklch(0.32 0.11 255) 45%, oklch(0.52 0.14 220) 100%)",
+    "aqua": "linear-gradient(135deg, oklch(0.72 0.14 210) 0%, oklch(0.82 0.13 200) 100%)"
+  },
+  "shadows": {
+    "glow": "0 20px 60px -20px color-mix(in oklab, var(--aqua) 50%, transparent)",
+    "card": "0 4px 20px -8px color-mix(in oklab, var(--navy) 25%, transparent)",
+    "cardHover": "0 20px 50px -15px color-mix(in oklab, var(--navy) 35%, transparent)"
+  },
+  "utilities": {
+    "glass": "Frosted glass surface for light backgrounds",
+    "glassDark": "Frosted glass surface for dark/hero backgrounds",
+    "gradientHero": "Hero gradient background",
+    "gradientAqua": "Aqua CTA/accent gradient",
+    "textGradientAqua": "Aqua-to-white text gradient",
+    "shadowGlow": "Soft aqua glow shadow",
+    "shadowCard": "Subtle card shadow",
+    "shadowCardHover": "Elevated card shadow on hover"
+  },
+  "radius": {
+    "base": "0.75rem",
+    "sm": "calc(var(--radius) - 4px)",
+    "md": "calc(var(--radius) - 2px)",
+    "lg": "var(--radius)",
+    "xl": "calc(var(--radius) + 4px)",
+    "2xl": "calc(var(--radius) + 8px)",
+    "3xl": "calc(var(--radius) + 12px)"
+  }
+}
