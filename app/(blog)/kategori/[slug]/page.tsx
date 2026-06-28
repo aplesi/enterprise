@@ -54,7 +54,7 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
 
   // Kategori lain untuk navigasi
   const kategoriLain = Object.entries(KATEGORI_INFO)
-    .filter(([slug]) => slug !== params.slug)
+    .filter(([s]) => s !== slug)
     .slice(0, 6)
 
   return (

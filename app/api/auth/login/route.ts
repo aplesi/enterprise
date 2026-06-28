@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Set session cookie (simple — gunakan NextAuth untuk production)
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   cookieStore.set('aplesi_admin_session', 'authenticated', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
