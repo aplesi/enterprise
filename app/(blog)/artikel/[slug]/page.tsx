@@ -21,19 +21,21 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const artikel = getArtikelBySlug(params.slug)
+  const { slug } = await params
+  const artikel = getArtikelBySlug(slug)
   if (!artikel) return { title: 'Artikel tidak ditemukan' }
   return generateMetaArtikel(artikel)
 }
 
-export default function ArtikelDetailPage({
+export default async function ArtikelDetailPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const artikel = getArtikelBySlug(params.slug)
+  const { slug } = await params
+  const artikel = getArtikelBySlug(slug)
   if (!artikel) notFound()
 
   // Ambil artikel terkait (kategori sama, bukan artikel ini)

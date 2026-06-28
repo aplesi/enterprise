@@ -5,9 +5,9 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = params
+  const { slug } = await params
 
   // Di production: ambil URL dari Cloudflare KV / D1
   // Sementara: redirect ke halaman produk

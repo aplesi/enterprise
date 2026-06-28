@@ -22,19 +22,21 @@ export async function generateStaticParams() {
   return Object.keys(KATEGORI_INFO).map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const info = KATEGORI_INFO[params.slug]
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const info = KATEGORI_INFO[slug]
   if (!info) return { title: 'Kategori tidak ditemukan' }
   return {
     title: `${info.nama} — Artikel Budidaya Lele`,
     description: info.deskripsi,
-    alternates: { canonical: `https://www.aplesi.my.id/kategori/${params.slug}` },
+    alternates: { canonical: `https://www.aplesi.my.id/kategori/${slug}` },
     openGraph: { title: `${info.nama} | Aplesi`, description: info.deskripsi },
   }
 }
 
-export default function KategoriPage({ params }: { params: { slug: string } }) {
-  const info = KATEGORI_INFO[params.slug]
+export default async function KategoriPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const info = KATEGORI_INFO[slug]
   if (!info) notFound()
 
   const artikelList = getArtikelByKategori(info.nama)
@@ -46,7 +48,7 @@ export default function KategoriPage({ params }: { params: { slug: string } }) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Beranda', item: 'https://www.aplesi.my.id' },
       { '@type': 'ListItem', position: 2, name: 'Kategori', item: 'https://www.aplesi.my.id/artikel' },
-      { '@type': 'ListItem', position: 3, name: info.nama, item: `https://www.aplesi.my.id/kategori/${params.slug}` },
+      { '@type': 'ListItem', position: 3, name: info.nama, item: `https://www.aplesi.my.id/kategori/${slug}` },
     ],
   })
 
