@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "auto-post": "node scripts/auto-post.mjs",
-    "build:cloudflare": "opennextjs-cloudflare build"
+    "build:cloudflare": "opennextjs-cloudflare build && cp .open-next/worker.js .open-next/assets/_worker.js"
   },
   "dependencies": {
     "clsx": "^2.1.0",
