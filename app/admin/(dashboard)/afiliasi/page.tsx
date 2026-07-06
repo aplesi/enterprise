@@ -1,4 +1,5 @@
 'use client'
+export const runtime = 'edge';
 
 import { useState, useEffect } from 'react'
 import { DollarSign, MousePointerClick, Link2, Check, Copy, Edit, Trash2, Lightbulb, Plus, ExternalLink } from 'lucide-react'

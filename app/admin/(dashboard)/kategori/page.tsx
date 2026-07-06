@@ -1,4 +1,5 @@
 'use client'
+export const runtime = 'edge';
 
 import { useState, useEffect } from 'react'
 import { Folder, Tag as TagIcon, Check, Edit, Trash2, Plus, X } from 'lucide-react'

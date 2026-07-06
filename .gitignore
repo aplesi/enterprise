@@ -41,3 +41,7 @@ next-env.d.ts
 
 # additional logs
 *.log
+
+# open-next
+.open-next
+

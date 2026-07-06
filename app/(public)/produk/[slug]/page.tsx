@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 export default function ProdukDetailPage({ params }: { params: { slug: string } }) {
   return (
     <div className="container mx-auto py-12 px-4">

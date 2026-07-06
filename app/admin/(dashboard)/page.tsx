@@ -1,18 +1,39 @@
+'use client'
+export const runtime = 'edge';
 // app/admin/(dashboard)/page.tsx
 import Link from 'next/link'
-import { FileText, CheckCircle, Clock, Folder, Sparkles, Calendar, BarChart3, DollarSign, Users } from 'lucide-react'
-import { getAllArtikel } from '@/lib/db/artikel'
+import { useState, useEffect } from 'react'
+import { FileText, Clock, Folder, Sparkles, Calendar, BarChart3, DollarSign, Users } from 'lucide-react'
 
-export default async function AdminDashboard() {
-  const artikelList = getAllArtikel()
+interface ArtikelItem {
+  slug: string
+  judul: string
+  kategori: string
+  tanggal: string
+  status: string
+}
+
+export default function AdminDashboard() {
+  const [artikelList, setArtikelList] = useState<ArtikelItem[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/articles')
+      .then(r => r.json())
+      .then(d => {
+        setArtikelList(d.data ?? [])
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
   const totalArtikel = artikelList.length
-  const artikelHariIni = artikelList.filter(
-    (a) => a.tanggal === new Date().toISOString().split('T')[0]
-  ).length
+  const today = new Date().toISOString().split('T')[0]
+  const artikelHariIni = artikelList.filter(a => a.tanggal === today).length
 
   const stats = [
-    { label: 'Total Artikel', value: totalArtikel, icon: FileText, href: '/admin/artikel' },
-    { label: 'Terbit Hari Ini', value: artikelHariIni, icon: CheckCircle, href: '/admin/artikel' },
+    { label: 'Total Artikel', value: loading ? '...' : totalArtikel, icon: FileText, href: '/admin/artikel' },
+    { label: 'Terbit Hari Ini', value: loading ? '...' : artikelHariIni, icon: FileText, href: '/admin/artikel' },
     { label: 'Auto-post Aktif', value: '07:00 WIB', icon: Clock, href: '/admin/jadwal' },
     { label: 'Kategori', value: '8', icon: Folder, href: '/admin/kategori' },
   ]
