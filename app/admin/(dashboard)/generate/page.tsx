@@ -1,6 +1,5 @@
 // app/admin/(dashboard)/generate/page.tsx
 'use client'
-export const runtime = 'edge';
 
 import { useState } from 'react'
 import { Loader2, Sparkles, XCircle, CheckCircle2, Send, Lightbulb } from 'lucide-react'

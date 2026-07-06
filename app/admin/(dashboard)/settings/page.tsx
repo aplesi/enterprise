@@ -1,5 +1,4 @@
 'use client'
-export const runtime = 'edge';
 
 import { useState, useEffect } from 'react'
 import { Sparkles, Cloud, FileCode2, Mail, Lock, DollarSign, Settings as SettingsIcon, Loader2, Save, XCircle, Check, Eye, EyeOff, ExternalLink } from 'lucide-react'
