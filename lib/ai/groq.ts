@@ -5,9 +5,15 @@ import Groq from 'groq-sdk'
 import type { GenerateArtikelRequest, GenerateArtikelResponse } from '@/types'
 import { slugify } from '@/lib/utils'
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-})
+let groqClient: Groq | null = null
+const getGroq = () => {
+  if (!groqClient) {
+    groqClient = new Groq({
+      apiKey: process.env.GROQ_API_KEY || 'dummy_key',
+    })
+  }
+  return groqClient
+}
 
 const MODEL = 'llama-3.3-70b-versatile'
 
@@ -51,7 +57,7 @@ Format respons HARUS dalam JSON valid seperti ini:
 
 Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
 
-  const completion = await groq.chat.completions.create({
+  const completion = await getGroq().chat.completions.create({
     model: MODEL,
     messages: [
       { role: 'system', content: systemPrompt },
@@ -79,7 +85,7 @@ Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
 }
 
 export async function generateJudul(topik: string, jumlah = 5): Promise<string[]> {
-  const completion = await groq.chat.completions.create({
+  const completion = await getGroq().chat.completions.create({
     model: MODEL,
     messages: [
       {
