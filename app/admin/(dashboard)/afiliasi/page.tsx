@@ -20,8 +20,8 @@ const PLATFORM_LIST = ['Tokopedia', 'Shopee', 'Lazada', 'Bukalapak', 'Blibli', '
 const KATEGORI_LIST = ['Pakan', 'Bibit & Induk', 'Peralatan Kolam', 'Obat & Suplemen', 'Buku & Kursus', 'Lainnya']
 
 const DATA_DEFAULT: LinkAfiliasi[] = [
-  { id: '1', nama: 'Pakan Lele HiPro-Vite 781', url: 'https://tokopedia.com/xxx', platform: 'Tokopedia', kategori: 'Pakan', komisiPersen: 5, totalKlik: 234, totalKomisi: 185000, aktif: true, createdAt: '2024-01-15' },
-  { id: '2', nama: 'Benih Lele Dumbo Unggul', url: 'https://shopee.co.id/xxx', platform: 'Shopee', kategori: 'Bibit & Induk', komisiPersen: 8, totalKlik: 187, totalKomisi: 320000, aktif: true, createdAt: '2024-01-20' },
+  { id: '1', nama: 'Pakan Ikan HiPro-Vite 781', url: 'https://tokopedia.com/xxx', platform: 'Tokopedia', kategori: 'Pakan', komisiPersen: 5, totalKlik: 234, totalKomisi: 185000, aktif: true, createdAt: '2024-01-15' },
+  { id: '2', nama: 'Benih Ikan Nila Unggul', url: 'https://shopee.co.id/xxx', platform: 'Shopee', kategori: 'Bibit & Induk', komisiPersen: 8, totalKlik: 187, totalKomisi: 320000, aktif: true, createdAt: '2024-01-20' },
   { id: '3', nama: 'Probiotik EM4 Peternakan', url: 'https://tokopedia.com/xxx', platform: 'Tokopedia', kategori: 'Obat & Suplemen', komisiPersen: 6, totalKlik: 156, totalKomisi: 125000, aktif: true, createdAt: '2024-02-01' },
   { id: '4', nama: 'Aerator Kolam 50 Watt', url: 'https://lazada.co.id/xxx', platform: 'Lazada', kategori: 'Peralatan Kolam', komisiPersen: 4, totalKlik: 98, totalKomisi: 210000, aktif: false, createdAt: '2024-02-10' },
 ]
@@ -182,7 +182,7 @@ export default function AfiliasiPage() {
               <input
                 value={form.nama}
                 onChange={e => setForm({ ...form, nama: e.target.value })}
-                placeholder="cth: Pakan Lele HiPro-Vite 781"
+                placeholder="cth: Pakan Ikan HiPro-Vite 781"
                 className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
               />
             </div>

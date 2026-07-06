@@ -63,7 +63,7 @@ export function OrganizationJsonLd() {
     name: 'Aplesi',
     url: 'https://www.aplesi.my.id',
     logo: 'https://www.aplesi.my.id/images/logo.png',
-    description: 'Portal budidaya lele terlengkap di Indonesia',
+    description: 'Portal budidaya ikan terlengkap di Indonesia',
     sameAs: [
       'https://www.facebook.com/aplesi',
       'https://www.instagram.com/aplesi',

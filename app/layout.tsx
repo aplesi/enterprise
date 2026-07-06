@@ -7,11 +7,11 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'Aplesi - Portal Budidaya Lele Terlengkap',
+    default: 'Aplesi - Portal Budidaya Ikan Terlengkap',
     template: '%s | Aplesi',
   },
-  description: 'Portal budidaya lele terlengkap di Indonesia. Tips, tutorial, dan panduan lengkap untuk peternak lele pemula hingga profesional.',
-  keywords: ['budidaya lele', 'ternak lele', 'pakan lele', 'lele dumbo', 'kolam lele'],
+  description: 'Portal budidaya ikan terlengkap di Indonesia. Tips, tutorial, dan panduan lengkap untuk peternak ikan pemula hingga profesional.',
+  keywords: ['budidaya ikan', 'ternak ikan', 'ikan air tawar', 'ikan konsumsi', 'kolam ikan', 'pakan ikan'],
   metadataBase: new URL('https://www.aplesi.my.id'),
   openGraph: {
     siteName: 'Aplesi',

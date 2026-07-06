@@ -214,7 +214,7 @@ export default async function ArtikelDetailPage({
               <div className="bg-green-700 text-white rounded-xl p-5">
                 <h3 className="font-semibold mb-2">📬 Tips Gratis</h3>
                 <p className="text-green-100 text-sm mb-4">
-                  Dapatkan artikel budidaya lele terbaru setiap hari.
+                  Dapatkan artikel budidaya ikan terbaru setiap hari.
                 </p>
                 <form action="/api/subscriber" method="POST" className="space-y-2">
                   <input type="email" name="email" placeholder="email@kamu.com"

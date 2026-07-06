@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     if (body.generateGambar) {
       try {
         const gambarUrl = await generateGambarDanSimpan(
-          `${artikel.judul}, budidaya lele, fish farming`,
+          `${artikel.judul}, budidaya ikan, fish farming`,
           artikel.slug
         )
         artikel.gambarUrl = gambarUrl

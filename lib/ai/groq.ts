@@ -32,9 +32,9 @@ export async function generateArtikel(
     berita: 'gaya jurnalistik, ringkas dan faktual',
   }
 
-  const systemPrompt = `Kamu adalah penulis konten profesional untuk website budidaya lele "Aplesi" (aplesi.my.id).
+  const systemPrompt = `Kamu adalah penulis konten profesional untuk website budidaya ikan "Aplesi" (aplesi.my.id).
 Selalu tulis dalam Bahasa Indonesia yang baik dan benar.
-Fokus pada konten praktis dan berguna untuk peternak lele di Indonesia.
+Fokus pada konten praktis dan berguna untuk peternak ikan di Indonesia.
 Gunakan heading H2 dan H3 yang relevan.
 Sertakan tips praktis dan pengalaman lapangan.`
 
@@ -90,7 +90,7 @@ export async function generateJudul(topik: string, jumlah = 5): Promise<string[]
     messages: [
       {
         role: 'user',
-        content: `Buat ${jumlah} judul artikel menarik tentang "${topik}" untuk website budidaya lele.
+        content: `Buat ${jumlah} judul artikel menarik tentang "${topik}" untuk website budidaya ikan.
 Judul harus SEO-friendly, mengandung angka atau power word jika relevan.
 Respons hanya array JSON: ["judul1", "judul2", ...]`,
       },

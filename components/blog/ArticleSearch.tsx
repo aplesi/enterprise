@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
 
 const SUGGESTIONS = [
-  'Budidaya lele',
+  'Budidaya ikan',
   'Budidaya nila',
   'Pakan ikan',
   'Kolam terpal',

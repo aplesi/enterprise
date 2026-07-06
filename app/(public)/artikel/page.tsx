@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const KATEGORI_LIST = [
   { label: 'Semua', value: '' },
-  { label: '🐟 Lele', value: 'Lele' },
+  { label: '🐟 Nila', value: 'Nila' },
   { label: '🐠 Nila', value: 'Nila' },
   { label: '🦐 Udang', value: 'Udang' },
   { label: '🌿 Pakan', value: 'Pakan' },

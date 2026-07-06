@@ -22,12 +22,12 @@ const NEWS_DATA = [
   },
   {
     id: 2,
-    judul: 'Harga Lele Konsumsi Naik 15% di Pasar Tradisional',
-    ringkasan: 'Kenaikan permintaan menjelang lebaran membuat harga lele konsumsi meningkat signifikan',
-    kategori: 'Pasar',
-    tanggal: '2024-06-24',
-    gambar: '/images/news/news-2.jpg',
-    slug: 'harga-lele-naik'
+    judul: 'Harga Ikan Konsumsi Naik 15% di Pasar Tradisional',
+    ringkasan: 'Kenaikan permintaan menjelang lebaran membuat harga ikan konsumsi meningkat signifikan',
+    kategori: 'Berita Pasar',
+    tanggal: '28 Mei 2024',
+    gambar: '/images/news/news-1.jpg',
+    slug: 'harga-ikan-naik'
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ const NEWS_DATA = [
   {
     id: 6,
     judul: 'Koperasi Perikanan Raih Penghargaan Terbaik Nasional',
-    ringkasan: 'Koperasi pembudidaya lele di Jawa Barat meraih penghargaan sebagai koperasi perikanan terbaik tahun ini',
+    ringkasan: 'Koperasi pembudidaya ikan di Jawa Barat meraih penghargaan sebagai koperasi perikanan terbaik tahun ini',
     kategori: 'Prestasi',
     tanggal: '2024-06-20',
     gambar: '/images/news/news-6.jpg',

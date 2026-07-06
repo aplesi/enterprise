@@ -5,8 +5,8 @@ import { NextResponse } from 'next/server'
 import { getAllArtikel } from '@/lib/db/artikel'
 
 const SITE_URL = 'https://www.aplesi.my.id'
-const SITE_NAME = 'Aplesi — Portal Budidaya Lele'
-const SITE_DESC = 'Tips, tutorial, dan panduan lengkap budidaya lele terlengkap di Indonesia'
+const SITE_NAME = 'Aplesi — Portal Budidaya Ikan'
+const SITE_DESC = 'Tips, tutorial, dan panduan lengkap budidaya ikan terlengkap di Indonesia'
 
 
 export async function GET() {

@@ -8,14 +8,14 @@ import { getArtikelByKategori, getAllArtikel } from '@/lib/db/artikel'
 import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
 
 const KATEGORI_INFO: Record<string, { nama: string; deskripsi: string; icon: string }> = {
-  pembenihan:       { nama: 'Pembenihan',            icon: '🥚', deskripsi: 'Panduan lengkap pembenihan dan pembibitan lele, dari pemilihan induk hingga penetasan telur.' },
-  pakan:            { nama: 'Pakan',                 icon: '🌿', deskripsi: 'Tips pakan dan nutrisi optimal untuk pertumbuhan lele yang cepat dan hemat biaya.' },
-  penyakit:         { nama: 'Penyakit & Pengobatan', icon: '💊', deskripsi: 'Cara mengenali, mencegah, dan mengobati berbagai penyakit umum pada lele.' },
-  kolam:            { nama: 'Manajemen Kolam',       icon: '🏊', deskripsi: 'Panduan pengelolaan kolam budidaya lele, dari kolam terpal hingga bioflok.' },
-  panen:            { nama: 'Panen & Pascapanen',    icon: '🎣', deskripsi: 'Teknik panen lele yang benar dan cara pengolahan pascapanen untuk memaksimalkan keuntungan.' },
-  bisnis:           { nama: 'Bisnis & Pemasaran',    icon: '💰', deskripsi: 'Strategi bisnis, analisa usaha, dan tips pemasaran produk lele.' },
-  tips:             { nama: 'Tips & Trik',           icon: '💡', deskripsi: 'Tips dan trik praktis dari para peternak lele berpengalaman.' },
-  teknologi:        { nama: 'Teknologi',             icon: '🔬', deskripsi: 'Inovasi dan teknologi terbaru dalam budidaya lele modern.' },
+  pembenihan:       { nama: 'Pembenihan',            icon: '🥚', deskripsi: 'Panduan lengkap pembenihan dan pembibitan ikan, dari pemilihan induk hingga penetasan telur.' },
+  pakan:            { nama: 'Pakan',                 icon: '🌿', deskripsi: 'Tips pakan dan nutrisi optimal untuk pertumbuhan ikan yang cepat dan hemat biaya.' },
+  penyakit:         { nama: 'Penyakit & Pengobatan', icon: '💊', deskripsi: 'Cara mengenali, mencegah, dan mengobati berbagai penyakit umum pada ikan.' },
+  kolam:            { nama: 'Manajemen Kolam',       icon: '🏊', deskripsi: 'Panduan pengelolaan kolam budidaya ikan, dari kolam terpal hingga bioflok.' },
+  panen:            { nama: 'Panen & Pascapanen',    icon: '🎣', deskripsi: 'Teknik panen ikan yang benar dan cara pengolahan pascapanen untuk memaksimalkan keuntungan.' },
+  bisnis:           { nama: 'Bisnis & Pemasaran',    icon: '💰', deskripsi: 'Strategi bisnis, analisa usaha, dan tips pemasaran produk ikan.' },
+  tips:             { nama: 'Tips & Trik',           icon: '💡', deskripsi: 'Tips dan trik praktis dari para peternak ikan berpengalaman.' },
+  teknologi:        { nama: 'Teknologi',             icon: '🔬', deskripsi: 'Inovasi dan teknologi terbaru dalam budidaya ikan modern.' },
 }
 
 export async function generateStaticParams() {
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const info = KATEGORI_INFO[slug]
   if (!info) return { title: 'Kategori tidak ditemukan' }
   return {
-    title: `${info.nama} — Artikel Budidaya Lele`,
+    title: `${info.nama} — Artikel Budidaya Ikan`,
     description: info.deskripsi,
     alternates: { canonical: `https://www.aplesi.my.id/kategori/${slug}` },
     openGraph: { title: `${info.nama} | Aplesi`, description: info.deskripsi },

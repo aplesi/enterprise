@@ -11,12 +11,12 @@ const KATEGORI_LIST = [
 ]
 
 const TOPIK_SARAN = [
-  'Cara budidaya lele dumbo untuk pemula',
-  'Pakan alternatif hemat untuk lele',
-  'Mengatasi penyakit white spot pada lele',
+  'Cara budidaya ikan nila untuk pemula',
+  'Pakan alternatif hemat untuk ikan',
+  'Mengatasi penyakit white spot pada ikan',
   'Kolam terpal vs kolam tanah perbandingan',
-  'Sistem bioflok untuk budidaya lele intensif',
-  'Cara panen lele yang benar dan menguntungkan',
+  'Sistem bioflok untuk budidaya ikan intensif',
+  'Cara panen ikan yang benar dan menguntungkan',
 ]
 
 interface HasilGenerate {
@@ -116,7 +116,7 @@ export default function GeneratePage() {
             type="text"
             value={topik}
             onChange={(e) => setTopik(e.target.value)}
-            placeholder="cth: cara budidaya lele dumbo untuk pemula"
+            placeholder="cth: cara budidaya ikan nila untuk pemula"
             className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
           />
           <div className="flex flex-wrap gap-2 mt-3">
@@ -195,7 +195,7 @@ export default function GeneratePage() {
             type="text"
             value={keywords}
             onChange={(e) => setKeywords(e.target.value)}
-            placeholder="cth: lele dumbo, budidaya lele, kolam terpal"
+            placeholder="cth: ikan nila, budidaya ikan, kolam terpal"
             className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
           />
         </div>

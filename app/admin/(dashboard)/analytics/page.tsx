@@ -34,10 +34,10 @@ function generateDataDummy() {
   ]
 
   const artikelPopuler: ArtikelPopuler[] = [
-    { judul: 'Cara Budidaya Lele Dumbo untuk Pemula Lengkap', slug: 'cara-budidaya-lele-dumbo-pemula', views: 4823, kategori: 'Pembenihan' },
-    { judul: 'Pakan Alternatif Hemat untuk Lele: Panduan Lengkap', slug: 'pakan-alternatif-hemat-lele', views: 3210, kategori: 'Pakan' },
-    { judul: 'Mengatasi Penyakit White Spot pada Lele dengan Cepat', slug: 'mengatasi-white-spot-lele', views: 2987, kategori: 'Penyakit' },
-    { judul: 'Sistem Bioflok: Budidaya Lele Intensif Modern', slug: 'sistem-bioflok-lele', views: 2341, kategori: 'Teknologi' },
+    { judul: 'Cara Budidaya Ikan Nila untuk Pemula Lengkap', slug: 'cara-budidaya-ikan-nila-pemula', views: 4823, kategori: 'Pembenihan' },
+    { judul: 'Pakan Alternatif Hemat untuk Ikan: Panduan Lengkap', slug: 'pakan-alternatif-hemat-ikan', views: 3210, kategori: 'Pakan' },
+    { judul: 'Mengatasi Penyakit White Spot pada Ikan dengan Cepat', slug: 'mengatasi-white-spot-ikan', views: 2987, kategori: 'Penyakit' },
+    { judul: 'Sistem Bioflok: Budidaya Ikan Intensif Modern', slug: 'sistem-bioflok-ikan', views: 2341, kategori: 'Teknologi' },
     { judul: 'Kolam Terpal vs Kolam Tanah: Mana yang Lebih Untung?', slug: 'kolam-terpal-vs-kolam-tanah', views: 1876, kategori: 'Kolam' },
   ]
 

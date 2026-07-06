@@ -33,14 +33,14 @@ const WARNA_OPTIONS = [
 const ICON_OPTIONS = ['🥚', '🌿', '💊', '🏊', '🎣', '💰', '🛒', '💡', '🔬', '📊', '🌊', '🐟']
 
 const KATEGORI_DEFAULT: Kategori[] = [
-  { id: '1', nama: 'Pembenihan', slug: 'pembenihan', deskripsi: 'Panduan pembenihan dan pembibitan lele', icon: '🥚', warna: 'aqua', jumlahArtikel: 0, aktif: true },
-  { id: '2', nama: 'Pakan', slug: 'pakan', deskripsi: 'Tips pakan dan nutrisi lele', icon: '🌿', warna: 'aqua', jumlahArtikel: 0, aktif: true },
-  { id: '3', nama: 'Penyakit & Pengobatan', slug: 'penyakit', deskripsi: 'Diagnosis dan pengobatan penyakit lele', icon: '💊', warna: 'red', jumlahArtikel: 0, aktif: true },
-  { id: '4', nama: 'Manajemen Kolam', slug: 'kolam', deskripsi: 'Pengelolaan kolam budidaya lele', icon: '🏊', warna: 'accent', jumlahArtikel: 0, aktif: true },
-  { id: '5', nama: 'Panen & Pascapanen', slug: 'panen', deskripsi: 'Teknik panen dan pengolahan lele', icon: '🎣', warna: 'amber', jumlahArtikel: 0, aktif: true },
-  { id: '6', nama: 'Bisnis & Pemasaran', slug: 'bisnis', deskripsi: 'Strategi bisnis dan pemasaran lele', icon: '💰', warna: 'amber', jumlahArtikel: 0, aktif: true },
-  { id: '7', nama: 'Tips & Trik', slug: 'tips', deskripsi: 'Tips praktis budidaya lele', icon: '💡', warna: 'purple', jumlahArtikel: 0, aktif: true },
-  { id: '8', nama: 'Teknologi', slug: 'teknologi', deskripsi: 'Inovasi teknologi budidaya lele', icon: '🔬', warna: 'accent', jumlahArtikel: 0, aktif: true },
+  { id: '1', nama: 'Pembenihan', slug: 'pembenihan', deskripsi: 'Panduan pembenihan dan pembibitan ikan', icon: '🥚', warna: 'aqua', jumlahArtikel: 0, aktif: true },
+  { id: '2', nama: 'Pakan', slug: 'pakan', deskripsi: 'Tips pakan dan nutrisi ikan', icon: '🌿', warna: 'aqua', jumlahArtikel: 0, aktif: true },
+  { id: '3', nama: 'Penyakit & Pengobatan', slug: 'penyakit', deskripsi: 'Diagnosis dan pengobatan penyakit ikan', icon: '💊', warna: 'red', jumlahArtikel: 0, aktif: true },
+  { id: '4', nama: 'Manajemen Kolam', slug: 'kolam', deskripsi: 'Pengelolaan kolam budidaya ikan', icon: '🏊', warna: 'accent', jumlahArtikel: 0, aktif: true },
+  { id: '5', nama: 'Panen & Pascapanen', slug: 'panen', deskripsi: 'Teknik panen dan pengolahan ikan', icon: '🎣', warna: 'amber', jumlahArtikel: 0, aktif: true },
+  { id: '6', nama: 'Bisnis & Pemasaran', slug: 'bisnis', deskripsi: 'Strategi bisnis dan pemasaran ikan', icon: '💰', warna: 'amber', jumlahArtikel: 0, aktif: true },
+  { id: '7', nama: 'Tips & Trik', slug: 'tips', deskripsi: 'Tips praktis budidaya ikan', icon: '💡', warna: 'purple', jumlahArtikel: 0, aktif: true },
+  { id: '8', nama: 'Teknologi', slug: 'teknologi', deskripsi: 'Inovasi teknologi budidaya ikan', icon: '🔬', warna: 'accent', jumlahArtikel: 0, aktif: true },
 ]
 
 function slugify(text: string) {
@@ -207,7 +207,7 @@ export default function KategoriPage() {
                   <input
                     value={form.nama}
                     onChange={e => setForm({ ...form, nama: e.target.value })}
-                    placeholder="cth: Nutrisi Lele"
+                    placeholder="cth: Nutrisi Ikan"
                     className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
                   />
                   {form.nama && (
@@ -415,7 +415,7 @@ export default function KategoriPage() {
                 value={tagInput}
                 onChange={e => setTagInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && tambahTag()}
-                placeholder="ketik tag, pisah dengan koma: lele dumbo, pakan alami, kolam terpal"
+                placeholder="ketik tag, pisah dengan koma: ikan nila, pakan alami, kolam terpal"
                 className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all flex-1"
               />
               <button

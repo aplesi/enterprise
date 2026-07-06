@@ -1,8 +1,8 @@
 // config/site.ts
 export const siteConfig = {
   name: 'Aplesi',
-  fullName: 'Asosiasi Pembudidaya Lele Indonesia',
-  description: 'Portal budidaya lele terlengkap di Indonesia. Tips, tutorial, dan panduan lengkap.',
+  fullName: 'Asosiasi Pembudidaya Ikan Seluruh Indonesia',
+  description: 'Portal budidaya ikan terlengkap di Indonesia. Tips, tutorial, dan panduan lengkap.',
   url: 'https://www.aplesi.my.id',
   ogImage: 'https://www.aplesi.my.id/images/og-default.png',
   links: {
@@ -10,5 +10,5 @@ export const siteConfig = {
     instagram: 'https://instagram.com/aplesi',
     youtube: 'https://youtube.com/@aplesi',
   },
-  keywords: ['budidaya lele', 'ternak lele', 'lele dumbo', 'kolam lele', 'pakan lele'],
+  keywords: ['budidaya ikan', 'ternak ikan', 'ikan air tawar', 'kolam ikan', 'pakan ikan'],
 }

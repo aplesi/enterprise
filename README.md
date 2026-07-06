@@ -1,6 +1,6 @@
 # 🐟 Aplesi Enterprise
 
-Portal Budidaya Lele — Next.js + Cloudflare + Groq AI
+Portal Budidaya Ikan — Next.js + Cloudflare + Groq AI
 
 ## Tech Stack
 

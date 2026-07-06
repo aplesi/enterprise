@@ -8,7 +8,7 @@ import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'Cari Artikel',
-  description: 'Cari artikel budidaya lele di Aplesi',
+  description: 'Cari artikel budidaya ikan di Aplesi',
   robots: { index: false }, // jangan index halaman hasil pencarian
 }
 
@@ -43,7 +43,7 @@ export default async function CariPage({
               type="search"
               name="q"
               defaultValue={query}
-              placeholder="Cari artikel budidaya lele..."
+              placeholder="Cari artikel budidaya ikan..."
               className="admin-input flex-1 text-base py-3"
               autoFocus
             />
@@ -71,7 +71,7 @@ export default async function CariPage({
                 Coba gunakan kata kunci yang berbeda
               </p>
               <div className="flex flex-wrap gap-2 justify-center">
-                {['lele dumbo', 'pakan', 'penyakit', 'kolam terpal', 'panen'].map((saran) => (
+                {['ikan nila', 'pakan', 'penyakit', 'kolam terpal', 'panen'].map((saran) => (
                   <Link
                     key={saran}
                     href={`/cari?q=${encodeURIComponent(saran)}`}
@@ -129,9 +129,9 @@ export default async function CariPage({
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Pencarian Populer</h2>
           <div className="flex flex-wrap gap-2">
             {[
-              'budidaya lele dumbo', 'pakan lele alami', 'kolam terpal',
-              'penyakit white spot', 'cara panen lele', 'bioflok',
-              'lele sangkuriang', 'probiotik lele', 'analisa usaha lele',
+              'budidaya ikan nila', 'pakan ikan alami', 'kolam terpal',
+              'penyakit white spot', 'cara panen ikan', 'bioflok',
+              'nila merah', 'probiotik ikan', 'analisa usaha ikan',
             ].map((topik) => (
               <Link
                 key={topik}

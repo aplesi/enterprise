@@ -8,8 +8,8 @@ export const runtime = 'edge'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const judul = searchParams.get('judul') || 'Aplesi — Portal Budidaya Lele'
-  const kategori = searchParams.get('kategori') || 'Budidaya Lele'
+  const judul = searchParams.get('judul') || 'Aplesi — Portal Budidaya Ikan'
+  const kategori = searchParams.get('kategori') || 'Budidaya Ikan'
   const tanggal = searchParams.get('tanggal') || ''
 
   return new ImageResponse(

@@ -20,16 +20,16 @@ const KATEGORI_LIST = [
 ]
 
 const TOPIK_OTOMATIS = [
-  'cara budidaya lele dumbo untuk pemula',
-  'pakan alternatif hemat untuk lele',
-  'mengatasi penyakit white spot pada lele',
+  'cara budidaya ikan nila untuk pemula',
+  'pakan alternatif hemat untuk ikan',
+  'mengatasi penyakit white spot pada ikan',
   'kolam terpal vs kolam tanah perbandingan',
-  'sistem bioflok untuk budidaya lele intensif',
-  'cara panen lele yang benar dan menguntungkan',
-  'manajemen kualitas air kolam lele',
-  'suplemen probiotik untuk pertumbuhan lele',
-  'bisnis olahan lele peluang usaha menjanjikan',
-  'teknik pembenihan lele modern',
+  'sistem bioflok untuk budidaya ikan intensif',
+  'cara panen ikan yang benar dan menguntungkan',
+  'manajemen kualitas air kolam ikan',
+  'suplemen probiotik untuk pertumbuhan ikan',
+  'bisnis olahan ikan peluang usaha menjanjikan',
+  'teknik pembenihan ikan modern',
 ]
 
 const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
@@ -301,7 +301,7 @@ export default function JadwalPage() {
                 type="text"
                 value={formTopik}
                 onChange={(e) => setFormTopik(e.target.value)}
-                placeholder="cth: cara membuat kolam terpal untuk lele"
+                placeholder="cth: cara membuat kolam terpal untuk ikan"
                 className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
               />
               <div className="flex flex-wrap gap-2 mt-2">

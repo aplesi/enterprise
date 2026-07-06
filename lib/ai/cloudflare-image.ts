@@ -8,7 +8,7 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
   const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID
   const CF_API_TOKEN = process.env.CF_API_TOKEN
 
-  const enhancedPrompt = `${prompt}, professional photography, high quality, 4k, budidaya lele Indonesia, fish farming`
+  const enhancedPrompt = `${prompt}, professional photography, high quality, 4k, budidaya ikan Indonesia, fish farming`
 
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/${IMAGE_MODEL}`,

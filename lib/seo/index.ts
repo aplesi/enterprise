@@ -86,7 +86,7 @@ export function generateJsonLd(artikel: Artikel): string {
     about: {
       '@type': 'Thing',
       name: artikel.kategori,
-      description: `Informasi tentang ${artikel.kategori} dalam budidaya lele`,
+      description: `Informasi tentang ${artikel.kategori} dalam budidaya ikan`,
     },
   })
 }
