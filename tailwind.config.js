@@ -8,11 +8,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // === APLESI Brand Palette (dari Lovable theme) ===
-        'navy-deep': 'oklch(0.22 0.07 255)',
-        'navy': 'oklch(0.32 0.11 255)',
-        'aqua': 'oklch(0.72 0.14 210)',
-        'aqua-glow': 'oklch(0.82 0.13 200)',
+        // === Navy-Aqua Palette (Lovable) ===
+        'navy-deep': '#0a1628',
+        'navy': '#1a2f4d',
+        'aqua': '#5bb5d4',
+        'aqua-glow': '#8ed4ed',
+
+        // === Premium Color Palette ===
+        midnight: '#0A0E27',
+        charcoal: '#1A1F3A',
+        slate: '#2A3150',
+        mist: '#E8ECF4',
+        pearl: '#F5F7FA',
+        azure: '#3B82F6',
+        cyan: '#06B6D4',
+        emerald: '#10B981',
+        amber: '#F59E0B',
 
         // === Semantic tokens (referensi CSS variables) ===
         background: 'var(--background)',
@@ -21,20 +32,9 @@ module.exports = {
           DEFAULT: 'var(--card)',
           foreground: 'var(--card-foreground)',
         },
-        popover: {
-          DEFAULT: 'var(--popover)',
-          foreground: 'var(--popover-foreground)',
-        },
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
         },
         secondary: {
           DEFAULT: 'var(--secondary)',
@@ -48,12 +48,7 @@ module.exports = {
           DEFAULT: 'var(--accent)',
           foreground: 'var(--accent-foreground)',
         },
-        destructive: {
-          DEFAULT: 'var(--destructive)',
-          foreground: 'var(--destructive-foreground)',
-        },
         border: 'var(--border)',
-        input: 'var(--input)',
         ring: 'var(--ring)',
       },
       fontFamily: {
@@ -69,14 +64,17 @@ module.exports = {
         '3xl': 'calc(var(--radius) + 12px)',
       },
       backgroundImage: {
-        'gradient-hero': 'linear-gradient(135deg, oklch(0.22 0.07 255) 0%, oklch(0.32 0.11 255) 45%, oklch(0.52 0.14 220) 100%)',
-        'gradient-aqua': 'linear-gradient(135deg, oklch(0.72 0.14 210) 0%, oklch(0.82 0.13 200) 100%)',
-        'gradient-aqua-text': 'linear-gradient(135deg, oklch(0.82 0.13 200), white)',
+        'gradient-ocean': 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)',
+        'gradient-midnight': 'linear-gradient(135deg, #0A0E27 0%, #1A1F3A 50%, #2A3150 100%)',
+        'gradient-pearl': 'linear-gradient(135deg, #F5F7FA 0%, #E8ECF4 100%)',
+        'gradient-hero': 'linear-gradient(135deg, #0a1628 0%, #1a2f4d 45%, #3d5f7d 100%)',
+        'gradient-aqua': 'linear-gradient(135deg, #5bb5d4 0%, #8ed4ed 100%)',
       },
       boxShadow: {
-        'glow': '0 20px 60px -20px color-mix(in srgb, #5dc8e0 50%, transparent)',
-        'card': '0 4px 20px -8px color-mix(in srgb, #1e2d5a 25%, transparent)',
-        'card-hover': '0 20px 50px -15px color-mix(in srgb, #1e2d5a 35%, transparent)',
+        'luxury': '0 20px 60px -15px rgba(10, 14, 39, 0.15)',
+        'luxury-lg': '0 30px 80px -20px rgba(10, 14, 39, 0.2)',
+        'glow-blue': '0 20px 60px -15px rgba(59, 130, 246, 0.4)',
+        'glow-cyan': '0 20px 60px -15px rgba(6, 182, 212, 0.4)',
       },
     },
   },

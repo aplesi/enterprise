@@ -1,7 +1,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "enterprise",
+  "name": "aplesi-enterprise",
   "compatibility_date": "2025-06-01",
   "compatibility_flags": ["nodejs_compat"],
-  "pages_build_output_dir": ".open-next/assets"
+  "pages_build_output_dir": ".vercel/output/static",
+  "kv_namespaces": [
+    {
+      "binding": "aplesi_kv",
+      "id": "d3667c6872b344afb6ad8bc0f03d54d9"
+    }
+  ]
 }

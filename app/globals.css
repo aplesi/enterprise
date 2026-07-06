@@ -3,43 +3,48 @@
 @tailwind utilities;
 
 /* ============================================
-   APLESI Enterprise — Design System
-   Institutional portal for Asosiasi Pembudidaya Ikan Indonesia
-   Colors: Navy Blue + Aqua / Teal
+   APLESI Enterprise — Premium Design System v3
+   Minimalist Luxury Design Language
    ============================================ */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Import Inter Font (Lovable theme) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
   --radius: 0.75rem;
 
-  /* === APLESI Brand Palette (dari Lovable theme) === */
-  --navy-deep: oklch(0.22 0.07 255);
-  --navy:      oklch(0.32 0.11 255);
-  --aqua:      oklch(0.72 0.14 210);
-  --aqua-glow: oklch(0.82 0.13 200);
+  /* === Navy-Aqua Palette (Lovable) === */
+  --navy-deep: #0a1628;
+  --navy: #1a2f4d;
+  --aqua: #5bb5d4;
+  --aqua-glow: #8ed4ed;
 
-  /* === Semantic tokens (light mode) === */
-  --background:           oklch(0.99 0.005 220);
-  --foreground:           oklch(0.22 0.05 255);
-  --card:                 oklch(1 0 0);
-  --card-foreground:      oklch(0.22 0.05 255);
-  --popover:              oklch(1 0 0);
-  --popover-foreground:   oklch(0.22 0.05 255);
-  --primary:              oklch(0.32 0.11 255);
-  --primary-foreground:   oklch(0.99 0.005 220);
-  --secondary:            oklch(0.95 0.02 220);
-  --secondary-foreground: oklch(0.32 0.11 255);
-  --muted:                oklch(0.96 0.01 220);
-  --muted-foreground:     oklch(0.5 0.03 255);
-  --accent:               oklch(0.72 0.14 210);
-  --accent-foreground:    oklch(0.22 0.07 255);
-  --destructive:          oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.99 0.005 220);
-  --border: oklch(0.92 0.015 220);
-  --input:  oklch(0.92 0.015 220);
-  --ring:   oklch(0.72 0.14 210);
+  /* === Premium Color Palette === */
+  --midnight: #0A0E27;
+  --charcoal: #1A1F3A;
+  --slate: #2A3150;
+  --mist: #E8ECF4;
+  --pearl: #F5F7FA;
+  --azure: #3B82F6;
+  --cyan: #06B6D4;
+  --emerald: #10B981;
+  --amber: #F59E0B;
+
+  /* === Semantic tokens === */
+  --background: #FFFFFF;
+  --foreground: #0A0E27;
+  --card: #FFFFFF;
+  --card-foreground: #0A0E27;
+  --primary: #3B82F6;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F7FA;
+  --secondary-foreground: #0A0E27;
+  --muted: #E8ECF4;
+  --muted-foreground: #6B7280;
+  --accent: #06B6D4;
+  --accent-foreground: #FFFFFF;
+  --border: #E5E7EB;
+  --ring: #3B82F6;
 }
 
 @layer base {
@@ -56,11 +61,33 @@
     color: var(--foreground);
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4 {
-    @apply font-semibold leading-tight;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', system-ui, sans-serif;
+    @apply font-bold leading-[1.1] tracking-tight;
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl lg:text-7xl;
+    font-weight: 700;
+  }
+
+  h2 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+    font-weight: 700;
+  }
+
+  h3 {
+    @apply text-3xl md:text-4xl;
+    font-weight: 600;
+  }
+
+  p {
+    @apply leading-relaxed;
   }
 
   /* === Prose styling untuk konten artikel === */
@@ -136,160 +163,208 @@
 }
 
 @layer components {
-  /* === Tombol Utama === */
-  .btn-primary {
-    @apply inline-flex items-center justify-center font-semibold px-5 py-2.5 rounded-lg transition-all duration-200;
-    background: linear-gradient(135deg, oklch(0.32 0.11 255) 0%, oklch(0.52 0.14 220) 100%);
-    color: white;
-    box-shadow: 0 4px 15px -5px oklch(0.32 0.11 255 / 50%);
+  /* === Modern Button System === */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold px-8 py-4 rounded-2xl transition-all duration-300 whitespace-nowrap;
   }
 
-  .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 25px -5px oklch(0.32 0.11 255 / 60%);
+  .btn-primary {
+    @apply btn bg-midnight text-white hover:bg-charcoal shadow-lg hover:shadow-xl hover:-translate-y-0.5;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center font-semibold px-5 py-2.5 rounded-lg transition-all duration-200;
-    background: transparent;
-    color: var(--primary);
-    border: 1.5px solid var(--primary);
+    @apply btn bg-pearl text-midnight hover:bg-mist;
   }
 
-  .btn-secondary:hover {
-    background: var(--secondary);
+  .btn-accent {
+    @apply btn bg-gradient-to-r from-azure to-cyan text-white shadow-lg shadow-azure/30 hover:shadow-xl hover:shadow-azure/40 hover:-translate-y-0.5;
   }
 
-  .btn-aqua {
-    @apply inline-flex items-center justify-center font-semibold px-5 py-2.5 rounded-lg transition-all duration-200;
-    background: linear-gradient(135deg, oklch(0.72 0.14 210) 0%, oklch(0.82 0.13 200) 100%);
-    color: var(--navy-deep);
-    box-shadow: 0 4px 15px -5px oklch(0.72 0.14 210 / 50%);
+  .btn-outline {
+    @apply btn bg-transparent border-2 border-midnight text-midnight hover:bg-midnight hover:text-white;
   }
 
-  .btn-aqua:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 25px -5px oklch(0.72 0.14 210 / 60%);
+  /* === Card System === */
+  .card-modern {
+    @apply bg-white rounded-3xl border border-gray-100 transition-all duration-500;
   }
 
-  /* === Cards === */
-  .card {
-    @apply rounded-xl overflow-hidden transition-all duration-300;
-    background-color: var(--card);
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px -8px color-mix(in srgb, #1e2d5a 20%, transparent);
+  .card-hover {
+    @apply card-modern hover:shadow-2xl hover:shadow-gray-100 hover:-translate-y-1;
   }
 
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 50px -15px color-mix(in srgb, #1e2d5a 30%, transparent);
+  .card-featured {
+    @apply bg-gradient-to-br from-midnight to-charcoal text-white rounded-3xl p-12;
   }
 
-  /* === Badges === */
-  .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  /* === Section Layouts === */
+  .section-padding {
+    @apply py-16 md:py-20 lg:py-24;
   }
 
-  .badge-navy {
-    @apply badge;
-    background-color: oklch(0.32 0.11 255 / 10%);
-    color: var(--navy);
-  }
-
-  .badge-aqua {
-    @apply badge;
-    background-color: oklch(0.72 0.14 210 / 15%);
-    color: oklch(0.45 0.14 210);
-  }
-
-  /* Legasi — backward compatibility */
-  .badge-green { @apply badge bg-green-100 text-green-700; }
-  .badge-blue  { @apply badge bg-blue-100 text-blue-700; }
-
-  /* === Admin Panel === */
-  .admin-card {
-    @apply rounded-xl p-6;
-    background-color: var(--card);
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px -8px color-mix(in srgb, #1e2d5a 15%, transparent);
-  }
-
-  .admin-input {
-    @apply w-full rounded-lg px-3 py-2 text-sm transition-all duration-200 outline-none;
-    background-color: var(--background);
-    border: 1.5px solid var(--border);
-    color: var(--foreground);
-  }
-
-  .admin-input:focus {
-    border-color: var(--aqua);
-    box-shadow: 0 0 0 3px oklch(0.72 0.14 210 / 15%);
-  }
-
-  .admin-label {
-    @apply block text-sm font-medium mb-1;
-    color: var(--foreground);
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
   }
 }
 
 @layer utilities {
-  /* === Glassmorphism === */
-  .glass {
-    background: color-mix(in srgb, white 70%, transparent);
-    backdrop-filter: saturate(180%) blur(16px);
-    -webkit-backdrop-filter: saturate(180%) blur(16px);
-    border: 1px solid color-mix(in srgb, white 60%, transparent);
+  /* === Layout Utilities === */
+  .aspect-golden {
+    aspect-ratio: 1.618 / 1;
   }
 
-  .glass-dark {
-    background: color-mix(in srgb, oklch(0.22 0.07 255) 60%, transparent);
-    backdrop-filter: saturate(180%) blur(16px);
-    -webkit-backdrop-filter: saturate(180%) blur(16px);
-    border: 1px solid color-mix(in srgb, white 10%, transparent);
+  .aspect-video-wide {
+    aspect-ratio: 21 / 9;
+  }
+
+  /* === Backdrop Effects === */
+  .glass-luxury {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .glass-dark-luxury {
+    background: rgba(10, 14, 39, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
   }
 
   /* === Gradients === */
-  .gradient-hero {
-    background: linear-gradient(135deg, oklch(0.22 0.07 255) 0%, oklch(0.32 0.11 255) 45%, oklch(0.52 0.14 220) 100%);
+  .gradient-ocean {
+    background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
   }
 
-  .gradient-aqua {
-    background: linear-gradient(135deg, oklch(0.72 0.14 210) 0%, oklch(0.82 0.13 200) 100%);
+  .gradient-midnight {
+    background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 50%, #2A3150 100%);
   }
 
-  .text-gradient-aqua {
-    background: linear-gradient(135deg, oklch(0.82 0.13 200), white);
+  .gradient-pearl {
+    background: linear-gradient(135deg, #F5F7FA 0%, #E8ECF4 100%);
+  }
+
+  /* === Text Gradients === */
+  .text-gradient-ocean {
+    background: linear-gradient(135deg, #3B82F6, #06B6D4);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  .text-gradient-navy {
-    background: linear-gradient(135deg, oklch(0.32 0.11 255), oklch(0.52 0.14 220));
+  .text-gradient-emerald {
+    background: linear-gradient(135deg, #10B981, #06B6D4);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   /* === Shadows === */
+  .shadow-luxury {
+    box-shadow: 0 20px 60px -15px rgba(10, 14, 39, 0.15);
+  }
+
+  .shadow-luxury-lg {
+    box-shadow: 0 30px 80px -20px rgba(10, 14, 39, 0.2);
+  }
+
+  .shadow-glow-blue {
+    box-shadow: 0 20px 60px -15px rgba(59, 130, 246, 0.4);
+  }
+
+  .shadow-glow-cyan {
+    box-shadow: 0 20px 60px -15px rgba(6, 182, 212, 0.4);
+  }
+
+  /* === Glassmorphism Effects (Lovable) === */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-dark {
+    background: rgba(10, 22, 40, 0.6);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* === Custom Gradients (Lovable) === */
+  .gradient-hero {
+    background: linear-gradient(135deg, #0a1628 0%, #1a2f4d 45%, #3d5f7d 100%);
+  }
+
+  .gradient-aqua {
+    background: linear-gradient(135deg, #5bb5d4 0%, #8ed4ed 100%);
+  }
+
+  .text-gradient-aqua {
+    background: linear-gradient(135deg, #8ed4ed, white);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* === Custom Shadows (Lovable) === */
   .shadow-glow {
-    box-shadow: 0 20px 60px -20px color-mix(in srgb, #5dc8e0 50%, transparent);
+    box-shadow: 0 20px 60px -20px rgba(91, 181, 212, 0.5);
   }
 
   .shadow-card {
-    box-shadow: 0 4px 20px -8px color-mix(in srgb, #1e2d5a 25%, transparent);
+    box-shadow: 0 4px 20px -8px rgba(26, 47, 77, 0.25);
   }
 
   .shadow-card-hover {
-    box-shadow: 0 20px 50px -15px color-mix(in srgb, #1e2d5a 35%, transparent);
+    box-shadow: 0 20px 50px -15px rgba(26, 47, 77, 0.35);
   }
 
-  /* === Animasi Micro === */
-  .hover-lift {
-    @apply transition-transform duration-300;
+  /* === Animations === */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
   }
 
-  .hover-lift:hover {
-    transform: translateY(-4px);
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.5s ease-out;
+  }
+
+  /* === Magnetic Hover Effect === */
+  .magnetic-hover {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .magnetic-hover:hover {
+    transform: scale(1.05) translateY(-2px);
   }
 }

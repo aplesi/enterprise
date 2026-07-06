@@ -8,6 +8,7 @@ const SITE_URL = 'https://www.aplesi.my.id'
 const SITE_NAME = 'Aplesi — Portal Budidaya Lele'
 const SITE_DESC = 'Tips, tutorial, dan panduan lengkap budidaya lele terlengkap di Indonesia'
 
+
 export async function GET() {
   const artikelList = getAllArtikel().slice(0, 50) // 50 artikel terbaru
 

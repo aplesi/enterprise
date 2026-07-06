@@ -5,6 +5,7 @@ import { generateArtikel } from '@/lib/ai/groq'
 import { generateGambarDanSimpan } from '@/lib/ai/cloudflare-image'
 import type { GenerateArtikelRequest } from '@/types'
 
+
 export async function POST(req: NextRequest) {
   try {
     const body: GenerateArtikelRequest = await req.json()

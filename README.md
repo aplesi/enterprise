@@ -58,8 +58,8 @@ git push origin main
 3. Connect ke GitHub repo ini
 4. Build settings:
    - **Framework**: Next.js
-   - **Build command**: `npm run build`
-   - **Output directory**: `.next`
+   - **Build command**: `npx @cloudflare/next-on-pages`
+   - **Output directory**: `.vercel/output/static`
 5. Tambahkan semua environment variables dari `.env.example`
 
 ### Langkah 3 — Setup Domain
