@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 
 const KATEGORI_LIST = [
   { label: 'Semua', value: '' },
-  { label: '🐟 Nila', value: 'Nila' },
-  { label: '🐠 Nila', value: 'Nila' },
-  { label: '🦐 Udang', value: 'Udang' },
+  { label: '🥚 Pembenihan', value: 'Pembenihan' },
   { label: '🌿 Pakan', value: 'Pakan' },
-  { label: '💊 Penyakit', value: 'Penyakit' },
-  { label: '🏊 Kolam', value: 'Kolam' },
-  { label: '💰 Bisnis', value: 'Bisnis' },
+  { label: '💊 Penyakit & Pengobatan', value: 'Penyakit & Pengobatan' },
+  { label: '🏊 Manajemen Kolam', value: 'Manajemen Kolam' },
+  { label: '🎣 Panen & Pascapanen', value: 'Panen & Pascapanen' },
+  { label: '💰 Bisnis & Pemasaran', value: 'Bisnis & Pemasaran' },
+  { label: '💡 Tips & Trik', value: 'Tips & Trik' },
   { label: '🔬 Teknologi', value: 'Teknologi' },
 ]
 
