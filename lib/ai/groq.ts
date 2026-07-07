@@ -44,7 +44,9 @@ ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
 1. ANSWER-FIRST: di bawah SETIAP heading H2/H3, kalimat PERTAMA harus langsung menjawab inti topik heading tersebut -- bukan basa-basi pembuka. Kalimat 2-4 berisi detail pendukung (data/angka), lalu bullet points jika ada langkah/daftar.
 2. PANJANG PER SECTION: setiap section di bawah satu H2/H3 sebaiknya 150-200 kata (minimum 100, maksimum 300). Jangan buat section super singkat (di bawah 50 kata) -- itu terlalu dangkal. Jangan juga lewat 300 kata untuk satu poin -- pecah jadi sub-heading baru kalau perlu.
 3. PANJANG PARAGRAF: tiap paragraf sekitar 60-100 kata, satu ide utama per paragraf.
-4. Jika artikel ini berupa panduan langkah-demi-langkah, gunakan heading H3 bernomor eksplisit ("### 1. Nama Langkah", "### 2. Nama Langkah", dst).`
+4. Jika artikel ini berupa panduan langkah-demi-langkah, gunakan heading H3 bernomor eksplisit ("### 1. Nama Langkah", "### 2. Nama Langkah", dst).
+
+SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk model Stable Diffusion, yang menggambarkan SATU adegan visual KONKRET dan SPESIFIK yang benar-benar dibahas di artikel ini (bukan judul artikel, bukan deskripsi generik "fish farming"). Ambil detail nyata dari isi artikel: jenis ikan/spesies, jenis kolam/media, alat/bahan yang disebutkan, tahapan yang sedang dijelaskan, atau kondisi visual yang relevan (warna air, tekstur pakan, dsb). Contoh format yang benar: "close-up of catfish fingerlings being released into a blue tarpaulin pond, clear morning light, hand visible pouring fish from a plastic bag, rural Indonesian aquaculture setting, realistic photography style". Jangan buat prompt umum seperti "fish farming pond Indonesia" -- harus spesifik ke isi artikel.`
 
   const userPrompt = `Tulis artikel tentang: "${req.topik}"
 
@@ -63,7 +65,8 @@ Format respons HARUS dalam JSON valid seperti ini:
   "konten": "konten artikel lengkap dalam format Markdown",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
   "seoTitle": "judul SEO (max 60 karakter)",
-  "seoDesc": "deskripsi SEO (max 160 karakter)"
+  "seoDesc": "deskripsi SEO (max 160 karakter)",
+  "imagePrompt": "prompt gambar dalam Bahasa Inggris, spesifik ke adegan konkret di isi artikel ini (lihat instruksi di atas)"
 }
 
 Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
@@ -91,6 +94,7 @@ Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
     tags: parsed.tags || [],
     seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
     seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
+    imagePrompt: parsed.imagePrompt || `${parsed.judul}, Indonesian aquaculture, realistic photography`,
     slug: slugify(parsed.judul),
   }
 }

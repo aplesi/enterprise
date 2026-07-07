@@ -80,6 +80,7 @@ export interface GenerateArtikelResponse {
   tags: string[]
   seoTitle: string
   seoDesc: string
+  imagePrompt: string
   gambarUrl?: string
   slug: string
 }

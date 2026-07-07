@@ -18,17 +18,19 @@ export async function POST(req: NextRequest) {
     // 1. Generate artikel dengan Groq
     const artikel = await generateArtikel(body)
 
-    // 2. Generate gambar dengan Cloudflare AI (opsional)
+    // 2. Generate gambar dengan Cloudflare AI, pakai imagePrompt spesifik
+    // yang dibuat Groq berdasarkan isi artikel (bukan judul/kata generik)
     if (body.generateGambar) {
       try {
         const gambarUrl = await generateGambarDanSimpan(
-          `${artikel.judul}, budidaya ikan, fish farming`,
+          artikel.imagePrompt,
           artikel.slug
         )
         artikel.gambarUrl = gambarUrl
       } catch (imgErr) {
         console.warn('Generate gambar gagal:', imgErr)
-        // Tetap lanjut meski gambar gagal
+        // Tetap lanjut meski gambar gagal -- publish route akan pakai
+        // fallback og-default.png kalau gambarUrl tetap kosong
       }
     }
 

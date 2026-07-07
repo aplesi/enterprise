@@ -53,6 +53,15 @@ async function generateArtikel(topik) {
         content: `Tulis artikel lengkap tentang: "${topik}"
         
 Panjang: 1000-1500 kata, format Markdown, dengan heading H2 dan H3.
+
+Setelah itu buat juga "imagePrompt": prompt image-generation dalam Bahasa
+Inggris untuk Stable Diffusion, menggambarkan SATU adegan visual konkret
+yang benar-benar dibahas di artikel ini (spesies ikan, jenis kolam, alat,
+tahapan yang dijelaskan, dsb) -- BUKAN judul artikel, BUKAN deskripsi
+generik seperti "fish farming Indonesia". Contoh: "close-up of catfish
+fingerlings in a blue tarpaulin pond, hand feeding pellets, morning
+light, rural Indonesian aquaculture, realistic photography".
+
 Respons hanya JSON:
 {
   "judul": "...",
@@ -61,7 +70,8 @@ Respons hanya JSON:
   "tags": ["tag1", "tag2", "tag3"],
   "seoTitle": "... (max 60 karakter)",
   "seoDesc": "... (max 160 karakter)",
-  "kategori": "..."
+  "kategori": "...",
+  "imagePrompt": "..."
 }`
       }
     ],
@@ -110,9 +120,11 @@ async function main() {
       const artikel = await generateArtikel(topik)
       const slug = slugify(artikel.judul)
 
-      // Generate dan simpan gambar
+      // Generate dan simpan gambar, pakai imagePrompt spesifik dari
+      // isi artikel (bukan judul artikel yang generik)
       let gambarPath = '/images/og-default.png'
-      const gambarBuffer = await generateGambar(artikel.judul)
+      const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
+      const gambarBuffer = await generateGambar(promptGambar)
       if (gambarBuffer) {
         const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
         await mkdir(imgDir, { recursive: true })
