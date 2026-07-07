@@ -1,45 +1,20 @@
 // lib/db/artikel.ts
-// Baca artikel dari file .md di folder content/artikel/
+// Baca artikel dari data JSON yang di-generate saat build (content/artikel-data.generated.json)
+// dari file .md di folder content/artikel/.
+//
+// PENTING: file ini TIDAK boleh memanggil `fs` — harus tetap bisa jalan di Cloudflare
+// edge runtime, yang tidak punya akses filesystem. Data sudah dibundel sebagai JSON
+// oleh scripts/generate-artikel-data.mjs (dijalankan via `prebuild`).
 
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import artikelData from '@/content/artikel-data.generated.json'
 import type { Artikel } from '@/types'
 
-const ARTIKEL_DIR = path.join(process.cwd(), 'content', 'artikel')
-
-function pastikanDirAda() {
-  if (!fs.existsSync(ARTIKEL_DIR)) {
-    fs.mkdirSync(ARTIKEL_DIR, { recursive: true })
-  }
-}
+const semuaArtikelMentah = artikelData as unknown as Artikel[]
 
 export function getAllArtikel(): Artikel[] {
-  pastikanDirAda()
-  const files = fs.readdirSync(ARTIKEL_DIR).filter((f) => f.endsWith('.md'))
-
-  return files
-    .map((file) => {
-      const raw = fs.readFileSync(path.join(ARTIKEL_DIR, file), 'utf-8')
-      const { data, content } = matter(raw)
-      return {
-        slug: data.slug || file.replace('.md', ''),
-        judul: data.judul || '',
-        ringkasan: data.ringkasan || '',
-        konten: content,
-        gambar: data.gambar || '',
-        kategori: data.kategori || 'Umum',
-        tags: data.tags || [],
-        penulis: data.penulis || 'Aplesi',
-        tanggal: data.tanggal || new Date().toISOString().split('T')[0],
-        diperbarui: data.diperbarui,
-        seoTitle: data.seoTitle,
-        seoDesc: data.seoDesc,
-        status: data.status || 'published',
-        jadwalPublish: data.jadwalPublish,
-      } as Artikel
-    })
+  return semuaArtikelMentah
     .filter((a) => a.status === 'published')
+    .slice()
     .sort((a, b) => new Date(b.tanggal).getTime() - new Date(a.tanggal).getTime())
 }
 
@@ -48,28 +23,7 @@ export function getArtikelTerbaru(n = 6): Artikel[] {
 }
 
 export function getArtikelBySlug(slug: string): Artikel | undefined {
-  pastikanDirAda()
-  const filePath = path.join(ARTIKEL_DIR, `${slug}.md`)
-  if (!fs.existsSync(filePath)) return undefined
-
-  const raw = fs.readFileSync(filePath, 'utf-8')
-  const { data, content } = matter(raw)
-
-  return {
-    slug,
-    judul: data.judul || '',
-    ringkasan: data.ringkasan || '',
-    konten: content,
-    gambar: data.gambar || '',
-    kategori: data.kategori || 'Umum',
-    tags: data.tags || [],
-    penulis: data.penulis || 'Aplesi',
-    tanggal: data.tanggal || '',
-    diperbarui: data.diperbarui,
-    seoTitle: data.seoTitle,
-    seoDesc: data.seoDesc,
-    status: data.status || 'published',
-  } as Artikel
+  return semuaArtikelMentah.find((a) => a.slug === slug)
 }
 
 export function getArtikelByKategori(kategori: string): Artikel[] {
@@ -79,14 +33,5 @@ export function getArtikelByKategori(kategori: string): Artikel[] {
 }
 
 export function getAllSlugs(): string[] {
-  pastikanDirAda()
-  return fs
-    .readdirSync(ARTIKEL_DIR)
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => f.replace('.md', ''))
-}
-
-export function simpanArtikelLokal(slug: string, konten: string): void {
-  pastikanDirAda()
-  fs.writeFileSync(path.join(ARTIKEL_DIR, `${slug}.md`), konten, 'utf-8')
+  return semuaArtikelMentah.map((a) => a.slug)
 }

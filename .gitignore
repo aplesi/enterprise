@@ -2,6 +2,9 @@
 
 # dependencies
 /node_modules
+
+# Auto-generated dari content/artikel/*.md, jangan di-commit
+content/artikel-data.generated.json
 /.pnp
 .pnp.js
 

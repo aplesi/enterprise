@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run generate:artikel && next dev",
+    "generate:artikel": "node scripts/generate-artikel-data.mjs",
+    "prebuild": "npm run generate:artikel",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
