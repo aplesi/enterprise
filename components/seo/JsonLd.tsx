@@ -11,6 +11,11 @@ interface FaqItem {
   jawaban: string
 }
 
+interface HowToStepItem {
+  nama: string
+  teks: string
+}
+
 // BreadcrumbList Schema — bantu AI & Google pahami struktur halaman
 export function BreadcrumbJsonLd({ items }: { items: BreadcrumbItem[] }) {
   const schema = {
@@ -44,6 +49,40 @@ export function FaqJsonLd({ items }: { items: FaqItem[] }) {
         '@type': 'Answer',
         text: faq.jawaban,
       },
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+// HowTo Schema — penting untuk artikel panduan langkah-demi-langkah,
+// membantu Google & AI menampilkan step-by-step langsung di hasil pencarian
+export function HowToJsonLd({
+  nama,
+  deskripsi,
+  steps,
+  gambar,
+}: {
+  nama: string
+  deskripsi: string
+  steps: HowToStepItem[]
+  gambar?: string
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: nama,
+    description: deskripsi,
+    ...(gambar ? { image: gambar } : {}),
+    step: steps.map((s) => ({
+      '@type': 'HowToStep',
+      name: s.nama,
+      text: s.teks,
     })),
   }
 

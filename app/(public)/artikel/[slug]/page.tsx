@@ -8,8 +8,9 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getArtikelBySlug, getAllSlugs, getAllArtikel } from '@/lib/db/artikel'
 import { generateMetaArtikel, generateJsonLd } from '@/lib/seo'
 import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
-import { BreadcrumbJsonLd, FaqJsonLd } from '@/components/seo/JsonLd'
+import { BreadcrumbJsonLd, FaqJsonLd, HowToJsonLd } from '@/components/seo/JsonLd'
 import { extractFaq } from '@/lib/seo/faq'
+import { extractHowToSteps } from '@/lib/seo/howto'
 
 // Generate static params untuk semua artikel
 export async function generateStaticParams() {
@@ -46,6 +47,9 @@ export default async function ArtikelDetailPage({
   // Extract FAQ dari konten artikel (heading yang berbentuk pertanyaan)
   const faqItems = extractFaq(artikel.konten)
 
+  // Extract langkah-langkah HowTo dari konten artikel (heading bernomor)
+  const howToSteps = extractHowToSteps(artikel.konten)
+
   const breadcrumbs = [
     { name: 'Beranda', url: 'https://www.aplesi.my.id' },
     { name: artikel.kategori, url: `https://www.aplesi.my.id/kategori/${artikel.kategori.toLowerCase()}` },
@@ -61,6 +65,14 @@ export default async function ArtikelDetailPage({
       />
       <BreadcrumbJsonLd items={breadcrumbs} />
       {faqItems.length > 0 && <FaqJsonLd items={faqItems} />}
+      {howToSteps.length >= 2 && (
+        <HowToJsonLd
+          nama={artikel.judul}
+          deskripsi={artikel.ringkasan}
+          steps={howToSteps}
+          gambar={artikel.gambar || undefined}
+        />
+      )}
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex gap-8">
