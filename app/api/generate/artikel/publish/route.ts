@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       gambar: artikel.gambarUrl || '/images/og-default.png',
       kategori,
       tags: artikel.tags,
-      penulis: 'Aplesi AI',
+      penulis: 'Tim Redaksi APLESI',
       tanggal,
       status: 'published',
       seoTitle: artikel.seoTitle,

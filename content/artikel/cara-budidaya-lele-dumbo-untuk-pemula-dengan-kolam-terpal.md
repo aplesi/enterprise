@@ -10,7 +10,7 @@ tags:
   - pemula
   - perikanan
   - peternakan
-penulis: "Aplesi AI"
+penulis: "Tim Redaksi APLESI"
 tanggal: "2026-07-06"
 status: "published"
 seoTitle: "Budidaya Lele Dumbo Pemula"

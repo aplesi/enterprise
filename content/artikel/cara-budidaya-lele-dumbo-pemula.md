@@ -5,7 +5,7 @@ ringkasan: "Panduan lengkap budidaya lele dumbo untuk pemula dari persiapan kola
 gambar: "/images/og-default.png"
 kategori: "Pembenihan"
 tags: ["lele dumbo", "budidaya lele", "pemula", "kolam terpal", "panduan lengkap"]
-penulis: "Aplesi AI"
+penulis: "Tim Redaksi APLESI"
 tanggal: "2024-06-01"
 status: "published"
 seoTitle: "Cara Budidaya Lele Dumbo untuk Pemula (Panduan 2024)"

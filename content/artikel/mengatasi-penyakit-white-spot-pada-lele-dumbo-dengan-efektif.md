@@ -10,7 +10,7 @@ tags:
   - lele sakit
   - obat lele
   - penyakit ikan
-penulis: "Aplesi AI"
+penulis: "Tim Redaksi APLESI"
 tanggal: "2026-06-27"
 status: "published"
 seoTitle: "Mengatasi White Spot pada Lele Dumbo"
