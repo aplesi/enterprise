@@ -4,6 +4,8 @@
 import Groq from 'groq-sdk'
 import type { GenerateArtikelRequest, GenerateArtikelResponse } from '@/types'
 import { slugify } from '@/lib/utils'
+import { templateFaqPrompt } from '@/lib/seo/faq'
+import { templateHowToPrompt } from '@/lib/seo/howto'
 
 let groqClient: Groq | null = null
 const getGroq = () => {
@@ -32,11 +34,17 @@ export async function generateArtikel(
     berita: 'gaya jurnalistik, ringkas dan faktual',
   }
 
-  const systemPrompt = `Kamu adalah penulis konten profesional untuk website budidaya ikan "Aplesi" (aplesi.my.id).
+  const systemPrompt = `Kamu adalah penulis konten profesional untuk website budidaya ikan "Aplesi" (aplesi.my.id), menulis atas nama Tim Redaksi APLESI berdasarkan praktik budidaya nyata.
 Selalu tulis dalam Bahasa Indonesia yang baik dan benar.
 Fokus pada konten praktis dan berguna untuk peternak ikan di Indonesia.
 Gunakan heading H2 dan H3 yang relevan.
-Sertakan tips praktis dan pengalaman lapangan.`
+Sertakan tips praktis dan pengalaman lapangan, data spesifik (angka, rentang biaya, durasi), bukan klaim generik.
+
+ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
+1. ANSWER-FIRST: di bawah SETIAP heading H2/H3, kalimat PERTAMA harus langsung menjawab inti topik heading tersebut -- bukan basa-basi pembuka. Kalimat 2-4 berisi detail pendukung (data/angka), lalu bullet points jika ada langkah/daftar.
+2. PANJANG PER SECTION: setiap section di bawah satu H2/H3 sebaiknya 150-200 kata (minimum 100, maksimum 300). Jangan buat section super singkat (di bawah 50 kata) -- itu terlalu dangkal. Jangan juga lewat 300 kata untuk satu poin -- pecah jadi sub-heading baru kalau perlu.
+3. PANJANG PARAGRAF: tiap paragraf sekitar 60-100 kata, satu ide utama per paragraf.
+4. Jika artikel ini berupa panduan langkah-demi-langkah, gunakan heading H3 bernomor eksplisit ("### 1. Nama Langkah", "### 2. Nama Langkah", dst).`
 
   const userPrompt = `Tulis artikel tentang: "${req.topik}"
 
@@ -44,6 +52,9 @@ Kategori: ${req.kategori}
 Keywords yang harus ada: ${req.keywords.join(', ')}
 Panjang: ${panjangMap[req.panjang]}
 Gaya penulisan: ${toneMap[req.tone]}
+
+${templateHowToPrompt(req.topik)}
+${templateFaqPrompt(req.topik)}
 
 Format respons HARUS dalam JSON valid seperti ini:
 {
