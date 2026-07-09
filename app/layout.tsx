@@ -2,6 +2,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { AdsenseAutoAds } from '@/components/ads/AdsenseAutoAds'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className={inter.className}>
+        <AdsenseAutoAds />
         {children}
       </body>
     </html>
