@@ -2,7 +2,7 @@
 // Generate artikel menggunakan Groq API (gratis & super cepat)
 
 import Groq from 'groq-sdk'
-import type { GenerateArtikelRequest, GenerateArtikelResponse } from '@/types'
+import type { GenerateArtikelRequest, GenerateArtikelResponse, BeritaItem } from '@/types'
 import { slugify } from '@/lib/utils'
 import { templateFaqPrompt } from '@/lib/seo/faq'
 import { templateHowToPrompt } from '@/lib/seo/howto'
@@ -118,4 +118,78 @@ Respons hanya array JSON: ["judul1", "judul2", ...]`,
   const raw = completion.choices[0]?.message?.content || '{"judul":[]}'
   const parsed = JSON.parse(raw)
   return parsed.judul || parsed.titles || []
+}
+
+// --- Rewrite batch berita hasil scrape ---
+// Parafrase judul+ringkasan (kata/kalimat diubah, makna & fakta tetap sama).
+// Berita internasional (asal='internasional') sekaligus diterjemahkan ke Bahasa Indonesia.
+// Dipanggil otomatis oleh scraper untuk berita yang belum pernah di-rewrite (lihat lib/news/scraper.ts).
+
+interface HasilRewriteBerita {
+  id: string
+  judul: string
+  ringkasan: string
+}
+
+const UKURAN_BATCH_REWRITE = 8 // jumlah berita per panggilan Groq, jaga agar tetap di bawah limit token
+
+async function rewriteSatuBatch(items: BeritaItem[]): Promise<HasilRewriteBerita[]> {
+  const systemPrompt = `Kamu adalah editor konten untuk website budidaya ikan APLESI (aplesi.my.id).
+Tugasmu: menulis ULANG (parafrase) judul dan ringkasan tiap berita di bawah ini.
+
+ATURAN WAJIB:
+1. Ganti kata dan susunan kalimat dari aslinya, TAPI makna dan fakta harus tetap 100% sama -- jangan menambah, mengurangi, atau mengubah informasi apapun.
+2. Untuk berita dengan asal "internasional" (aslinya berbahasa Inggris): TERJEMAHKAN sekaligus ke Bahasa Indonesia yang natural saat memparafrase -- jangan terjemahan literal kata-per-kata.
+3. Untuk berita dengan asal "indonesia": tetap dalam Bahasa Indonesia, cukup ubah kata/susunan kalimatnya.
+4. Judul hasil rewrite: maksimal sekitar 15 kata.
+5. Ringkasan hasil rewrite: 1-2 kalimat, maksimal sekitar 200 karakter.
+6. Pertahankan field "id" persis sama seperti input, untuk mencocokkan hasil.
+
+Balas HANYA JSON valid dengan format:
+{"hasil": [{"id": "...", "judul": "...", "ringkasan": "..."}]}`
+
+  const userPrompt = `Parafrase (dan terjemahkan jika internasional) berita-berita berikut:
+
+${JSON.stringify(
+    items.map((i) => ({ id: i.id, judul: i.judul, ringkasan: i.ringkasan, asal: i.asal })),
+    null,
+    2
+  )}`
+
+  const completion = await getGroq().chat.completions.create({
+    model: MODEL,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    temperature: 0.6,
+    max_tokens: 4096,
+    response_format: { type: 'json_object' },
+  })
+
+  const raw = completion.choices[0]?.message?.content || '{"hasil":[]}'
+  const parsed = JSON.parse(raw)
+  return parsed.hasil || []
+}
+
+export async function rewriteBeritaBatch(items: BeritaItem[]): Promise<HasilRewriteBerita[]> {
+  if (items.length === 0) return []
+
+  const batches: BeritaItem[][] = []
+  for (let i = 0; i < items.length; i += UKURAN_BATCH_REWRITE) {
+    batches.push(items.slice(i, i + UKURAN_BATCH_REWRITE))
+  }
+
+  const hasilSemua = await Promise.allSettled(batches.map(rewriteSatuBatch))
+
+  const gabungan: HasilRewriteBerita[] = []
+  for (const hasil of hasilSemua) {
+    if (hasil.status === 'fulfilled') {
+      gabungan.push(...hasil.value)
+    }
+    // Kalau satu batch gagal (rate limit/error), item di batch itu nanti
+    // di-fallback ke versi asli (mentah) oleh pemanggil -- lihat lib/news/scraper.ts
+  }
+
+  return gabungan
 }

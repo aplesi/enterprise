@@ -23,6 +23,18 @@ export function formatTanggal(date: string, locale = 'id-ID'): string {
   })
 }
 
+export function waktuRelatif(date: string): string {
+  const detik = Math.floor((Date.now() - new Date(date).getTime()) / 1000)
+  if (detik < 60) return 'baru saja'
+  const menit = Math.floor(detik / 60)
+  if (menit < 60) return `${menit} menit lalu`
+  const jam = Math.floor(menit / 60)
+  if (jam < 24) return `${jam} jam lalu`
+  const hari = Math.floor(jam / 24)
+  if (hari < 7) return `${hari} hari lalu`
+  return formatTanggal(date)
+}
+
 export function formatHarga(angka: number): string {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',

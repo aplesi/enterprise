@@ -83,6 +83,25 @@ export interface GenerateArtikelResponse {
   imagePrompt: string
   gambarUrl?: string
   slug: string
+  sumberAsli?: { nama: string; url: string }
+}
+
+// --- Berita (hasil scrape sumber eksternal, untuk bahan tulis-ulang artikel) ---
+export interface BeritaItem {
+  id: string
+  judul: string
+  ringkasan: string
+  link: string
+  sumberId: string
+  sumberNama: string
+  asal: 'indonesia' | 'internasional'
+  tanggal: string
+}
+
+export interface GenerateArtikelDariBeritaRequest {
+  berita: BeritaItem
+  kategori: string
+  generateGambar: boolean
 }
 
 // --- Jadwal ---
@@ -116,6 +135,16 @@ export interface AnalyticsData {
     afiliasi: number
     total: number
   }
+}
+
+// --- Berita Perikanan (news scraper) ---
+export interface NewsItem {
+  judul: string
+  ringkasan: string
+  url: string
+  sumber: string
+  tanggal: string
+  kategori: 'nasional' | 'internasional'
 }
 
 // --- API Response ---
