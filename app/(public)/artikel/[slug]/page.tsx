@@ -147,6 +147,24 @@ export default async function ArtikelDetailPage({
               </div>
             )}
 
+            {/* Box Atribusi — hanya untuk artikel recap kategori "Berita Terkini",
+                jujur nunjukkin ini berbasis laporan sumber eksternal (bukan
+                liputan asli Aplesi) sesuai kesepakatan etika kutipan */}
+            {artikel.sumberBerita && (
+              <div className="mb-8 px-5 py-4 bg-blue-50 border border-blue-100 rounded-xl text-sm text-gray-700">
+                📰 Artikel ini merupakan rangkuman &amp; analisis berdasarkan laporan dari{' '}
+                <a
+                  href={artikel.sumberBerita.url}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="font-semibold text-blue-700 hover:underline"
+                >
+                  {artikel.sumberBerita.nama}
+                </a>
+                {artikel.tanggalBerita && `, ${formatTanggal(artikel.tanggalBerita)}`}.
+              </div>
+            )}
+
             {/* Konten MDX */}
             <article className="prose max-w-none">
               <MDXRemote source={artikel.konten} />

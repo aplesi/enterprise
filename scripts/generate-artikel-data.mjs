@@ -35,6 +35,8 @@ function main() {
       seoDesc: data.seoDesc || null,
       status: data.status || 'published',
       jadwalPublish: data.jadwalPublish || null,
+      sumberBerita: data.sumberBerita || null,
+      tanggalBerita: data.tanggalBerita || null,
     }
   })
 

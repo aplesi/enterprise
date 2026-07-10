@@ -193,3 +193,73 @@ export async function rewriteBeritaBatch(items: BeritaItem[]): Promise<HasilRewr
 
   return gabungan
 }
+
+// --- Generate artikel recap 800-1200 kata dari satu berita hasil scrape ---
+// Dipakai oleh scripts/generate-berita-artikel.mjs (cron, kategori "Berita
+// Terkini") -- disediakan juga di sini sebagai fungsi TS yang bisa dipakai
+// admin panel nanti kalau perlu trigger manual dari UI (bukan cuma cron).
+// CATATAN: scripts/generate-berita-artikel.mjs punya salinan prompt yang
+// sama persis (Node ESM plain tidak bisa import modul TypeScript ini
+// langsung) -- kalau prompt di sini diubah, sesuaikan juga di sana.
+export async function generateArtikelDariBerita(
+  berita: BeritaItem
+): Promise<GenerateArtikelResponse & { sumberAsli: { nama: string; url: string } }> {
+  const systemPrompt = `Kamu adalah Tim Redaksi APLESI (aplesi.my.id), menulis artikel recap & analisis berdasarkan berita perikanan yang sedang beredar.
+
+ATURAN WAJIB (etis, anti-thin-content, anti-plagiarisme):
+1. JANGAN menerjemahkan/menyalin ulang secara dekat dari ringkasan sumber -- tulis dari sudut pandang baru dengan analisis ASLI.
+2. WAJIB ada nilai tambah nyata: apa artinya berita ini bagi pembudidaya ikan skala kecil-menengah di Indonesia? Dampak praktis, peluang, atau risiko apa yang relevan?
+3. Kaitkan dengan topik budidaya ikan Aplesi yang relevan jika masuk akal (pakan, kolam, penyakit, dsb) -- tapi jangan dipaksakan.
+4. WAJIB sertakan kalimat atribusi eksplisit di awal konten, contoh format: "Berdasarkan laporan dari [Nama Sumber] ([tanggal]), ..." -- ganti [Nama Sumber] dan [tanggal] sesuai data yang diberikan.
+5. Panjang total 800-1200 kata, format Markdown, heading H2/H3, jawab inti tiap heading di kalimat pertama section itu (answer-first).
+6. Tulis dalam Bahasa Indonesia yang baik dan benar.`
+
+  const userPrompt = `Buat artikel recap & analisis dari berita berikut:
+
+Judul asli: "${berita.judul}"
+Ringkasan asli: "${berita.ringkasan}"
+Sumber: ${berita.sumberNama}
+Tanggal: ${berita.tanggal}
+Asal: ${berita.asal === 'internasional' ? 'media internasional (berbahasa Inggris)' : 'media Indonesia'}
+
+Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk Stable Diffusion, menggambarkan SATU adegan visual konkret yang relevan dengan topik berita ini (bukan judul, bukan generik).
+
+Respons hanya JSON:
+{
+  "judul": "...",
+  "ringkasan": "... (max 160 karakter)",
+  "konten": "... (markdown, 800-1200 kata)",
+  "tags": ["tag1", "tag2", "tag3"],
+  "seoTitle": "... (max 60 karakter)",
+  "seoDesc": "... (max 160 karakter)",
+  "imagePrompt": "..."
+}`
+
+  const completion = await getGroq().chat.completions.create({
+    model: MODEL,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    temperature: 0.7,
+    max_tokens: 4096,
+    response_format: { type: 'json_object' },
+  })
+
+  const raw = completion.choices[0]?.message?.content
+  if (!raw) throw new Error('Groq tidak mengembalikan respons')
+
+  const parsed = JSON.parse(raw)
+
+  return {
+    judul: parsed.judul,
+    ringkasan: parsed.ringkasan,
+    konten: parsed.konten,
+    tags: parsed.tags || [],
+    seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
+    seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
+    imagePrompt: parsed.imagePrompt || `${parsed.judul}, Indonesian aquaculture, realistic photography`,
+    slug: slugify(parsed.judul),
+    sumberAsli: { nama: berita.sumberNama, url: berita.link },
+  }
+}

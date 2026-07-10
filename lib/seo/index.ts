@@ -88,6 +88,19 @@ export function generateJsonLd(artikel: Artikel): string {
       name: artikel.kategori,
       description: `Informasi tentang ${artikel.kategori} dalam budidaya ikan`,
     },
+    // Untuk artikel recap kategori "Berita Terkini": tandai jujur bahwa
+    // artikel ini berbasis laporan sumber eksternal (etis & akurat ke Google/AI
+    // soal asal-usul konten -- lihat scripts/generate-berita-artikel.mjs)
+    ...(artikel.sumberBerita
+      ? {
+          citation: artikel.sumberBerita.url,
+          isBasedOn: {
+            '@type': 'NewsArticle',
+            url: artikel.sumberBerita.url,
+            publisher: { '@type': 'Organization', name: artikel.sumberBerita.nama },
+          },
+        }
+      : {}),
   })
 }
 
