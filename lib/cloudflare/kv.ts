@@ -90,3 +90,38 @@ export async function kvList(prefix?: string): Promise<string[]> {
     return []
   }
 }
+
+// Hitung jumlah key dengan prefix tertentu, ikuti cursor pagination penuh
+// (API list Cloudflare KV maks 1000 key per halaman -- tanpa loop cursor ini,
+// hitungan akan berhenti/salah begitu klik sebuah link melewati 1000).
+// Dipakai untuk hitung totalKlik afiliasi dari log klik (lihat app/go/[slug]/route.ts).
+export async function kvCountByPrefix(prefix: string): Promise<number> {
+  if (!hasConfig()) {
+    return Array.from(localStore.keys()).filter((k) => k.startsWith(prefix)).length
+  }
+
+  try {
+    let jumlah = 0
+    let cursor: string | undefined
+
+    do {
+      const url = new URL(`${getBaseUrl()}/keys`)
+      url.searchParams.set('prefix', prefix)
+      if (cursor) url.searchParams.set('cursor', cursor)
+
+      const res = await fetch(url.toString(), { headers: getHeaders() })
+      if (!res.ok) break
+
+      const data = (await res.json()) as {
+        result: { name: string }[]
+        result_info?: { cursor?: string }
+      }
+      jumlah += data.result?.length || 0
+      cursor = data.result_info?.cursor || undefined
+    } while (cursor)
+
+    return jumlah
+  } catch {
+    return 0
+  }
+}
