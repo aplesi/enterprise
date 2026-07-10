@@ -164,7 +164,7 @@ function Programs() {
   ]
   
   return (
-    <section className="relative bg-secondary/50 py-20 sm:py-28">
+    <section id="program" className="relative bg-secondary/50 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">Program Unggulan</div>

@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getBeritaPerikanan } from '@/lib/news/scraper'
 import { waktuRelatif, formatTanggal } from '@/lib/utils'
+import { ItemListJsonLd } from '@/components/seo/JsonLd'
 
 export const metadata: Metadata = {
   title: 'Berita Perikanan Terkini',
@@ -44,6 +45,12 @@ export default async function NewsPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
+      <ItemListJsonLd
+        namaHalaman="Berita Perikanan Terkini"
+        deskripsi="Kumpulan berita perikanan dan budidaya ikan terbaru dari media Indonesia maupun internasional, diperbarui otomatis."
+        urlHalaman="https://www.aplesi.my.id/news"
+        items={ditampilkan.map((n) => ({ nama: n.judul, url: n.url }))}
+      />
       <div className="container-custom pt-28 pb-16">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-12">

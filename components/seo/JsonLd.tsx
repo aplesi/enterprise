@@ -147,3 +147,49 @@ export function WebsiteJsonLd() {
     />
   )
 }
+
+// CollectionPage + ItemList Schema — untuk halaman index/agregator (mis. /news)
+// yang me-link ke sumber EKSTERNAL. Sengaja TIDAK ditandai sebagai NewsArticle/
+// Article milik Aplesi -- item-itemnya jujur ditandai sebagai link keluar ke
+// url aslinya masing-masing, supaya schema-nya akurat dan tidak menyesatkan
+// Google/AI soal siapa penulis asli kontennya.
+interface ItemListEntry {
+  nama: string
+  url: string
+}
+
+export function ItemListJsonLd({
+  namaHalaman,
+  deskripsi,
+  urlHalaman,
+  items,
+}: {
+  namaHalaman: string
+  deskripsi: string
+  urlHalaman: string
+  items: ItemListEntry[]
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: namaHalaman,
+    description: deskripsi,
+    url: urlHalaman,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: items.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.nama,
+        url: item.url,
+      })),
+    },
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
