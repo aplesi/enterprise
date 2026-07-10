@@ -7,7 +7,7 @@ interface SettingField {
   key: string
   label: string
   placeholder: string
-  tipe: 'text' | 'password' | 'url' | 'email' | 'adsense-script'
+  tipe: 'text' | 'password' | 'url' | 'email'
   required: boolean
   keterangan: string
   link?: string
@@ -162,14 +162,6 @@ const SETTINGS: { grup: string; icon: typeof Sparkles; fields: SettingField[] }[
         keterangan: 'Measurement ID dari Google Analytics 4',
       },
       {
-        key: 'NEXT_PUBLIC_ADSENSE_ID',
-        label: 'Kode Script Google AdSense',
-        placeholder: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx" crossorigin="anonymous"></script>',
-        tipe: 'adsense-script',
-        required: false,
-        keterangan: 'Tempel PERSIS kode <script> yang dikasih Google AdSense (dari Ads → By site → Overview → Get code). Publisher ID akan diambil otomatis dari situ. Auto Ads Google akan otomatis menentukan posisi iklan paling potensial di seluruh halaman -- pastikan juga "Auto ads" di-ON-kan di akun AdSense Anda.',
-      },
-      {
         key: 'AFFILIATE_SECRET',
         label: 'Affiliate Secret Key',
         placeholder: 'random string untuk HMAC',
@@ -187,21 +179,6 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState<Record<string, boolean>>({})
   const [error, setError] = useState('')
-
-  // Ambil Publisher ID (ca-pub-xxxx) dari kode <script> AdSense yang ditempel admin
-  function ekstrakAdsensePublisherId(kodeScript: string): string {
-    const cocok = kodeScript.match(/ca-pub-\d{10,}/)
-    return cocok ? cocok[0] : ''
-  }
-
-  function handleUbahAdsenseScript(raw: string) {
-    const publisherId = ekstrakAdsensePublisherId(raw)
-    setValues((prev) => ({
-      ...prev,
-      ADSENSE_SCRIPT_RAW: raw,
-      NEXT_PUBLIC_ADSENSE_ID: publisherId,
-    }))
-  }
 
   useEffect(() => {
     fetch('/api/settings')
@@ -293,25 +270,15 @@ export default function SettingsPage() {
                     )}
                   </div>
                   <div className="relative">
-                    {field.tipe === 'adsense-script' ? (
-                      <textarea
-                        value={values.ADSENSE_SCRIPT_RAW || ''}
-                        onChange={(e) => handleUbahAdsenseScript(e.target.value)}
-                        placeholder={field.placeholder}
-                        rows={3}
-                        className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-mono text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all resize-y"
-                      />
-                    ) : (
-                      <input
-                        type={show[field.key] ? 'text' : field.tipe}
-                        value={values[field.key] || ''}
-                        onChange={(e) =>
-                          setValues((prev) => ({ ...prev, [field.key]: e.target.value }))
-                        }
-                        placeholder={field.placeholder}
-                        className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 pr-10 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
-                      />
-                    )}
+                    <input
+                      type={show[field.key] ? 'text' : field.tipe}
+                      value={values[field.key] || ''}
+                      onChange={(e) =>
+                        setValues((prev) => ({ ...prev, [field.key]: e.target.value }))
+                      }
+                      placeholder={field.placeholder}
+                      className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 pr-10 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
+                    />
                     {field.tipe === 'password' && (
                       <button
                         type="button"
@@ -324,15 +291,6 @@ export default function SettingsPage() {
                       </button>
                     )}
                   </div>
-                  {field.tipe === 'adsense-script' && (
-                    <p className="text-xs mt-1.5">
-                      {values.NEXT_PUBLIC_ADSENSE_ID ? (
-                        <span className="text-aqua-glow">✓ Publisher ID terdeteksi: {values.NEXT_PUBLIC_ADSENSE_ID}</span>
-                      ) : values.ADSENSE_SCRIPT_RAW ? (
-                        <span className="text-red-300">⚠ Publisher ID (ca-pub-...) tidak ditemukan di kode yang ditempel -- cek lagi kodenya</span>
-                      ) : null}
-                    </p>
-                  )}
                   <p className="text-xs text-white/50 mt-1.5">
                     {field.keterangan}
                     {field.link && (
