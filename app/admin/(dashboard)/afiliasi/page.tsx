@@ -16,14 +16,14 @@ interface LinkAfiliasi {
   createdAt: string
 }
 
-const PLATFORM_LIST = ['Tokopedia', 'Shopee', 'Lazada', 'Bukalapak', 'Blibli', 'Website Sendiri', 'Lainnya']
+const PLATFORM_LIST = ['Shopee', 'Bukalapak', 'Blibli', 'Website Sendiri', 'Lainnya']
 const KATEGORI_LIST = ['Pakan', 'Bibit & Induk', 'Peralatan Kolam', 'Obat & Suplemen', 'Buku & Kursus', 'Lainnya']
 
 const DATA_DEFAULT: LinkAfiliasi[] = [
-  { id: '1', nama: 'Pakan Ikan HiPro-Vite 781', url: 'https://tokopedia.com/xxx', platform: 'Tokopedia', kategori: 'Pakan', komisiPersen: 5, totalKlik: 234, totalKomisi: 185000, aktif: true, createdAt: '2024-01-15' },
+  { id: '1', nama: 'Pakan Ikan HiPro-Vite 781', url: 'https://shopee.co.id/xxx', platform: 'Shopee', kategori: 'Pakan', komisiPersen: 5, totalKlik: 234, totalKomisi: 185000, aktif: true, createdAt: '2024-01-15' },
   { id: '2', nama: 'Benih Ikan Nila Unggul', url: 'https://shopee.co.id/xxx', platform: 'Shopee', kategori: 'Bibit & Induk', komisiPersen: 8, totalKlik: 187, totalKomisi: 320000, aktif: true, createdAt: '2024-01-20' },
-  { id: '3', nama: 'Probiotik EM4 Peternakan', url: 'https://tokopedia.com/xxx', platform: 'Tokopedia', kategori: 'Obat & Suplemen', komisiPersen: 6, totalKlik: 156, totalKomisi: 125000, aktif: true, createdAt: '2024-02-01' },
-  { id: '4', nama: 'Aerator Kolam 50 Watt', url: 'https://lazada.co.id/xxx', platform: 'Lazada', kategori: 'Peralatan Kolam', komisiPersen: 4, totalKlik: 98, totalKomisi: 210000, aktif: false, createdAt: '2024-02-10' },
+  { id: '3', nama: 'Probiotik EM4 Peternakan', url: 'https://shopee.co.id/xxx', platform: 'Shopee', kategori: 'Obat & Suplemen', komisiPersen: 6, totalKlik: 156, totalKomisi: 125000, aktif: true, createdAt: '2024-02-01' },
+  { id: '4', nama: 'Aerator Kolam 50 Watt', url: 'https://shopee.co.id/xxx', platform: 'Shopee', kategori: 'Peralatan Kolam', komisiPersen: 4, totalKlik: 98, totalKomisi: 210000, aktif: false, createdAt: '2024-02-10' },
 ]
 
 function slugLink(text: string) {
@@ -110,9 +110,7 @@ export default function AfiliasiPage() {
   const linkAktif = links.filter(l => l.aktif).length
 
   const PLATFORM_WARNA: Record<string, string> = {
-    Tokopedia: 'bg-aqua-glow/20 text-aqua-glow border-aqua-glow/30',
     Shopee: 'bg-accent/20 text-accent border-accent/30',
-    Lazada: 'bg-accent/20 text-accent border-accent/30',
     Bukalapak: 'bg-red-400/20 text-red-300 border-red-400/30',
     Blibli: 'bg-aqua-glow/20 text-aqua-glow border-aqua-glow/30',
     default: 'bg-white/10 text-white/70 border-white/20',

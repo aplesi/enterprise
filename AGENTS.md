@@ -315,6 +315,6 @@ JANGAN ubah logika SEO di:
 - Website lama: https://www.aplesi.my.id (masih Blogger)
 - Tujuan: migrasi ke Next.js enterprise dengan AI auto-content
 - Target: 10+ artikel per minggu, auto-generated oleh Groq AI
-- Monetisasi: Google AdSense + link afiliasi (Tokopedia/Shopee)
+- Monetisasi: Google AdSense + link afiliasi (Shopee)
 - Pengguna admin: 1 super admin + kemungkinan 1-2 editor
 - Deployment: Cloudflare Pages (BUKAN Vercel, BUKAN Netlify)
