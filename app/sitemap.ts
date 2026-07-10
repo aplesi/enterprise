@@ -3,13 +3,11 @@
 
 import type { MetadataRoute } from 'next'
 import { getAllArtikel } from '@/lib/db/artikel'
+import { KATEGORI_LIST } from '@/config/kategori'
 
 const SITE_URL = 'https://www.aplesi.my.id'
 
-const KATEGORI_SLUGS = [
-  'pembenihan', 'pakan', 'penyakit', 'kolam',
-  'panen', 'bisnis', 'tips', 'teknologi',
-]
+const KATEGORI_SLUGS = KATEGORI_LIST.map((k) => k.slug)
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const artikelList = getAllArtikel()
@@ -27,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/news`,
+      lastModified: new Date(),
+      changeFrequency: 'hourly',
+      priority: 0.7,
     },
     {
       url: `${SITE_URL}/produk`,

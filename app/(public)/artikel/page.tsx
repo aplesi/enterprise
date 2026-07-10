@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Home, Calendar, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import { getAllArtikel } from '@/lib/db/artikel'
 import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
+import { KATEGORI_LIST as KATEGORI_TAKSONOMI } from '@/config/kategori'
 
 export const metadata: Metadata = {
   title: 'Artikel Budidaya Ikan — APLESI',
@@ -13,14 +14,7 @@ export const metadata: Metadata = {
 
 const KATEGORI_LIST = [
   { label: 'Semua', value: '' },
-  { label: '🥚 Pembenihan', value: 'Pembenihan' },
-  { label: '🌿 Pakan', value: 'Pakan' },
-  { label: '💊 Penyakit & Pengobatan', value: 'Penyakit & Pengobatan' },
-  { label: '🏊 Manajemen Kolam', value: 'Manajemen Kolam' },
-  { label: '🎣 Panen & Pascapanen', value: 'Panen & Pascapanen' },
-  { label: '💰 Bisnis & Pemasaran', value: 'Bisnis & Pemasaran' },
-  { label: '💡 Tips & Trik', value: 'Tips & Trik' },
-  { label: '🔬 Teknologi', value: 'Teknologi' },
+  ...KATEGORI_TAKSONOMI.map((k) => ({ label: `${k.icon} ${k.nama}`, value: k.nama })),
 ]
 
 const PER_HALAMAN = 9

@@ -41,6 +41,7 @@ const KATEGORI_DEFAULT: Kategori[] = [
   { id: '6', nama: 'Bisnis & Pemasaran', slug: 'bisnis', deskripsi: 'Strategi bisnis dan pemasaran ikan', icon: '💰', warna: 'amber', jumlahArtikel: 0, aktif: true },
   { id: '7', nama: 'Tips & Trik', slug: 'tips', deskripsi: 'Tips praktis budidaya ikan', icon: '💡', warna: 'purple', jumlahArtikel: 0, aktif: true },
   { id: '8', nama: 'Teknologi', slug: 'teknologi', deskripsi: 'Inovasi teknologi budidaya ikan', icon: '🔬', warna: 'accent', jumlahArtikel: 0, aktif: true },
+  { id: '9', nama: 'Berita Terkini', slug: 'berita-terkini', deskripsi: 'Rangkuman & analisis berita perikanan terkini', icon: '📰', warna: 'gray', jumlahArtikel: 0, aktif: true },
 ]
 
 function slugify(text: string) {

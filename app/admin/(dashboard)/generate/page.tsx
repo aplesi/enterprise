@@ -3,12 +3,9 @@
 
 import { useState } from 'react'
 import { Loader2, Sparkles, XCircle, CheckCircle2, Send, Lightbulb } from 'lucide-react'
+import { KATEGORI_LIST as KATEGORI_TAKSONOMI } from '@/config/kategori'
 
-const KATEGORI_LIST = [
-  'Pembenihan', 'Pakan', 'Penyakit & Pengobatan',
-  'Manajemen Kolam', 'Panen & Pascapanen',
-  'Bisnis & Pemasaran', 'Tips & Trik', 'Teknologi'
-]
+const KATEGORI_LIST = KATEGORI_TAKSONOMI.map((k) => k.nama)
 
 const TOPIK_SARAN = [
   'Cara budidaya ikan nila untuk pemula',

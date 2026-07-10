@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Clock, Loader2, CheckCircle2, XCircle, Settings, Save, ClipboardList, Calendar, Camera, Trash2, Info, Check, Plus, Play, Lightbulb } from 'lucide-react'
+import { KATEGORI_LIST as KATEGORI_TAKSONOMI } from '@/config/kategori'
 
 interface JadwalItem {
   id: string
@@ -13,11 +14,7 @@ interface JadwalItem {
   generateGambar: boolean
 }
 
-const KATEGORI_LIST = [
-  'Pembenihan', 'Pakan', 'Penyakit & Pengobatan',
-  'Manajemen Kolam', 'Panen & Pascapanen',
-  'Bisnis & Pemasaran', 'Tips & Trik', 'Teknologi'
-]
+const KATEGORI_LIST = KATEGORI_TAKSONOMI.map((k) => k.nama)
 
 const TOPIK_OTOMATIS = [
   'cara budidaya ikan nila untuk pemula',
