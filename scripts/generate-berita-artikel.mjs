@@ -291,6 +291,52 @@ async function generateGambar(prompt) {
   }
 }
 
+// ---------- Kuota harian generate gambar (dibagi dgn scripts/auto-post.mjs) ----------
+// Lihat catatan lengkap di auto-post.mjs -- key KV sengaja SAMA persis
+// (`neuron-image-usage:YYYY-MM-DD`) supaya kuota harian benar-benar dibagi
+// antara auto-post.yml (1x/hari) dan generate-berita.yml (8x/hari), bukan
+// dihitung terpisah per script.
+const BATAS_GAMBAR_PER_HARI = 15
+
+function kvKuotaKey() {
+  const tanggalUTC = new Date().toISOString().split('T')[0]
+  return `neuron-image-usage:${tanggalUTC}`
+}
+
+async function kvAmbilKuotaGambarHariIni() {
+  try {
+    const res = await fetch(`${kvBaseUrl()}/values/${kvKuotaKey()}`, { headers: kvHeaders() })
+    if (!res.ok) return 0
+    const text = await res.text()
+    return text ? parseInt(text, 10) || 0 : 0
+  } catch {
+    return 0
+  }
+}
+
+async function kvTambahKuotaGambar(nilaiSekarang) {
+  try {
+    await fetch(`${kvBaseUrl()}/values/${kvKuotaKey()}`, {
+      method: 'PUT',
+      headers: kvHeaders(),
+      body: String(nilaiSekarang + 1),
+    })
+  } catch (err) {
+    console.warn('   ⚠️ Gagal update kuota gambar KV:', err.message)
+  }
+}
+
+async function generateGambarDenganKuota(prompt) {
+  const kuotaSekarang = await kvAmbilKuotaGambarHariIni()
+  if (kuotaSekarang >= BATAS_GAMBAR_PER_HARI) {
+    console.warn(`   ⚠️ Kuota gambar harian tercapai (${kuotaSekarang}/${BATAS_GAMBAR_PER_HARI}), skip generate gambar -- pakai fallback.`)
+    return null
+  }
+  const buffer = await generateGambar(prompt)
+  if (buffer) await kvTambahKuotaGambar(kuotaSekarang)
+  return buffer
+}
+
 // Escape untuk value string di dalam frontmatter YAML sederhana
 function esc(str) {
   return String(str).replace(/\\/g, '\\\\').replace(/"/g, '\\"')
@@ -326,7 +372,7 @@ async function main() {
 
       let gambarPath = '/images/og-default.png'
       const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
-      const gambarBuffer = await generateGambar(promptGambar)
+      const gambarBuffer = await generateGambarDenganKuota(promptGambar)
       if (gambarBuffer) {
         const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
         await mkdir(imgDir, { recursive: true })

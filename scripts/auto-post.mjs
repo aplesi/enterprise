@@ -110,6 +110,63 @@ async function generateGambar(prompt) {
   }
 }
 
+// ---------- Kuota harian generate gambar (dibagi dgn generate-berita-artikel.mjs) ----------
+// @cf/stabilityai/stable-diffusion-xl-base-1.0 saat ini masih status Beta di
+// Cloudflare Workers AI ($0.00/step, belum masuk hitungan 10.000 Neuron/hari
+// gratis). TAPI status beta bisa berubah kapan saja jadi GA (berbayar/masuk
+// kuota Neuron). Counter ini jaga-jaga: begitu kuota harian gabungan (kedua
+// script) tercapai, generate gambar di-skip dan pakai fallback og-default.png
+// -- supaya kalau beta berakhir, kita tidak kebobolan tagihan/limit mendadak.
+const BATAS_GAMBAR_PER_HARI = 15
+
+function kvKuotaKey() {
+  const tanggalUTC = new Date().toISOString().split('T')[0]
+  return `neuron-image-usage:${tanggalUTC}`
+}
+function kvHeaders() {
+  return {
+    Authorization: `Bearer ${process.env.CF_API_TOKEN}`,
+    'Content-Type': 'application/json',
+  }
+}
+function kvBaseUrl() {
+  return `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/storage/kv/namespaces/${process.env.CF_KV_NAMESPACE_ID}`
+}
+
+async function kvAmbilKuotaGambarHariIni() {
+  try {
+    const res = await fetch(`${kvBaseUrl()}/values/${kvKuotaKey()}`, { headers: kvHeaders() })
+    if (!res.ok) return 0
+    const text = await res.text()
+    return text ? parseInt(text, 10) || 0 : 0
+  } catch {
+    return 0 // Kalau KV lagi error, jangan blok generate -- fail open
+  }
+}
+
+async function kvTambahKuotaGambar(nilaiSekarang) {
+  try {
+    await fetch(`${kvBaseUrl()}/values/${kvKuotaKey()}`, {
+      method: 'PUT',
+      headers: kvHeaders(),
+      body: String(nilaiSekarang + 1),
+    })
+  } catch (err) {
+    console.warn('⚠️ Gagal update kuota gambar KV:', err.message)
+  }
+}
+
+async function generateGambarDenganKuota(prompt) {
+  const kuotaSekarang = await kvAmbilKuotaGambarHariIni()
+  if (kuotaSekarang >= BATAS_GAMBAR_PER_HARI) {
+    console.warn(`⚠️ Kuota gambar harian tercapai (${kuotaSekarang}/${BATAS_GAMBAR_PER_HARI}), skip generate gambar -- pakai fallback.`)
+    return null
+  }
+  const buffer = await generateGambar(prompt)
+  if (buffer) await kvTambahKuotaGambar(kuotaSekarang)
+  return buffer
+}
+
 async function main() {
   const jumlah = parseInt(process.env.JUMLAH_ARTIKEL || '1')
   const tanggal = new Date().toISOString().split('T')[0]
@@ -124,7 +181,7 @@ async function main() {
       // isi artikel (bukan judul artikel yang generik)
       let gambarPath = '/images/og-default.png'
       const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
-      const gambarBuffer = await generateGambar(promptGambar)
+      const gambarBuffer = await generateGambarDenganKuota(promptGambar)
       if (gambarBuffer) {
         const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
         await mkdir(imgDir, { recursive: true })
@@ -142,7 +199,7 @@ ringkasan: "${artikel.ringkasan}"
 gambar: "${gambarPath}"
 kategori: "${artikel.kategori || 'Budidaya'}"
 tags: [${artikel.tags.map(t => `"${t}"`).join(', ')}]
-penulis: "Aplesi AI"
+penulis: "Tim Redaksi APLESI"
 tanggal: "${tanggal}"
 status: "published"
 seoTitle: "${artikel.seoTitle}"
