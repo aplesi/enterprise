@@ -32,11 +32,12 @@ function Breadcrumb() {
   )
 }
 
-export default async function ArtikelPage({
-  searchParams,
-}: {
-  searchParams: { kategori?: string; halaman?: string }
-}) {
+export default async function ArtikelPage(
+  props: {
+    searchParams: Promise<{ kategori?: string; halaman?: string }>
+  }
+) {
+  const searchParams = await props.searchParams;
   const semuaArtikel = getAllArtikel()
   const kategoriAktif = searchParams.kategori || ''
   const halaman = Math.max(1, parseInt(searchParams.halaman || '1'))
