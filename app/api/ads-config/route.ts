@@ -7,7 +7,6 @@
 import { NextResponse } from 'next/server'
 import { kvGet } from '@/lib/cloudflare/kv'
 
-export const runtime = 'edge'
 
 export async function GET() {
   let publisherId = ''

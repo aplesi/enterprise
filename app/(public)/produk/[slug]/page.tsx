@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 export default async function ProdukDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   return (

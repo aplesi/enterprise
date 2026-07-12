@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 // app/api/generate/artikel/route.ts
 
 import { NextRequest, NextResponse } from 'next/server'

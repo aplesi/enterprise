@@ -1,13 +1,11 @@
-import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev'
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Wajib untuk @cloudflare/next-on-pages
-  // JANGAN pakai output: 'standalone' — itu untuk Vercel/OpenNext
-
   images: {
-    // Cloudflare Pages tidak support next/image optimizer
-    // Gunakan unoptimized: true
+    // OpenNext Cloudflare adapter mendukung image optimization via binding
+    // "IMAGES" di wrangler.jsonc -- tapi untuk sekarang tetap unoptimized:true
+    // (konsisten dengan setup lama, bisa dievaluasi terpisah nanti)
     unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: '**.cloudflare.com' },
@@ -25,8 +23,8 @@ const nextConfig = {
   },
 }
 
-if (process.env.NODE_ENV === 'development') {
-  await setupDevPlatform()
-}
+// Mengaktifkan akses ke Cloudflare bindings (KV, D1, dll) versi lokal saat
+// `next dev` -- pengganti setupDevPlatform() dari @cloudflare/next-on-pages lama
+initOpenNextCloudflareForDev()
 
 export default nextConfig

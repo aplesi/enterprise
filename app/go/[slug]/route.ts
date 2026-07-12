@@ -19,7 +19,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { kvGet, kvSet } from '@/lib/cloudflare/kv'
 
-export const runtime = 'edge'
 
 function slugLink(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')

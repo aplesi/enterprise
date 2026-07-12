@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 // app/api/generate/artikel/publish/route.ts
 // PERBAIKAN: Hapus fs.writeFileSync() — tidak bisa di Cloudflare Pages serverless
 // Production: hanya commit ke GitHub → CF Pages auto-rebuild

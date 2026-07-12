@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 // app/api/afiliasi/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { kvGet, kvSet, kvCountByPrefix } from '@/lib/cloudflare/kv'

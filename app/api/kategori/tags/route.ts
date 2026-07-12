@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 // app/api/kategori/tags/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { kvGet, kvSet } from '@/lib/cloudflare/kv'

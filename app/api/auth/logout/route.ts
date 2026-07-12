@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 // app/api/auth/logout/route.ts
 
 import { NextResponse } from 'next/server'

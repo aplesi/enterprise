@@ -1,13 +1,26 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "enterprise",
+  "main": ".open-next/worker.js",
   "compatibility_date": "2025-06-01",
-  "compatibility_flags": ["nodejs_compat"],
-  "pages_build_output_dir": ".vercel/output/static",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
   "kv_namespaces": [
     {
       "binding": "aplesi_kv",
       "id": "d3667c6872b344afb6ad8bc0f03d54d9"
     }
-  ]
+  ],
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "enterprise"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
 }

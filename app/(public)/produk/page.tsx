@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 export default function ProdukPage() {
   return (
     <div className="container mx-auto py-12 px-4">

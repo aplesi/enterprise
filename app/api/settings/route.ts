@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { kvGet, kvSet } from '@/lib/cloudflare/kv'
 
-export const runtime = 'edge'
 
 const ALLOWED_KEYS = [
   'GROQ_API_KEY', 'CF_ACCOUNT_ID', 'CF_API_TOKEN', 'CF_KV_NAMESPACE_ID',

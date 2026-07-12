@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 // app/api/news/route.ts
 // GET /api/news?kategori=nasional|internasional|semua&limit=20&refresh=1
 
