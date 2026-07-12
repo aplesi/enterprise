@@ -98,7 +98,7 @@ async function generateGambar(prompt) {
           prompt: `${prompt}, fish farming Indonesia, professional photography, high quality`,
           num_steps: 20,
           width: 1200,
-          height: 630,
+          height: 640, // wajib kelipatan 64 di backend Triton Cloudflare -- 630 selalu gagal HTTP 500
         }),
       }
     )
