@@ -50,7 +50,16 @@ export async function POST(req: NextRequest) {
   loginAttempts.delete(ip)
 
   // Generate secure session token
-  const sessionData = await createSessionToken()
+  let sessionData: { token: string; hashedToken: string }
+  try {
+    sessionData = await createSessionToken()
+  } catch (err) {
+    console.error('Login gagal -- masalah konfigurasi server:', err)
+    return NextResponse.json(
+      { error: 'Konfigurasi server bermasalah. Hubungi administrator.' },
+      { status: 500 }
+    )
+  }
 
   // Set session cookie
   const cookieStore = await cookies()
