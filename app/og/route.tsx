@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
 
         {/* Kategori badge */}
         <div style={{
-          display: 'inline-flex',
+          display: 'flex', // Satori (next/og renderer) tidak dukung inline-flex, cuma flex/block/contents/none
           background: 'rgba(255,255,255,0.2)',
           borderRadius: '100px',
           padding: '6px 16px',

@@ -4,7 +4,9 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MDXRemote } from 'next-mdx-remote/rsc'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
 import { getArtikelBySlug, getAllSlugs, getAllArtikel } from '@/lib/db/artikel'
 import { generateMetaArtikel, generateJsonLd } from '@/lib/seo'
 import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
@@ -165,9 +167,14 @@ export default async function ArtikelDetailPage({
               </div>
             )}
 
-            {/* Konten MDX */}
+            {/* Konten Markdown -- react-markdown, tanpa eval runtime (aman di
+                Cloudflare Workers, beda dengan next-mdx-remote yang pakai
+                new Function() internal dan gagal dengan error "Code
+                generation from strings disallowed") */}
             <article className="prose max-w-none">
-              <MDXRemote source={artikel.konten} />
+              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]}>
+                {artikel.konten}
+              </ReactMarkdown>
             </article>
 
             {/* Tags */}
