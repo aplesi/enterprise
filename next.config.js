@@ -24,7 +24,11 @@ const nextConfig = {
 }
 
 // Mengaktifkan akses ke Cloudflare bindings (KV, D1, dll) versi lokal saat
-// `next dev` -- pengganti setupDevPlatform() dari @cloudflare/next-on-pages lama
-initOpenNextCloudflareForDev()
+// `next dev` -- pengganti setupDevPlatform() dari @cloudflare/next-on-pages lama.
+// Sengaja dibungkus kondisi (konsisten dengan pola lama) supaya `next build`
+// di CI/production tidak ikut spin up Miniflare yang tidak perlu.
+if (process.env.NODE_ENV !== 'production') {
+  initOpenNextCloudflareForDev()
+}
 
 export default nextConfig
