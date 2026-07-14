@@ -21,6 +21,44 @@ import Groq from 'groq-sdk'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
+// --- D1 Helper ---
+const D1_URL = process.env.CF_D1_DATABASE_ID
+  ? `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/d1/database/${process.env.CF_D1_DATABASE_ID}/query`
+  : null
+
+async function d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita) {
+  if (!D1_URL) return
+  const res = await fetch(D1_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.CF_API_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status, sumber_berita_nama, sumber_berita_url, tanggal_berita)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      params: [
+        slug,
+        artikel.judul,
+        artikel.ringkasan || '',
+        artikel.konten,
+        gambarPath,
+        'Berita Terkini',
+        JSON.stringify(artikel.tags || []),
+        'Tim Redaksi APLESI',
+        tanggal,
+        artikel.seoTitle || null,
+        artikel.seoDesc || null,
+        'published',
+        berita.sumberNama || null,
+        berita.link || null,
+        berita.tanggal || null,
+      ],
+    }),
+  })
+  if (!res.ok) throw new Error(`D1 HTTP ${res.status}`)
+}
+
 const MAKS_ARTIKEL_PER_SIKLUS = 5
 const KV_KEY_REGISTRY = 'berita:sudah-jadi-artikel'
 
@@ -406,6 +444,15 @@ ${artikel.konten}`
       await writeFile(join(artikelDir, `${slug}.md`), frontmatter)
 
       console.log(`   ✅ Disimpan: ${slug}.md`)
+
+      // Simpan juga ke D1
+      try {
+        await d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita)
+        console.log(`   ✅ Disimpan ke D1: ${slug}`)
+      } catch (err) {
+        console.warn(`   ⚠️ Gagal simpan ke D1 (artikel tetap ada di .md):`, err.message)
+      }
+
       registryBaru.push(berita.id)
     } catch (err) {
       console.error(`   ❌ Gagal generate artikel dari berita "${berita.judul}":`, err.message)

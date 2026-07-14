@@ -33,7 +33,7 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
   const info = KATEGORI_INFO[slug]
   if (!info) notFound()
 
-  const artikelList = getArtikelByKategori(info.nama)
+  const artikelList = await getArtikelByKategori(info.nama)
 
   // JSON-LD BreadcrumbList
   const breadcrumbJsonLd = JSON.stringify({

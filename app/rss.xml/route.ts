@@ -10,7 +10,7 @@ const SITE_DESC = 'Tips, tutorial, dan panduan lengkap budidaya ikan terlengkap 
 
 
 export async function GET() {
-  const artikelList = getAllArtikel().slice(0, 50) // 50 artikel terbaru
+  const artikelList = (await getAllArtikel()).slice(0, 50) // 50 artikel terbaru
 
   const rssItems = artikelList
     .map(

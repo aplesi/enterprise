@@ -1,23 +1,55 @@
 // lib/ai/groq.ts
 // Generate artikel menggunakan Groq API (gratis & super cepat)
 
-import Groq from 'groq-sdk'
 import type { GenerateArtikelRequest, GenerateArtikelResponse, BeritaItem } from '@/types'
 import { slugify } from '@/lib/utils'
 import { templateFaqPrompt } from '@/lib/seo/faq'
 import { templateHowToPrompt } from '@/lib/seo/howto'
-
-let groqClient: Groq | null = null
-const getGroq = () => {
-  if (!groqClient) {
-    groqClient = new Groq({
-      apiKey: process.env.GROQ_API_KEY || 'dummy_key',
-    })
-  }
-  return groqClient
-}
+import {
+  getAvailableClient,
+  markRateLimited,
+  markSuccess,
+  parseRetryAfter,
+  GroqPoolExhaustedError,
+} from '@/lib/ai/groq-pool'
 
 const MODEL = 'llama-3.3-70b-versatile'
+
+/**
+ * Wrapper untuk chat completion Groq dengan rotasi key otomatis.
+ * Jika key aktif kena 429, tandai rate limited lalu coba key berikutnya.
+ * Maksimum 5 percobaan (sesuai jumlah key).
+ */
+async function groqChatWithRotation(
+  params: Parameters<InstanceType<typeof import('groq-sdk').default>['chat']['completions']['create']>[0]
+): Promise<string> {
+  const maxAttempts = 5
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const { client, state } = getAvailableClient()
+    try {
+      const completion = await client.chat.completions.create(params) as import('groq-sdk/resources/chat/completions').ChatCompletion
+      markSuccess(state)
+      const content = completion.choices[0]?.message?.content
+      if (!content) throw new Error('Groq tidak mengembalikan respons')
+      return content
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err)
+      // Rate limit 429 — tandai key ini, coba key berikutnya
+      if (errMsg.includes('429') || errMsg.includes('rate_limit')) {
+        const retryAfter = parseRetryAfter(errMsg)
+        markRateLimited(state, retryAfter)
+        console.warn(`[Groq Pool] Key ${state.label} kena rate limit, retry after ${retryAfter}s. Mencoba key lain...`)
+        continue
+      }
+      // Error lain — langsung throw
+      throw err
+    }
+  }
+  throw new GroqPoolExhaustedError(
+    'Semua API key Groq kena rate limit setelah 5 percobaan.',
+    60
+  )
+}
 
 export async function generateArtikel(
   req: GenerateArtikelRequest
@@ -71,7 +103,7 @@ Format respons HARUS dalam JSON valid seperti ini:
 
 Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
 
-  const completion = await getGroq().chat.completions.create({
+  const raw = await groqChatWithRotation({
     model: MODEL,
     messages: [
       { role: 'system', content: systemPrompt },
@@ -81,9 +113,6 @@ Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
     max_tokens: 4096,
     response_format: { type: 'json_object' },
   })
-
-  const raw = completion.choices[0]?.message?.content
-  if (!raw) throw new Error('Groq tidak mengembalikan respons')
 
   const parsed = JSON.parse(raw)
 
@@ -100,7 +129,7 @@ Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
 }
 
 export async function generateJudul(topik: string, jumlah = 5): Promise<string[]> {
-  const completion = await getGroq().chat.completions.create({
+  const raw = await groqChatWithRotation({
     model: MODEL,
     messages: [
       {
@@ -115,7 +144,6 @@ Respons hanya array JSON: ["judul1", "judul2", ...]`,
     response_format: { type: 'json_object' },
   })
 
-  const raw = completion.choices[0]?.message?.content || '{"judul":[]}'
   const parsed = JSON.parse(raw)
   return parsed.judul || parsed.titles || []
 }
@@ -156,7 +184,7 @@ ${JSON.stringify(
     2
   )}`
 
-  const completion = await getGroq().chat.completions.create({
+  const raw = await groqChatWithRotation({
     model: MODEL,
     messages: [
       { role: 'system', content: systemPrompt },
@@ -167,7 +195,6 @@ ${JSON.stringify(
     response_format: { type: 'json_object' },
   })
 
-  const raw = completion.choices[0]?.message?.content || '{"hasil":[]}'
   const parsed = JSON.parse(raw)
   return parsed.hasil || []
 }
@@ -235,7 +262,7 @@ Respons hanya JSON:
   "imagePrompt": "..."
 }`
 
-  const completion = await getGroq().chat.completions.create({
+  const raw = await groqChatWithRotation({
     model: MODEL,
     messages: [
       { role: 'system', content: systemPrompt },
@@ -245,9 +272,6 @@ Respons hanya JSON:
     max_tokens: 4096,
     response_format: { type: 'json_object' },
   })
-
-  const raw = completion.choices[0]?.message?.content
-  if (!raw) throw new Error('Groq tidak mengembalikan respons')
 
   const parsed = JSON.parse(raw)
 

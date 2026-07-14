@@ -38,7 +38,7 @@ export default async function ArtikelPage(
   }
 ) {
   const searchParams = await props.searchParams;
-  const semuaArtikel = getAllArtikel()
+  const semuaArtikel = await getAllArtikel()
   const kategoriAktif = searchParams.kategori || ''
   const halaman = Math.max(1, parseInt(searchParams.halaman || '1'))
 

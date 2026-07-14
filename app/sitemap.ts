@@ -9,8 +9,8 @@ const SITE_URL = 'https://www.aplesi.my.id'
 
 const KATEGORI_SLUGS = KATEGORI_LIST.map((k) => k.slug)
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const artikelList = getAllArtikel()
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const artikelList = await getAllArtikel()
 
   // Halaman statis
   const halamanStatis: MetadataRoute.Sitemap = [

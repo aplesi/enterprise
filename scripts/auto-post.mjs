@@ -7,6 +7,42 @@ import Groq from 'groq-sdk'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
+// --- D1 Helper ---
+const D1_URL = `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/d1/database/${process.env.CF_D1_DATABASE_ID}/query`
+
+async function d1Insert(slug, artikel, gambarPath, tanggal) {
+  if (!process.env.CF_D1_DATABASE_ID) {
+    console.warn('⚠️ CF_D1_DATABASE_ID tidak diset, skip D1 insert')
+    return
+  }
+  const res = await fetch(D1_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.CF_API_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      params: [
+        slug,
+        artikel.judul,
+        artikel.ringkasan || '',
+        artikel.konten,
+        gambarPath,
+        artikel.kategori || 'Budidaya',
+        JSON.stringify(artikel.tags || []),
+        'Tim Redaksi APLESI',
+        tanggal,
+        artikel.seoTitle || null,
+        artikel.seoDesc || null,
+        'published',
+      ],
+    }),
+  })
+  if (!res.ok) throw new Error(`D1 HTTP ${res.status}: ${await res.text()}`)
+}
+
 // Daftar topik yang dirotasi otomatis
 const TOPIK_ROTASI = [
   'cara budidaya lele dumbo untuk pemula',
@@ -213,6 +249,14 @@ ${artikel.konten}`
       await writeFile(join(artikelDir, `${slug}.md`), frontmatter)
 
       console.log(`✅ Artikel disimpan: ${slug}.md`)
+
+      // Simpan juga ke D1 agar langsung muncul di website tanpa rebuild
+      try {
+        await d1Insert(slug, artikel, gambarPath, tanggal)
+        console.log(`✅ Artikel disimpan ke D1: ${slug}`)
+      } catch (err) {
+        console.warn(`⚠️ Gagal simpan ke D1 (artikel tetap ada di .md):`, err.message)
+      }
     } catch (err) {
       console.error(`❌ Error generate artikel ${i + 1}:`, err.message)
     }

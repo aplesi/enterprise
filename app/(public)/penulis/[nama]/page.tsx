@@ -54,7 +54,8 @@ export default async function PenulisPage({ params }: { params: Promise<{ nama: 
   const info = PENULIS_INFO[nama]
   if (!info) notFound()
 
-  const artikelPenulis = getAllArtikel().filter((a) => a.penulis === info.nama)
+  const semuaArtikel = await getAllArtikel()
+  const artikelPenulis = semuaArtikel.filter((a) => a.penulis === info.nama)
 
   const personJsonLd = JSON.stringify({
     '@context': 'https://schema.org',

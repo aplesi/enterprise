@@ -16,7 +16,7 @@ import { extractHowToSteps } from '@/lib/seo/howto'
 
 // Generate static params untuk semua artikel
 export async function generateStaticParams() {
-  const slugs = getAllSlugs()
+  const slugs = await getAllSlugs()
   return slugs.map((slug) => ({ slug }))
 }
 
@@ -27,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const artikel = getArtikelBySlug(slug)
+  const artikel = await getArtikelBySlug(slug)
   if (!artikel) return { title: 'Artikel tidak ditemukan' }
   return generateMetaArtikel(artikel)
 }
@@ -38,11 +38,12 @@ export default async function ArtikelDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const artikel = getArtikelBySlug(slug)
+  const artikel = await getArtikelBySlug(slug)
   if (!artikel) notFound()
 
   // Ambil artikel terkait (kategori sama, bukan artikel ini)
-  const artikelTerkait = getAllArtikel()
+  const semuaArtikel = await getAllArtikel()
+  const artikelTerkait = semuaArtikel
     .filter((a) => a.kategori === artikel.kategori && a.slug !== artikel.slug)
     .slice(0, 3)
 

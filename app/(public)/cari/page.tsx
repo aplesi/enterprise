@@ -20,8 +20,9 @@ export default async function CariPage({
   const { q } = await searchParams
   const query = q?.toLowerCase().trim() || ''
 
+  const semuaArtikel = await getAllArtikel()
   const hasil = query
-    ? getAllArtikel().filter(
+    ? semuaArtikel.filter(
         (a) =>
           a.judul.toLowerCase().includes(query) ||
           a.ringkasan.toLowerCase().includes(query) ||

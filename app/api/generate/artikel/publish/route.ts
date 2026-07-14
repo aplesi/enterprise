@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { simpanArtikelKeGitHub } from '@/lib/db/github'
 import { generateFrontmatter } from '@/lib/utils'
+import { insertArtikel } from '@/lib/db/artikel'
 import type { GenerateArtikelResponse } from '@/types'
 
 
@@ -58,12 +59,32 @@ export async function POST(req: NextRequest) {
       `feat: tambah artikel "${artikel.judul}"`
     )
 
+    // Simpan juga ke D1 agar artikel LANGSUNG muncul tanpa menunggu rebuild
+    try {
+      await insertArtikel({
+        slug: artikel.slug,
+        judul: artikel.judul,
+        ringkasan: artikel.ringkasan,
+        konten: artikel.konten,
+        gambar: artikel.gambarUrl || '/images/og-default.png',
+        kategori,
+        tags: artikel.tags,
+        penulis: 'Tim Redaksi APLESI',
+        tanggal,
+        seoTitle: artikel.seoTitle,
+        seoDesc: artikel.seoDesc,
+        status: 'published',
+      })
+    } catch (d1err) {
+      // D1 insert gagal bukan fatal — artikel tetap tersimpan di GitHub
+      console.warn('D1 insert gagal (artikel tetap ada di GitHub):', d1err)
+    }
+
     return NextResponse.json({
       success: true,
-      message: 'Artikel berhasil dipublish ke GitHub. Cloudflare Pages sedang rebuild otomatis...',
+      message: 'Artikel berhasil dipublish! Langsung muncul di website.',
       url: `/artikel/${artikel.slug}`,
       githubUrl,
-      estimasiLive: '1-2 menit (Cloudflare Pages auto-deploy)',
     })
 
   } catch (err: unknown) {

@@ -1,13 +1,18 @@
 // lib/news/scraper.ts
-// Ambil RSS dari semua sumber di lib/news/sources.ts secara paralel, parse,
-// gabungkan, buang duplikat, filter relevansi kata kunci perikanan, lalu
-// urutkan dari yang terbaru. Stateless -- tidak disimpan ke DB, cukup
-// di-fetch ulang tiap kali admin buka halaman Berita (datanya memang
-// selalu "live").
+// Sistem berita perikanan APLESI — sekarang menggunakan D1 sebagai sumber utama.
+//
+// ARSITEKTUR BARU:
+//   Cron/Admin → scrape RSS → rewrite AI → INSERT ke D1
+//   Pengunjung buka /news → SELECT dari D1 (instan, tanpa scrape live)
+//
+// Fungsi scrapeBeritaPerikanan() tetap dipertahankan untuk digunakan oleh
+// cron script (simpan ke D1) dan sebagai fallback jika D1 kosong.
 
 import { SUMBER_BERITA } from './sources'
 import { parseRSSFeed } from './rss-parser'
 import type { BeritaItem, NewsItem } from '@/types'
+import { getBeritaTerbaru, insertBeritaBatch, countBerita } from '@/lib/db/berita'
+import { rewriteBeritaBatch } from '@/lib/ai/groq'
 
 const KATA_KUNCI_RELEVAN = [
   'ikan', 'fish', 'perikanan', 'fisheries', 'akuakultur', 'aquaculture',
@@ -23,7 +28,6 @@ function relevan(judul: string, ringkasan: string): boolean {
   return KATA_KUNCI_RELEVAN.some((kw) => teks.includes(kw))
 }
 
-// ID stabil dari URL, dipakai untuk dedup & React key
 function buatId(link: string): string {
   let hash = 0
   for (let i = 0; i < link.length; i++) {
@@ -37,6 +41,10 @@ export interface HasilScrape {
   sumberGagal: string[]
 }
 
+/**
+ * Scrape RSS dari semua sumber secara paralel.
+ * Dipanggil oleh cron script untuk mengisi D1, BUKAN oleh pengunjung /news.
+ */
 export async function scrapeBeritaPerikanan(): Promise<HasilScrape> {
   const sumberGagal: string[] = []
 
@@ -93,15 +101,48 @@ export async function scrapeBeritaPerikanan(): Promise<HasilScrape> {
   return { items, sumberGagal }
 }
 
-// --- Wrapper untuk halaman /news & /api/news ---
-// Alur: scrape RSS -> cek berita mana yang BELUM pernah di-rewrite (dari KV) ->
-// rewrite (parafrase + auto-translate kalau internasional) HANYA untuk yang baru ->
-// simpan hasil rewrite ke KV (persisten, lintas request/edge node) -> tampilkan.
-// Ditambah cache in-memory 10 menit sebagai fast-path supaya tidak bolak-balik ke KV
-// saat banyak pengunjung buka /news dalam waktu berdekatan.
+/**
+ * Scrape + rewrite + simpan ke D1.
+ * Dijalankan oleh cron script secara periodik.
+ */
+export async function scrapeAndSaveToDB(): Promise<{ inserted: number; total: number }> {
+  const { items } = await scrapeBeritaPerikanan()
+  if (items.length === 0) return { inserted: 0, total: 0 }
 
-import { kvGet, kvSet } from '@/lib/cloudflare/kv'
-import { rewriteBeritaBatch } from '@/lib/ai/groq'
+  // Rewrite judul & ringkasan via Groq AI
+  let rewriteMap: Record<string, { judul: string; ringkasan: string }> = {}
+  try {
+    const hasilRewrite = await rewriteBeritaBatch(items)
+    for (const r of hasilRewrite) {
+      rewriteMap[r.id] = { judul: r.judul, ringkasan: r.ringkasan }
+    }
+  } catch {
+    // Fallback: simpan tanpa rewrite
+  }
+
+  // Simpan ke D1
+  const dataInsert = items.map((item) => {
+    const rewrite = rewriteMap[item.id]
+    return {
+      extId: item.id,
+      judul: rewrite?.judul || item.judul,
+      judulAsli: item.judul,
+      ringkasan: rewrite?.ringkasan || item.ringkasan,
+      ringkasanAsli: item.ringkasan,
+      urlSumber: item.link,
+      sumberId: item.sumberId,
+      sumberNama: item.sumberNama,
+      asal: item.asal as 'indonesia' | 'internasional',
+      tanggal: item.tanggal,
+    }
+  })
+
+  const inserted = await insertBeritaBatch(dataInsert)
+  return { inserted, total: items.length }
+}
+
+// --- Wrapper untuk halaman /news & /api/news ---
+// Sekarang baca dari D1. Jika D1 kosong (pertama kali), fallback ke live scrape.
 
 interface GetBeritaResult {
   data: NewsItem[]
@@ -109,87 +150,34 @@ interface GetBeritaResult {
   updatedAt: string
 }
 
-const CACHE_TTL_MS = 10 * 60 * 1000 // 10 menit, fast-path in-memory
-const KV_KEY_REWRITE_MAP = 'berita:rewrite-map'
-
-interface EntriRewrite {
-  judul: string
-  ringkasan: string
-}
-
-let cache: { data: NewsItem[]; updatedAt: string; fetchedAt: number } | null = null
-
-function keBeritaItemKeNewsItem(item: BeritaItem, rewrite?: EntriRewrite): NewsItem {
-  return {
-    judul: rewrite?.judul || item.judul,
-    ringkasan: rewrite?.ringkasan || item.ringkasan,
-    url: item.link,
-    sumber: item.sumberNama,
-    tanggal: item.tanggal,
-    kategori: item.asal === 'indonesia' ? 'nasional' : 'internasional',
-  }
-}
-
-async function ambilPetaRewrite(): Promise<Record<string, EntriRewrite>> {
-  try {
-    const raw = await kvGet(KV_KEY_REWRITE_MAP)
-    if (!raw) return {}
-    return JSON.parse(raw)
-  } catch {
-    return {}
-  }
-}
-
 export async function getBeritaPerikanan(
   opts: { forceRefresh?: boolean } = {}
 ): Promise<GetBeritaResult> {
-  const cacheMasihValid =
-    cache !== null && Date.now() - cache.fetchedAt < CACHE_TTL_MS
+  // Coba baca dari D1 dulu
+  const jumlahD1 = await countBerita()
 
-  if (!opts.forceRefresh && cacheMasihValid && cache) {
-    return { data: cache.data, fromCache: true, updatedAt: cache.updatedAt }
-  }
-
-  const { items } = await scrapeBeritaPerikanan()
-
-  // Peta berita yang SUDAH pernah di-rewrite sebelumnya (persisten di KV)
-  const petaRewrite = await ambilPetaRewrite()
-
-  // Berita baru yang belum ada di peta -> perlu di-rewrite sekarang
-  const beritaBaru = items.filter((item) => !petaRewrite[item.id])
-
-  if (beritaBaru.length > 0) {
-    try {
-      const hasilRewrite = await rewriteBeritaBatch(beritaBaru)
-      for (const r of hasilRewrite) {
-        petaRewrite[r.id] = { judul: r.judul, ringkasan: r.ringkasan }
-      }
-    } catch {
-      // Kalau Groq gagal total (rate limit/API down), berita baru tampil mentah
-      // dulu (fallback di keBeritaItemKeNewsItem), akan dicoba rewrite lagi di
-      // refresh berikutnya karena belum masuk petaRewrite.
+  if (jumlahD1 > 0 && !opts.forceRefresh) {
+    // Data ada di D1, langsung serve
+    const data = await getBeritaTerbaru(50)
+    return {
+      data,
+      fromCache: true,
+      updatedAt: new Date().toISOString(),
     }
   }
 
-  // Buang entri rewrite untuk berita yang sudah tidak muncul lagi di scrape
-  // terbaru (sudah lewat/kadaluwarsa dari RSS), supaya peta tidak membengkak terus.
-  const idAktif = new Set(items.map((i) => i.id))
-  const petaTerpangkas: Record<string, EntriRewrite> = {}
-  for (const id of Object.keys(petaRewrite)) {
-    if (idAktif.has(id)) petaTerpangkas[id] = petaRewrite[id]
-  }
-
+  // D1 kosong atau force refresh → scrape + simpan ke D1
   try {
-    await kvSet(KV_KEY_REWRITE_MAP, JSON.stringify(petaTerpangkas))
-  } catch {
-    // Gagal simpan ke KV bukan masalah fatal -- rewrite akan diulang lagi
-    // di request berikutnya (sedikit boros API call, tapi tetap tampil benar).
+    await scrapeAndSaveToDB()
+  } catch (err) {
+    console.error('[News] Gagal scrape & save:', err)
   }
 
-  const data = items.map((item) => keBeritaItemKeNewsItem(item, petaTerpangkas[item.id]))
-  const updatedAt = new Date().toISOString()
-
-  cache = { data, updatedAt, fetchedAt: Date.now() }
-
-  return { data, fromCache: false, updatedAt }
+  // Baca hasil dari D1
+  const data = await getBeritaTerbaru(50)
+  return {
+    data,
+    fromCache: false,
+    updatedAt: new Date().toISOString(),
+  }
 }

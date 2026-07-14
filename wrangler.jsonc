@@ -14,6 +14,13 @@
       "id": "d3667c6872b344afb6ad8bc0f03d54d9"
     }
   ],
+  "d1_databases": [
+    {
+      "binding": "aplesi_db",
+      "database_name": "aplesi-db",
+      "database_id": "b7deb98b-151f-4d82-82c8-2eaa61c8cd7b"
+    }
+  ],
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",

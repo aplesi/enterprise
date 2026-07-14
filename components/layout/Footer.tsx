@@ -57,11 +57,11 @@ export function Footer() {
             <h4 className="text-sm font-bold uppercase tracking-wider text-aqua-glow">Tautan Cepat</h4>
             <ul className="mt-5 space-y-3 text-sm text-white/70">
               {[
-                { label: 'Tentang Kami', href: '/' },
+                { label: 'Tentang Kami', href: '/tentang-kami' },
                 { label: 'Artikel', href: '/artikel' },
                 { label: 'Berita', href: '/news' },
                 { label: 'Produk', href: '/produk' },
-                { label: 'Kontak', href: '/' },
+                { label: 'Kontak', href: '/kontak' },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="transition-colors hover:text-aqua-glow">
@@ -117,12 +117,12 @@ export function Footer() {
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
           <div>© 2024 Asosiasi Pembudidaya Ikan Indonesia (APLESI). All rights reserved.</div>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-aqua-glow">
+            <Link href="/privacy-policy" className="hover:text-aqua-glow">
               Kebijakan Privasi
-            </a>
-            <a href="#" className="hover:text-aqua-glow">
-              Syarat & Ketentuan
-            </a>
+            </Link>
+            <Link href="/disclaimer" className="hover:text-aqua-glow">
+              Disclaimer
+            </Link>
           </div>
         </div>
       </div>
