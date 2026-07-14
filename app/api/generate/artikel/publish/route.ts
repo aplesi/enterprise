@@ -10,6 +10,7 @@ import { insertArtikel } from '@/lib/db/artikel'
 import type { GenerateArtikelResponse } from '@/types'
 
 
+
 export async function POST(req: NextRequest) {
   try {
     const { artikel, kategori }: { artikel: GenerateArtikelResponse; kategori: string } =

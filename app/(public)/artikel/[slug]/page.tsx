@@ -13,7 +13,6 @@ import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
 import { BreadcrumbJsonLd, FaqJsonLd, HowToJsonLd } from '@/components/seo/JsonLd'
 import { extractFaq } from '@/lib/seo/faq'
 import { extractHowToSteps } from '@/lib/seo/howto'
-
 // Generate static params untuk semua artikel
 export async function generateStaticParams() {
   const slugs = await getAllSlugs()

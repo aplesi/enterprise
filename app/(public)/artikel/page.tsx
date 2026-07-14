@@ -6,6 +6,7 @@ import { getAllArtikel } from '@/lib/db/artikel'
 import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
 import { KATEGORI_LIST as KATEGORI_TAKSONOMI } from '@/config/kategori'
 
+
 export const metadata: Metadata = {
   title: 'Artikel Budidaya Ikan — APLESI',
   description: 'Kumpulan panduan, tips, dan riset budidaya ikan dari para ahli APLESI untuk pembudidaya Indonesia.',

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ShoppingBag, Star, ArrowLeft, ExternalLink } from 'lucide-react'
 import type { Metadata } from 'next'
 
+
 interface Props {
   params: Promise<{ slug: string }>
 }

@@ -10,6 +10,7 @@ import {
 } from '@/lib/db/produk'
 import type { ApiResponse } from '@/types'
 
+
 export async function GET(): Promise<NextResponse<ApiResponse>> {
   try {
     const produk = await getAllProdukAdmin()

@@ -4,6 +4,10 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-06-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "routes": [
+    { "pattern": "aplesi.my.id/*", "zone_name": "aplesi.my.id" },
+    { "pattern": "www.aplesi.my.id/*", "zone_name": "aplesi.my.id" }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"

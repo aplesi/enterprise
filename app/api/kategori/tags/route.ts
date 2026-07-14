@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { kvGet, kvSet } from '@/lib/cloudflare/kv'
 
+
 export async function GET() {
   try {
     const data = await kvGet('aplesi_tags')

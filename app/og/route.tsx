@@ -5,6 +5,7 @@ import { ImageResponse } from 'next/og'
 import type { NextRequest } from 'next/server'
 
 
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const judul = searchParams.get('judul') || 'Aplesi — Portal Budidaya Ikan'

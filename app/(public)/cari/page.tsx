@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { getAllArtikel } from '@/lib/db/artikel'
 import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
 
+
 export const metadata: Metadata = {
   title: 'Cari Artikel',
   description: 'Cari artikel budidaya ikan di Aplesi',

@@ -6,10 +6,15 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getProdukBySlug, catatKlikAfiliasi } from '@/lib/db/produk'
-import { createHash } from 'crypto'
+// Using Web Crypto API (edge compatible)
 
-function hashIp(ip: string): string {
-  return createHash('sha256').update(ip + 'aplesi-salt').digest('hex').slice(0, 16)
+
+async function hashIp(ip: string): Promise<string> {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(ip + 'aplesi-salt')
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16)
 }
 
 export async function GET(
@@ -29,7 +34,7 @@ export async function GET(
       const referer = req.headers.get('referer') || ''
 
       // Fire-and-forget: jangan await agar redirect tetap cepat
-      catatKlikAfiliasi(produk.id, slug, hashIp(ip), userAgent.slice(0, 200), referer.slice(0, 500))
+      catatKlikAfiliasi(produk.id, slug, await hashIp(ip), userAgent.slice(0, 200), referer.slice(0, 500))
         .catch((err) => console.error('[Afiliasi] Gagal catat klik:', err))
 
       return NextResponse.redirect(produk.urlAfiliasi, { status: 302 })
