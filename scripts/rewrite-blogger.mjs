@@ -8,24 +8,46 @@ import Groq from 'groq-sdk'
 const ENV_KEYS = ['GROQ_API_KEY', 'GROQ_API_KEY_2', 'GROQ_API_KEY_3', 'GROQ_API_KEY_4', 'GROQ_API_KEY_5']
 const keyPool = []
 
-for (const envName of ENV_KEYS) {
-  const key = process.env[envName]
-  if (key && key.length > 10) {
-    keyPool.push({
-      label: envName,
-      client: new Groq({ apiKey: key }),
-      rateLimitedAt: 0,
-      retryAfterSec: 0,
+const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID
+const CF_API_TOKEN = process.env.CF_API_TOKEN
+const CF_KV_NAMESPACE_ID = process.env.CF_KV_NAMESPACE_ID
+
+async function kvGet(keyName) {
+  if (!CF_ACCOUNT_ID || !CF_API_TOKEN || !CF_KV_NAMESPACE_ID) return null
+  try {
+    const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/storage/kv/namespaces/${CF_KV_NAMESPACE_ID}/values/settings:${keyName}`, {
+      headers: { Authorization: `Bearer ${CF_API_TOKEN}`, 'Content-Type': 'application/json' }
     })
+    if (!res.ok) return null
+    return await res.text()
+  } catch {
+    return null
   }
 }
 
-if (keyPool.length === 0) {
-  console.error('❌ Tidak ada GROQ_API_KEY yang ditemukan di environment!')
-  process.exit(1)
-}
+async function initKeys() {
+  for (const envName of ENV_KEYS) {
+    let key = process.env[envName]
+    if (!key || key.length < 10) {
+       const val = await kvGet(envName)
+       if (val) key = val
+    }
+    if (key && key.length > 10) {
+      keyPool.push({
+        label: envName,
+        client: new Groq({ apiKey: key }),
+        rateLimitedAt: 0,
+        retryAfterSec: 0,
+      })
+    }
+  }
 
-console.log(`🔑 Ditemukan ${keyPool.length} API key Groq`)
+  if (keyPool.length === 0) {
+    console.error('❌ Tidak ada GROQ_API_KEY yang ditemukan di environment maupun di Cloudflare KV!')
+    process.exit(1)
+  }
+  console.log(`🔑 Ditemukan ${keyPool.length} API key Groq`)
+}
 
 function parseRetryAfter(msg) {
   const match = msg.match(/try again in (\d+)m([\d.]+)s/)
@@ -153,6 +175,8 @@ function esc(str) {
 }
 
 async function main() {
+  await initKeys()
+
   const dir = join(process.cwd(), 'content', 'artikel')
   const files = await readdir(dir)
 

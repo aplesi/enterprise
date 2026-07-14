@@ -25,7 +25,7 @@ async function groqChatWithRotation(
 ): Promise<string> {
   const maxAttempts = 5
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const { client, state } = getAvailableClient()
+    const { client, state } = await getAvailableClient()
     try {
       const completion = await client.chat.completions.create(params) as import('groq-sdk/resources/chat/completions').ChatCompletion
       markSuccess(state)

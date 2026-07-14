@@ -12,6 +12,7 @@
 // Setelah semua key habis, throw error.
 
 import Groq from 'groq-sdk'
+import { kvGet } from '@/lib/cloudflare/kv'
 
 interface KeyState {
   key: string
@@ -37,12 +38,23 @@ const ENV_KEYS = [
 
 let pool: KeyState[] | null = null
 
-function initPool(): KeyState[] {
+export function clearPoolCache() {
+  pool = null
+}
+
+export async function initPool(): Promise<KeyState[]> {
   if (pool) return pool
 
   pool = []
   for (const envName of ENV_KEYS) {
-    const key = process.env[envName]
+    let key = process.env[envName]
+    
+    // Fallback ambil dari KV jika belum ada di process.env
+    if (!key || key.length < 10) {
+      const kvValue = await kvGet(`settings:${envName}`)
+      if (kvValue) key = kvValue
+    }
+
     if (key && key.length > 10) {
       pool.push({
         key,
@@ -76,8 +88,8 @@ function initPool(): KeyState[] {
  * Ambil Groq client yang tersedia (belum kena rate limit).
  * Jika semua sedang rate limited, pilih yang paling cepat pulih.
  */
-export function getAvailableClient(): { client: Groq; state: KeyState } {
-  const keys = initPool()
+export async function getAvailableClient(): Promise<{ client: Groq; state: KeyState }> {
+  const keys = await initPool()
   const now = Date.now()
 
   // Cari key yang belum rate limited atau sudah pulih
@@ -169,8 +181,8 @@ export interface GroqKeyStatus {
   readyAt: number | null
 }
 
-export function getPoolStatus(): GroqKeyStatus[] {
-  const keys = initPool()
+export async function getPoolStatus(): Promise<GroqKeyStatus[]> {
+  const keys = await initPool()
   const now = Date.now()
 
   return keys.map((state) => {
@@ -198,6 +210,7 @@ export function getPoolStatus(): GroqKeyStatus[] {
 /**
  * Total key yang terdaftar.
  */
-export function getPoolSize(): number {
-  return initPool().length
+export async function getPoolSize(): Promise<number> {
+  const keys = await initPool()
+  return keys.length
 }
