@@ -94,7 +94,7 @@ export default function GeneratePage() {
   }
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="w-full space-y-6">
       <div>
         <h1 className="text-2xl font-black tracking-tight text-white">Generate Artikel dengan AI</h1>
         <p className="text-white/60 text-sm mt-1">
