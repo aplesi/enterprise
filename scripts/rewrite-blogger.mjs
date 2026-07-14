@@ -80,8 +80,6 @@ function getAvailableKey() {
 const MODEL = 'llama-3.3-70b-versatile'
 
 // D1 Helper
-const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID
-const CF_API_TOKEN = process.env.CF_API_TOKEN
 const CF_D1_DATABASE_ID = process.env.CF_D1_DATABASE_ID
 const D1_URL = CF_D1_DATABASE_ID
   ? `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/d1/database/${CF_D1_DATABASE_ID}/query`
