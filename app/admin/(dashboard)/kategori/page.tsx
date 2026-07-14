@@ -153,7 +153,7 @@ export default function KategoriPage() {
   const warnaKelas = (w: string) => WARNA_OPTIONS.find(o => o.value === w)?.kelas || WARNA_OPTIONS[0].kelas
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="w-full space-y-6">
       <div>
         <h1 className="text-2xl font-black tracking-tight text-white">Kategori & Tag</h1>
         <p className="text-white/60 text-sm mt-1">Kelola kategori dan tag artikel Aplesi</p>
@@ -304,9 +304,6 @@ export default function KategoriPage() {
                   <>
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
-                        <span className={`p-3 rounded-lg border ${warnaKelas(kat.warna)}`}>
-                          <Folder className="h-6 w-6" />
-                        </span>
                         <div>
                           <h3 className="text-xl font-bold text-white mb-1">{kat.nama}</h3>
                           <p className="text-xs text-white/40">/{kat.slug} · {kat.jumlahArtikel} artikel</p>
