@@ -1,54 +1,43 @@
 ---
-judul: "sistem padat tebar tinggi  indra lele karawang"
+judul: "Sistem Padat Tebar Tinggi untuk Budidaya Lele"
 slug: "sistem-padat-tebar-tinggi-indra-lele-karawang"
-ringkasan: ""
+ringkasan: "Teknik budidaya lele dengan kepadatan tinggi"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyvRiSZd8f3KBFjCNb-nTImIGHnDlg_tAnzJDdTYUBYlc9BUCitBN4Rk_SVMXoAy5v79QBTV-cWXvyRQ0yY9gYPMKUEy69dIlHjwCt3lpWsWXaOApW_kgxF4M6DE4zh6OXCX6rOTQJ1NnO/s400/4.jpg"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["sistem padat tebar tinggi", "budidaya lele", "perawatan air", "pemberian pakan"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2012-03-25"
 status: "published"
-seoTitle: "sistem padat tebar tinggi  indra lele karawang"
-seoDesc: ""
+seoTitle: "Sistem Padat Tebar Tinggi untuk Budidaya Lele"
+seoDesc: "Teknik budidaya lele dengan kepadatan tinggi"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyvRiSZd8f3KBFjCNb-nTImIGHnDlg_tAnzJDdTYUBYlc9BUCitBN4Rk_SVMXoAy5v79QBTV-cWXvyRQ0yY9gYPMKUEy69dIlHjwCt3lpWsWXaOApW_kgxF4M6DE4zh6OXCX6rOTQJ1NnO/s400/4.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyvRiSZd8f3KBFjCNb-nTImIGHnDlg_tAnzJDdTYUBYlc9BUCitBN4Rk_SVMXoAy5v79QBTV-cWXvyRQ0yY9gYPMKUEy69dIlHjwCt3lpWsWXaOApW_kgxF4M6DE4zh6OXCX6rOTQJ1NnO/s1600/4.jpg)
 
-  
-**sistem padat tebar tinggi  indra lele karawang**  
-Dengan kolam yg bapa punya 10x4x1m=40m/3.  
-Bisa di isi benih size 5-7cm / 7-9cm sebanyak 40.000ekor (1.000ekor x 40m/3).  
-Yang di isi hanya satu kolam saja pak.  
-Ketika masuk umur 1 bulan dari tebar awal, baru di sortir sekalian dipecah menjadi 2 kolam.  
-Jadi dgn kolam 10x4 bisa di tebar menjadi 20.000ekor setelah di sortir/dipecah jadi 2 kolam.  
-Jadi kepadatannya menjadi 500ekor/m3.  
-  
-Kalau bapak tidak sanggup dgn 40.000 ekor benih, dicoba saja dgn 20.000ekor dulu, nanti masuk 1 bulan baru dipecah menjadi 2 kolam @10.000ekor perkolam. Intinya dari awal tebar kepadatan 1000ekor, kemudian setelah 1 bulan baru dipecah menjadi 2 kolam.  
-  
-Untuk perawatan air super intensive, bapa cukup menyiramkan fermentasi probiotik selama 3hari sekali. Setiap pagi dan sore hari buka pembuangan central drain utk membuang kotoran didsar kolam, tinggal cabut pipa paralon saja tunggu 3-5menit kemudian tutup lagi. Dan utk pemberian pakannya dicampur dgn suplemen dan multivitamin, karna jika main padat tebar tinggi tanpa ada perlakuan seperti itu ikan tdk akan kuat pak.  
-  
-Dari awal tebar air baru dikurangi setelah masuk umur 1 minggu penggantian/pengurangan air sebanyak 30% saja, kemudian isi air baru lalu siramkan fermentasi probiotik.  
-  
-Utk pemberian pakan cukup di satu titik saja, jgn di tebar ke permukaan kolam. Pemberian pakan sekenyangnya, ga usah ditakar/di batasi.  
-Pemberian pakan 3 kali sehari.  
-Perawatan air cukup menyiramkan fermentasi **probiotik ebs** 3hari Sekali.  
-Dosis fermentasi probiotik 50ML/m3.  
-  
-Baca Artikel  
+## Sistem Padat Tebar Tinggi
+Sistem padat tebar tinggi untuk budidaya lele dapat dilakukan dengan kepadatan 1000 ekor/m3. 
+Dengan kolam berukuran 10x4x1m, dapat diisi benih lele sebesar 40.000 ekor.
 
-> **[Cara Mudah Budidaya Lele di Kolam Terpal Terbaru](http://www.aplesi.com/2016/04/cara-mudah-budidaya-lele-di-kolam.html)**
+## Langkah-Langkah Sistem Padat Tebar Tinggi
+*   Kolam dengan ukuran 10x4x1m dapat diisi benih lele sebanyak 40.000 ekor.
+*   Setelah satu bulan, benih lele disortir dan dipindahkan ke dua kolam, sehingga kepadatan menjadi 500 ekor/m3.
+*   Jika tidak sanggup dengan 40.000 ekor benih, dapat dimulai dengan 20.000 ekor dan dipindahkan ke dua kolam setelah satu bulan.
 
-      [**Panduan Budidaya ikan lele padat tebar**](http://www.aplesi.com/2016/03/panduan-budidaya-ikan-lele-padat-tebar.html)  
-  
-Perlu diperhatikan juga ketika memasuki ukuran sangkal harus lebih teratur,teliti dalam perawtannya. Khususnya di perawatan air, semakin besar lele tumbuh, maka kotoranpun semakin banyak keluar dan menumpuk didasar kolam.  
-  
-Saya sudah tebar benih 25.000ekor dibagi menjadi 3kolam.  
-3x4=5.000ekor.  
-3x4=10.000ekor.  
-3x4=10.000ekor.  
-Dari ke 3 kolam yg saya sebutkan diatas ada perlakuan yg beda dari campuran pada pakannya.  
-  
-Saya pakai pakan full pelet 100% pabrikan pelet Matahari sakti. Sekalian menguji keunggulan pada setiap produk tsb.  
-  
+## Perawatan Air
+Perawatan air sangat penting dalam sistem padat tebar tinggi. 
+*   Siramkan fermentasi probiotik setiap tiga hari sekali.
+*   Buang kotoran di dasar kolam setiap pagi dan sore hari.
+*   Ganti air sebanyak 30% setelah satu minggu dan siramkan fermentasi probiotik.
 
->
+## Pemberian Pakan
+Pemberian pakan juga sangat penting dalam sistem padat tebar tinggi. 
+*   Berikan pakan sekenyangnya, tanpa batasan.
+*   Pemberian pakan dilakukan tiga kali sehari.
+*   Pemberian pakan hanya dilakukan di satu titik, tidak perlu ditebar ke permukaan kolam.
+
+### Pertanyaan?
+### Apa itu sistem padat tebar tinggi?
+Sistem padat tebar tinggi adalah teknik budidaya lele dengan kepadatan tinggi, yaitu 1000 ekor/m3.
+### Bagaimana cara perawatan air dalam sistem padat tebar tinggi?
+Perawatan air dalam sistem padat tebar tinggi dilakukan dengan menyiramkan fermentasi probiotik setiap tiga hari sekali dan membuang kotoran di dasar kolam setiap pagi dan sore hari.
+### Berapa kali pemberian pakan dalam sistem padat tebar tinggi?
+Pemberian pakan dalam sistem padat tebar tinggi dilakukan tiga kali sehari.

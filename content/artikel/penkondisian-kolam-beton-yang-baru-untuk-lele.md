@@ -1,25 +1,36 @@
 ---
-judul: "penkondisian kolam beton yang baru  untuk lele"
+judul: "Cara Mengondisikan Kolam Beton untuk Lele dengan Cepat dan Aman"
 slug: "penkondisian-kolam-beton-yang-baru-untuk-lele"
-ringkasan: ""
+ringkasan: "Pengondisian kolam beton yang baru untuk lele memerlukan langkah-langkah yang tepat."
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw1q_wN_FE9uqUxiGgbPvf3U9UFDMTm7i6Lm-rnE1ozDNHvnI_ieTSu4-GjlZg-Z11nK27h3k8Bq_S2p5HHkbQwS_l-tRvLO-IVqNPZP9SkeJXBSQR8v94aoJK5g90F_D9OgEEk0a6Tc4V/s320/1.jpg"
 kategori: "persiapan kolam"
-tags: ["persiapan kolam", "kolam beton"]
-penulis: "Admin"
+tags: ["pengondisian kolam beton", "lele", "permentasikan", "probiotik"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2015-04-06"
 status: "published"
-seoTitle: "penkondisian kolam beton yang baru  untuk lele"
-seoDesc: ""
+seoTitle: "Cara Mengondisikan Kolam Beton untuk Lele"
+seoDesc: "Pengondisian kolam beton yang baru untuk lele memerlukan langkah-langkah yang tepat."
 ---
 
-  
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw1q_wN_FE9uqUxiGgbPvf3U9UFDMTm7i6Lm-rnE1ozDNHvnI_ieTSu4-GjlZg-Z11nK27h3k8Bq_S2p5HHkbQwS_l-tRvLO-IVqNPZP9SkeJXBSQR8v94aoJK5g90F_D9OgEEk0a6Tc4V/s320/1.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw1q_wN_FE9uqUxiGgbPvf3U9UFDMTm7i6Lm-rnE1ozDNHvnI_ieTSu4-GjlZg-Z11nK27h3k8Bq_S2p5HHkbQwS_l-tRvLO-IVqNPZP9SkeJXBSQR8v94aoJK5g90F_D9OgEEk0a6Tc4V/s1600/1.jpg)  
-  
-**Pengondisian kolam beton**  
-untuk kolam semen yg br dibuat bila akan dipakai tdk sama perlakuannya degan kolam terpal, langkah pertama isi tanah halus dasar kolam kr2 2-5cm, isi air s/d ketinggian 50cm diamkan selama 4-7hr kmudian buang airnya. sambil menunggu pd saatnya air dibuang, permentasikan batang pohon pisang dgn panjang msg2 10cm sbanyak 30potong & dibelah 2, rendam/simpan dalam wadah.Setelah air kolam dibuang isi kembali air kolam s/d 40cm & masukan permentasi batang pisang brsama airnya + kohe ayam&kohe kambing yg dimasukan kedalam karung, diamkan selama 15-20hr kemudian benih siap di tebar  
-  
-**cara cepat pengondisian kolam beton**setelah kolam jadi dan siap untuk di isi air , kolam di isi air sampe penuh ,  
-kolam yang telah di isi air di beri cacahan batang pisang  kecil kecil , guna cacahan pisang ini sebenarnya adlah memberi tahu kita bahwa kolam sudah layak atau tidak di gunakan untuk penebaran benih ataupun untuk **pemijahan ikan lele  
-Ciri ciri kolam beton yang siap pakai** Kolam beton yang siap di gunakan baik untuk pembesaran lele , pendederan lele ataupun pembibitan lele bisa kita lihat banyak jasad renik yang hidup disana seperti cacing atau kutu air yang bergelobolan. makluk kecil2 ini menandakan bahwa kolam aman dan siap untuk di gunakan  
-buang kembali semua air bersihkan lalu isi kembali dan berikan probiotik
+## Pengondisian Kolam Beton
+Pengondisian kolam beton yang baru untuk lele harus dilakukan dengan hati-hati. Pertama, isi dasar kolam dengan tanah halus setebal 2-5 cm, kemudian isi air hingga ketinggian 50 cm dan diamkan selama 4-7 jam. Setelah itu, buang airnya.
+
+## Proses Permentasikan
+Sambil menunggu air dibuang, siapkan permentasikan batang pohon pisang dengan panjang sekitar 10 cm, sebanyak 30 potong, dan belah menjadi dua. Rendam atau simpan dalam wadah.
+
+## Mengisi Air Kembali
+Setelah air kolam dibuang, isi kembali air kolam hingga 40 cm dan masukkan permentasikan batang pisang bersama airnya, serta kohe ayam dan kohe kambing yang dimasukkan ke dalam karung. Diamkan selama 15-20 jam, kemudian benih siap ditebar.
+
+## Ciri-Ciri Kolam Beton yang Siap Pakai
+Kolam beton yang siap digunakan baik untuk pembesaran lele, pendederan lele, ataupun pembibitan lele bisa dilihat dari banyaknya jasad renik yang hidup di sana, seperti cacing atau kutu air yang bergelombang. Makhluk kecil ini menandakan bahwa kolam aman dan siap untuk digunakan.
+
+### Pertanyaan?
+### Apa itu Permentasikan Batang Pisang?
+Permentasikan batang pisang digunakan untuk memperkaya nutrisi dalam kolam dan mempersiapkan lingkungan yang baik untuk lele.
+
+### Bagaimana Cara Mengisi Air Kolam yang Tepat?
+Mengisi air kolam yang tepat melibatkan proses permentasikan dan penambahan probiotik untuk memastikan keseimbangan ekosistem kolam.
+
+### Kapan Benih Lele Siap Ditebar?
+Benih lele siap ditebar setelah proses pengondisian kolam selesai, biasanya setelah 15-20 jam setelah permentasikan dan penambahan kohe ayam dan kohe kambing.

@@ -1,28 +1,45 @@
 ---
-judul: "PERUBAHAN WARNA AIR PADA KOLAM LELE /system floc"
+judul: "Mengenal Perubahan Warna Air pada Kolam Lele Sistem Floc"
 slug: "perubahan-warna-air-pada-kolam-lele-system-floc"
-ringkasan: ""
+ringkasan: "Perubahan warna air kolam lele sistem floc dari hijau ke putih keruh hingga merah"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-x-0jYIg3ble2oPbjgV-VPTuMfRhnY1wYhza4MRaaWfwbb3ZAuLjhRdiGMi0BE9-1_bUUldqPZT6-Q9gqOSlCST6HZNLJTxhbBuZrodIjbPxF2EC64osNBcU9SpMdH1QfnzVsOyjnJlCe/s320/545825_3230813218364_1806178846_n.jpg"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["kolam lele", "sistem floc", "perubahan warna air"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2012-06-17"
 status: "published"
-seoTitle: "PERUBAHAN WARNA AIR PADA KOLAM LELE /system floc"
-seoDesc: ""
+seoTitle: "Perubahan Warna Air Kolam Lele Sistem Floc"
+seoDesc: "Perubahan warna air kolam lele sistem floc dari hijau ke putih keruh hingga merah"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-x-0jYIg3ble2oPbjgV-VPTuMfRhnY1wYhza4MRaaWfwbb3ZAuLjhRdiGMi0BE9-1_bUUldqPZT6-Q9gqOSlCST6HZNLJTxhbBuZrodIjbPxF2EC64osNBcU9SpMdH1QfnzVsOyjnJlCe/s320/545825_3230813218364_1806178846_n.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-x-0jYIg3ble2oPbjgV-VPTuMfRhnY1wYhza4MRaaWfwbb3ZAuLjhRdiGMi0BE9-1_bUUldqPZT6-Q9gqOSlCST6HZNLJTxhbBuZrodIjbPxF2EC64osNBcU9SpMdH1QfnzVsOyjnJlCe/s1600/545825_3230813218364_1806178846_n.jpg)  
-Dari warna hijau (di awal), menjadi putih keruh (agak kuning), berangsur-angsur menjadi kemerahan (merah coklat sampai merah ungu). ini terjadi dalam pembentukan floc dalam kolam lele   
-  
 
-1.  warna hijau karena air didominasi algae / phytoplankton.. gelembung di dinding gelas karena saat dijemur algae berfotosintesis menghasilkan oksigen. saat kolam ikan masih berwarna hijau menunjukkan bahwa bahan organik dalam air masih rendah.
-2.  seiring dgn penambahan pakan, tetes dan probiotik maka bahan organik dalam kolam meningkat dan bakteri probiotik berkembang sehingga lama-kelamaan menyaingi plankton sehingga warna plankton (hijau) pelan-pelan berkurang hingga menjadi putih atau keruh.. 9masa transisi dari dominasi plankton -ke dominasi bakteri. perkembangan lactobacillus dan bacillus yang diberikan terus berkembang dan membentuk floc serta pH air terus menurun..senyawa asam organik dan CO2 terus bertambah sehingga kolam memerlukan adanya tambahan oksigen yang diperoleh dari aerasi (pompa)  
-    penambahan karbon organik (molase, tepung terigu) akan terus merangsang perkembangan bacillus dan lactobacillus, mengikat amonia disintesis menjadi protein dalam kondisi cukup oksigen.
+## Pengenalan Perubahan Warna Air
+Perubahan warna air pada kolam lele sistem floc terjadi karena peningkatan bahan organik dan perkembangan bakteri probiotik. 
+### Tahap Awal: Warna Hijau
+Warna hijau pada awal pembuatan kolam lele disebabkan oleh dominasi algae atau phytoplankton. 
+### Tahap Transisi: Warna Putih Keruh
+Penambahan pakan, tetes, dan probiotik meningkatkan bahan organik, membuat bakteri probiotik berkembang, dan menyaingi plankton, sehingga warna hijau berkurang dan berubah menjadi putih atau keruh.
+### Tahap Akhir: Warna Merah
+Dengan semakin tingginya bahan organik dan rendahnya oksigen, bakteri fotosintetik tumbuh, menyebabkan perubahan warna ke arah merah (merah coklat-merah ungu).
 
-> 1.   [cara mengatasi kolam lele yang berbusa](http://www.aplesi.com/2015/06/cara-mengatasi-kolam-lele-berbusa.html)
+## Proses Perubahan Warna
+Perubahan warna air kolam lele sistem floc melibatkan beberapa proses:
+* Penambahan pakan dan probiotik
+* Peningkatan bahan organik
+* Perkembangan bakteri probiotik
+* Penurunan pH air
+* Peningkatan senyawa asam organik dan CO2
 
-1.  Dengan semakin tingginya bahan organik, oksigen yang cukup rendah (< 4 mg/L), asam organik yg cukup tinggi menyebabkan tumbuhnya bakteri fotosintetik sehingga secara perlahan-lahan terjadi perubahan warna ke arah merah (merah coklat-merah ungu). bakteri ini akan menyerap amonia, asam sulfida yang bersifat racun. sehingga air kolam menjadi lebih aman bagi ikan  
-      
-      
-    sumber KMP ( **komunitas Masamo Pekalongan**  ) post by prof  Suprapto Ns
+## Manfaat Perubahan Warna
+Perubahan warna air kolam lele sistem floc memiliki beberapa manfaat:
+* Mengikat amonia dan asam sulfida yang bersifat racun
+* Membuat air kolam lebih aman bagi ikan
+
+### Pertanyaan?
+### Apa penyebab perubahan warna air kolam lele sistem floc?
+Perubahan warna air kolam lele sistem floc disebabkan oleh peningkatan bahan organik dan perkembangan bakteri probiotik.
+### Bagaimana cara mengatasi kolam lele yang berbusa?
+Cara mengatasi kolam lele yang berbusa dapat ditemukan pada artikel [cara mengatasi kolam lele yang berbusa](http://www.aplesi.com/2015/06/cara-mengatasi-kolam-lele-berbusa.html).
+### Apa manfaat perubahan warna air kolam lele sistem floc?
+Perubahan warna air kolam lele sistem floc membuat air kolam lebih aman bagi ikan dan mengikat amonia dan asam sulfida yang bersifat racun.
+

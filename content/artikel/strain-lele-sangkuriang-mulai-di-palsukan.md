@@ -1,36 +1,37 @@
 ---
-judul: "Strain Lele Sangkuriang Mulai Di Palsukan"
+judul: "Pemalsuan Lele Sangkuriang: Tantangan Bagi Peternak Ikan"
 slug: "strain-lele-sangkuriang-mulai-di-palsukan"
-ringkasan: "Strain Lele Sangkuriang Penurunan kualitas lele dumbo telah mengundang keprihatinan beberapa kalangan, seperti para pakar perikanan di Indonesia dan..."
+ringkasan: "Pemalsuan lele sangkuriang marak, peternak harus waspada"
 gambar: "/images/og-default.png"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["Lele Sangkuriang", "Pemalsuan Lele", "Peternak Ikan"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2016-02-28"
 status: "published"
-seoTitle: "Strain Lele Sangkuriang Mulai Di Palsukan"
-seoDesc: "Strain Lele Sangkuriang Penurunan kualitas lele dumbo telah mengundang keprihatinan beberapa kalangan, seperti para pakar perikanan di Indonesia dan..."
+seoTitle: "Pemalsuan Lele Sangkuriang"
+seoDesc: "Pemalsuan lele sangkuriang marak, peternak harus waspada"
 ---
 
-**Strain Lele Sangkuriang**  
-Penurunan kualitas lele dumbo telah mengundang keprihatinan beberapa kalangan, seperti para pakar perikanan di Indonesia dan terutama pihak Departemen Perikanan dan Kelautan.  
-  
- Sebagai upaya mengembalikan kualitas lele dumbo agar mendekati kualitas ketika pertama kali didatangkan ke Indonesia,  
-  
-Balai Besar Pengembangan Budidaya Air Tawar (BBPBAT) Sukabumi telah berhasil merekayasa genetik lele dumbo dengan melakukan silang balik (back cross).  
-  
- Proses silang balik dilakukan dengan mengawinkan induk lele dumbo betina generasi kedua (F2) dengan induk jantan generasi keenam (F6). Induk betina F2 merupakan induk yang dimiliki BBPBAT Sukabumi yang merupakan keturunan kedua lele dumbo yang diintroduksi ke Indonesia tahun 1985. Sementara itu, induk jantan F6 merupakan keturunan dari induk betina F2 menghasilkan lele yang dinamakan sangkuriang  
-  
-**Penurunan Kuliatias lele sangkuriang**  
-Banyak nya keluhan atas hasil bibit yang di hasilkan lele sangkuriang mulai dari pertumbuhan daya tahan tubuh serta ketidak seragaman  dari berbagai sumber froum budidaya lele membuat kita penasaran apa yang terjadi.  
-  
-dari beberapa wawancara beberpa petani lele yang sudah cukup profesional dari berbagai daerah di indonesia untuk mengetahui bagaiamana kualitras induk lele lele sangkuriang ternyata hampir sama semua keluh kesah para petani pembesaran dan petani pembibitan  
-  
-Ketidak puasan mereka dengan strain yang cukup fenomenal  
-  
-**Maraknya Pemalsuan lele Sangkuriang**   
-Pemalsuan lele sangkuriang dari pertama lunching hingga tahun ini sangat banyak beredar di sosial media setal situs situs yang mengaku ngaku menjual induk lele asli  . dengan dhalil  mempunyai sertifdikat dll  
-  
-Namun kalau di lihat langsung dengan kasat mata bentuk tubuh serta ciri ciri yang terdapat dari lele sangkuriang boleh di bilang tidak ada , lele konsumsi yang di besarakan lalu di jadikan induk . Meraup keuntungan dari ketidak tahuan para pembudidaya lele yang baru terjun usaha lele ,  
-  
-untuk para sobat budidaya lele untuk pembelian induk lele sebaiknya  membeli di tempat tempat yang telah di percaya keaslianya untuk lele sangkuriang hanya di jual oleh pihak pihak dinas tanpa melalui calo dll agar terhidndar dari pemalsuan induk lele
+## Apa itu Lele Sangkuriang?
+Lele Sangkuriang adalah hasil rekayasa genetik lele dumbo yang dilakukan oleh Balai Besar Pengembangan Budidaya Air Tawar (BBPBAT) Sukabumi.
+
+## Proses Pembuatan Lele Sangkuriang
+Proses silang balik dilakukan dengan mengawinkan induk lele dumbo betina generasi kedua (F2) dengan induk jantan generasi keenam (F6).
+
+## Penurunan Kualitas Lele Sangkuriang
+Banyak keluhan atas hasil bibit lele sangkuriang, mulai dari pertumbuhan, daya tahan tubuh, dan ketidakseragaman.
+
+## Maraknya Pemalsuan Lele Sangkuriang
+Pemalsuan lele sangkuriang sangat banyak beredar di sosial media dan situs yang mengaku menjual induk lele asli.
+
+### Pertanyaan? 
+### Apa Ciri-Ciri Lele Sangkuriang Asli?
+Ciri-ciri lele sangkuriang asli antara lain: 
+* Bentuk tubuh yang khas
+* Ciri-ciri yang terdapat dari lele sangkuriang
+
+### Bagaimana Cara Membeli Induk Lele Sangkuriang yang Asli?
+Sebaiknya membeli di tempat-tempat yang telah dipercaya keasliannya, seperti pihak dinas, tanpa melalui calo.
+
+### Apa yang Harus Dilakukan untuk Menghindari Pemalsuan Induk Lele?
+Peternak harus waspada dan melakukan pengecekan yang teliti sebelum membeli induk lele.

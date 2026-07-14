@@ -1,43 +1,43 @@
 ---
-judul: "lele masamo"
+judul: "Lele Masamo: Solusi Budidaya Lele yang Lebih Cepat dan Efisien"
 slug: "lele-masamo"
-ringkasan: " Meyediakan induk lele masamo kami meyediakan paket induk lele masamo suplay kebutuhan petani eseluruh pulau seindonesia ,untuk pembelian induk..."
+ringkasan: "Lele Masamo, solusi budidaya lele yang lebih cepat dan efisien"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiEhMXbtYI3OFfQ6b4ZkkiEnWKjQsR-hv4ZmsbpeQcqcxkTrHUMTApEewOwkuFAExQLzC1mDE3FlVfLHI4LCoUOkJuaT0nvR-m3u2bnOj7vsjOfLJ0jU6d9ml2PHerj1Hh_Zm2CgLwmuZvX/s640/a.jpg"
 kategori: "pembibitan lele"
-tags: ["pembibitan lele", "pembenihan", "lele masamo", "induk lele", "pemijahan lele"]
-penulis: "Admin"
+tags: ["Lele Masamo", "Budidaya Lele", "Induk Lele"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2013-05-27"
 status: "published"
-seoTitle: "lele masamo"
-seoDesc: " Meyediakan induk lele masamo kami meyediakan paket induk lele masamo suplay kebutuhan petani eseluruh pulau seindonesia ,untuk pembelian induk..."
+seoTitle: "Lele Masamo: Solusi Budidaya Lele yang Lebih Cepat"
+seoDesc: "Lele Masamo, solusi budidaya lele yang lebih cepat dan efisien dengan kualitas induk yang unggul"
 ---
 
-  
-**Meyediakan induk lele masamo**  
-  
-kami meyediakan paket **induk lele masamo** suplay kebutuhan petani eseluruh pulau seindonesia ,untuk pembelian induk ataupun benih baca ketentuan order, yang meliputi cara pesanan, cara pembayaran, cara pengambilan ataupun penberiamaan induk baik cargo bandara \[port to pot \] ,ataupun cargo kereta api  
-**Induk lele masamo /paket** 1  paket            : 15 ekor  
-2  sex               : 10 female 5 male  
-3  umur            : 13 bln  
-4  panjang       : 45cm -50cm  
-5  Harga          :  Rp  1.900.000  (nett)  
-harga belum termasuk ongkos kirim
 
-  
+## Apa itu Lele Masamo?
+Lele Masamo adalah strain lele terbaru yang dikeluarkan oleh Hatchery PT. Matahari Sakti, dengan kelebihan pertumbuhan yang cepat dan tahan terhadap perubahan iklim.
 
-  
+## Kualitas Induk Lele
+Kualitas induk lele di Indonesia telah menurun, menyebabkan waktu budidaya semakin lama. Lele Masamo hadir sebagai solusi dengan kualitas induk yang unggul.
 
-  
+## Spesifikasi Paket Induk Lele Masamo
+* 1 paket: 15 ekor
+* Sex: 10 betina, 5 jantan
+* Umur: 13 bulan
+* Panjang: 45-50 cm
+* Harga: Rp 1.900.000 (nett), belum termasuk ongkos kirim
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiEhMXbtYI3OFfQ6b4ZkkiEnWKjQsR-hv4ZmsbpeQcqcxkTrHUMTApEewOwkuFAExQLzC1mDE3FlVfLHI4LCoUOkJuaT0nvR-m3u2bnOj7vsjOfLJ0jU6d9ml2PHerj1Hh_Zm2CgLwmuZvX/s640/a.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiEhMXbtYI3OFfQ6b4ZkkiEnWKjQsR-hv4ZmsbpeQcqcxkTrHUMTApEewOwkuFAExQLzC1mDE3FlVfLHI4LCoUOkJuaT0nvR-m3u2bnOj7vsjOfLJ0jU6d9ml2PHerj1Hh_Zm2CgLwmuZvX/s1600/a.jpg)
+## Kelebihan Lele Masamo
+* Pertumbuhan yang cepat
+* Tahan terhadap perubahan iklim
+* Efisiensi pakan yang lebih tinggi
 
-  
-Kualitas induk lele di indonesia yang sudah sangat menurun, bikin waktu budidaya semakin lama. Pasar butuh induk unggul yang gres.
+## Mengapa Lele Masamo?
+Lele Masamo telah dibuktikan oleh petani lele di Indonesia sebagai solusi budidaya lele yang lebih cepat dan efisien.
 
-Setiap bulan, pembudidaya lele di seantero Jatim membutuhkan sekitar 75 juta ekor. kebutuhan tersebut relatif dapat terpenuhi. Namun dari sisi kualitas, benih-benih itu belum tentu bagus. Buktinya, “Dulu memelihara lele umur 50 hari atau dua bulan bisa panen, sekarang ini kok sampai 90—100 hari, semakin panjang umurnya. Padahal yang dibudidayakan tetap lele yang sama berarti menurun kualitas benihnya,
-
-Hal itu,tidak terlepas dari kualitas induk. Induk lele saat ini kebanyakan keturunan strain dumbo, lele hibrida yang diintroduksi pada 1986. Nyaris tanpa introduksi strain baru dalam waktu 15 tahun, kecuali Sangkuriang pada 2004, penurunan kualitas genetik induk pun tak terelakkan karena banyak terjadi perkawinan sedarah (_inbreeding_). Akibatnya, “Lele semakin panjang umur budidayanya, semakin rentan terhadap perubahan iklim, tingkat stresnya semakin tinggi, kemudian efisiensi pakannya semakin rendah.
-
-Rendahnya kulitas induk yang diturunkan ke benih tersebut, seringkali membuat pembudidaya menyalahkan kualitas pakan. Padahal pihak pabrikan mengatakan, produksi pakan mereka sudah memenuhi standar dan lulus uji kualitas.
-
- Untuk menanggulangi hal tersebut hatchery  pt.matahari sakti mengeluarkan strain terbaru yg dinamakan STRAIN MASAMO yg induknya di datangkan langsung dr afrika. **kelebihan dr lele masamo adalah** **pertumbuhan lele yg cepat besar dan tahan terhadap perubahan iklim.** hal ini sudah di buktikan oleh petani lele di indonesia.
+### Pertanyaan yang Sering Diajukan
+### Apa itu Lele Masamo?
+Lele Masamo adalah strain lele terbaru yang dikeluarkan oleh Hatchery PT. Matahari Sakti.
+### Apa kelebihan Lele Masamo?
+Lele Masamo memiliki kelebihan pertumbuhan yang cepat dan tahan terhadap perubahan iklim.
+### Bagaimana cara memesan Lele Masamo?
+Cara memesan Lele Masamo dapat dilihat pada ketentuan order, yang meliputi cara pesanan, cara pembayaran, dan cara pengambilan atau pengiriman induk.

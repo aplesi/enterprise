@@ -1,20 +1,38 @@
 ---
-judul: "Moina"
+judul: "Moina: Kutu Air yang Berguna dalam Budidaya Ikan"
 slug: "moina"
-ringkasan: ""
+ringkasan: "Moina adalah jenis kutu air yang berguna sebagai pakan alami ikan"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjP-GLKmq5eOiime6qBn603ZNs3UhbEpND6e4qUi1-0tKNsl8056kgyYtpl7Wz7OSl3dq5O7f4mNi30YcNSCTuxbIMy20xZdkt2ZY0lnqe9x_nrelcUH0XgIRki5yqnogMVo0cVhp0e1VcV/s320/6Moina.jpg"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["Moina", "Kutu Air", "Pakan Alami Ikan"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2012-03-30"
 status: "published"
-seoTitle: "Moina"
-seoDesc: ""
+seoTitle: "Moina: Kutu Air untuk Pakan Ikan"
+seoDesc: "Moina adalah kutu air yang berguna sebagai pakan alami ikan, tumbuh pada perairan tercemar bahan organik"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjP-GLKmq5eOiime6qBn603ZNs3UhbEpND6e4qUi1-0tKNsl8056kgyYtpl7Wz7OSl3dq5O7f4mNi30YcNSCTuxbIMy20xZdkt2ZY0lnqe9x_nrelcUH0XgIRki5yqnogMVo0cVhp0e1VcV/s320/6Moina.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjP-GLKmq5eOiime6qBn603ZNs3UhbEpND6e4qUi1-0tKNsl8056kgyYtpl7Wz7OSl3dq5O7f4mNi30YcNSCTuxbIMy20xZdkt2ZY0lnqe9x_nrelcUH0XgIRki5yqnogMVo0cVhp0e1VcV/s1600/6Moina.jpg)
 
-Di kalangan petani Moina dikenal dengan nama “kutu air”. Jenis kutu ini mempunyai bentuk tubuh agak bulat, bergaris tengah antara 0,9 – 1,8 mm dan berwarna kemerahan.  
-Perkembangbiakan Moina dapat dilakukan melalui dua cara, yaitu secara asexual atau parthenogenesis (melakukan penetasan telur tanpa dibuahi) dan secara sexual (melakukan penetasan telur dengan melakukan perkawinan/pembuahan terlebih dahulu). Pada kondisi perairan yang tidak menguntungkan, individu betina menghasilkan telur istirahat atau ephipium yang akan segera menetas pada saat kondisi perairan sudah baik kembali.  
-Moina mulai menghasilkan anak setelah berumur empat hari dengan jumlah anak selama hidup sekitar 211 ekor. Setiap kali beranak rata-rata berselang 1,25 hari, dengan rata-rata jumlah anak sekali keluar 32 ekor/hari, sedangkan umur hidup Moina adalah sekitar 13 hari.  
-Moina biasa hidup pada perairan yang tercemar bahan organik, seperti pada kolam dan rawa. Pada perairan yang banyak terdapat kayu busuk dan kotoran hewan, Moina akan tumbuh dengan baik pada perairan yang mempunyai kisaran suhu antara 14-30 ° C dan pH antara 6,5 – 9. Jenis makanan yang baik untuk pertumbuhan Moina adalah bakteri. Untuk menangkap mangsa, Moina akan menggerakan alat tambahan pada bagian mulut, yang menyebabkan makanan terbawa bersama aliran air ke dalam mulut.
+## Pengenalan Moina
+Moina dikenal sebagai "kutu air" di kalangan petani, dengan bentuk tubuh agak bulat dan berwarna kemerahan, memiliki garis tengah antara 0,9 – 1,8 mm.
+
+## Perkembangbiakan Moina
+Moina dapat berkembang biak secara asexual (parthenogenesis) atau secara sexual. Pada kondisi perairan tidak menguntungkan, individu betina menghasilkan telur istirahat atau ephipium yang akan menetas saat kondisi perairan baik kembali.
+
+## Karakteristik Moina
+Moina mulai menghasilkan anak setelah berumur empat hari, dengan jumlah anak selama hidup sekitar 211 ekor. Setiap kali beranak berselang 1,25 hari, dengan rata-rata jumlah anak sekali keluar 32 ekor/hari. Umur hidup Moina adalah sekitar 13 hari.
+
+## Habitat Moina
+Moina hidup pada perairan yang tercemar bahan organik, seperti kolam dan rawa, dengan kisaran suhu antara 14-30 ° C dan pH antara 6,5 – 9. Moina tumbuh baik pada perairan dengan banyak kayu busuk dan kotoran hewan.
+
+## Makanan Moina
+Moina memakan bakteri, yang baik untuk pertumbuhannya. Moina menangkap mangsa dengan menggerakan alat tambahan pada bagian mulut, menyebabkan makanan terbawa bersama aliran air ke dalam mulut.
+
+### Pertanyaan Apa itu Moina?
+Moina adalah jenis kutu air yang berguna sebagai pakan alami ikan.
+
+### Pertanyaan Bagaimana Moina Berkembang Biak?
+Moina berkembang biak secara asexual (parthenogenesis) atau secara sexual.
+
+### Pertanyaan Dimana Moina Bisa Ditemukan?
+Moina hidup pada perairan yang tercemar bahan organik, seperti kolam dan rawa.

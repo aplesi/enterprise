@@ -1,31 +1,37 @@
 ---
-judul: "kualitas produk perikanan Indonesia menurut Susi"
+judul: "Kualitas Produk Perikanan Indonesia: Tinjauan Menteri Kelautan dan Perikanan"
 slug: "kualitas-produk-perikanan-indonesia-menurut-susi"
-ringkasan: ""
+ringkasan: "Kualitas produk perikanan Indonesia perlu ditingkatkan"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3VhzJ80hvkVwKe6Hn2cvgXUy_KPXiLZcqd9KHb5HFAMmIrdvIudh0Z0Oaq-6yPs-__Oo7cvejAaFOUU_5Vcr2bV2vDFwjB0qnd8BfVTt-2UMABoiSXwViE5p9Bzg770GBVXov_-QHN3Ra/s320/susi2.jpg"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["kualitas produk perikanan", "Menteri Kelautan dan Perikanan", "Susi Pudjiastuti"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2014-11-14"
 status: "published"
-seoTitle: "kualitas produk perikanan Indonesia menurut Susi"
-seoDesc: ""
+seoTitle: "Kualitas Produk Perikanan Indonesia"
+seoDesc: "Kualitas produk perikanan Indonesia perlu ditingkatkan"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3VhzJ80hvkVwKe6Hn2cvgXUy_KPXiLZcqd9KHb5HFAMmIrdvIudh0Z0Oaq-6yPs-__Oo7cvejAaFOUU_5Vcr2bV2vDFwjB0qnd8BfVTt-2UMABoiSXwViE5p9Bzg770GBVXov_-QHN3Ra/s320/susi2.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3VhzJ80hvkVwKe6Hn2cvgXUy_KPXiLZcqd9KHb5HFAMmIrdvIudh0Z0Oaq-6yPs-__Oo7cvejAaFOUU_5Vcr2bV2vDFwjB0qnd8BfVTt-2UMABoiSXwViE5p9Bzg770GBVXov_-QHN3Ra/s1600/susi2.jpg)
 
-**Jakarta** \-**Menteri Kelautan dan Perikanan Susi Pudjiastuti** kembali menyoroti buruknya kebijakan sektor kelautan dan perikanan di Indonesia. Ia mengkritik, Indonesia saat ini masih tergantung pada ikan mujair dan lele impor dari Malaysia.  
-  
-"Kita makan ikan mujair saja impor dari Malaysia. Lele juga sama. Saya sedih," kata Susi di depan ratusan pengawai negeri sipil (PNS) Kementerian Kelautan dan Perikanan (KKP) di Gedung Mina Bahari I, KKP, Jalan Medan Merdeka Timur, Jakarta, Rabu (12/11/2014).  
-  
-Melihat kejadian ini, Susi berpendapat, ada yang salah dari kebijakan pembenahan sektor perikanan di lapangan. Ia mengatakan, mungkin saja mutu/kualitas ikan lele dan mujair impor asal Malaysia jauh lebih baik dibandingkan produk lokal.  
-  
-"Pengendalian mutu harus dilakukan. Kalau tidak produk kita kalah bersaing dari luar, habislah kita," imbuhnya.  
-  
-Susi mengungkapkan, di 2005 kualitas produk perikanan Indonesia masih diakui dunia. Bahkan Jepang saat itu meminta stok ikan beku hanya dari Indonesia.  
-  
-Susi menjelaskan, di 2005 kualitas produk ikan beku (frozen fish) Indonesia menjadi nomor 1 di dunia. Hal itu karena kualitas ikan beku Indonesia lebih baik dibandingkan Thailand dan Australia.  
-  
-"Produk kita berbeda dengan negara lain. Ikan kita didapat dari nelayan dalam keadaan hidup lalu dibunuh dan dibekukan dalam waktu 4 jam. Karena itu orang Jepang cari-cari, bahasa kerennya produk kita itu organik. Mereka ini ingin makan yang asli dan origin. Jadi yang hidup dan fresh daily," papar Susi  
-  
-sumber detik.com
+## Kualitas Produk Perikanan Indonesia
+Kualitas produk perikanan Indonesia masih memerlukan perbaikan, terutama dalam hal pengendalian mutu. 
+Menteri Kelautan dan Perikanan Susi Pudjiastuti mengkritik bahwa Indonesia masih tergantung pada ikan mujair dan lele impor dari Malaysia.
+
+## Kebijakan Sektor Perikanan
+Susi berpendapat bahwa ada yang salah dari kebijakan pembenahan sektor perikanan di lapangan, sehingga mutu/kualitas ikan lele dan mujair impor asal Malaysia jauh lebih baik dibandingkan produk lokal.
+Pengendalian mutu harus dilakukan untuk meningkatkan kualitas produk perikanan Indonesia.
+
+## Prestasi di Masa Lalu
+Di tahun 2005, kualitas produk perikanan Indonesia masih diakui dunia, bahkan Jepang meminta stok ikan beku hanya dari Indonesia.
+Kualitas ikan beku Indonesia menjadi nomor 1 di dunia karena kualitas ikan beku Indonesia lebih baik dibandingkan Thailand dan Australia.
+
+## Faktor Penentu Kualitas
+Produk perikanan Indonesia berbeda dengan negara lain karena ikan didapat dari nelayan dalam keadaan hidup lalu dibunuh dan dibekukan dalam waktu 4 jam, sehingga produk Indonesia dianggap organik.
+
+### Pertanyaan?
+### Apa yang menjadi penyebab kualitas produk perikanan Indonesia menurun?
+Kualitas produk perikanan Indonesia menurun karena kurangnya pengendalian mutu dan ketergantungan pada impor.
+### Bagaimana cara meningkatkan kualitas produk perikanan Indonesia?
+Meningkatkan kualitas produk perikanan Indonesia dapat dilakukan dengan meningkatkan pengendalian mutu dan mengembangkan teknologi pengolahan ikan.
+### Apa yang menjadi kelebihan produk perikanan Indonesia di masa lalu?
+Kelebihan produk perikanan Indonesia di masa lalu adalah kualitas ikan beku yang lebih baik dibandingkan negara lain, sehingga diakui oleh dunia.

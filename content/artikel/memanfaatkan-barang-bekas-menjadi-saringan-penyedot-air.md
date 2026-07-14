@@ -1,31 +1,38 @@
 ---
-judul: "memanfaatkan barang bekas menjadi saringan penyedot air"
+judul: "Membuat Saringan Penyedot Air dari Barang Bekas untuk Benih Ikan"
 slug: "memanfaatkan-barang-bekas-menjadi-saringan-penyedot-air"
-ringkasan: "salah satu admin Aplesi yang kreatif membuat saringan air ..saringan air ini di gunakan untuk menyedot air untuk benih ukuran 3-4 cm bahkan benih ukur..."
+ringkasan: "Memanfaatkan barang bekas menjadi saringan penyedot air"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi0yPYxaH_K8GXLLnlA6nY74O54m4CigZ0dpuSBGGU-HPnDl-43hxKlAg_1FaRfo8znl0SQGed-Vk_oDyytO10hpTZ90fLbjmBhZ02mvZCS5KCUnj119hyICeN48Nu8oQbW5DqDqF3nbGqZ/s320/481263_237072699729268_380547387_n.jpg"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["saringan penyedot air", "barang bekas", "benih ikan"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2012-06-12"
 status: "published"
-seoTitle: "memanfaatkan barang bekas menjadi saringan penyedot air"
-seoDesc: "salah satu admin Aplesi yang kreatif membuat saringan air ..saringan air ini di gunakan untuk menyedot air untuk benih ukuran 3-4 cm bahkan benih ukur..."
+seoTitle: "Membuat Saringan Penyedot Air dari Barang Bekas"
+seoDesc: "Memanfaatkan barang bekas menjadi saringan penyedot air untuk benih ikan"
 ---
 
-salah satu admin Aplesi yang kreatif membuat saringan air ..saringan air ini di gunakan untuk menyedot air untuk benih ukuran 3-4 cm bahkan benih ukuran 2-3 pun bisa tergantung bagaimana kreatifnya kita  
-  
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi0yPYxaH_K8GXLLnlA6nY74O54m4CigZ0dpuSBGGU-HPnDl-43hxKlAg_1FaRfo8znl0SQGed-Vk_oDyytO10hpTZ90fLbjmBhZ02mvZCS5KCUnj119hyICeN48Nu8oQbW5DqDqF3nbGqZ/s320/481263_237072699729268_380547387_n.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi0yPYxaH_K8GXLLnlA6nY74O54m4CigZ0dpuSBGGU-HPnDl-43hxKlAg_1FaRfo8znl0SQGed-Vk_oDyytO10hpTZ90fLbjmBhZ02mvZCS5KCUnj119hyICeN48Nu8oQbW5DqDqF3nbGqZ/s1600/481263_237072699729268_380547387_n.jpg)  
-  
-  
-  
-berikut bahan bahan yang di perlukan  
-1 Tempet peletakan kain kotor yang berlubang atau semcam nya  
-2 waring  ( yang di pakai waring hitam berbentuk persegi )  
-3 benang/tali  
-**Cara pembuatanya cuku mudah**  
-agan agan teinggal membukus tempat/ember kain kotor dengan waring tersebut lalu mengikatnya agar tidak mudah lepas  
-Kalau untuk ukuran benih  2-3 tinggal mengganti waring nya saja  
-**Cara kerja**  
-masukan pompa celup / mesin pompa aquarium kedalam tempat saringan tersebut  
-  
-selamat mencoba sumber by [Enus Lele Majalengka](https://www.facebook.com/enuslele)
+
+## Membuat Saringan Penyedot Air dari Barang Bekas
+Saringan air dapat dibuat dari barang bekas untuk menyedot air benih ikan ukuran 3-4 cm.
+
+## Bahan-Bahan
+* Tempat peletakan kain kotor berlubang
+* Waring hitam berbentuk persegi
+* Benang/tali
+
+## Cara Pembuatan
+Pembuatan saringan cukup mudah, dengan membungkus tempat/ember kain kotor dengan waring dan mengikatnya agar tidak mudah lepas.
+
+## Cara Kerja
+1. Masukan pompa celup/mesin pompa aquarium ke dalam tempat saringan.
+2. Atur ukuran waring sesuai dengan ukuran benih ikan.
+
+### Pertanyaan yang Sering Diajukan
+### Apa kegunaan saringan penyedot air?
+Saringan penyedot air digunakan untuk menyedot air benih ikan tanpa merusaknya.
+### Bagaimana cara membuat saringan penyedot air?
+Membuat saringan penyedot air dapat dilakukan dengan membungkus tempat/ember kain kotor dengan waring dan mengikatnya.
+### Apa bahan-bahan yang dibutuhkan untuk membuat saringan penyedot air?
+Bahan-bahan yang dibutuhkan adalah tempat peletakan kain kotor berlubang, waring hitam berbentuk persegi, dan benang/tali.
+

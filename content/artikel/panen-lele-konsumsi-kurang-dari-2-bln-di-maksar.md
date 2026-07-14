@@ -1,27 +1,40 @@
 ---
-judul: "panen lele konsumsi kurang dari 2 bln di maksar"
+judul: "Panen Lele Konsumsi Kurang dari 2 Bulan di Makasar"
 slug: "panen-lele-konsumsi-kurang-dari-2-bln-di-maksar"
-ringkasan: "!lele masakarhttps://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJOYUZ-RFX-AI4ZDQXul388cWauplyj2dv4I2MVZ0T5A_uTSrfOFjaVdDdS8pBiloUVghaYQJ5QK4Z..."
+ringkasan: "Teknik budidaya lele di Makasar untuk panen dalam waktu kurang dari 2 bulan"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJOYUZ-RFX-AI4ZDQXul388cWauplyj2dv4I2MVZ0T5A_uTSrfOFjaVdDdS8pBiloUVghaYQJ5QK4ZFleWkPXkXmUsS7Po6j22rZbIkSwvNoBLQMUiY4QpVok9dEJQ8E42Ogg8hTO10WtV/s1600/1001030_213771785443878_1977891589_n.jpg"
 kategori: "pembenihan ikan lele"
-tags: ["pembenihan ikan lele", "lele makasar", "pembesaran", "lele burma", "lele masamo"]
-penulis: "Admin"
+tags: ["budidaya lele", "panen lele", "lele konsumsi", "Makasar"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2015-04-03"
 status: "published"
-seoTitle: "panen lele konsumsi kurang dari 2 bln di maksar"
-seoDesc: "!lele masakarhttps://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJOYUZ-RFX-AI4ZDQXul388cWauplyj2dv4I2MVZ0T5A_uTSrfOFjaVdDdS8pBiloUVghaYQJ5QK4Z..."
+seoTitle: "Panen Lele Konsumsi Kurang dari 2 Bulan di Makasar"
+seoDesc: "Teknik budidaya lele di Makasar untuk panen dalam waktu kurang dari 2 bulan"
 ---
 
-[![lele masakar](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJOYUZ-RFX-AI4ZDQXul388cWauplyj2dv4I2MVZ0T5A_uTSrfOFjaVdDdS8pBiloUVghaYQJ5QK4ZFleWkPXkXmUsS7Po6j22rZbIkSwvNoBLQMUiY4QpVok9dEJQ8E42Ogg8hTO10WtV/s1600/1001030_213771785443878_1977891589_n.jpg "lele masakar")](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJOYUZ-RFX-AI4ZDQXul388cWauplyj2dv4I2MVZ0T5A_uTSrfOFjaVdDdS8pBiloUVghaYQJ5QK4ZFleWkPXkXmUsS7Po6j22rZbIkSwvNoBLQMUiY4QpVok9dEJQ8E42Ogg8hTO10WtV/s1600/1001030_213771785443878_1977891589_n.jpg)#makasar -  #embesaranlele di makasar sangat unik berbanding pembesaran lele di pulau jawa selain harga daging komsusi nya yang tionggi mereka juga bisa membesarkan ikan lebih cepat dari pembesar lele di pulau jawa  
-jumad 3-4-2015 kami berbincang dengan salah satu **distributor benih lele masamo** yang bernama pak manda beliau menuturkan laba bersih bisa mencapai 12 juta  dari awal tanam benih 10.000 ekor  
-antusia pembesaran ikan lele terlihat dari jumlah orderan / minggu mencapai 500 ribu ekor dari sidoarajo yang di kirim ke makasar   
-  
-**Kunci utama dalam budidaya**  
-para budidaya lele khusunya pembesaran di maskasar cukup simple air yang melimpah serta pakan yang murah di dapat itulah kunci utama dalam budidaya pembesara lele, rata rata petani disana menggunakan **benih lele masamo dan lele burma** untuk dua strain ini telah terbukti kecepatan pertumbuhan dan daya tahan tubuh, para pembesaran lebih antusias menggunkan strain ini berbanding dengan sangkuriang or phyton dimana menurut para pembudidaya disana selalu trouble di awal terbar dan  pertumbuhan yang  lambat  
-  
-**Teknik pembesaran lele makasar**  
-**pembesaran lele** di makasar menggunakan system air mengalir dan menggunakan pakan dari usu ayam, untuk awal tebar benih para pembudidaya pembesaran menggunakan pakan pabrikan sampai benih berukuran 7-8 cm  
-sumber air yang melipah serta mudahnya mendapatkan usus ayam sangat membantu menekan biaya produksi  
-**  
-Pemberian pakan menggunakan usus ayam**  
-sebelum usus di berikan pada ikan lele usus terlebih dahulu di potong potong menggunakan gunting ada beberapa petani yang lansung memberikan tampa mebilas dan ada juga yang membilas terlebih dahulu, usus yang telah di potong sesuai dengan ukuran mulut ikan lele di tebar merata ke **kolam ikan lele**
+
+## Panen Lele Konsumsi Kurang dari 2 Bulan di Makasar
+Panen lele konsumsi dapat dilakukan kurang dari 2 bulan di Makasar dengan teknik budidaya yang tepat.
+
+## Kunci Utama dalam Budidaya Lele
+Kunci utama dalam budidaya lele di Makasar adalah air yang melimpah dan pakan yang murah, yaitu:
+* Air yang melimpah
+* Pakan yang murah
+
+## Teknik Pembesaran Lele Makasar
+Teknik pembesaran lele di Makasar menggunakan sistem air mengalir dan pakan dari usus ayam, dengan langkah-langkah sebagai berikut:
+* Menggunakan benih lele Masamo dan lele Burma
+* Memberikan pakan pabrikan pada awal tebar benih
+* Menggunakan usus ayam sebagai pakan utama setelah benih berukuran 7-8 cm
+
+## Pemberian Pakan Menggunakan Usus Ayam
+Pemberian pakan menggunakan usus ayam dilakukan dengan cara memotong usus ayam menjadi ukuran yang sesuai dengan mulut ikan lele, kemudian ditebar merata ke kolam ikan lele.
+
+### Pertanyaan Apa yang Membuat Budidaya Lele di Makasar Berhasil?
+Teknik budidaya lele di Makasar berhasil karena kombinasi antara air yang melimpah, pakan yang murah, dan penggunaan benih lele yang tepat.
+
+### Pertanyaan Bagaimana Cara Menggunakan Usus Ayam sebagai Pakan Lele?
+Cara menggunakan usus ayam sebagai pakan lele adalah dengan memotong usus ayam menjadi ukuran yang sesuai dengan mulut ikan lele, kemudian ditebar merata ke kolam ikan lele.
+
+### Pertanyaan Berapa Lama Waktu Panen Lele Konsumsi di Makasar?
+Waktu panen lele konsumsi di Makasar dapat dilakukan kurang dari 2 bulan dengan teknik budidaya yang tepat.

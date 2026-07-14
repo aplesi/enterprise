@@ -1,19 +1,35 @@
 ---
-judul: "lever clarias"
+judul: "Mengatasi Lever Clarias pada Lele dengan Kontrol Pakan dan Pengelolaan Air"
 slug: "lever-clarias"
-ringkasan: ""
+ringkasan: "Lever clarias pada lele disebabkan pemberian pakan tidak terkendali"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTKpdpdogFZgjMSSnzZslm6xBoqPSYdsZ502WoWhBVocoH9KPLDqPTNptbnhIO432HZhMbWRFlJz4HL1TI3S6HXRhren8aNA66ib8M_KaCCEeJ8jGyYWXO2AlkLVV1enFOeKisUzg8jfc0/s200/1.jpg"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["lever clarias", "lele", "pakan", "pengelolaan air"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2012-06-09"
 status: "published"
-seoTitle: "lever clarias"
-seoDesc: ""
+seoTitle: "Mengatasi Lever Clarias pada Lele"
+seoDesc: "Lever clarias pada lele disebabkan pemberian pakan tidak terkendali"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTKpdpdogFZgjMSSnzZslm6xBoqPSYdsZ502WoWhBVocoH9KPLDqPTNptbnhIO432HZhMbWRFlJz4HL1TI3S6HXRhren8aNA66ib8M_KaCCEeJ8jGyYWXO2AlkLVV1enFOeKisUzg8jfc0/s200/1.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTKpdpdogFZgjMSSnzZslm6xBoqPSYdsZ502WoWhBVocoH9KPLDqPTNptbnhIO432HZhMbWRFlJz4HL1TI3S6HXRhren8aNA66ib8M_KaCCEeJ8jGyYWXO2AlkLVV1enFOeKisUzg8jfc0/s1600/1.jpg)  
-[![](https://fbcdn-sphotos-a.akamaihd.net/hphotos-ak-prn1/s720x720/527966_3355827489414_169481412_n.jpg)](https://fbcdn-sphotos-a.akamaihd.net/hphotos-ak-prn1/s720x720/527966_3355827489414_169481412_n.jpg)lever claria  yang terserang hati,insang berdarah,perut jdi kuning. Biasanya itu di akibatkan karna pemberian pakan ga kontrol, yg akhirnya sisa pakan yang di dasar akan timbul jadi amoniak dan air tercemar.. biasanya lele akan makan sisa pakan tersebut.. dan timbul penyakit. Untuk saran coba di kontrol pakanya dan kontrol juga pembuang air atau flow over.. klo bisa pembuangan air dari pralon yg paling dasar. Dan jgan di ambil dari permukaan air. Agar kotoran atau sisa pakan yg di dasar akan kesedot apabila pralon di luar di turun kan.. maka oksigen terlarut akan stabil.  
-Jgn lupa pakan 3x sehari..  
-  
-sumber by [Asm Lele Farm](https://www.facebook.com/kumislicin)
+
+## Apa itu Lever Clarias?
+Lever clarias adalah kondisi di mana hati, insang, dan perut lele mengalami peradangan dan perubahan warna menjadi kuning, disertai dengan pendarahan.
+
+## Penyebab Lever Clarias
+Penyebab utama lever clarias adalah pemberian pakan yang tidak terkendali, sehingga sisa pakan di dasar kolam mengalami proses dekomposisi dan menghasilkan amoniak yang berbahaya bagi lele.
+
+## Cara Mengatasi Lever Clarias
+Berikut beberapa cara untuk mengatasi lever clarias:
+* Kontrol pemberian pakan untuk mencegah sisa pakan di dasar kolam
+* Kontrol pembuangan air dan pastikan air yang dibuang berasal dari dasar kolam, tidak dari permukaan
+* Gunakan pralon yang bisa diatur untuk mengeluarkan air dari dasar kolam
+* Berikan pakan 3 kali sehari untuk mencegah lele makan sisa pakan yang terkontaminasi
+
+### Pertanyaan?
+### Apa yang menyebabkan lever clarias pada lele?
+Lever clarias disebabkan oleh pemberian pakan yang tidak terkendali dan pengelolaan air yang buruk.
+### Bagaimana cara mencegah lever clarias?
+Mencegah lever clarias dapat dilakukan dengan mengontrol pemberian pakan dan pengelolaan air, serta memastikan air yang dibuang berasal dari dasar kolam.
+### Apa yang harus dilakukan jika lele sudah terkena lever clarias?
+Jika lele sudah terkena lever clarias, maka harus segera diobati dengan cara mengontrol pemberian pakan dan pengelolaan air, serta memberikan perawatan yang tepat untuk mencegah penyebaran penyakit

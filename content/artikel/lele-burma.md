@@ -1,33 +1,43 @@
 ---
-judul: "Lele Burma"
+judul: "Lele Burma: Strain Unggul untuk Pembesaran Lele"
 slug: "lele-burma"
-ringkasan: "Strain yang mampu menjawab pertanyaan apakah pembesaran lele akan ada untungnya ?? Dengan laju pertumbuhan yang optimal baik dari segi Pembibitan ma..."
+ringkasan: "Lele Burma, hasil penyilangan Clarias gariepinus, tahan cuaca ekstrim dan adaptasi tinggi"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcc9D6L8M4i_PvlOiKFlsL3feS8c2qvpE4Q2qLvo7n-lrL3RigkXLcNDG8N3BbzVt87cMK3wQf0wPqkVzdvkWRlzYLsBp6DmN-Y_lxtJR7nIl_4RQmMOaKtvgafDW0WkUDsvDGxZRCBu1F/s200/lele+burma.jpg"
 kategori: "sale"
-tags: ["sale"]
-penulis: "Admin"
+tags: ["Lele Burma", "Pembesaran Lele", "Bibit Lele"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2013-10-14"
 status: "published"
-seoTitle: "Lele Burma"
-seoDesc: "Strain yang mampu menjawab pertanyaan apakah pembesaran lele akan ada untungnya ?? Dengan laju pertumbuhan yang optimal baik dari segi Pembibitan ma..."
+seoTitle: "Lele Burma: Strain Unggul untuk Pembesaran Lele"
+seoDesc: "Lele Burma, hasil penyilangan Clarias gariepinus, tahan cuaca ekstrim dan adaptasi tinggi"
 ---
 
-Strain yang mampu menjawab pertanyaan apakah pembesaran lele akan ada untungnya ??  
-Dengan laju pertumbuhan yang optimal baik dari segi Pembibitan maupun pembesaran  
-sehingga mempercepat masa panen sekaligus menguntungkan dari segi FCR  
-  
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcc9D6L8M4i_PvlOiKFlsL3feS8c2qvpE4Q2qLvo7n-lrL3RigkXLcNDG8N3BbzVt87cMK3wQf0wPqkVzdvkWRlzYLsBp6DmN-Y_lxtJR7nIl_4RQmMOaKtvgafDW0WkUDsvDGxZRCBu1F/s200/lele+burma.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcc9D6L8M4i_PvlOiKFlsL3feS8c2qvpE4Q2qLvo7n-lrL3RigkXLcNDG8N3BbzVt87cMK3wQf0wPqkVzdvkWRlzYLsBp6DmN-Y_lxtJR7nIl_4RQmMOaKtvgafDW0WkUDsvDGxZRCBu1F/s1600/lele+burma.jpg)Lele Burma Merupakan  hasil penyilangan dari _**Clarias gariepinus**_ dari Belanda (ex universitas Brawijaya, Malang)   dengan clarias gariepinus dari hatchery namsay di thailand yang didatangkan dari negara thailand tahun 2009. Persilangan di laksanakan tahun 2010-2011 dan diperkenalkan kepada publik november 2013 lalu. awal Lele burma dikembangkan di purwosari pasuruan jawa timur dan beberapa daerah di indonesia.  **Keunggulan Lele Burma** tahan  terhadap cuaca yang ekstrim,adaptasi yang tinggi da daya stres yang rendah ..  
-  
- **pembelian indukan lele Burma atau Bibit Lele Bumra** kami memberikan Sertifikat asal Indukan untuk mengetahui umur Indukan serta Mencagah pemalsuan Indukan  
+## Pengenalan Lele Burma
+Lele Burma adalah hasil penyilangan dari Clarias gariepinus dari Belanda dengan Clarias gariepinus dari Thailand, yang dilakukan pada tahun 2010-2011 dan diperkenalkan kepada publik pada November 2013.
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzpHnvlZfTXvyN0xUxFWVQ7PRsDdl4gO6TgAxdWt-oseEgEhQA3fek5_ddrPpguhySvzLRAgy3qh5iiHpemhhMa940FLOiEBJl3Z-_7ONkSNWIjms3byqMExJ9-MgQghStYlCW2Q10nSYw/s200/pengirman+burma.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzpHnvlZfTXvyN0xUxFWVQ7PRsDdl4gO6TgAxdWt-oseEgEhQA3fek5_ddrPpguhySvzLRAgy3qh5iiHpemhhMa940FLOiEBJl3Z-_7ONkSNWIjms3byqMExJ9-MgQghStYlCW2Q10nSYw/s1600/pengirman+burma.jpg)
+## Keunggulan Lele Burma
+Lele Burma memiliki beberapa keunggulan, antara lain:
+* Tahan terhadap cuaca yang ekstrim
+* Adaptasi yang tinggi
+* Daya stres yang rendah
+* Pertumbuhan yang optimal, baik dari segi pembibitan maupun pembesaran
+* Masa panen yang lebih cepat
+* FCR (Feed Conversion Ratio) yang lebih baik
 
- [![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhftg1Rtu2EKz8IjUqOX136ih_4qvHA5zFzhJ0dJSixvbNhcB1wTlYYdXQ_RPXSEiAhNYsQihNaXxiTx16y1ulnaxtz7ZD2Z9pj6k4N1tito8h19oHajqIaJ7GZMqQ-lJNOJvKd98bmSw4I/s200/pengirman+lele+burma.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhftg1Rtu2EKz8IjUqOX136ih_4qvHA5zFzhJ0dJSixvbNhcB1wTlYYdXQ_RPXSEiAhNYsQihNaXxiTx16y1ulnaxtz7ZD2Z9pj6k4N1tito8h19oHajqIaJ7GZMqQ-lJNOJvKd98bmSw4I/s1600/pengirman+lele+burma.jpg)
+## Pembelian Indukan Lele Burma
+Untuk pembelian indukan Lele Burma atau bibit Lele Burma, kami memberikan Sertifikat asal Indukan untuk mengetahui umur Indukan serta mencegah pemalsuan Indukan.
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj8hVGSu8unSXeKoslHhGr2ST-NHkfH5XYWUNk8IeeHzYZgqv8ADmV08pZpfjhpfoRuYSBnX3NqHPOMNpYm_g8R0isVfgAzkuZrVOiNYO4E21Y83y0Jgdblkh1JH88uMG2XrHg5aaq16NU2/s320/1395153_487234468059295_356465863_n.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj8hVGSu8unSXeKoslHhGr2ST-NHkfH5XYWUNk8IeeHzYZgqv8ADmV08pZpfjhpfoRuYSBnX3NqHPOMNpYm_g8R0isVfgAzkuZrVOiNYO4E21Y83y0Jgdblkh1JH88uMG2XrHg5aaq16NU2/s1600/1395153_487234468059295_356465863_n.jpg)
+### Langkah Pembelian
+* Pilih jenis Lele Burma yang diinginkan
+* Tentukan jumlah pembelian
+* Lakukan pembayaran
+* Tunggu konfirmasi pengiriman
 
-  
-**Untuk pembelian Indukan Lele Burma atau bibit lele Burma klik**  
-[](http://www.blogger.com/blogger.g?blogID=6826122164768586270)[](http://www.blogger.com/blogger.g?blogID=6826122164768586270)[](http://www.blogger.com/blogger.g?blogID=6826122164768586270)  
-                                      **[HUBUNGI KAMI](http://www.aplesi.com/2014/11/hubungi-kami.html)**
+### Pertanyaan yang Sering Diajukan
+### Apa itu Lele Burma?
+Lele Burma adalah hasil penyilangan dari Clarias gariepinus dari Belanda dengan Clarias gariepinus dari Thailand.
+### Apa keunggulan Lele Burma?
+Lele Burma memiliki keunggulan seperti tahan cuaca ekstrim, adaptasi tinggi, dan daya stres rendah.
+### Bagaimana cara membeli Lele Burma?
+Pembelian Lele Burma dapat dilakukan dengan memilih jenis Lele Burma yang diinginkan, menentukan jumlah pembelian, melakukan pembayaran, dan menunggu konfirmasi pengiriman.

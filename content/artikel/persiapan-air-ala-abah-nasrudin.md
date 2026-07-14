@@ -1,25 +1,37 @@
 ---
-judul: "Persiapan air ala Abah Nasrudin"
+judul: "Cara Persiapan Air Kolam Ikan Ala Abah Nasrudin"
 slug: "persiapan-air-ala-abah-nasrudin"
-ringkasan: ""
+ringkasan: "Persiapan air kolam ikan dengan teknik Abah Nasrudin"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVV3NWAH_vFqbxJdlUt_8VTXEVvSED7cBxaZef8YVqqvx0lsQT6ZOoh8UjIiCQxzxwCEwvPl01uLgmhlQrO-KqVdUj3YM8xdeo5ZHzy4DnSG6E_4dxvmkMoN5r-4cYj2_hDp7Vd26YlxjA/s320/1.jpg"
 kategori: "manajemen air"
-tags: ["manajemen air"]
-penulis: "Admin"
+tags: ["persiapan air kolam ikan", "Abah Nasrudin", "pupuk kandang", "cairan herbal"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2012-03-30"
 status: "published"
-seoTitle: "Persiapan air ala Abah Nasrudin"
-seoDesc: ""
+seoTitle: "Cara Persiapan Air Kolam Ikan"
+seoDesc: "Persiapan air kolam ikan dengan teknik Abah Nasrudin untuk meningkatkan kesuburan air"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVV3NWAH_vFqbxJdlUt_8VTXEVvSED7cBxaZef8YVqqvx0lsQT6ZOoh8UjIiCQxzxwCEwvPl01uLgmhlQrO-KqVdUj3YM8xdeo5ZHzy4DnSG6E_4dxvmkMoN5r-4cYj2_hDp7Vd26YlxjA/s320/1.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVV3NWAH_vFqbxJdlUt_8VTXEVvSED7cBxaZef8YVqqvx0lsQT6ZOoh8UjIiCQxzxwCEwvPl01uLgmhlQrO-KqVdUj3YM8xdeo5ZHzy4DnSG6E_4dxvmkMoN5r-4cYj2_hDp7Vd26YlxjA/s1600/1.jpg)
 
-  
+## Persiapan Air Kolam Ikan
+Air untuk kolam ikan dapat berasal dari sumber manapun dengan syarat kadar besi rendah. Jika menggunakan air PAM, harus diendapkan terlebih dahulu selama 1-3 hari untuk menghilangkan kaporit.
 
-*   Air bisa memakai air dari sumber manasaja, dengan syarat kadar besi rendah. Kalau air PAM wajib diendapkan dulu 1-3 hari, supaya koporit menguap.
-*   Isi kolam hingga ketinggian 50cm
-*   Beri pupuk kandang yang sudah diletakkan di dalam karung dan diikat serta digantungkan hingga setengah karung terendam dalam air. Jumlahnya adalan 1-1,5 kg/m2 atau untuk 10m2 berkisar 10-15 kg
-*   Larutkan cairan herbal sebanyak 2 sendok makan dan dilarutkan dalam 2 liter air serta ditambahkan 4 sendok makan garam dapur kemudian ditebar rata. Larutan herbal hanya bisa didapatkan di Abah Nasruddin atau kadernya saja. (Ane tidak memakai pupuk kandang dan sebagai gantinya memakai pupuk organik cair supaya lebih simple)
-*   Air akan berangsur-angsur menjadi hijau terang (pengalaman hari ke 4-5 akan kelihatan hijau), setelahnya akan semakin pekat.
-*   Tunggu selama 8 hari dan kemudian angkat pupuk kandang dari kolam
-*   Keesokan harinya benih siap ditebar (hari ke-9). Tebar pada pagi hari <11pagi atau sore >3sore. Ane pernah tebar jam 1 siang banyak yang sekitar patilnya jadi berwarna merah. Tebar secara perlahan dengan metode aklimatisasi selama 5-10menit dan usahakan lele keluar sendiri dari wadah.
+## Langkah Persiapan
+* Isi kolam hingga ketinggian 50cm
+* Tambahkan pupuk kandang 1-1,5 kg/m2, atau sekitar 10-15 kg untuk 10m2, dengan cara menggantungnya setengah terendam air
+* Larutkan 2 sendok makan cairan herbal dalam 2 liter air, tambahkan 4 sendok makan garam dapur, lalu tebar secara merata
+
+## Proses Pengolahan Air
+Air akan berubah menjadi hijau terang dalam 4-5 hari, lalu semakin pekat. Tunggu selama 8 hari, kemudian angkat pupuk kandang dari kolam.
+
+## Penyebaran Benih
+Keesokan harinya, benih siap ditebar pada pagi hari sebelum jam 11 atau sore setelah jam 3. Tebar benih secara perlahan dengan metode aklimatisasi selama 5-10 menit.
+
+### Pertanyaan Apa itu Cairan Herbal?
+Cairan herbal adalah zat yang digunakan untuk memperkaya nutrisi dalam air kolam ikan.
+
+### Pertanyaan Berapa Lama Waktu yang Dibutuhkan?
+Waktu yang dibutuhkan untuk proses persiapan air kolam ikan adalah sekitar 9 hari.
+
+### Pertanyaan Apa yang Terjadi Jika Tidak Menggunakan Pupuk Kandang?
+Jika tidak menggunakan pupuk kandang, dapat digantikan dengan pupuk organik cair untuk mempermudah proses

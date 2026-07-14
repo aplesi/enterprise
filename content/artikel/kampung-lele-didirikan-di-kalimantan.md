@@ -1,32 +1,41 @@
 ---
-judul: "kampung lele didirikan di kalimantan"
+judul: "Kampung Lele di Kalimantan: Potensi Besar untuk Budi Daya Ikan"
 slug: "kampung-lele-didirikan-di-kalimantan"
-ringkasan: ""
+ringkasan: "Kalimantan memiliki potensi besar untuk budi daya ikan lele, dengan rencana pembangunan kampung lele di Desa Rawa Mulya"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgI861krS_6Y9lsBagb83SGhUc10yTqvheRaIG52H2Z0IwiW-XkTb8YLzZ9mtTAuU2i0zbweYxO-zcTrIV0W1hFH4GijWUiXGEDB2cxM4UAdn221fLZg6tpQ7O_ZednT3o0Uv_q09mceE5q/s1600/1.jpg"
 kategori: "news"
-tags: ["news"]
-penulis: "Admin"
+tags: ["kampung lele", "budi daya ikan", "potensi perikanan", "Kalimantan"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2014-09-16"
 status: "published"
-seoTitle: "kampung lele didirikan di kalimantan"
-seoDesc: ""
+seoTitle: "Kampung Lele di Kalimantan"
+seoDesc: "Potensi besar untuk budi daya ikan lele di Kalimantan dengan rencana pembangunan kampung lele di Desa Rawa Mulya"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgI861krS_6Y9lsBagb83SGhUc10yTqvheRaIG52H2Z0IwiW-XkTb8YLzZ9mtTAuU2i0zbweYxO-zcTrIV0W1hFH4GijWUiXGEDB2cxM4UAdn221fLZg6tpQ7O_ZednT3o0Uv_q09mceE5q/s1600/1.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgI861krS_6Y9lsBagb83SGhUc10yTqvheRaIG52H2Z0IwiW-XkTb8YLzZ9mtTAuU2i0zbweYxO-zcTrIV0W1hFH4GijWUiXGEDB2cxM4UAdn221fLZg6tpQ7O_ZednT3o0Uv_q09mceE5q/s1600/1.jpg)
 
-![](product_image.jpg)
+## Potensi Perikanan di Kalimantan
+Potensi perikanan di Kalimantan sangat luar biasa, terutama di Desa Rawa Mulya, Kecamatan Babulu.
 
-  
-  
-  
-  
-  
-Potensi perikanan di PPU sungguh luar biasa. Kemarin (1/9), Bupati PPU Yusran Aspar bersama Wakil Bupati Mustaqim MZ mengunjungi budi daya kolam ikan lele di Desa Rawa Mulya, RT 02, Kecamatan Babulu.  
-Mereka datang di kediaman Marsim, warga setempat. Di situ, Yusran mengatakan warga Desa Rawa Mulya harus memaksimalkan potensi di sekitar. Ini merupakan aktualisasi kerja keras, cerdas, dan ikhlas.  
-“Warga dapat memaksimalkan potensi di daerah ini,” kata Yusran. Dia juga mengusulkan agar Desa Rawa Mulya menjadi kampung ikan lele. Menurutnya, daerah ini memiliki  potensi budi daya.  
-  
-“Jika masyarakat berkenan dan menginginkan, pemerintah dapat menurunkan alat untuk membuat kolam di sekitar rumah. Desa ini bisa disebut kampung  lele. Bisa dikoordinasikan dengan kecamatan dan instansi terkait,” saran Yusran saat berbicara di depan warga.  
-  
-Gayung bersambut, usulan direspons masyarakat. Beja, tenaga teknis lapangan Dinas Kelautan dan Perikanan PPU mengatakan, masyarakat meminta agar rencana itu terealisasi.  
-  
-“Sangat disambut baik. Mereka meminta cepat,” ucap pria yang punya hobi memelihara ikan itu. Beja menambahkan, pakan untuk lele dapat dibuat sendiri dengan sistem fermentasi. “Selain menciptakan makanan ikan alami, dapat menetralisir air kolam,” terangnya.
+## Rencana Pembangunan Kampung Lele
+Bupati PPU Yusran Aspar dan Wakil Bupati Mustaqim MZ mengunjungi budi daya kolam ikan lele di Desa Rawa Mulya dan mengusulkan agar desa tersebut menjadi kampung ikan lele.
+
+### Manfaat Kampung Lele
+Kampung lele dapat meningkatkan potensi budi daya ikan di daerah tersebut, serta memberikan kesempatan bagi masyarakat untuk memaksimalkan potensi di sekitar mereka.
+
+## Langkah-langkah Pembangunan
+Berikut adalah langkah-langkah yang dapat dilakukan untuk membangun kampung lele:
+* Membuat kolam di sekitar rumah warga
+* Membuat pakan ikan sendiri dengan sistem fermentasi
+* Mengkoordinasikan dengan kecamatan dan instansi terkait
+
+### Respons Masyarakat
+Masyarakat Desa Rawa Mulya sangat menyambut baik rencana pembangunan kampung lele dan meminta agar rencana tersebut segera terealisasi.
+
+### Pertanyaan yang Sering Diajukan
+### Apa itu Kampung Lele?
+Kampung lele adalah sebuah konsep pembangunan yang bertujuan untuk meningkatkan potensi budi daya ikan di sebuah daerah.
+### Bagaimana Cara Membuat Pakan Ikan Sendiri?
+Pakan ikan dapat dibuat sendiri dengan sistem fermentasi, yang tidak hanya dapat menciptakan makanan ikan alami tetapi juga dapat menetralisir air kolam.
+### Apa Manfaat dari Pembangunan Kampung Lele?
+Pembangunan kampung lele dapat meningkatkan potensi budi daya ikan di daerah tersebut, serta memberikan kesempatan bagi masyarakat untuk memaksimalkan potensi di sekitar mereka.
+

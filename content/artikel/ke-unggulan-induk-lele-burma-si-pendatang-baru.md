@@ -1,36 +1,31 @@
 ---
-judul: "ke unggulan induk lele burma si pendatang baru"
+judul: "Keunggulan Induk Lele Burma: Pendatang Baru di Dunia Budidaya Ikan"
 slug: "ke-unggulan-induk-lele-burma-si-pendatang-baru"
-ringkasan: ""
+ringkasan: "Induk lele burma menawarkan keunggulan daya tahan tubuh dan produksi telur yang lebih tinggi"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEvez1IbKQ8-V9JkvFC2qS5K8emKMnTEyYHaC4vCBHN1NxwBRaCbPBtpqwzWOl4HjN4Qiru-h61AH0TUypy7fM12V8EJSSNfhfL-jvMsF_1GqbijfcHoYrdzodKF50LbTgwjcyXE9r72f8/s1600/lele+burma.jpg"
 kategori: "benih lele"
-tags: ["benih lele", "lele burma", "bibit lele", "peluang usaha"]
-penulis: "Admin"
+tags: ["induk lele burma", "benih lele burma", "keaslian induk lele burma"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2015-04-04"
 status: "published"
-seoTitle: "ke unggulan induk lele burma si pendatang baru"
-seoDesc: ""
+seoTitle: "Induk Lele Burma: Keunggulan dan Cara Menghasilkan Benih"
+seoDesc: "Induk lele burma menawarkan keunggulan daya tahan tubuh dan produksi telur yang lebih tinggi"
 ---
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEvez1IbKQ8-V9JkvFC2qS5K8emKMnTEyYHaC4vCBHN1NxwBRaCbPBtpqwzWOl4HjN4Qiru-h61AH0TUypy7fM12V8EJSSNfhfL-jvMsF_1GqbijfcHoYrdzodKF50LbTgwjcyXE9r72f8/s1600/lele+burma.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEvez1IbKQ8-V9JkvFC2qS5K8emKMnTEyYHaC4vCBHN1NxwBRaCbPBtpqwzWOl4HjN4Qiru-h61AH0TUypy7fM12V8EJSSNfhfL-jvMsF_1GqbijfcHoYrdzodKF50LbTgwjcyXE9r72f8/s1600/lele+burma.jpg)
 
-[  
-](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOk9J5KlzHk7TdulCAsVnPgc_5ou4dLSIWqQwZmwObYfSTrF3hY7jYMJhgSn43hLY2qGJAJ1cAZg5HWJlx08bvB5AnoTbfjpOUCGPGzyow1d1YuoZIDTLp9X95WJBka25NGcXFdp0WUcBP/s1600/1395153_487234468059295_356465863_n.jpg)
+## Keunggulan Induk Lele Burma
+Induk lele burma menawarkan keunggulan daya tahan tubuh yang kuat dan produksi telur yang lebih banyak dibandingkan dengan lele lainnya.
 
-[  
-](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOk9J5KlzHk7TdulCAsVnPgc_5ou4dLSIWqQwZmwObYfSTrF3hY7jYMJhgSn43hLY2qGJAJ1cAZg5HWJlx08bvB5AnoTbfjpOUCGPGzyow1d1YuoZIDTLp9X95WJBka25NGcXFdp0WUcBP/s1600/1395153_487234468059295_356465863_n.jpg)
+## Benih Lele Burma
+Untuk 1 pasang induk lele burma dengan ukuran 8onc-1kg, dapat menghasilkan sekitar 50.000 larva. Pada pijahan kedua, lele burma dapat menghasilkan sekitar 100.000 larva.
 
-**Induk lele burma**  
-lele dengan strain baru ini menawarkan keunggulan yang lebih di bandingkan pesainga lele masamo  
-selain daya tahan tubuh yang stronge induk lele burma juga menghasilkan teluryang lebih banyak , parapebenih lele sangat senang memijahkan indukan lele tersebut  
-  
-**Benih lele burma**  
-untuk 1 pasang induk lele burma yang berukurang size 8onc-1kg  lele burma ini bisa menghasilkan kurang lebih 50.000 larva hasil ini masih terlalu sedikit untuk lele burma yang dimana kantong telu lebih besar dan unggul dari lele lain nya, untuk pijahan kedua biasanya lele burma menghasilkan 100.000 larva  
-  
+## Keaslian Induk Lele Burma
+Surat Keterangan Asal Induk (SKAI) sangat penting untuk mengetahui umur indukan dan mempermudah menentukan kapan bisa di afkir/terdata. Dengan mengetahui asal usul indukan, pembenih dapat terhindar dari inbreding/perkawinan sedarah.
 
-**  
-keaslian induk lele burma**  
-Surat Keterangan Asal Induk  SKAI itu sangat penting karena kita bisa mengetahui umur indukan tersebut sehingga mempermudah menentukan kapan bisa di afkir /terdata dan sebagaimana kita ketahui sekrang banyak jenis strain yang bermunculan tapi tidak mempunyai asal yang jelas, mana tau indukan berasal dari kolam pancingan dll ini perlu di waspadai , dengan mengetahui asal usul indukan pembenih telah terhindar dari inbreding /perkawinan sedarah  
-  
-  
-![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOk9J5KlzHk7TdulCAsVnPgc_5ou4dLSIWqQwZmwObYfSTrF3hY7jYMJhgSn43hLY2qGJAJ1cAZg5HWJlx08bvB5AnoTbfjpOUCGPGzyow1d1YuoZIDTLp9X95WJBka25NGcXFdp0WUcBP/s1600/1395153_487234468059295_356465863_n.jpg)
+### Pertanyaan?
+### Apa Keunggulan Induk Lele Burma?
+Induk lele burma menawarkan keunggulan daya tahan tubuh yang kuat dan produksi telur yang lebih banyak.
+### Bagaimana Cara Menghasilkan Benih Lele Burma?
+Dengan menggunakan 1 pasang induk lele burma dengan ukuran 8onc-1kg, dapat menghasilkan sekitar 50.000 larva.
+### Mengapa Keaslian Induk Lele Burma Penting?
+Keaslian induk lele burma penting untuk mengetahui umur indukan dan mempermudah menentukan kapan bisa di afkir/terdata, serta untuk terhindar dari inbreding/perkawinan sedarah.

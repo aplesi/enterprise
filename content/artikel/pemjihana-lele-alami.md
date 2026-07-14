@@ -1,50 +1,39 @@
 ---
-judul: "Pemjihana lele  alami"
+judul: "Pemijahan Ikan Lele Alami: Teknik dan Langkah-Langkah"
 slug: "pemjihana-lele-alami"
-ringkasan: "Pemijahan ikan lele ada beberapa syarat yang harus dilakukan 1 Pemilihian induk Jantan: pilih yg matang umur minim 1 th, berat awal ..."
+ringkasan: "Pemijahan ikan lele memerlukan syarat dan langkah yang tepat"
 gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi3d3nQRCBeIP7WrG4CQkqs_hYAuDsFDtTQjLw45j8IFNmOCSZUm08t1-JsC6rIUHQ3fF39afYx844Agj4w616oaNNdNyLWdiSeVqSk0SKyqrZunjsIRE33IjssD6Fw7RK4KmC2I1SSUEDy/s320/kolam-pemijahan.jpg"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["pemijahan ikan lele", "ikan lele", "pemijahan alami"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2012-06-30"
 status: "published"
-seoTitle: "Pemjihana lele  alami"
-seoDesc: "Pemijahan ikan lele ada beberapa syarat yang harus dilakukan 1 Pemilihian induk Jantan: pilih yg matang umur minim 1 th, berat awal ..."
+seoTitle: "Pemijahan Ikan Lele Alami"
+seoDesc: "Pemijahan ikan lele memerlukan syarat dan langkah yang tepat"
 ---
 
-Pemijahan ikan lele ada beberapa syarat yang harus dilakukan  
-**1 Pemilihian induk**  
-  
 
-*   Jantan:
-    *   pilih yg matang umur (minim 1 th, berat awal 1kg) dan matang gonad (sudah beristirahat minim 1,5 bulan dr pemijahan sebelumnya)
-    *   tidak cacat (wajib).
-    *   kelamin besar memanjang (melebihi sirip anal) dan berwarna merah keunguan.
-    *   agresif (sirip punggung berdiri bila kita sentuh menandakan birahi yg tinggi)
-*   Betina:
-    *   matang umur (sama dg jantan)
-    *   pilih yang matang telur (lakukan uji kanulasi dg kateter FR 12mm). Karena matang gonad belum tentu matang telur, sedangkan matang telur sdh pasti matang gonad. Dan hal ini tidak selalu ditandai dengan ciri perut yg besar (untuk ikan jenis perut yang panjang).
+## Pemilihan Induk
+Pemilihan induk ikan lele yang tepat sangat penting untuk pemijahan yang sukses. 
+*   Jantan: pilih yang matang umur (minim 1 tahun, berat awal 1kg) dan matang gonad (sudah beristirahat minim 1,5 bulan dari pemijahan sebelumnya), tidak cacat, kelamin besar memanjang (melebihi sirip anal) dan berwarna merah keunguan, serta agresif.
+*   Betina: pilih yang matang umur (sama dengan jantan), matang telur (lakukan uji kanulasi dengan kateter FR 12mm), tidak cacat (tidak wajib), dan kelamin berwarna keunguan.
 
-telur ada 3 warna yaitu:  
-\-hijau (masih terlalu mentah)  
-\- kuning (matang tapi belum maksimal)  
-\- coklat (titik puncak kematangan telur dan gonad)  
+## Kolam Pemijahan
+Kolam pemijahan dapat berupa kolam terpal atau kolam semen dengan ukuran 2x4 meter. Sebelum melakukan pemijahan, kolam harus disterilkan terlebih dahulu dengan cara dikeringkan selama 2 hari untuk membunuh bakteri, atau dapat menggunakan blue copper. 
+*   Masukkan kakaban atau waring yang telah disediakan ke dalam kolam sebagai media untuk merangsang ikan supaya bertelur.
+*   Isi kolam dengan air setinggi 20cm, lalu masukkan indukan pada sore hari. Ikan akan melakukan pembuahan pada malam hari.
 
-*   jangan melakukan pengurutan perut induk karena bisa menyebabkan stress bila tidak berpengalaman melakukannya
-*   tidak cacat (tidak wajib) dan kelamin berwarna keunguan.
-*   matang gonad biasanya diperoleh maksimal ketika induk sudah istirahat selama 3 bulan (dari pemijahan sebelumnya).  
-    
+## Pengangkatan Kakaban
+Pengangkatan kakaban dilakukan pagi setelah ikan mengeluarkan telurnya untuk menghindari telur yang menempel pada kakaban. 
+*   Pastikan untuk melakukan pengangkatan dengan hati-hati untuk menghindari kerusakan telur.
 
-teknik kanulasi adalah teknik utk mengnali warna telur dg cara mgnkn slang kateter (beli di apotik)..caranya masukkan slang kateter ke dlm genital induk betina (pelan2 saja,masukkan kira2 sdalam 3cm,lalu sedot plan2 dg mulut)..telur yg tersedot oleh kita nanti kita trh dicawan putih shg kita bs knali warna telurnya..kdg yg terambil hnya lemak sja (inilah slh 1 alasan mngapa perut induk besar dn empuk tp tdk kluar telurnya)..hal ini mnandakan pakan yg kita brikan trlalu bnyak lemaknya..  
-  
-**2\. kolam pemijahan**  
-kolam pemijahan 2x4 (tidak wajib ) bisa di gunakan kolam terpal mau pun kolam semen  
-sebelum melakukan pemijahan kolam harus di steril kan terlebih dahulu di keringkan 2 hari  
-ini bertujuan untuk membunuh bakteri atau bisa menggunakan blue copper  
-masukan kakaban /waring yang telah di sediakan ke dalam kolam  
-kakaban atau waring  itu hanya sebagai media untuk merangsang ikan supaya bertelur ( media tempat bertelur )  
-  
+### Pertanyaan yang Sering Diajukan
+### Apa itu Uji Kanulasi?
+Uji kanulasi adalah teknik untuk mengenali warna telur dengan cara memasukkan slang kateter ke dalam genital induk betina.
 
-[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi3d3nQRCBeIP7WrG4CQkqs_hYAuDsFDtTQjLw45j8IFNmOCSZUm08t1-JsC6rIUHQ3fF39afYx844Agj4w616oaNNdNyLWdiSeVqSk0SKyqrZunjsIRE33IjssD6Fw7RK4KmC2I1SSUEDy/s320/kolam-pemijahan.jpg)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi3d3nQRCBeIP7WrG4CQkqs_hYAuDsFDtTQjLw45j8IFNmOCSZUm08t1-JsC6rIUHQ3fF39afYx844Agj4w616oaNNdNyLWdiSeVqSk0SKyqrZunjsIRE33IjssD6Fw7RK4KmC2I1SSUEDy/s1600/kolam-pemijahan.jpg)
+### Bagaimana Cara Menghindari Telur yang Menempel pada Kakaban?
+Pengangkatan kakaban dilakukan pagi setelah ikan mengeluarkan telurnya untuk menghindari telur yang menempel pada kakaban.
 
-kakaban di kasih pemberat batu air  atau batu yang tidak kasara/ runcing karena ddapat melukai induk isi kolam yang telah di steril kan dengan air  20cm lalu masukan indukan pada sore hari ikan akan melakukan pembuhan pada malam hari 3 pengangkatan kakaban pengankatan kakaban di lakukan pagi setelah inkan mengluarkan telurnya , guna pengangkatan kakaban untuk menhindari pembusukan telur yang terkena air sperma jantan yang  berlebihan kakaban yang telah di angkat di pindahkan ke kolam penetasan penetasana telur  biasanya menjadi larva biasanya 24 jam atau 60 jam tergantung suhu selamat mencoba
+### Berapa Lama Waktu yang Dibutuhkan untuk Pemijahan Ikan Lele?
+Pemijahan ikan lele biasanya memerlukan waktu sekitar 1-2 hari, tergantung pada kondisi dan kualitas induk yang dipilih.
+

@@ -1,28 +1,37 @@
 ---
-judul: "persiapan pasab bebas asean sertifikasi SDM mulai disusun KKP"
+judul: "Persiapan Pasca BEAS Sertifikasi SDM: KKP Fokus pada Pengembangan Sumber Daya Manusia"
 slug: "persiapan-pasab-bebas-asean-sertifikasi-sdm-mulai-disusun-kkp"
-ringkasan: "persiapan pasab bebas asean Indonesia sebagai negara kepulauan terbesar di duniadan negara-negara maritim memiliki potensi sumber daya alam di Kelau..."
+ringkasan: "KKP mengembangkan SDM melalui pendidikan, pelatihan, dan konseling untuk mendukung sektor kelautan dan perikanan"
 gambar: "/images/og-default.png"
 kategori: "Blog"
-tags: []
-penulis: "Admin"
+tags: ["BEAS Sertifikasi SDM", "Pengembangan Sumber Daya Manusia", "Kelautan dan Perikanan"]
+penulis: "Tim Redaksi APLESI"
 tanggal: "2015-02-28"
 status: "published"
-seoTitle: "persiapan pasab bebas asean sertifikasi SDM mulai disusun KKP"
-seoDesc: "persiapan pasab bebas asean Indonesia sebagai negara kepulauan terbesar di duniadan negara-negara maritim memiliki potensi sumber daya alam di Kelau..."
+seoTitle: "Persiapan Pasca BEAS Sertifikasi SDM: KKP Fokus pada Pengembangan Sumber Daya Manusia"
+seoDesc: "KKP mengembangkan SDM melalui pendidikan, pelatihan, dan konseling untuk mendukung sektor kelautan dan perikanan"
 ---
 
-**persiapan pasab bebas asean**  
-Indonesia sebagai negara kepulauan terbesar di duniadan negara-negara maritim memiliki potensi sumber daya alam di Kelautan dan Perikanan sektor sangatbesar. Karena itu persediaan sumberdaya manusiayang kompeten sangat penting dan perlu untukberhasil sukses dalam pengembangan sektor Kelautandan perikanan. Salah satu kekhawatiran adalah HRkepelautan perikanan.
 
-  
+## Persiapan Pasca BEAS Sertifikasi SDM
+Indonesia sebagai negara kepulauan terbesar di dunia memiliki potensi sumber daya alam kelautan dan perikanan yang sangat besar, sehingga persediaan sumber daya manusia yang kompeten sangat penting untuk sukses dalam pengembangan sektor kelautan dan perikanan.
 
-Untuk itu, Kementerian Kelautan dan Perikanan (DKP),melalui badan pengembangan sumber daya manusiaKelautan dan Perikanan (BPSDM KP), mengadakanprogram SDM pengembangan dari Kelautan danPerikanan, termasuk HR kepelautan perikanan."Pengembangan sumber daya manusia dilakukanmelalui pendidikan, pelatihan, dan konseling.Kapasitas dianggap sangat penting untuk mengelolasumberdaya Kelautan dan Perikanan pada dasarnyamembangun sumber daya manusia, khususnya diASEAN ekonomi masyarakat pada tahun 2015,"kata Kepala KP Suseno BPSDM Sukoyono baru saja diJakarta, dinyatakan dalam sebuah pernyataan resmi,minggu.
+## Pengembangan Sumber Daya Manusia
+Kementerian Kelautan dan Perikanan (KKP) melalui Badan Pengembangan Sumber Daya Manusia Kelautan dan Perikanan (BPSDM KP) mengadakan program pengembangan SDM kelautan dan perikanan, termasuk HR kepelautan perikanan. Pengembangan sumber daya manusia dilakukan melalui pendidikan, pelatihan, dan konseling.
 
-  
+### Pendidikan dan Pelatihan
+BPSDM KP memiliki unit pendidikan yang terdiri dari:
+* Kampus Perguruan Tinggi Perikanan (STP) di Jakarta, Bogor, Serang, dan Falkirk
+* Tiga Politeknik Kelautan dan Perikanan di Sidoarjo, Bitung, dan setelah
+* Sembilan sekolah menengah pemerintah Perikanan di Aceh, Pariaman, Kota Pengacara, Tegal, Pontianak, Tulang, Ambon, Kupang, dan Sorong
 
-Dalam pendidikan, BPSDM KP memiliki unitpendidikan, yang terdiri dari kampus perguruan tinggiPerikanan (STP) di Jakarta, Bogor, Serang dan Falkirk;tiga Politeknik Kelautan dan Perikanan di Sidoarjo,Bitung dan setelah; dan sembilan sekolah menengahpemerintah Perikanan di Aceh, Pariaman, kotapengacara, Tegal, Pontianak, tulang, Ambon, Kupang,dan Sorong.
+### Pendekatan Pendidikan
+Pendidikan kejuruan BPSDM KP menggunakan pendekatan pabrik, dengan 60% praktek dan 40% teori untuk pendidikan tinggi, dan 70% praktis dan 30% teori untuk tingkat pendidikan menengah.
 
-  
-
-Dalam melaksanakan kegiatan pendidikan, sistempendidikan kejuruan BPSDM KP dengan mengajarpendekatan pabrik. Pendidikan kejuruan ini ditandaidengan bagian 60% praktek dan 40% teori pendidikantinggi dan 70% praktis dan teori 30% ke tingkatpendidikan menengah. Sementara pendekatanpengajaran pabrik adalah implementasi pembelajaranyang sesuai dengan proses produksi aktual dan sesuai dengan tuntutan bisnis dan industri. Contoh adalahperahu kuning 03, penelitian pelatihan kapal dan STPyang adalah yang paling maju di kelasnya di AsiaTenggara
+### Pertanyaan yang Sering Diajukan
+### Apa itu BEAS Sertifikasi SDM?
+BEAS Sertifikasi SDM adalah program sertifikasi yang dikeluarkan oleh KKP untuk mengakui kompetensi sumber daya manusia di sektor kelautan dan perikanan.
+### Bagaimana cara mengikuti program pengembangan SDM kelautan dan perikanan?
+Cara mengikuti program pengembangan SDM kelautan dan perikanan adalah dengan mendaftar ke unit pendidikan BPSDM KP.
+### Apa manfaat dari program pengembangan SDM kelautan dan perikanan?
+Manfaat dari program pengembangan SDM kelautan dan perikanan adalah untuk meningkatkan kompetensi sumber daya manusia di sektor kelautan dan perikanan, sehingga dapat mendukung pengembangan sektor tersebut.
