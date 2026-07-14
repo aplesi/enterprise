@@ -26,12 +26,12 @@ export function Footer() {
               </div>
               <div>
                 <div className="text-xl font-black text-primary-foreground">APLESI</div>
-                <div className="text-[10px] font-medium uppercase tracking-wider text-primary-foreground/60">
+                <div className="text-[10px] font-medium uppercase tracking-wider text-white/60">
                   Asosiasi Pembudidaya Ikan Indonesia
                 </div>
               </div>
             </div>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-primary-foreground/70">
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
               Asosiasi resmi yang mewadahi pembudidaya ikan di seluruh Indonesia untuk tumbuh bersama melalui teknologi, edukasi, dan kolaborasi.
             </p>
             <div className="mt-6 flex gap-3">
@@ -55,7 +55,7 @@ export function Footer() {
           {/* Quick Links */}
           <div className="lg:col-span-2">
             <h4 className="text-sm font-bold uppercase tracking-wider text-aqua-glow">Tautan Cepat</h4>
-            <ul className="mt-5 space-y-3 text-sm text-primary-foreground/70">
+            <ul className="mt-5 space-y-3 text-sm text-white/70">
               {[
                 { label: 'Tentang Kami', href: '/' },
                 { label: 'Artikel', href: '/artikel' },
@@ -75,7 +75,7 @@ export function Footer() {
           {/* Contact Info */}
           <div className="lg:col-span-3">
             <h4 className="text-sm font-bold uppercase tracking-wider text-aqua-glow">Hubungi Sekretariat</h4>
-            <ul className="mt-5 space-y-3 text-sm text-primary-foreground/70">
+            <ul className="mt-5 space-y-3 text-sm text-white/70">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-aqua" />
                 Gedung Mina Bahari III, Jl. Medan Merdeka Timur, Jakarta Pusat
@@ -94,7 +94,7 @@ export function Footer() {
           {/* Newsletter */}
           <div className="lg:col-span-3">
             <h4 className="text-sm font-bold uppercase tracking-wider text-aqua-glow">Dapatkan Buletin Perikanan</h4>
-            <p className="mt-5 text-sm text-primary-foreground/70">Update teknologi, harga pasar, dan program eksklusif anggota.</p>
+            <p className="mt-5 text-sm text-white/70">Update teknologi, harga pasar, dan program eksklusif anggota.</p>
             <form
               onSubmit={handleNewsletterSubmit}
               className="mt-4 flex gap-2 rounded-xl border border-white/10 bg-white/5 p-1.5"
@@ -104,7 +104,7 @@ export function Footer() {
                 name="email"
                 placeholder="Email Anda"
                 required
-                className="border-0 bg-transparent text-primary-foreground placeholder:text-primary-foreground/50 focus-visible:ring-0"
+                className="border-0 bg-transparent text-primary-foreground placeholder:text-white/50 focus-visible:ring-0"
               />
               <Button type="submit" className="gradient-aqua text-primary-foreground shrink-0">
                 <Send className="h-4 w-4" />
@@ -114,7 +114,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-primary-foreground/60 sm:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
           <div>© 2024 Asosiasi Pembudidaya Ikan Indonesia (APLESI). All rights reserved.</div>
           <div className="flex gap-6">
             <a href="#" className="hover:text-aqua-glow">
