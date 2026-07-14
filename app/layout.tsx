@@ -1,6 +1,7 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import { AdsenseAutoAds } from '@/components/ads/AdsenseAutoAds'
 
@@ -33,6 +34,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6392184859535334"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className={inter.className}>
         <AdsenseAutoAds />
         {children}
