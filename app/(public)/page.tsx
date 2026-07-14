@@ -16,8 +16,11 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getArtikelTerbaru } from '@/lib/db/artikel'
-import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
+import { formatTanggal } from '@/lib/utils'
 import { ArticleSearch } from '@/components/blog/ArticleSearch'
+
+export const revalidate = 300 // cache 5 menit
+
 
 function Hero() {
   return (
@@ -75,6 +78,7 @@ function ArticlesSection({ articles }: { articles: any[] }) {
           </div>
           <Link
             href="/artikel"
+            prefetch={false}
             className="group inline-flex items-center gap-1 text-sm font-semibold text-accent transition-colors hover:text-primary"
           >
             Lihat Semua <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -83,11 +87,11 @@ function ArticlesSection({ articles }: { articles: any[] }) {
 
         <div className="mt-12 grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
           {articles.slice(0, 6).map((artikel) => {
-            const readTime = estimasiWacaBaca(artikel.konten)
             return (
               <Link
                 key={artikel.slug}
                 href={`/artikel/${artikel.slug}`}
+                prefetch={false}
                 className="group overflow-hidden rounded-2xl bg-card shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-secondary">
@@ -114,7 +118,7 @@ function ArticlesSection({ articles }: { articles: any[] }) {
                     <span>·</span>
                     <span className="flex items-center gap-1">
                       <Clock className="h-3.5 w-3.5" />
-                      {readTime} mnt
+                      {artikel.waktuBaca} mnt
                     </span>
                   </div>
                   <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug text-primary transition-colors group-hover:text-accent">

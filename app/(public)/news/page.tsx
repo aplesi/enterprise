@@ -4,6 +4,7 @@ import { getBeritaPerikanan } from '@/lib/news/scraper'
 import { waktuRelatif, formatTanggal } from '@/lib/utils'
 import { ItemListJsonLd } from '@/components/seo/JsonLd'
 
+export const revalidate = 300 // cache 5 menit
 
 export const metadata: Metadata = {
   title: 'Berita Perikanan Terkini',

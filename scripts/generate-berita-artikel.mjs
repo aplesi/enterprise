@@ -18,6 +18,7 @@
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 import Groq from 'groq-sdk'
+import { marked } from 'marked'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -26,7 +27,7 @@ const D1_URL = process.env.CF_D1_DATABASE_ID
   ? `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/d1/database/${process.env.CF_D1_DATABASE_ID}/query`
   : null
 
-async function d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita) {
+async function d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita, kontenHtml) {
   if (!D1_URL) return
   const res = await fetch(D1_URL, {
     method: 'POST',
@@ -35,13 +36,14 @@ async function d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status, sumber_berita_nama, sumber_berita_url, tanggal_berita)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, konten_html, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status, sumber_berita_nama, sumber_berita_url, tanggal_berita)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       params: [
         slug,
         artikel.judul,
         artikel.ringkasan || '',
         artikel.konten,
+        kontenHtml || null,
         gambarPath,
         'Berita Terkini',
         JSON.stringify(artikel.tags || []),
@@ -445,9 +447,10 @@ ${artikel.konten}`
 
       console.log(`   ✅ Disimpan: ${slug}.md`)
 
-      // Simpan juga ke D1
+      // Pre-render markdown → HTML dan simpan ke D1
       try {
-        await d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita)
+        const kontenHtml = await marked(artikel.konten)
+        await d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita, kontenHtml)
         console.log(`   ✅ Disimpan ke D1: ${slug}`)
       } catch (err) {
         console.warn(`   ⚠️ Gagal simpan ke D1 (artikel tetap ada di .md):`, err.message)

@@ -2,7 +2,7 @@
 // Auto-generate sitemap.xml — wajib untuk Google & AI crawlers
 
 import type { MetadataRoute } from 'next'
-import { getAllArtikel } from '@/lib/db/artikel'
+import { getSitemapData, getAllKategori } from '@/lib/db/artikel'
 import { KATEGORI_LIST } from '@/config/kategori'
 
 const SITE_URL = 'https://www.aplesi.my.id'
@@ -10,7 +10,7 @@ const SITE_URL = 'https://www.aplesi.my.id'
 const KATEGORI_SLUGS = KATEGORI_LIST.map((k) => k.slug)
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const artikelList = await getAllArtikel()
+  const artikelList = await getSitemapData()
 
   // Halaman statis
   const halamanStatis: MetadataRoute.Sitemap = [
@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Halaman artikel
   const halamanArtikel: MetadataRoute.Sitemap = artikelList.map((artikel) => ({
     url: `${SITE_URL}/artikel/${artikel.slug}`,
-    lastModified: new Date(artikel.diperbarui || artikel.tanggal),
+    lastModified: new Date(artikel.tanggal),
     changeFrequency: 'monthly',
     priority: 0.8,
   }))

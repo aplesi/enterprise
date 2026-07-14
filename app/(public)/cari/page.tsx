@@ -3,8 +3,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getAllArtikel } from '@/lib/db/artikel'
-import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
+import { searchArtikel } from '@/lib/db/artikel'
+import { formatTanggal } from '@/lib/utils'
 
 
 export const metadata: Metadata = {
@@ -21,16 +21,7 @@ export default async function CariPage({
   const { q } = await searchParams
   const query = q?.toLowerCase().trim() || ''
 
-  const semuaArtikel = await getAllArtikel()
-  const hasil = query
-    ? semuaArtikel.filter(
-        (a) =>
-          a.judul.toLowerCase().includes(query) ||
-          a.ringkasan.toLowerCase().includes(query) ||
-          a.tags.some((t) => t.toLowerCase().includes(query)) ||
-          a.kategori.toLowerCase().includes(query)
-      )
-    : []
+  const hasil = query ? await searchArtikel(query) : []
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -115,7 +106,7 @@ export default async function CariPage({
                     <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
                       <span>{formatTanggal(artikel.tanggal)}</span>
                       <span>·</span>
-                      <span>{estimasiWacaBaca(artikel.konten)} mnt baca</span>
+                      <span>{artikel.waktuBaca} mnt baca</span>
                     </div>
                   </div>
                 </Link>

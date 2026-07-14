@@ -57,6 +57,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              prefetch={false}
               className={`relative text-[15px] font-semibold transition-colors hover:text-primary after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full ${
                 isActive(link.href) ? 'text-primary' : 'text-foreground/70'
               }`}
@@ -91,6 +92,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
+                prefetch={false}
                 onClick={() => setOpen(false)}
                 className={`block rounded-lg px-3 py-2 text-sm font-medium hover:bg-primary/5 hover:text-primary ${
                   isActive(link.href) ? 'text-primary' : 'text-foreground/80'

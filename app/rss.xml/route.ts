@@ -2,7 +2,7 @@
 // RSS Feed — penting untuk subscriber & AI crawlers (Perplexity, dll)
 
 import { NextResponse } from 'next/server'
-import { getAllArtikel } from '@/lib/db/artikel'
+import { getRssData } from '@/lib/db/artikel'
 
 
 const SITE_URL = 'https://www.aplesi.my.id'
@@ -11,7 +11,7 @@ const SITE_DESC = 'Tips, tutorial, dan panduan lengkap budidaya ikan terlengkap 
 
 
 export async function GET() {
-  const artikelList = (await getAllArtikel()).slice(0, 50) // 50 artikel terbaru
+  const artikelList = await getRssData() // 50 artikel terbaru
 
   const rssItems = artikelList
     .map(

@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Home, Calendar, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
-import { getAllArtikel } from '@/lib/db/artikel'
-import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
+import { Home, Calendar, ChevronLeft, ChevronRight, Clock } from 'lucide-react'
+import { getArtikelListing, countArtikelFiltered } from '@/lib/db/artikel'
+import { formatTanggal } from '@/lib/utils'
+
+export const revalidate = 300 // cache 5 menit
+
 import { KATEGORI_LIST as KATEGORI_TAKSONOMI } from '@/config/kategori'
 
 
@@ -15,7 +18,7 @@ export const metadata: Metadata = {
 
 const KATEGORI_LIST = [
   { label: 'Semua', value: '' },
-  ...KATEGORI_TAKSONOMI.map((k) => ({ label: `${k.icon} ${k.nama}`, value: k.nama })),
+  ...KATEGORI_TAKSONOMI.map((k) => ({ label: k.nama, value: k.nama })),
 ]
 
 const PER_HALAMAN = 9
@@ -39,23 +42,20 @@ export default async function ArtikelPage(
   }
 ) {
   const searchParams = await props.searchParams;
-  const semuaArtikel = await getAllArtikel()
   const kategoriAktif = searchParams.kategori || ''
   const halaman = Math.max(1, parseInt(searchParams.halaman || '1'))
 
-  // Filter
-  const artikelFiltered = kategoriAktif
-    ? semuaArtikel.filter((a) =>
-        a.kategori.toLowerCase().includes(kategoriAktif.toLowerCase())
-      )
-    : semuaArtikel
+  // Query ringan: tanpa konten, filter + pagination di SQL
+  const [artikelHalaman, total] = await Promise.all([
+    getArtikelListing({
+      kategori: kategoriAktif || undefined,
+      limit: PER_HALAMAN,
+      offset: (halaman - 1) * PER_HALAMAN,
+    }),
+    countArtikelFiltered(kategoriAktif || undefined),
+  ])
 
-  const total = artikelFiltered.length
   const totalHalaman = Math.max(1, Math.ceil(total / PER_HALAMAN))
-  const artikelHalaman = artikelFiltered.slice(
-    (halaman - 1) * PER_HALAMAN,
-    halaman * PER_HALAMAN
-  )
 
   function buildUrl(params: { kategori?: string; halaman?: number }) {
     const p = new URLSearchParams()
@@ -98,6 +98,7 @@ export default async function ArtikelPage(
                 <Link
                   key={kat.value}
                   href={buildUrl({ kategori: kat.value, halaman: 1 })}
+                  prefetch={false}
                   className={`flex-shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-all ${
                     kategoriAktif === kat.value
                       ? 'gradient-aqua text-white shadow-glow'
@@ -131,12 +132,11 @@ export default async function ArtikelPage(
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
-                {artikelHalaman.map((artikel) => {
-                  const readTime = estimasiWacaBaca(artikel.konten)
-                  return (
+                {artikelHalaman.map((artikel) => (
                     <Link
                       key={artikel.slug}
                       href={`/artikel/${artikel.slug}`}
+                      prefetch={false}
                       className="group overflow-hidden rounded-2xl bg-card shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover"
                     >
                       {/* Gambar */}
@@ -168,7 +168,7 @@ export default async function ArtikelPage(
                           <span>·</span>
                           <span className="flex items-center gap-1">
                             <Clock className="h-3.5 w-3.5" />
-                            {readTime} menit
+                            {artikel.waktuBaca} mnt
                           </span>
                         </div>
                         <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug text-primary transition-colors group-hover:text-accent">
@@ -187,8 +187,7 @@ export default async function ArtikelPage(
                         </div>
                       </div>
                     </Link>
-                  )
-                })}
+                  ))}
               </div>
             )}
 
@@ -198,6 +197,7 @@ export default async function ArtikelPage(
                 {halaman > 1 && (
                   <Link
                     href={buildUrl({ halaman: halaman - 1 })}
+                    prefetch={false}
                     className="flex items-center gap-1 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-muted-foreground transition-all hover:border-aqua/50 hover:text-primary"
                   >
                     <ChevronLeft className="h-4 w-4" />
@@ -221,6 +221,7 @@ export default async function ArtikelPage(
                       <Link
                         key={p}
                         href={buildUrl({ halaman: p })}
+                        prefetch={false}
                         className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all ${
                           p === halaman
                             ? 'gradient-aqua text-white shadow-glow'
@@ -236,6 +237,7 @@ export default async function ArtikelPage(
                 {halaman < totalHalaman && (
                   <Link
                     href={buildUrl({ halaman: halaman + 1 })}
+                    prefetch={false}
                     className="flex items-center gap-1 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-muted-foreground transition-all hover:border-aqua/50 hover:text-primary"
                   >
                     Berikutnya

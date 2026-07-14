@@ -4,9 +4,12 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getArtikelByKategori, getAllArtikel } from '@/lib/db/artikel'
-import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
+import { getArtikelByKategori } from '@/lib/db/artikel'
+import { formatTanggal } from '@/lib/utils'
 import { KATEGORI_LIST } from '@/config/kategori'
+
+export const revalidate = 300 // cache 5 menit
+
 
 const KATEGORI_INFO: Record<string, { nama: string; deskripsi: string; icon: string }> = Object.fromEntries(
   KATEGORI_LIST.map((k) => [k.slug, { nama: k.nama, icon: k.icon, deskripsi: k.deskripsi }])
@@ -103,7 +106,7 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
                       <p className="text-gray-500 text-sm line-clamp-2 mb-3">{artikel.ringkasan}</p>
                       <div className="flex items-center justify-between text-xs text-gray-400">
                         <span>{formatTanggal(artikel.tanggal)}</span>
-                        <span>{estimasiWacaBaca(artikel.konten)} mnt baca</span>
+                        <span>{artikel.waktuBaca} mnt baca</span>
                       </div>
                     </div>
                   </Link>

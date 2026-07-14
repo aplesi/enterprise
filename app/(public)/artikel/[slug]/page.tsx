@@ -4,15 +4,15 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeSlug from 'rehype-slug'
-import { getArtikelBySlug, getAllSlugs, getAllArtikel } from '@/lib/db/artikel'
+import { getArtikelBySlug, getAllSlugs, getArtikelTerkait } from '@/lib/db/artikel'
 import { generateMetaArtikel, generateJsonLd } from '@/lib/seo'
-import { formatTanggal, estimasiWacaBaca } from '@/lib/utils'
+import { formatTanggal } from '@/lib/utils'
 import { BreadcrumbJsonLd, FaqJsonLd, HowToJsonLd } from '@/components/seo/JsonLd'
 import { extractFaq } from '@/lib/seo/faq'
 import { extractHowToSteps } from '@/lib/seo/howto'
+
+export const revalidate = 300 // cache 5 menit
+
 // Generate static params untuk semua artikel
 export async function generateStaticParams() {
   const slugs = await getAllSlugs()
@@ -41,10 +41,8 @@ export default async function ArtikelDetailPage({
   if (!artikel) notFound()
 
   // Ambil artikel terkait (kategori sama, bukan artikel ini)
-  const semuaArtikel = await getAllArtikel()
-  const artikelTerkait = semuaArtikel
-    .filter((a) => a.kategori === artikel.kategori && a.slug !== artikel.slug)
-    .slice(0, 3)
+  // Ambil artikel terkait (kategori sama, bukan artikel ini)
+  const artikelTerkait = await getArtikelTerkait(artikel.kategori, artikel.slug, 3)
 
   // Extract FAQ dari konten artikel (heading yang berbentuk pertanyaan)
   const faqItems = extractFaq(artikel.konten)
@@ -103,7 +101,7 @@ export default async function ArtikelDetailPage({
                   {artikel.kategori}
                 </Link>
                 <span className="text-gray-300">·</span>
-                <span className="text-sm text-gray-400">{estimasiWacaBaca(artikel.konten)} menit baca</span>
+                <span className="text-sm text-gray-400">{(artikel.waktuBaca ?? 0) > 0 ? artikel.waktuBaca : 1} menit baca</span>
               </div>
 
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">
@@ -167,15 +165,15 @@ export default async function ArtikelDetailPage({
               </div>
             )}
 
-            {/* Konten Markdown -- react-markdown, tanpa eval runtime (aman di
-                Cloudflare Workers, beda dengan next-mdx-remote yang pakai
-                new Function() internal dan gagal dengan error "Code
-                generation from strings disallowed") */}
-            <article className="prose max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]}>
-                {artikel.konten}
-              </ReactMarkdown>
-            </article>
+            {/* Konten Artikel -- pre-rendered HTML dari D1 database.
+                Markdown→HTML dikonversi sekali saat insert/update via marked(),
+                menghilangkan 100% CPU overhead react-markdown di render-time.
+                (Sebelumnya react-markdown + remark-gfm memicu Error 1102 karena
+                melebihi batas CPU 50ms Cloudflare Worker pada artikel panjang) */}
+            <article
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: artikel.kontenHtml || artikel.konten }}
+            />
 
             {/* Tags */}
             {artikel.tags.length > 0 && (

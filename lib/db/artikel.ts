@@ -14,6 +14,7 @@ function rowToArtikel(row: Record<string, unknown>): Artikel {
     judul: row.judul as string,
     ringkasan: (row.ringkasan as string) || '',
     konten: (row.konten as string) || '',
+    kontenHtml: (row.konten_html as string) || undefined,
     gambar: (row.gambar as string) || '/images/og-default.png',
     kategori: (row.kategori as string) || 'Budidaya',
     tags: safeParseJson<string[]>(row.tags as string, []),
@@ -28,6 +29,7 @@ function rowToArtikel(row: Record<string, unknown>): Artikel {
       ? { nama: row.sumber_berita_nama as string, url: (row.sumber_berita_url as string) || '' }
       : undefined,
     tanggalBerita: (row.tanggal_berita as string) || undefined,
+    waktuBaca: (row.waktu_baca as number) || 0,
   }
 }
 
@@ -49,9 +51,50 @@ export async function getAllArtikel(): Promise<Artikel[]> {
   return results.map(rowToArtikel)
 }
 
+// Kolom ringan untuk halaman listing (TANPA konten — hemat CPU Worker)
+const LISTING_COLUMNS = `slug, judul, ringkasan, gambar, kategori, tags, penulis, tanggal, waktu_baca, seo_title, seo_desc, status, sumber_berita_nama, sumber_berita_url, tanggal_berita`
+
+// Query ringan untuk halaman daftar artikel — tanpa konten, dengan pagination SQL
+export async function getArtikelListing(opts: {
+  kategori?: string
+  limit: number
+  offset: number
+}): Promise<Artikel[]> {
+  const params: (string | number)[] = []
+  let where = `status = 'published'`
+
+  if (opts.kategori) {
+    where += ` AND kategori = ?`
+    params.push(opts.kategori)
+  }
+
+  params.push(opts.limit, opts.offset)
+
+  const { results } = await query(
+    `SELECT ${LISTING_COLUMNS} FROM artikel WHERE ${where} ORDER BY tanggal DESC LIMIT ? OFFSET ?`,
+    params
+  )
+  return results.map(rowToArtikel)
+}
+
+// Hitung total artikel (dengan optional filter kategori) — untuk pagination
+export async function countArtikelFiltered(kategori?: string): Promise<number> {
+  if (kategori) {
+    const row = await queryFirst<{ total: number }>(
+      `SELECT COUNT(*) as total FROM artikel WHERE status = 'published' AND kategori = ?`,
+      [kategori]
+    )
+    return row?.total || 0
+  }
+  const row = await queryFirst<{ total: number }>(
+    `SELECT COUNT(*) as total FROM artikel WHERE status = 'published'`
+  )
+  return row?.total || 0
+}
+
 export async function getArtikelTerbaru(n = 6): Promise<Artikel[]> {
   const { results } = await query(
-    `SELECT * FROM artikel WHERE status = 'published' ORDER BY tanggal DESC LIMIT ?`,
+    `SELECT ${LISTING_COLUMNS} FROM artikel WHERE status = 'published' ORDER BY tanggal DESC LIMIT ?`,
     [n]
   )
   return results.map(rowToArtikel)
@@ -67,8 +110,38 @@ export async function getArtikelBySlug(slug: string): Promise<Artikel | undefine
 
 export async function getArtikelByKategori(kategori: string): Promise<Artikel[]> {
   const { results } = await query(
-    `SELECT * FROM artikel WHERE kategori = ? AND status = 'published' ORDER BY tanggal DESC`,
+    `SELECT ${LISTING_COLUMNS} FROM artikel WHERE kategori = ? AND status = 'published' ORDER BY tanggal DESC`,
     [kategori]
+  )
+  return results.map(rowToArtikel)
+}
+
+export async function getArtikelTerkait(kategori: string, excludeSlug: string, limit = 3): Promise<Artikel[]> {
+  const { results } = await query(
+    `SELECT ${LISTING_COLUMNS} FROM artikel WHERE kategori = ? AND slug != ? AND status = 'published' ORDER BY tanggal DESC LIMIT ?`,
+    [kategori, excludeSlug, limit]
+  )
+  return results.map(rowToArtikel)
+}
+
+export async function getArtikelByPenulis(penulis: string): Promise<Artikel[]> {
+  const { results } = await query(
+    `SELECT ${LISTING_COLUMNS} FROM artikel WHERE penulis = ? AND status = 'published' ORDER BY tanggal DESC`,
+    [penulis]
+  )
+  return results.map(rowToArtikel)
+}
+
+export async function getSitemapData(): Promise<Array<{ slug: string; tanggal: string }>> {
+  const { results } = await query<{ slug: string; tanggal: string }>(
+    `SELECT slug, tanggal FROM artikel WHERE status = 'published' ORDER BY tanggal DESC`
+  )
+  return results
+}
+
+export async function getRssData(): Promise<Artikel[]> {
+  const { results } = await query(
+    `SELECT ${LISTING_COLUMNS} FROM artikel WHERE status = 'published' ORDER BY tanggal DESC LIMIT 50`
   )
   return results.map(rowToArtikel)
 }
@@ -90,7 +163,7 @@ export async function getAllKategori(): Promise<string[]> {
 export async function searchArtikel(q: string): Promise<Artikel[]> {
   const like = `%${q}%`
   const { results } = await query(
-    `SELECT * FROM artikel WHERE status = 'published' AND (judul LIKE ? OR konten LIKE ? OR ringkasan LIKE ?) ORDER BY tanggal DESC LIMIT 20`,
+    `SELECT ${LISTING_COLUMNS} FROM artikel WHERE status = 'published' AND (judul LIKE ? OR ringkasan LIKE ? OR tags LIKE ?) ORDER BY tanggal DESC LIMIT 20`,
     [like, like, like]
   )
   return results.map(rowToArtikel)
@@ -117,6 +190,7 @@ export interface InsertArtikelData {
   judul: string
   ringkasan: string
   konten: string
+  kontenHtml?: string
   gambar?: string
   kategori?: string
   tags?: string[]
@@ -129,22 +203,27 @@ export interface InsertArtikelData {
   sumberBeritaNama?: string
   sumberBeritaUrl?: string
   tanggalBerita?: string
+  waktuBaca?: number
 }
 
 export async function insertArtikel(data: InsertArtikelData): Promise<number> {
+  const waktuBaca = data.waktuBaca || Math.ceil((data.konten || '').split(/\s+/).length / 200)
+
   return insert(
-    `INSERT INTO artikel (slug, judul, ringkasan, konten, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status, jadwal_publish, sumber_berita_nama, sumber_berita_url, tanggal_berita)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO artikel (slug, judul, ringkasan, konten, konten_html, gambar, kategori, tags, penulis, tanggal, waktu_baca, seo_title, seo_desc, status, jadwal_publish, sumber_berita_nama, sumber_berita_url, tanggal_berita)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       data.slug,
       data.judul,
       data.ringkasan,
       data.konten,
+      data.kontenHtml || null,
       data.gambar || '/images/og-default.png',
       data.kategori || 'Budidaya',
       JSON.stringify(data.tags || []),
       data.penulis || 'Tim Redaksi APLESI',
       data.tanggal,
+      waktuBaca,
       data.seoTitle || null,
       data.seoDesc || null,
       data.status || 'published',
@@ -166,6 +245,7 @@ export async function updateArtikel(
   if (data.judul !== undefined) { fields.push('judul = ?'); values.push(data.judul) }
   if (data.ringkasan !== undefined) { fields.push('ringkasan = ?'); values.push(data.ringkasan) }
   if (data.konten !== undefined) { fields.push('konten = ?'); values.push(data.konten) }
+  if (data.kontenHtml !== undefined) { fields.push('konten_html = ?'); values.push(data.kontenHtml) }
   if (data.gambar !== undefined) { fields.push('gambar = ?'); values.push(data.gambar) }
   if (data.kategori !== undefined) { fields.push('kategori = ?'); values.push(data.kategori) }
   if (data.tags !== undefined) { fields.push('tags = ?'); values.push(JSON.stringify(data.tags)) }

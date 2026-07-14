@@ -8,6 +8,7 @@ export interface Artikel {
   judul: string
   ringkasan: string
   konten: string
+  kontenHtml?: string
   gambar: string
   kategori: string
   tags: string[]
@@ -19,11 +20,10 @@ export interface Artikel {
   status: 'draft' | 'terjadwal' | 'published'
   jadwalPublish?: string
   afiliasi?: AfiliasiLink[]
-  // Diisi HANYA untuk artikel recap kategori "Berita Terkini" (lihat
-  // scripts/generate-berita-artikel.mjs) -- wajib untuk atribusi sumber
   // (etis & schema citation/isBasedOn di lib/seo/index.ts)
   sumberBerita?: { nama: string; url: string }
   tanggalBerita?: string
+  waktuBaca?: number
 }
 
 export interface AfiliasiLink {

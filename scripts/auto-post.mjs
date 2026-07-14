@@ -4,13 +4,14 @@
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 import Groq from 'groq-sdk'
+import { marked } from 'marked'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
 // --- D1 Helper ---
 const D1_URL = `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/d1/database/${process.env.CF_D1_DATABASE_ID}/query`
 
-async function d1Insert(slug, artikel, gambarPath, tanggal) {
+async function d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml) {
   if (!process.env.CF_D1_DATABASE_ID) {
     console.warn('⚠️ CF_D1_DATABASE_ID tidak diset, skip D1 insert')
     return
@@ -22,13 +23,14 @@ async function d1Insert(slug, artikel, gambarPath, tanggal) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, konten_html, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       params: [
         slug,
         artikel.judul,
         artikel.ringkasan || '',
         artikel.konten,
+        kontenHtml || null,
         gambarPath,
         artikel.kategori || 'Budidaya',
         JSON.stringify(artikel.tags || []),
@@ -250,9 +252,10 @@ ${artikel.konten}`
 
       console.log(`✅ Artikel disimpan: ${slug}.md`)
 
-      // Simpan juga ke D1 agar langsung muncul di website tanpa rebuild
+      // Pre-render markdown → HTML dan simpan ke D1
       try {
-        await d1Insert(slug, artikel, gambarPath, tanggal)
+        const kontenHtml = await marked(artikel.konten)
+        await d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml)
         console.log(`✅ Artikel disimpan ke D1: ${slug}`)
       } catch (err) {
         console.warn(`⚠️ Gagal simpan ke D1 (artikel tetap ada di .md):`, err.message)
