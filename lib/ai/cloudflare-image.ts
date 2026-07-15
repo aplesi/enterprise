@@ -35,7 +35,7 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
       },
       body: JSON.stringify({
         prompt: enhancedPrompt,
-        num_inference_steps: 8, // Ditingkatkan dari 4 ke 8 agar AI punya waktu menggambar detail spesifik ikan
+        num_inference_steps: 4, // FLUX-1 Schnell optimal steps (1-4)
       }),
     },
     REQUEST_TIMEOUT_MS
@@ -152,33 +152,6 @@ export async function generateGambarDanSimpan(
 ): Promise<string> {
   const result = await generateGambarDenganFallback(prompt, slug)
   return result.url
-}
-
-// Upload ke Cloudflare Images (production)
-export async function uploadKeCloudflareImages(
-  arrayBuffer: ArrayBuffer,
-  fileName: string
-): Promise<string> {
-  const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID
-  const CF_API_TOKEN = process.env.CF_API_TOKEN
-
-  const formData = new FormData()
-  const blob = new Blob([new Uint8Array(arrayBuffer)], { type: 'image/png' })
-  formData.append('file', blob, fileName)
-
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/images/v1`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${CF_API_TOKEN}`,
-      },
-      body: formData,
-    }
-  )
-
-  const data = await response.json() as { result: { variants: string[] } }
-  return data.result.variants[0]
 }
 
 /**
