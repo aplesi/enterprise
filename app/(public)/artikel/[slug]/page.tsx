@@ -239,22 +239,6 @@ export default async function ArtikelDetailPage({
           <aside className="hidden lg:block w-72 flex-shrink-0">
             <div className="sticky top-6 space-y-6">
 
-              {/* Newsletter */}
-              <div className="bg-green-700 text-white rounded-xl p-5">
-                <h3 className="font-semibold mb-2">📬 Tips Gratis</h3>
-                <p className="text-green-100 text-sm mb-4">
-                  Dapatkan artikel budidaya ikan terbaru setiap hari.
-                </p>
-                <form action="/api/subscriber" method="POST" className="space-y-2">
-                  <input type="email" name="email" placeholder="email@kamu.com"
-                    className="w-full px-3 py-2 rounded-lg text-gray-800 text-sm focus:outline-none" required />
-                  <button type="submit"
-                    className="w-full bg-white text-green-700 font-medium py-2 rounded-lg text-sm hover:bg-green-50 transition-colors">
-                    Daftar Gratis
-                  </button>
-                </form>
-              </div>
-
               {/* Artikel Terkait */}
               {artikelTerkait.length > 0 && (
                 <div className="bg-white border border-gray-200 rounded-xl p-5">
