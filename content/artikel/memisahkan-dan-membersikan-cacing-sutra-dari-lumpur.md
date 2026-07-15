@@ -2,7 +2,7 @@
 judul: "Cara Efektif Memisahkan Cacing Sutra dari Lumpur"
 slug: "memisahkan-dan-membersikan-cacing-sutra-dari-lumpur"
 ringkasan: "Metode memisahkan cacing sutra dari lumpur dengan efektif"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/memisahkan-dan-membersikan-cacing-sutra-dari-lumpur-1784129617143.jpg"
 kategori: "Blog"
 tags: ["cacing sutra", "budidaya ikan", "pakan ikan"]
 penulis: "Tim Redaksi APLESI"

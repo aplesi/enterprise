@@ -2,7 +2,7 @@
 judul: "Kandungan Gizi & Nutrisi Ikan Lele: Manfaat & Fakta"
 slug: "kandungan-gizi-dan-nutrisi-ikan-lele"
 ringkasan: "Ikan lele kaya akan protein, selenium, dan vitamin B12."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/kandungan-gizi-dan-nutrisi-ikan-lele-1784129603170.jpg"
 kategori: "Blog"
 tags: ["ikan lele", "kandungan gizi", "nutrisi", "manfaat"]
 penulis: "Tim Redaksi APLESI"

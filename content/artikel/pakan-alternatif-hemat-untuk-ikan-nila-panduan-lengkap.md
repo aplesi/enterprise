@@ -2,7 +2,7 @@
 judul: "Pakan Alternatif Hemat untuk Ikan Nila: Panduan Lengkap"
 slug: "pakan-alternatif-hemat-untuk-ikan-nila-panduan-lengkap"
 ringkasan: "Panduan lengkap pakan alternatif hemat untuk ikan Nila, cara ternak ikan Nila dengan biaya rendah"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/pakan-alternatif-hemat-untuk-ikan-nila-panduan-lengkap-1784129638585.jpg"
 kategori: "Pakan"
 tags:
   - budidaya ikan nila

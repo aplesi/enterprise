@@ -2,7 +2,7 @@
 judul: "Cara Budidaya Lele Dumbo untuk Pemula dengan Kolam Terpal"
 slug: "cara-budidaya-lele-dumbo-untuk-pemula-dengan-kolam-terpal"
 ringkasan: "Panduan lengkap budidaya lele dumbo di kolam terpal untuk pemula: persiapan kolam, penebaran benih, pakan, hingga panen dengan modal terjangkau."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/cara-budidaya-lele-dumbo-untuk-pemula-dengan-kolam-terpal-1784129569903.jpg"
 kategori: "Pembenihan"
 tags:
   - budidaya lele dumbo

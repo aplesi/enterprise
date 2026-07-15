@@ -2,7 +2,7 @@
 judul: "Budidaya Lele Bioflock: Panduan Lengkap untuk Pemula"
 slug: "budidaya-lele-dengan-system-bioflock"
 ringkasan: "Budidaya lele bioflock, hemat biaya dan ramah lingkungan"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/budidaya-lele-dengan-system-bioflock-1784129548890.jpg"
 kategori: "Blog"
 tags: ["budidaya lele", "sistem bioflock", "ikan lele"]
 penulis: "Tim Redaksi APLESI"

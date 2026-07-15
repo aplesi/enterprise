@@ -2,7 +2,7 @@
 judul: "Mengatasi Penyakit White Spot pada Lele Dumbo dengan Efektif"
 slug: "mengatasi-penyakit-white-spot-pada-lele-dumbo-dengan-efektif"
 ringkasan: "Panduan lengkap mengatasi penyakit white spot pada lele dumbo: penyebab, gejala, dosis obat, hingga langkah pencegahan agar tidak menular ke seluruh kolam."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/mengatasi-penyakit-white-spot-pada-lele-dumbo-dengan-efektif-1784129624309.jpg"
 kategori: "Penyakit & Pengobatan"
 tags:
   - white spot

@@ -2,7 +2,7 @@
 judul: "Cara Budidaya Lele Dumbo untuk Pemula: Panduan Lengkap 2024"
 slug: "cara-budidaya-lele-dumbo-pemula"
 ringkasan: "Panduan lengkap budidaya lele dumbo untuk pemula dari persiapan kolam hingga panen. Ikuti langkah-langkah praktis ini untuk memulai usaha lele yang menguntungkan."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/cara-budidaya-lele-dumbo-pemula-1784129563132.jpg"
 kategori: "Pembenihan"
 tags: ["lele dumbo", "budidaya lele", "pemula", "kolam terpal", "panduan lengkap"]
 penulis: "Tim Redaksi APLESI"

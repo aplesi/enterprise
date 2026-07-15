@@ -2,7 +2,7 @@
 judul: "Induk Lele Sukhoi: Ciri, Kelebihan, dan Pemijahan"
 slug: "induk-lele-sukhoi"
 ringkasan: "Induk lele sukhoi berkualitas tinggi, mudah beradaptasi, dan memiliki daya tahan tubuh kuat."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/induk-lele-sukhoi-1784129590930.jpg"
 kategori: "Blog"
 tags: ["induk lele sukhoi", "lele masamo", "pemijahan lele"]
 penulis: "Tim Redaksi APLESI"

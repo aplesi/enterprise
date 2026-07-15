@@ -2,7 +2,7 @@
 judul: "Penyebab dan Solusi Insang Kekuningan & Air Hijau Kehitaman Pada Ikan"
 slug: "insang-kekuningan-and-air-hijau-kehitaman"
 ringkasan: "Insang kekuningan disebabkan kadar nitrit tinggi, solusi: kurangi pakan, ganti air, tambahkan probiotik"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/insang-kekuningan-and-air-hijau-kehitaman-1784129714950.jpg"
 kategori: "Blog"
 tags: ["insang kekuningan", "air hijau kehitaman", "brown blood disease"]
 penulis: "Tim Redaksi APLESI"

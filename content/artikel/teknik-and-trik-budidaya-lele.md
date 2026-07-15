@@ -2,7 +2,7 @@
 judul: "Teknik Budidaya Lele yang Efektif"
 slug: "teknik-and-trik-budidaya-lele"
 ringkasan: "Budidaya lele dengan sistem pembenihan yang tepat"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/teknik-and-trik-budidaya-lele-1784129667718.jpg"
 kategori: "Blog"
 tags: ["budidaya lele", "pembenihan lele", "sistem budidaya"]
 penulis: "Tim Redaksi APLESI"

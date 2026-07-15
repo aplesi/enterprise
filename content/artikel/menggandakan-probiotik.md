@@ -2,7 +2,7 @@
 judul: "Menggandakan Probiotik dengan Mudah dan Efektif"
 slug: "menggandakan-probiotik"
 ringkasan: "Gandakan probiotik dengan mudah menggunakan bahan-bahan alami"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/menggandakan-probiotik-1784129631043.jpg"
 kategori: "Blog"
 tags: ["prebiotik", "menggandakan prebiotik", "bahan-bahan alami"]
 penulis: "Tim Redaksi APLESI"

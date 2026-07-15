@@ -2,7 +2,7 @@
 judul: "Faktor yang Mempengaruhi Laju Pertumbuhan Ikan"
 slug: "laju-pertumbuhan-ikan"
 ringkasan: "Laju pertumbuhan ikan dipengaruhi oleh faktor dalam dan luar, seperti keturunan, umur, dan suhu air."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/laju-pertumbuhan-ikan-1784129610041.jpg"
 kategori: "Blog"
 tags: ["laju pertumbuhan ikan", "faktor dalam", "faktor luar", "suhu air"]
 penulis: "Tim Redaksi APLESI"

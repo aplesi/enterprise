@@ -2,7 +2,7 @@
 judul: "Sistem Bioflok untuk Budidaya Ikan Intensif: Panduan Lengkap"
 slug: "sistem-bioflok-untuk-budidaya-ikan-intensif-panduan-lengkap"
 ringkasan: "Budidaya ikan dengan sistem bioflok, panduan lengkap untuk pemula"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/sistem-bioflok-untuk-budidaya-ikan-intensif-panduan-lengkap-1784129653274.jpg"
 kategori: "Tips & Trik"
 tags:
   - sistem bioflok

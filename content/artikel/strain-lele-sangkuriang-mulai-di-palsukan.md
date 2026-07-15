@@ -2,7 +2,7 @@
 judul: "Pemalsuan Lele Sangkuriang: Tantangan Bagi Peternak Ikan"
 slug: "strain-lele-sangkuriang-mulai-di-palsukan"
 ringkasan: "Pemalsuan lele sangkuriang marak, peternak harus waspada"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/strain-lele-sangkuriang-mulai-di-palsukan-1784129660651.jpg"
 kategori: "Blog"
 tags: ["Lele Sangkuriang", "Pemalsuan Lele", "Peternak Ikan"]
 penulis: "Tim Redaksi APLESI"

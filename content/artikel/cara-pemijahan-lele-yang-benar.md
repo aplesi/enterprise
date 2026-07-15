@@ -2,7 +2,7 @@
 judul: "Teknik Pemijahan Lele yang Efektif"
 slug: "cara-pemijahan-lele-yang-benar"
 ringkasan: "Pemijahan lele yang benar melibatkan persiapan kolam, pemilihan induk, dan perawatan larva."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/cara-pemijahan-lele-yang-benar-1784129583902.jpg"
 kategori: "Blog"
 tags: ["pemijahan lele", "budidaya lele", "perawatan larva"]
 penulis: "Tim Redaksi APLESI"

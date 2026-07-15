@@ -2,7 +2,7 @@
 judul: "Persiapan Pasca BEAS Sertifikasi SDM: KKP Fokus pada Pengembangan Sumber Daya Manusia"
 slug: "persiapan-pasab-bebas-asean-sertifikasi-sdm-mulai-disusun-kkp"
 ringkasan: "KKP mengembangkan SDM melalui pendidikan, pelatihan, dan konseling untuk mendukung sektor kelautan dan perikanan"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/persiapan-pasab-bebas-asean-sertifikasi-sdm-mulai-disusun-kkp-1784129645861.jpg"
 kategori: "Blog"
 tags: ["BEAS Sertifikasi SDM", "Pengembangan Sumber Daya Manusia", "Kelautan dan Perikanan"]
 penulis: "Tim Redaksi APLESI"

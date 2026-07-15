@@ -2,7 +2,7 @@
 judul: "Ternak Lele: Peluang Usaha Budi Daya Ikan Lele yang Menjanjikan"
 slug: "ternak-lele"
 ringkasan: "Ternak lele adalah peluang usaha yang menjanjikan, dengan permintaan ikan lele yang tinggi di pasaran."
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/ternak-lele-1784129675527.jpg"
 kategori: "Blog"
 tags: ["ternak lele", "budi daya ikan lele", "pembenihan lele"]
 penulis: "Tim Redaksi APLESI"

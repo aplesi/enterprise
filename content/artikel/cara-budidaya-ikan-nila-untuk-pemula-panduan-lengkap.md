@@ -2,7 +2,7 @@
 judul: "Cara Budidaya Ikan Nila untuk Pemula: Panduan Lengkap"
 slug: "cara-budidaya-ikan-nila-untuk-pemula-panduan-lengkap"
 ringkasan: "Pelajari cara budidaya ikan nila untuk pemula dengan panduan lengkap"
-gambar: "/images/og-default.png"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/cara-budidaya-ikan-nila-untuk-pemula-panduan-lengkap-1784129556041.jpg"
 kategori: "Tips & Trik"
 tags:
   - budidaya ikan nila pemula
