@@ -7,11 +7,13 @@ import { templateFaqPrompt } from '@/lib/seo/faq'
 import { templateHowToPrompt } from '@/lib/seo/howto'
 import { getArtikelTerkait } from '@/lib/db/artikel'
 import {
-  getAvailableClient,
+  getAvailableKey,
   markRateLimited,
   markSuccess,
   parseRetryAfter,
   GroqPoolExhaustedError,
+  groqFetchChatCompletion,
+  type GroqChatParams,
 } from '@/lib/ai/groq-pool'
 
 /**
@@ -84,27 +86,25 @@ function countWords(text: string): number {
 }
 
 /**
- * Wrapper untuk chat completion Groq dengan rotasi key otomatis.
+ * Wrapper untuk chat completion Groq dengan rotasi key otomatis (raw fetch).
  * Jika key aktif kena 429, tandai rate limited lalu coba key berikutnya.
  * Maksimum 5 percobaan (sesuai jumlah key).
  */
 async function groqChatWithRotation(
-  params: Parameters<InstanceType<typeof import('groq-sdk').default>['chat']['completions']['create']>[0]
+  params: GroqChatParams
 ): Promise<string> {
   const maxAttempts = 5
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const { client, state } = await getAvailableClient()
+    const state = await getAvailableKey()
     try {
       // Timeout 90 detik per percobaan — mencegah hang tanpa batas
-      const completion = await Promise.race([
-        client.chat.completions.create(params) as Promise<import('groq-sdk/resources/chat/completions').ChatCompletion>,
+      const content = await Promise.race([
+        groqFetchChatCompletion(state.key, params),
         new Promise<never>((_, reject) =>
           setTimeout(() => reject(new Error('Groq API timeout setelah 90 detik')), 90_000)
         ),
       ])
       markSuccess(state)
-      const content = completion.choices[0]?.message?.content
-      if (!content) throw new Error('Groq tidak mengembalikan respons')
       return content
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err)
@@ -193,7 +193,7 @@ SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam 
   const userPrompt = `Tulis artikel tentang: "${req.topik}"
 
 Kategori: ${req.kategori}
-Keywords yang harus ada: ${req.keywords.join(', ')}
+Keywords yang harus ada: ${req.keywords?.join(', ') || '-'}
 Panjang: ${panjangConfig.label} — INI WAJIB DIPENUHI, jangan kurang dari ${panjangConfig.minWords} kata.
 Gaya penulisan: ${toneMap[req.tone]}
 

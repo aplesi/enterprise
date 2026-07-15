@@ -1,5 +1,5 @@
 // lib/ai/groq-pool.ts
-// Sistem rotasi multi API key Groq
+// Sistem rotasi multi API key Groq — menggunakan raw fetch() untuk Cloudflare Workers compatibility
 //
 // Mendukung hingga 5 API key yang bisa diisi di .env.local:
 //   GROQ_API_KEY=key1
@@ -11,13 +11,21 @@
 // Jika satu key kena rate limit (429), otomatis pindah ke key berikutnya.
 // Setelah semua key habis, throw error.
 
-import Groq from 'groq-sdk'
 import { kvGet } from '@/lib/cloudflare/kv'
+
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
+
+export interface GroqChatParams {
+  model: string
+  messages: Array<{ role: string; content: string }>
+  temperature?: number
+  max_tokens?: number
+  response_format?: { type: string }
+}
 
 interface KeyState {
   key: string
   label: string
-  client: Groq
   /** Timestamp kapan key ini terkena rate limit (0 = belum pernah) */
   rateLimitedAt: number
   /** Berapa detik harus menunggu (dari header Groq) */
@@ -48,7 +56,7 @@ export async function initPool(): Promise<KeyState[]> {
   pool = []
   for (const envName of ENV_KEYS) {
     let key = process.env[envName]
-    
+
     // Fallback ambil dari KV jika belum ada di process.env
     if (!key || key.length < 10) {
       const kvValue = await kvGet(`settings:${envName}`)
@@ -59,7 +67,6 @@ export async function initPool(): Promise<KeyState[]> {
       pool.push({
         key,
         label: envName,
-        client: new Groq({ apiKey: key }),
         rateLimitedAt: 0,
         retryAfterSec: 0,
         successCount: 0,
@@ -73,7 +80,6 @@ export async function initPool(): Promise<KeyState[]> {
     pool.push({
       key: 'dummy_key',
       label: 'GROQ_API_KEY (kosong)',
-      client: new Groq({ apiKey: 'dummy_key' }),
       rateLimitedAt: 0,
       retryAfterSec: 0,
       successCount: 0,
@@ -85,17 +91,17 @@ export async function initPool(): Promise<KeyState[]> {
 }
 
 /**
- * Ambil Groq client yang tersedia (belum kena rate limit).
+ * Ambil key state yang tersedia (belum kena rate limit).
  * Jika semua sedang rate limited, pilih yang paling cepat pulih.
  */
-export async function getAvailableClient(): Promise<{ client: Groq; state: KeyState }> {
+export async function getAvailableKey(): Promise<KeyState> {
   const keys = await initPool()
   const now = Date.now()
 
   // Cari key yang belum rate limited atau sudah pulih
   for (const state of keys) {
     if (state.rateLimitedAt === 0) {
-      return { client: state.client, state }
+      return state
     }
     // Cek apakah sudah lewat masa tunggu
     const elapsedSec = (now - state.rateLimitedAt) / 1000
@@ -103,7 +109,7 @@ export async function getAvailableClient(): Promise<{ client: Groq; state: KeySt
       // Reset status rate limit
       state.rateLimitedAt = 0
       state.retryAfterSec = 0
-      return { client: state.client, state }
+      return state
     }
   }
 
@@ -163,6 +169,40 @@ export function parseRetryAfter(errorMessage: string): number {
     return parseFloat(secMatch[1])
   }
   return 60 // default 60 detik
+}
+
+/**
+ * Panggil Groq Chat Completions API via raw fetch().
+ * Kompatibel dengan Cloudflare Workers (tidak pakai groq-sdk/undici).
+ */
+export async function groqFetchChatCompletion(
+  apiKey: string,
+  params: GroqChatParams
+): Promise<string> {
+  const res = await fetch(GROQ_API_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  })
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    // Buat error yang bisa di-parse oleh caller
+    const err = new Error(`Groq API ${res.status}: ${body}`) as Error & { status?: number }
+    err.status = res.status
+    throw err
+  }
+
+  const data = await res.json() as {
+    choices?: Array<{ message?: { content?: string } }>
+  }
+
+  const content = data.choices?.[0]?.message?.content
+  if (!content) throw new Error('Groq tidak mengembalikan respons')
+  return content
 }
 
 /**
