@@ -37,10 +37,10 @@ export default async function CariPage({
               name="q"
               defaultValue={query}
               placeholder="Cari artikel budidaya ikan..."
-              className="admin-input flex-1 text-sm py-2.5"
+              className="flex-1 text-sm py-2.5 px-4 border border-gray-300 rounded-xl bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
               autoFocus
             />
-            <button type="submit" className="btn-primary px-5 text-sm">
+            <button type="submit" className="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-xl transition-colors">
               🔍 Cari
             </button>
           </div>
