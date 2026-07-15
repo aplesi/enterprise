@@ -117,10 +117,24 @@ export async function getArtikelByKategori(kategori: string): Promise<Artikel[]>
 }
 
 export async function getArtikelTerkait(kategori: string, excludeSlug: string, limit = 3): Promise<Artikel[]> {
-  const { results } = await query(
+  // Cari berdasarkan kategori dulu
+  let { results } = await query(
     `SELECT ${LISTING_COLUMNS} FROM artikel WHERE kategori = ? AND slug != ? AND status = 'published' ORDER BY tanggal DESC LIMIT ?`,
     [kategori, excludeSlug, limit]
   )
+  
+  // Jika kurang dari limit, ambil artikel terbaru lainnya sebagai fallback
+  if (results.length < limit) {
+    const remaining = limit - results.length
+    const existingSlugs = [excludeSlug, ...results.map(r => r.slug as string)]
+    const placeholders = existingSlugs.map(() => '?').join(',')
+    const fallback = await query(
+      `SELECT ${LISTING_COLUMNS} FROM artikel WHERE slug NOT IN (${placeholders}) AND status = 'published' ORDER BY tanggal DESC LIMIT ?`,
+      [...existingSlugs, remaining]
+    )
+    results = [...results, ...fallback.results]
+  }
+  
   return results.map(rowToArtikel)
 }
 
