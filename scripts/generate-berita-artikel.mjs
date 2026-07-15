@@ -81,8 +81,17 @@ async function d1UpdateBeritaRecap(extId, artikel, gambarPath) {
   if (!res.ok) throw new Error(`D1 HTTP ${res.status}`)
 }
 
-const MAKS_ARTIKEL_PER_SIKLUS = 5
+// ---------- Config ----------
+// Cron jalan tiap 3 jam = 8 siklus/hari.
+// Target 30 berita/hari: alokasi 20 ID + 10 EN.
+// Per siklus: 3-4 ID + 1-2 EN = ~5 total (hemat kuota Groq).
+const MAKS_ID_PER_HARI = 20
+const MAKS_EN_PER_HARI = 10
+const MAKS_TOTAL_PER_HARI = MAKS_ID_PER_HARI + MAKS_EN_PER_HARI
+const MAKS_PER_SIKLUS = 5 // per siklus (tiap 3 jam)
 const KV_KEY_REGISTRY = 'berita:sudah-jadi-artikel'
+const KV_KEY_COUNTER_ID = 'berita:counter:id'
+const KV_KEY_COUNTER_EN = 'berita:counter:en'
 
 // ---------- Sumber RSS (duplikat dari lib/news/sources.ts) ----------
 const SUMBER_BERITA = [
@@ -98,18 +107,31 @@ const SUMBER_BERITA = [
   { id: 'aquaculturists', nama: 'The Aquaculturists', url: 'https://theaquaculturists.blogspot.com/feeds/posts/default?alt=rss', asal: 'internasional' },
 ]
 
-const KATA_KUNCI_RELEVAN = [
-  'ikan', 'fish', 'perikanan', 'fisheries', 'akuakultur', 'aquaculture',
-  'budidaya', 'nelayan', 'tambak', 'kolam', 'udang', 'shrimp', 'prawn',
-  'lele', 'nila', 'tilapia', 'catfish', 'salmon', 'lobster', 'kepiting',
-  'crab', 'kkp', 'seafood', 'pakan ikan', 'hatchery', 'pembenihan',
-  'bioflok', 'karamba', 'mina', 'laut', 'marine', 'ekspor ikan', 'oyster',
-  'kerang', 'rumput laut', 'seaweed', 'mangrove',
+// ---------- Kata kunci filter (split ID/EN, sinkron dengan lib/news/scraper.ts) ----------
+const KATA_KUNCI_ID = [
+  'budidaya ikan indonesia', 'produksi perikanan nasional', 'ekspor udang',
+  'ekspor ikan', 'kebijakan perikanan', 'kkp perikanan', 'harga ikan',
+  'sertifikasi perikanan', 'bioflok budidaya', 'kesehatan ikan',
+  'penyakit ikan', 'pakan ikan', 'benih ikan', 'budidaya lele',
+  'budidaya nila', 'rumput laut', 'kerapu tambak', 'sidat ekspor',
+  'iot perikanan', 'el nino perikanan', 'banjir tambak', 'karantina ikan',
+  'mutu hasil perikanan', 'bantuan perikanan pemerintah',
 ]
 
-function relevan(judul, ringkasan) {
+const KATA_KUNCI_EN = [
+  'ras aquaculture', 'recirculating aquaculture system', 'aquaponics',
+  'biofloc technology', 'precision aquaculture', 'iot aquaculture',
+  'smart fish farming', 'ai aquaculture', 'offshore aquaculture',
+  'land-based fish farming', 'indoor fish farming', 'aquaculture feed',
+  'fish feed', 'fishmeal alternative', 'insect meal fish',
+  'plant-based fish feed', 'feed conversion ratio aquaculture',
+  'microalgae fish feed', 'sustainable fish feed', 'soy aquaculture feed',
+]
+
+function relevan(judul, ringkasan, asal) {
   const teks = `${judul} ${ringkasan}`.toLowerCase()
-  return KATA_KUNCI_RELEVAN.some((kw) => teks.includes(kw))
+  const kataKunci = asal === 'internasional' ? KATA_KUNCI_EN : KATA_KUNCI_ID
+  return kataKunci.some((kw) => teks.includes(kw))
 }
 
 function buatId(link) {
@@ -230,7 +252,7 @@ async function scrapeBeritaPerikanan() {
       const xml = await res.text()
       const mentah = parseRSSFeed(xml)
       return mentah
-        .filter((m) => relevan(m.judul, m.ringkasan))
+        .filter((m) => relevan(m.judul, m.ringkasan, sumber.asal))
         .map((m) => ({
           id: buatId(m.link),
           judul: m.judul,
@@ -293,6 +315,34 @@ async function kvSetRegistry(list) {
   } catch (err) {
     console.warn('⚠️ Gagal update registry KV:', err.message)
   }
+}
+
+// ---------- KV counter harian (ID/EN terpisah) ----------
+async function kvGetCounter(key) {
+  try {
+    const res = await fetch(`${kvBaseUrl()}/values/${key}`, { headers: kvHeaders() })
+    if (!res.ok) return 0
+    const text = await res.text()
+    return text ? parseInt(text, 10) || 0 : 0
+  } catch {
+    return 0
+  }
+}
+
+async function kvSetCounter(key, value) {
+  try {
+    await fetch(`${kvBaseUrl()}/values/${key}`, {
+      method: 'PUT',
+      headers: kvHeaders(),
+      body: String(value),
+    })
+  } catch (err) {
+    console.warn(`⚠️ Gagal update counter ${key}:`, err.message)
+  }
+}
+
+function kvCounterKeyTanggal() {
+  return new Date().toISOString().split('T')[0]
 }
 
 // ---------- Generate recap artikel via Groq ----------
@@ -510,22 +560,48 @@ async function main() {
   const registry = await kvGetRegistry()
   const registrySet = new Set(registry)
 
-  const beritaBaru = semuaBerita
-    .filter((b) => !registrySet.has(b.id))
-    .slice(0, MAKS_ARTIKEL_PER_SIKLUS)
+  // Ambil counter harian (reset otomatis karena key pakai tanggal)
+  const tanggalHariIni = kvCounterKeyTanggal()
+  const counterIdKey = `${KV_KEY_COUNTER_ID}:${tanggalHariIni}`
+  const counterEnKey = `${KV_KEY_COUNTER_EN}:${tanggalHariIni}`
+  let counterId = await kvGetCounter(counterIdKey)
+  let counterEn = await kvGetCounter(counterEnKey)
+
+  console.log(`   Counter hari ini: ID=${counterId}/${MAKS_ID_PER_HARI}, EN=${counterEn}/${MAKS_EN_PER_HARI}`)
+
+  // Filter berita baru (belum pernah di-recap)
+  const semuaBaru = semuaBerita.filter((b) => !registrySet.has(b.id))
+
+  // Pisahkan berdasarkan asal
+  const baruId = semuaBaru.filter((b) => b.asal === 'indonesia')
+  const baruEn = semuaBaru.filter((b) => b.asal === 'internasional')
+
+  // Hitung sisa kuota
+  const sisaId = Math.max(0, MAKS_ID_PER_HARI - counterId)
+  const sisaEn = Math.max(0, MAKS_EN_PER_HARI - counterEn)
+  const sisaTotal = Math.min(sisaId + sisaEn, MAKS_PER_SIKLUS)
+
+  // Alokasi: prioritaskan Indonesia (20/hari), sisanya internasional (10/hari)
+  const alokasiId = Math.min(baruId.length, sisaId, Math.ceil(sisaTotal * 0.7)) // 70% untuk ID
+  const alokasiEn = Math.min(baruEn.length, sisaEn, sisaTotal - alokasiId)
+
+  const beritaBaru = [
+    ...baruId.slice(0, alokasiId),
+    ...baruEn.slice(0, alokasiEn),
+  ]
 
   if (beritaBaru.length === 0) {
     console.log('✅ Tidak ada berita baru yang perlu dijadikan artikel.')
     return
   }
 
-  console.log(`📝 ${beritaBaru.length} berita baru akan dijadikan artikel (maks ${MAKS_ARTIKEL_PER_SIKLUS}/siklus)...`)
+  console.log(`📝 ${beritaBaru.length} berita baru akan dijadikan artikel (ID: ${alokasiId}, EN: ${alokasiEn})...`)
 
   const registryBaru = [...registry]
 
   for (const berita of beritaBaru) {
     try {
-      console.log(`   → "${berita.judul}"`)
+      console.log(`   → [${berita.asal === 'indonesia' ? 'ID' : 'EN'}] "${berita.judul}"`)
       const artikel = await generateRecapArtikel(berita)
       const slug = slugify(artikel.judul)
       const tanggal = new Date().toISOString().split('T')[0]
@@ -555,7 +631,6 @@ async function main() {
       }
 
       // Simpan recap ke D1 berita (UPDATE ringkasan yang sudah ada)
-      // Bukan buat artikel .md baru!
       try {
         await d1UpdateBeritaRecap(berita.id, artikel, gambarPath)
         console.log(`   ✅ Recap disimpan ke D1 berita: ${berita.id}`)
@@ -564,6 +639,13 @@ async function main() {
       }
 
       registryBaru.push(berita.id)
+
+      // Update counter
+      if (berita.asal === 'indonesia') {
+        counterId++
+      } else {
+        counterEn++
+      }
     } catch (err) {
       console.error(`   ❌ Gagal generate recap dari berita "${berita.judul}":`, err.message)
       // Sengaja TIDAK ditambah ke registry -- akan dicoba lagi di siklus
@@ -571,7 +653,12 @@ async function main() {
     }
   }
 
+  // Simpan registry & counter
   await kvSetRegistry(registryBaru)
+  await kvSetCounter(counterIdKey, counterId)
+  await kvSetCounter(counterEnKey, counterEn)
+
+  console.log(`\n📊 Counter akhir: ID=${counterId}/${MAKS_ID_PER_HARI}, EN=${counterEn}/${MAKS_EN_PER_HARI}`)
   console.log('🎉 generate-berita-artikel selesai!')
 }
 

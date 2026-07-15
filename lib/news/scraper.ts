@@ -16,18 +16,30 @@ import { rewriteBeritaBatch } from '@/lib/ai/groq'
 import { downloadDanSimpanGambar, generateGambarDanSimpan } from '@/lib/ai/cloudflare-image'
 import { buildFallbackImagePrompt } from '@/lib/ai/groq'
 
-const KATA_KUNCI_RELEVAN = [
-  'ikan', 'fish', 'perikanan', 'fisheries', 'akuakultur', 'aquaculture',
-  'budidaya', 'nelayan', 'tambak', 'kolam', 'udang', 'shrimp', 'prawn',
-  'lele', 'nila', 'tilapia', 'catfish', 'salmon', 'lobster', 'kepiting',
-  'crab', 'kkp', 'seafood', 'pakan ikan', 'hatchery', 'pembenihan',
-  'bioflok', 'karamba', 'mina', 'laut', 'marine', 'ekspor ikan', 'oyster',
-  'kerang', 'rumput laut', 'seaweed', 'mangrove',
+const KATA_KUNCI_ID = [
+  'budidaya ikan indonesia', 'produksi perikanan nasional', 'ekspor udang',
+  'ekspor ikan', 'kebijakan perikanan', 'kkp perikanan', 'harga ikan',
+  'sertifikasi perikanan', 'bioflok budidaya', 'kesehatan ikan',
+  'penyakit ikan', 'pakan ikan', 'benih ikan', 'budidaya lele',
+  'budidaya nila', 'rumput laut', 'kerapu tambak', 'sidat ekspor',
+  'iot perikanan', 'el nino perikanan', 'banjir tambak', 'karantina ikan',
+  'mutu hasil perikanan', 'bantuan perikanan pemerintah',
 ]
 
-function relevan(judul: string, ringkasan: string): boolean {
+const KATA_KUNCI_EN = [
+  'ras aquaculture', 'recirculating aquaculture system', 'aquaponics',
+  'biofloc technology', 'precision aquaculture', 'iot aquaculture',
+  'smart fish farming', 'ai aquaculture', 'offshore aquaculture',
+  'land-based fish farming', 'indoor fish farming', 'aquaculture feed',
+  'fish feed', 'fishmeal alternative', 'insect meal fish',
+  'plant-based fish feed', 'feed conversion ratio aquaculture',
+  'microalgae fish feed', 'sustainable fish feed', 'soy aquaculture feed',
+]
+
+function relevan(judul: string, ringkasan: string, asal: string): boolean {
   const teks = `${judul} ${ringkasan}`.toLowerCase()
-  return KATA_KUNCI_RELEVAN.some((kw) => teks.includes(kw))
+  const kataKunci = asal === 'en' ? KATA_KUNCI_EN : KATA_KUNCI_ID
+  return kataKunci.some((kw) => teks.includes(kw))
 }
 
 function buatId(link: string): string {
@@ -65,7 +77,7 @@ export async function scrapeBeritaPerikanan(): Promise<HasilScrape> {
       const mentah = parseRSSFeed(xml)
 
       return mentah
-        .filter((m) => relevan(m.judul, m.ringkasan))
+        .filter((m) => relevan(m.judul, m.ringkasan, sumber.asal))
         .map(
           (m): BeritaItem => ({
             id: buatId(m.link),

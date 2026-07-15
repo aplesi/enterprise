@@ -10,6 +10,7 @@ import { formatTanggal } from '@/lib/utils'
 import { BreadcrumbJsonLd, FaqJsonLd, HowToJsonLd } from '@/components/seo/JsonLd'
 import { extractFaq } from '@/lib/seo/faq'
 import { extractHowToSteps } from '@/lib/seo/howto'
+import { AdsenseDisplay } from '@/components/ads/AdsenseDisplay'
 
 export const revalidate = 300 // cache 5 menit
 
@@ -238,12 +239,6 @@ export default async function ArtikelDetailPage({
           <aside className="hidden lg:block w-72 flex-shrink-0">
             <div className="sticky top-6 space-y-6">
 
-              {/* Daftar Isi */}
-              <div className="bg-white border border-gray-200 rounded-xl p-5">
-                <h3 className="font-semibold text-gray-800 mb-3 text-sm">📋 Daftar Isi</h3>
-                <TableOfContents konten={artikel.konten} />
-              </div>
-
               {/* Newsletter */}
               <div className="bg-green-700 text-white rounded-xl p-5">
                 <h3 className="font-semibold mb-2">📬 Tips Gratis</h3>
@@ -263,25 +258,30 @@ export default async function ArtikelDetailPage({
               {/* Artikel Terkait */}
               {artikelTerkait.length > 0 && (
                 <div className="bg-white border border-gray-200 rounded-xl p-5">
-                  <h3 className="font-semibold text-gray-800 mb-3 text-sm">📚 Artikel Terkait</h3>
-                  <div className="space-y-3">
+                  <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">🔥 Artikel Terkait</h3>
+                  <div className="space-y-4">
                     {artikelTerkait.map((a) => (
                       <Link key={a.slug} href={`/artikel/${a.slug}`}
-                        className="block group">
-                        <p className="text-sm text-gray-700 group-hover:text-green-600 transition-colors line-clamp-2 font-medium">
-                          {a.judul}
-                        </p>
-                        <p className="text-xs text-gray-400 mt-0.5">{formatTanggal(a.tanggal)}</p>
+                        className="flex gap-3 group items-center">
+                        <div className="relative w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden">
+                          {a.gambar && (
+                            <Image src={a.gambar} alt={a.judul} fill className="object-cover" sizes="64px" />
+                          )}
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-800 group-hover:text-green-600 transition-colors line-clamp-2 font-medium leading-tight">
+                            {a.judul}
+                          </p>
+                        </div>
                       </Link>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* AdSense Placeholder */}
-              <div className="bg-gray-50 border border-dashed border-gray-300 rounded-xl p-5 text-center">
-                <p className="text-xs text-gray-400">Iklan Google AdSense</p>
-                <p className="text-xs text-gray-300 mt-1">300×250</p>
+              {/* AdSense Vertical Banner */}
+              <div className="w-full min-h-[600px] bg-gray-50 rounded-xl overflow-hidden">
+                <AdsenseDisplay client="ca-pub-6392184859535334" slot="4847648907" />
               </div>
             </div>
           </aside>
@@ -312,28 +312,3 @@ export default async function ArtikelDetailPage({
   )
 }
 
-// Komponen Daftar Isi (Table of Contents)
-function TableOfContents({ konten }: { konten: string }) {
-  const headings = konten.match(/^#{2,3}\s+.+$/gm) || []
-  if (headings.length === 0) return <p className="text-xs text-gray-400">Tidak ada daftar isi</p>
-
-  return (
-    <nav aria-label="Daftar isi artikel">
-      <ul className="space-y-1.5">
-        {headings.map((h, i) => {
-          const level = h.startsWith('### ') ? 3 : 2
-          const text = h.replace(/^#{2,3}\s+/, '')
-          const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')
-          return (
-            <li key={i} className={level === 3 ? 'pl-3' : ''}>
-              <a href={`#${anchor}`}
-                className="text-xs text-gray-600 hover:text-green-600 transition-colors line-clamp-2 block leading-relaxed">
-                {level === 3 ? '↳ ' : '• '}{text}
-              </a>
-            </li>
-          )
-        })}
-      </ul>
-    </nav>
-  )
-}
