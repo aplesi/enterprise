@@ -61,6 +61,26 @@ async function d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita, konte
   if (!res.ok) throw new Error(`D1 HTTP ${res.status}`)
 }
 
+/**
+ * Update ringkasan berita di D1 dengan recap lengkap (800-1200 kata).
+ * Flag sudah_jadi_artikel = 1 supaya /news bisa tampilkan versi recap.
+ */
+async function d1UpdateBeritaRecap(extId, artikel, gambarPath) {
+  if (!D1_URL) return
+  const res = await fetch(D1_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.CF_API_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      sql: `UPDATE berita SET ringkasan = ?, gambar_url = ?, sudah_jadi_artikel = 1 WHERE ext_id = ?`,
+      params: [artikel.konten, gambarPath || '', extId],
+    }),
+  })
+  if (!res.ok) throw new Error(`D1 HTTP ${res.status}`)
+}
+
 const MAKS_ARTIKEL_PER_SIKLUS = 5
 const KV_KEY_REGISTRY = 'berita:sudah-jadi-artikel'
 
@@ -510,7 +530,7 @@ async function main() {
       const slug = slugify(artikel.judul)
       const tanggal = new Date().toISOString().split('T')[0]
 
-      let gambarPath = '/images/og-default.png'
+      let gambarPath = ''
 
       // Hybrid image pipeline: RSS image → download, atau generate via FLUX-1
       if (berita.imageUrl) {
@@ -522,62 +542,30 @@ async function main() {
         }
       }
 
-      if (gambarPath === '/images/og-default.png') {
+      if (!gambarPath) {
         const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
         const gambarBuffer = await generateGambarDenganKuota(promptGambar)
         if (gambarBuffer) {
-          const imgFile = `artikel/${slug}-${Date.now()}.jpg`
+          const imgFile = `news/${berita.id}-${Date.now()}.jpg`
           const githubUrl = await uploadToGithub(gambarBuffer, `public/images/${imgFile}`)
           if (githubUrl) {
             gambarPath = githubUrl
-          } else {
-            // Fallback: simpan lokal (untuk CI/CD yang commit dulu)
-            const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
-            await mkdir(imgDir, { recursive: true })
-            await writeFile(join(imgDir, `${slug}.jpg`), gambarBuffer)
-            gambarPath = `/images/artikel/${slug}.jpg`
           }
         }
       }
 
-      const frontmatter = `---
-judul: "${esc(artikel.judul)}"
-slug: "${slug}"
-ringkasan: "${esc(artikel.ringkasan)}"
-gambar: "${gambarPath}"
-kategori: "Berita Terkini"
-tags: [${(artikel.tags || []).map((t) => `"${esc(t)}"`).join(', ')}]
-penulis: "Tim Redaksi APLESI"
-tanggal: "${tanggal}"
-status: "published"
-seoTitle: "${esc(artikel.seoTitle)}"
-seoDesc: "${esc(artikel.seoDesc)}"
-sumberBerita:
-  nama: "${esc(berita.sumberNama)}"
-  url: "${esc(berita.link)}"
-tanggalBerita: "${berita.tanggal}"
----
-
-${artikel.konten}`
-
-      const artikelDir = join(process.cwd(), 'content', 'artikel')
-      await mkdir(artikelDir, { recursive: true })
-      await writeFile(join(artikelDir, `${slug}.md`), frontmatter)
-
-      console.log(`   ✅ Disimpan: ${slug}.md`)
-
-      // Pre-render markdown → HTML dan simpan ke D1
+      // Simpan recap ke D1 berita (UPDATE ringkasan yang sudah ada)
+      // Bukan buat artikel .md baru!
       try {
-        const kontenHtml = await marked(artikel.konten)
-        await d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita, kontenHtml)
-        console.log(`   ✅ Disimpan ke D1: ${slug}`)
+        await d1UpdateBeritaRecap(berita.id, artikel, gambarPath)
+        console.log(`   ✅ Recap disimpan ke D1 berita: ${berita.id}`)
       } catch (err) {
-        console.warn(`   ⚠️ Gagal simpan ke D1 (artikel tetap ada di .md):`, err.message)
+        console.warn(`   ⚠️ Gagal update recap ke D1 berita:`, err.message)
       }
 
       registryBaru.push(berita.id)
     } catch (err) {
-      console.error(`   ❌ Gagal generate artikel dari berita "${berita.judul}":`, err.message)
+      console.error(`   ❌ Gagal generate recap dari berita "${berita.judul}":`, err.message)
       // Sengaja TIDAK ditambah ke registry -- akan dicoba lagi di siklus
       // cron berikutnya (bukan hilang permanen kalau Groq/CF sempat error).
     }
