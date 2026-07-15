@@ -4,6 +4,7 @@ import { Home, Sparkles, Calendar, Folder, BarChart3, DollarSign, ShoppingBag, U
 export const navPublic = [
   { label: 'Beranda', href: '/' },
   { label: 'Artikel', href: '/artikel' },
+  { label: 'Berita', href: '/news' },
   { label: 'Kategori', href: '/kategori/pembenihan' },
   { label: 'Produk', href: '/produk' },
   { label: 'Cari', href: '/cari' },

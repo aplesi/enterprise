@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { generateArtikel } from '@/lib/ai/groq'
-import { generateGambarDanSimpan } from '@/lib/ai/cloudflare-image'
+import { generateGambarDenganFallback } from '@/lib/ai/cloudflare-image'
 import {
   createGenerateLog,
   markLogSuccess,
@@ -41,44 +41,33 @@ export async function POST(req: NextRequest) {
     // Hitung jumlah kata konten
     const wordCount = artikel.konten ? artikel.konten.split(/\s+/).filter(Boolean).length : 0
 
-    // 2. Generate gambar dengan Cloudflare AI
-    let gambarError: string | undefined
+    // 2. Generate gambar dengan Cloudflare AI + placeholder fallback
+    // generateGambarDenganFallback TIDAK PERNAH throw — selalu return result
+    let imageSource = 'none'
     if (body.generateGambar) {
-      try {
-        const gambarUrl = await generateGambarDanSimpan(
-          artikel.imagePrompt,
-          artikel.slug
-        )
-        artikel.gambarUrl = gambarUrl
-      } catch (imgErr) {
-        console.warn('Generate gambar gagal:', imgErr)
-        gambarError = imgErr instanceof Error ? imgErr.message : String(imgErr)
-        // Tetap lanjut meski gambar gagal
+      const imgResult = await generateGambarDenganFallback(
+        artikel.imagePrompt,
+        artikel.slug,
+      )
+      artikel.gambarUrl = imgResult.url
+      imageSource = imgResult.source
+      if (imgResult.source !== 'ai') {
+        console.warn(`Image from fallback source: ${imgResult.source}`)
       }
     }
 
     const durationMs = Date.now() - startTime
 
-    // Update log: success atau partial (artikel sukses, gambar gagal)
+    // Update log: success (gambar selalu ada minimal placeholder)
     if (logId > 0) {
       try {
-        if (gambarError) {
-          await markLogPartial(logId, {
-            slug: artikel.slug,
-            judul: artikel.judul,
-            wordCount,
-            durationMs,
-            gambarError,
-          })
-        } else {
-          await markLogSuccess(logId, {
-            slug: artikel.slug,
-            judul: artikel.judul,
-            wordCount,
-            hasGambar: !!artikel.gambarUrl,
-            durationMs,
-          })
-        }
+        await markLogSuccess(logId, {
+          slug: artikel.slug,
+          judul: artikel.judul,
+          wordCount,
+          hasGambar: !!artikel.gambarUrl,
+          durationMs,
+        })
       } catch (logErr) {
         console.warn('Gagal update generate log:', logErr)
       }

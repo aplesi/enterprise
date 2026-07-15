@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
 
   // Tentukan apakah ini API route yang perlu diproteksi
   const isApiRoute = pathname.startsWith('/api/')
-  const isPublicApi = pathname.startsWith('/api/auth/') || pathname.startsWith('/api/subscriber') || pathname.startsWith('/api/ads-config')
+  const isPublicApi = pathname.startsWith('/api/auth/') || pathname.startsWith('/api/subscriber') || pathname.startsWith('/api/ads-config') || pathname.startsWith('/api/news')
   const isProtectedApi = isApiRoute && !isPublicApi
 
   // Proteksi semua route /admin/* kecuali /admin/login, dan semua protected API

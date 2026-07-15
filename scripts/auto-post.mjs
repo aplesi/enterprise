@@ -122,10 +122,10 @@ Respons hanya JSON:
 }
 
 async function generateGambar(prompt) {
-  console.log(`🖼️ Generating gambar...`)
+  console.log(`🖼️ Generating gambar via FLUX-1...`)
   try {
     const response = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0`,
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
       {
         method: 'POST',
         headers: {
@@ -133,10 +133,10 @@ async function generateGambar(prompt) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: `${prompt}, fish farming Indonesia, professional photography, high quality`,
-          num_steps: 20,
-          width: 1200,
-          height: 640, // wajib kelipatan 64 di backend Triton Cloudflare -- 630 selalu gagal HTTP 500
+          prompt: `${prompt}, professional photography, high quality, 4k`,
+          num_steps: 4,
+          width: 1024,
+          height: 576,
         }),
       }
     )
@@ -149,14 +149,9 @@ async function generateGambar(prompt) {
 }
 
 // ---------- Kuota harian generate gambar (dibagi dgn generate-berita-artikel.mjs) ----------
-// @cf/stabilityai/stable-diffusion-xl-base-1.0 saat ini masih status Beta di
-// Cloudflare Workers AI ($0.00/step, belum masuk hitungan 10.000 Neuron/hari
-// gratis). TAPI status beta bisa berubah kapan saja jadi GA (berbayar/masuk
-// kuota Neuron). Counter ini jaga-jaga: begitu kuota harian gabungan (kedua
-// script) tercapai, generate gambar di-skip dan pakai fallback og-default.png
-// -- supaya kalau beta berakhir, kita tidak kebobolan tagihan/limit mendadak.
-// SDXL saat ini masih Beta ($0.00/step), jadi batas bisa longgar.
-const BATAS_GAMBAR_PER_HARI = 100
+// FLUX-1 Schnell: 10.000 Neuron gratis/bulan (~10.000 langkah).
+// num_steps=4 → ~2.500 gambar/bulan. Counter jaga-jaga.
+const BATAS_GAMBAR_PER_HARI = 50
 
 function kvKuotaKey() {
   const tanggalUTC = new Date().toISOString().split('T')[0]
@@ -195,6 +190,51 @@ async function kvTambahKuotaGambar(nilaiSekarang) {
   }
 }
 
+// ---------- GitHub Image Storage ----------
+async function uploadToGithub(buffer, destPath) {
+  const token = process.env.GITHUB_TOKEN
+  const owner = process.env.GITHUB_OWNER
+  const repo = process.env.GITHUB_REPO
+  if (!token || !owner || !repo) return ''
+
+  try {
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${destPath}`
+    const existing = await fetch(apiUrl, {
+      headers: { Authorization: `Bearer ${token}`, 'User-Agent': 'aplesi-enterprise' },
+    })
+
+    let sha
+    if (existing.ok) {
+      const data = await existing.json()
+      sha = data.sha
+    }
+
+    const res = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'aplesi-enterprise',
+      },
+      body: JSON.stringify({
+        message: `chore: add image for ${destPath.split('/').pop()}`,
+        content: buffer.toString('base64'),
+        ...(sha ? { sha } : {}),
+      }),
+    })
+
+    if (!res.ok) {
+      console.warn(`⚠️ GitHub upload gagal: ${res.status}`)
+      return ''
+    }
+
+    return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@main/${destPath}`
+  } catch (err) {
+    console.warn(`⚠️ GitHub upload error:`, err.message)
+    return ''
+  }
+}
+
 async function generateGambarDenganKuota(prompt) {
   const kuotaSekarang = await kvAmbilKuotaGambarHariIni()
   if (kuotaSekarang >= BATAS_GAMBAR_PER_HARI) {
@@ -222,12 +262,19 @@ async function main() {
       const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
       const gambarBuffer = await generateGambarDenganKuota(promptGambar)
       if (gambarBuffer) {
-        const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
-        await mkdir(imgDir, { recursive: true })
-        const imgFile = `${slug}.png`
-        await writeFile(join(imgDir, imgFile), gambarBuffer)
-        gambarPath = `/images/artikel/${imgFile}`
-        console.log(`✅ Gambar disimpan: ${imgFile}`)
+        const imgFile = `artikel/${slug}-${Date.now()}.png`
+        const githubUrl = await uploadToGithub(gambarBuffer, `public/images/${imgFile}`)
+        if (githubUrl) {
+          gambarPath = githubUrl
+          console.log(`✅ Gambar tersimpan di GitHub: ${githubUrl}`)
+        } else {
+          // Fallback: simpan lokal
+          const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
+          await mkdir(imgDir, { recursive: true })
+          await writeFile(join(imgDir, `${slug}.png`), gambarBuffer)
+          gambarPath = `/images/artikel/${slug}.png`
+          console.log(`✅ Gambar disimpan lokal: ${slug}.png`)
+        }
       }
 
       // Buat file markdown dengan frontmatter

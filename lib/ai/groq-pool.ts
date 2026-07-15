@@ -11,9 +11,12 @@
 // Jika satu key kena rate limit (429), otomatis pindah ke key berikutnya.
 // Setelah semua key habis, throw error.
 
-import { kvGet } from '@/lib/cloudflare/kv'
+import { kvGet, kvSet } from '@/lib/cloudflare/kv'
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
+
+/** KV prefix untuk menyimpan rate limit state per key */
+const KV_STATE_PREFIX = 'groq:keystate:'
 
 export interface GroqChatParams {
   model: string
@@ -46,6 +49,27 @@ const ENV_KEYS = [
 
 let pool: KeyState[] | null = null
 
+/** Simpan state satu key ke KV (async, fire-and-forget) */
+async function saveKeyState(state: KeyState): Promise<void> {
+  try {
+    await kvSet(`${KV_STATE_PREFIX}${state.label}`, JSON.stringify({
+      rateLimitedAt: state.rateLimitedAt,
+      retryAfterSec: state.retryAfterSec,
+      successCount: state.successCount,
+      failCount: state.failCount,
+    }))
+  } catch { /* ignore */ }
+}
+
+/** Baca state satu key dari KV */
+async function loadKeyState(label: string): Promise<Partial<KeyState>> {
+  try {
+    const raw = await kvGet(`${KV_STATE_PREFIX}${label}`)
+    if (raw) return JSON.parse(raw) as Partial<KeyState>
+  } catch { /* ignore */ }
+  return {}
+}
+
 export function clearPoolCache() {
   pool = null
 }
@@ -54,6 +78,9 @@ export async function initPool(): Promise<KeyState[]> {
   if (pool) return pool
 
   pool = []
+  const loadedLabels = new Set<string>()
+
+  // 1) Load dari ENV_KEYS (process.env atau KV fallback)
   for (const envName of ENV_KEYS) {
     let key = process.env[envName]
 
@@ -64,16 +91,41 @@ export async function initPool(): Promise<KeyState[]> {
     }
 
     if (key && key.length > 10) {
+      const saved = await loadKeyState(envName)
       pool.push({
         key,
         label: envName,
-        rateLimitedAt: 0,
-        retryAfterSec: 0,
-        successCount: 0,
-        failCount: 0,
+        rateLimitedAt: saved.rateLimitedAt || 0,
+        retryAfterSec: saved.retryAfterSec || 0,
+        successCount: saved.successCount || 0,
+        failCount: saved.failCount || 0,
       })
+      loadedLabels.add(envName)
     }
   }
+
+  // 2) Load dynamic keys dari KV (settings:GROQ_API_KEY_6, dst)
+  try {
+    const { kvList } = await import('@/lib/cloudflare/kv')
+    const allKeys = await kvList('settings:GROQ_API_KEY')
+    for (const kvKey of allKeys) {
+      const label = kvKey.replace('settings:', '')
+      if (loadedLabels.has(label)) continue
+      const val = await kvGet(kvKey)
+      if (val && val.length > 10) {
+        const saved = await loadKeyState(label)
+        pool.push({
+          key: val,
+          label,
+          rateLimitedAt: saved.rateLimitedAt || 0,
+          retryAfterSec: saved.retryAfterSec || 0,
+          successCount: saved.successCount || 0,
+          failCount: saved.failCount || 0,
+        })
+        loadedLabels.add(label)
+      }
+    }
+  } catch { /* ignore */ }
 
   if (pool.length === 0) {
     // Fallback: buat dummy agar tidak crash saat dev tanpa key
@@ -109,6 +161,7 @@ export async function getAvailableKey(): Promise<KeyState> {
       // Reset status rate limit
       state.rateLimitedAt = 0
       state.retryAfterSec = 0
+      saveKeyState(state) // persist recovery
       return state
     }
   }
@@ -135,6 +188,8 @@ export function markRateLimited(state: KeyState, retryAfterSec: number): void {
   state.rateLimitedAt = Date.now()
   state.retryAfterSec = retryAfterSec || 60
   state.failCount++
+  // Persist ke KV supaya realtime di admin panel
+  saveKeyState(state)
 }
 
 /**
@@ -142,6 +197,8 @@ export function markRateLimited(state: KeyState, retryAfterSec: number): void {
  */
 export function markSuccess(state: KeyState): void {
   state.successCount++
+  // Persist ke KV supaya realtime di admin panel
+  saveKeyState(state)
 }
 
 /**

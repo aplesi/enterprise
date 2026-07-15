@@ -101,6 +101,7 @@ export interface BeritaItem {
   sumberNama: string
   asal: 'indonesia' | 'internasional'
   tanggal: string
+  imageUrl: string
 }
 
 export interface GenerateArtikelDariBeritaRequest {
@@ -150,6 +151,7 @@ export interface NewsItem {
   sumber: string
   tanggal: string
   kategori: 'nasional' | 'internasional'
+  imageUrl: string
 }
 
 // --- API Response ---

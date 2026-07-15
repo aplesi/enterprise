@@ -103,12 +103,23 @@ export default async function NewsPage({
                 <a href={featured.url} target="_blank" rel="noopener noreferrer nofollow" className="group block">
                   <div className="card-modern overflow-hidden hover:shadow-luxury-lg transition-all duration-500 hover:-translate-y-1">
                     <div className="grid lg:grid-cols-2 gap-0">
-                      {/* "Image" placeholder — sumber tidak menyertakan gambar via RSS */}
-                      <div className="relative h-64 lg:h-full min-h-[280px] overflow-hidden bg-gradient-to-br from-azure/25 via-midnight/10 to-midnight/40 flex items-center justify-center">
+                      {/* Image — dari RSS atau gradient fallback */}
+                      <div className="relative h-64 lg:h-full min-h-[280px] overflow-hidden">
+                        {featured.imageUrl ? (
+                          <img
+                            src={featured.imageUrl}
+                            alt={featured.judul}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-br from-azure/25 via-midnight/10 to-midnight/40 flex items-center justify-center">
+                            <span className="relative text-white font-bold text-xl px-8 text-center drop-shadow">
+                              {featured.sumber}
+                            </span>
+                          </div>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-midnight/60 to-transparent"></div>
-                        <span className="relative text-white font-bold text-xl px-8 text-center drop-shadow">
-                          {featured.sumber}
-                        </span>
                         <div className="absolute top-6 left-6">
                           <span className="px-4 py-2 bg-azure text-white rounded-full text-xs font-bold shadow-lg flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
@@ -172,8 +183,19 @@ export default async function NewsPage({
                   className="group"
                 >
                   <article className="card-modern overflow-hidden hover:shadow-luxury transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
-                    <div className="relative h-36 overflow-hidden bg-gradient-to-br from-azure/10 via-white to-midnight/10 flex items-center justify-center">
-                      <span className="text-midnight/70 font-bold text-sm px-4 text-center">{news.sumber}</span>
+                    <div className="relative h-36 overflow-hidden">
+                      {news.imageUrl ? (
+                        <img
+                          src={news.imageUrl}
+                          alt={news.judul}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-azure/10 via-white to-midnight/10 flex items-center justify-center">
+                          <span className="text-midnight/70 font-bold text-sm px-4 text-center">{news.sumber}</span>
+                        </div>
+                      )}
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1.5 bg-white/95 backdrop-blur-sm text-midnight rounded-full text-xs font-bold">
                           {labelKategori(news.kategori)}

@@ -11,6 +11,7 @@ export interface RSSItemMentah {
   link: string
   tanggal: string
   ringkasan: string
+  imageUrl: string
 }
 
 function decodeEntities(str: string): string {
@@ -61,6 +62,36 @@ function truncateRingkasan(text: string, max = 500): string {
 }
 
 /**
+ * Extract URL gambar dari blok RSS/Atom.
+ * Prioritas: media:content > media:thumbnail > enclosure > img di description
+ */
+function extractImageUrl(block: string): string {
+  // 1. <media:content url="..."> atau <media:content medium="image" url="...">
+  const mediaContent = block.match(
+    /<media:content[^>]*\surl=["']([^"']+)["'][^>]*/i
+  )
+  if (mediaContent) return mediaContent[1]
+
+  // 2. <media:thumbnail url="...">
+  const mediaThumbnail = block.match(
+    /<media:thumbnail[^>]*\surl=["']([^"']+)["'][^>]*/i
+  )
+  if (mediaThumbnail) return mediaThumbnail[1]
+
+  // 3. <enclosure url="..." type="image/...">
+  const enclosure = block.match(
+    /<enclosure[^>]*\surl=["']([^"']+)["'][^>]*\stype=["']image\/[^"']+["'][^>]*/i
+  )
+  if (enclosure) return enclosure[1]
+
+  // 4. <img src="..."> di dalam description/content
+  const imgInContent = block.match(/<img[^>]*\ssrc=["']([^"']+)["'][^>]*/i)
+  if (imgInContent) return imgInContent[1]
+
+  return ''
+}
+
+/**
  * Parse feed RSS 2.0 (<item>) atau Atom (<entry>).
  * Google News, WordPress, dan Blogger (?alt=rss) semuanya format RSS 2.0.
  */
@@ -100,7 +131,9 @@ export function parseRSSFeed(xml: string): RSSItemMentah[] {
       extractTag(block, 'content')
     const ringkasan = truncateRingkasan(bersihkanTeks(ringkasanRaw))
 
-    items.push({ judul, link, tanggal, ringkasan })
+    const imageUrl = extractImageUrl(block)
+
+    items.push({ judul, link, tanggal, ringkasan, imageUrl })
   }
 
   return items

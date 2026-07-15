@@ -11,8 +11,10 @@
 import { SUMBER_BERITA } from './sources'
 import { parseRSSFeed } from './rss-parser'
 import type { BeritaItem, NewsItem } from '@/types'
-import { getBeritaTerbaru, insertBeritaBatch, countBerita } from '@/lib/db/berita'
+import { getBeritaTerbaru, insertBeritaBatch, countBerita, updateGambarUrl } from '@/lib/db/berita'
 import { rewriteBeritaBatch } from '@/lib/ai/groq'
+import { downloadDanSimpanGambar, generateGambarDanSimpan } from '@/lib/ai/cloudflare-image'
+import { buildFallbackImagePrompt } from '@/lib/ai/groq'
 
 const KATA_KUNCI_RELEVAN = [
   'ikan', 'fish', 'perikanan', 'fisheries', 'akuakultur', 'aquaculture',
@@ -74,6 +76,7 @@ export async function scrapeBeritaPerikanan(): Promise<HasilScrape> {
             sumberNama: sumber.nama,
             asal: sumber.asal,
             tanggal: m.tanggal,
+            imageUrl: m.imageUrl || '',
           })
         )
     })
@@ -104,6 +107,10 @@ export async function scrapeBeritaPerikanan(): Promise<HasilScrape> {
 /**
  * Scrape + rewrite + simpan ke D1.
  * Dijalankan oleh cron script secara periodik.
+ *
+ * Hybrid image pipeline:
+ * - Ada imageUrl dari RSS? → download & simpan ke GitHub (0 AI call)
+ * - Tidak ada imageUrl? → generate via FLUX-1 (2 AI call: Groq prompt + FLUX-1)
  */
 export async function scrapeAndSaveToDB(): Promise<{ inserted: number; total: number }> {
   const { items } = await scrapeBeritaPerikanan()
@@ -134,11 +141,63 @@ export async function scrapeAndSaveToDB(): Promise<{ inserted: number; total: nu
       sumberNama: item.sumberNama,
       asal: item.asal as 'indonesia' | 'internasional',
       tanggal: item.tanggal,
+      gambarUrl: item.imageUrl || '',
     }
   })
 
   const inserted = await insertBeritaBatch(dataInsert)
+
+  // Proses gambar untuk berita yang baru di-insert
+  // Await supaya gambar pasti tersimpan sebelum selesai (penting untuk cron)
+  try {
+    await prosesGambarBerita(items, rewriteMap)
+  } catch (err) {
+    console.error('[News] Image processing failed:', err)
+  }
+
   return { inserted, total: items.length }
+}
+
+/**
+ * Proses gambar untuk berita baru — hybrid pipeline.
+ * Dijalankan sebagai background task (tidak blocking response).
+ *
+ * Prioritas:
+ * 1. Ada imageUrl dari RSS → download & simpan
+ * 2. Tidak ada → generate via FLUX-1 dari judul
+ */
+async function prosesGambarBerita(
+  items: BeritaItem[],
+  rewriteMap: Record<string, { judul: string; ringkasan: string }>
+): Promise<void> {
+  // Proses max 5 berita per batch (hemat resource)
+  const batch = items.slice(0, 5)
+
+  for (const item of batch) {
+    try {
+      const judul = rewriteMap[item.id]?.judul || item.judul
+      let gambarUrl = ''
+
+      // Prioritas 1: Download gambar dari RSS
+      if (item.imageUrl) {
+        gambarUrl = await downloadDanSimpanGambar(item.imageUrl, item.id)
+      }
+
+      // Prioritas 2: Generate via FLUX-1 jika tidak ada gambar RSS
+      if (!gambarUrl) {
+        const prompt = buildFallbackImagePrompt(judul, 'berita')
+        gambarUrl = await generateGambarDanSimpan(prompt, `news-${item.id}`)
+      }
+
+      // Update D1 dengan URL gambar
+      if (gambarUrl) {
+        await updateGambarUrl(item.id, gambarUrl)
+        console.log(`[News] Gambar disimpan untuk "${judul.slice(0, 40)}...": ${gambarUrl}`)
+      }
+    } catch (err) {
+      console.warn(`[News] Gagal proses gambar untuk "${item.judul.slice(0, 40)}...":`, err)
+    }
+  }
 }
 
 // --- Wrapper untuk halaman /news & /api/news ---

@@ -11,6 +11,8 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.cloudflare.com' },
       { protocol: 'https', hostname: '**.aplesi.my.id' },
       { protocol: 'https', hostname: 'picsum.photos' },
+      { protocol: 'https', hostname: 'raw.githubusercontent.com' },
+      { protocol: 'https', hostname: 'cdn.jsdelivr.net' },
     ],
   },
 

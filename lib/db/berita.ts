@@ -19,6 +19,7 @@ interface BeritaRow {
   sumber_nama: string
   asal: string
   tanggal: string
+  gambar_url: string
   sudah_jadi_artikel: number
   created_at: string
 }
@@ -31,6 +32,7 @@ function rowToNewsItem(row: BeritaRow): NewsItem {
     sumber: row.sumber_nama || '',
     tanggal: row.tanggal,
     kategori: row.asal === 'indonesia' ? 'nasional' : 'internasional',
+    imageUrl: row.gambar_url || '',
   }
 }
 
@@ -91,12 +93,13 @@ export interface InsertBeritaData {
   sumberNama: string
   asal: 'indonesia' | 'internasional'
   tanggal: string
+  gambarUrl?: string
 }
 
 export async function insertBerita(data: InsertBeritaData): Promise<number> {
   return insert(
-    `INSERT OR IGNORE INTO berita (ext_id, judul, judul_asli, ringkasan, ringkasan_asli, url_sumber, sumber_id, sumber_nama, asal, tanggal)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT OR IGNORE INTO berita (ext_id, judul, judul_asli, ringkasan, ringkasan_asli, url_sumber, sumber_id, sumber_nama, asal, tanggal, gambar_url)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       data.extId,
       data.judul,
@@ -108,6 +111,7 @@ export async function insertBerita(data: InsertBeritaData): Promise<number> {
       data.sumberNama,
       data.asal,
       data.tanggal,
+      data.gambarUrl || '',
     ]
   )
 }
@@ -133,10 +137,29 @@ export async function tandaiSudahJadiArtikel(extId: string): Promise<boolean> {
   return result.success
 }
 
+export async function updateGambarUrl(extId: string, gambarUrl: string): Promise<boolean> {
+  const result = await query(
+    `UPDATE berita SET gambar_url = ? WHERE ext_id = ?`,
+    [gambarUrl, extId]
+  )
+  return result.success
+}
+
 export async function hapusBeritaLama(hariKebelakang = 30): Promise<number> {
   const result = await query(
     `DELETE FROM berita WHERE tanggal < datetime('now', ? || ' days')`,
     [`-${hariKebelakang}`]
   )
   return result.meta?.changes || 0
+}
+
+/**
+ * Ambil berita yang belum punya gambar_url (untuk backfill)
+ */
+export async function getBeritaTanpaGambar(limit = 10): Promise<Array<{ ext_id: string; judul: string; url_sumber: string }>> {
+  const result = await query<{ ext_id: string; judul: string; url_sumber: string }>(
+    `SELECT ext_id, judul, url_sumber FROM berita WHERE (gambar_url IS NULL OR gambar_url = '') ORDER BY tanggal DESC LIMIT ?`,
+    [limit]
+  )
+  return result.results || []
 }

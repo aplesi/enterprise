@@ -20,7 +20,7 @@ import {
  * Rakit image prompt deterministik dari judul + kategori.
  * Tidak memanggil LLM — zero cost, zero risk hallucination.
  */
-function buildFallbackImagePrompt(judul: string, kategori: string): string {
+export function buildFallbackImagePrompt(judul: string, kategori: string): string {
   const kategoriMap: Record<string, string> = {
     'Pembenihan': 'fish hatchery, fish breeding pond, baby fish fry',
     'Pakan': 'fish feed preparation, fish feeding in pond',
@@ -188,7 +188,15 @@ ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
 5. SERTAKAN DATA KONKRET: biaya dalam Rupiah (contoh: Rp 2.000.000-5.000.000), durasi (contoh: 3-4 bulan), ukuran (contoh: diameter 3 meter), dosis (contoh: 5 ml per 1000 liter). Jangan menulis "biaya murah" tanpa angka.
 6. Untuk SEO lokal Indonesia: sebutkan nama daerah/kota penghasil ikan terbesar, nama merek pakan/probiotik populer di Indonesia, dan referensi ke standar KKP (Kementerian Kelautan dan Perikanan) jika relevan.
 
-SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk model Stable Diffusion, yang menggambarkan SATU adegan visual KONKRET dan SPESIFIK yang benar-benar dibahas di artikel ini (bukan judul artikel, bukan deskripsi generik "fish farming"). Ambil detail nyata dari isi artikel: jenis ikan/spesies, jenis kolam/media, alat/bahan yang disebutkan, tahapan yang sedang dijelaskan, atau kondisi visual yang relevan (warna air, tekstur pakan, dsb). Contoh format yang benar: "close-up of catfish fingerlings being released into a blue tarpaulin pond, clear morning light, hand visible pouring fish from a plastic bag, rural Indonesian aquaculture setting, realistic photography style". Jangan buat prompt umum seperti "fish farming pond Indonesia" -- harus spesifik ke isi artikel.`
+SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk model FLUX-1. Prompt HARUS menggambarkan SATU adegan visual KONKRET dan SPESIFIK dari isi artikel yang baru kamu tulis (bukan dari judul saja). Ikuti aturan ketat ini:
+- WAJIB sebutkan: jenis ikan/spesies yang dibahas, jenis kolam/media yang disebutkan, alat/bahan yang dipakai, tahapan spesifik yang sedang dijelaskan
+- WAJIB sebutkan setting: indoor/outdoor, waktu (pagi/siang/sore), kondisi cuaca
+- WAJIB sebutkan detail visual: warna air, warna ikan, tekstur pakan, material kolam
+- WAJIB akhiri dengan: "Indonesian aquaculture, natural lighting, editorial photography"
+- JANGAN gunakan kata-kata abstrak seperti "modern", "professional", "advanced"
+- JANGAN buat prompt umum — harus spesifik ke konten artikel
+Contoh benar: "a young Indonesian farmer releasing thousands of tiny silver catfish fry into a rectangular concrete pond filled with green-tinged water, morning sunlight casting long shadows, plastic bucket nearby, rural Java village background, Indonesian aquaculture, natural lighting, editorial photography"
+Contoh SALAH: "modern fish farming technology in Indonesia" (terlalu umum)`
 
   const userPrompt = `Tulis artikel tentang: "${req.topik}"
 

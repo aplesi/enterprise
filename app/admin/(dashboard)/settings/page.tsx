@@ -5,7 +5,7 @@ import {
   Cloud, FileCode2, Mail, Lock, DollarSign,
   Settings as SettingsIcon, Loader2, Save, XCircle, Check,
   Eye, EyeOff, ExternalLink, RefreshCw, CheckCircle2,
-  Clock, Key, Zap, Cpu
+  Clock, Key, Zap, Cpu, Plus, Trash2, AlertTriangle
 } from 'lucide-react'
 
 interface SettingField {
@@ -35,6 +35,12 @@ interface GroqStatus {
   available: number
   rateLimited: number
   keys: GroqKeyInfo[]
+}
+
+interface GroqKeyEntry {
+  label: string
+  keySuffix: string
+  isSet: boolean
 }
 
 const SETTINGS: { grup: string; icon: typeof Cloud; fields: SettingField[] }[] = [
@@ -180,14 +186,6 @@ const SETTINGS: { grup: string; icon: typeof Cloud; fields: SettingField[] }[] =
   },
 ]
 
-const GROQ_KEYS = [
-  { key: 'GROQ_API_KEY', label: 'Key Utama (GROQ_API_KEY)' },
-  { key: 'GROQ_API_KEY_2', label: 'Key Cadangan 2 (GROQ_API_KEY_2)' },
-  { key: 'GROQ_API_KEY_3', label: 'Key Cadangan 3 (GROQ_API_KEY_3)' },
-  { key: 'GROQ_API_KEY_4', label: 'Key Cadangan 4 (GROQ_API_KEY_4)' },
-  { key: 'GROQ_API_KEY_5', label: 'Key Cadangan 5 (GROQ_API_KEY_5)' },
-]
-
 export default function SettingsPage() {
   const [values, setValues] = useState<Record<string, string>>({})
   const [show, setShow] = useState<Record<string, boolean>>({})
@@ -198,6 +196,13 @@ export default function SettingsPage() {
   // Groq status
   const [groqStatus, setGroqStatus] = useState<GroqStatus | null>(null)
   const [groqLoading, setGroqLoading] = useState(true)
+
+  // Dynamic Groq key management
+  const [groqKeys, setGroqKeys] = useState<GroqKeyEntry[]>([])
+  const [newKeyValue, setNewKeyValue] = useState('')
+  const [addingKey, setAddingKey] = useState(false)
+  const [deletingKey, setDeletingKey] = useState<string | null>(null)
+  const [keyActionMsg, setKeyActionMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   useEffect(() => {
     fetch('/api/settings')
@@ -219,9 +224,70 @@ export default function SettingsPage() {
 
   useEffect(() => {
     fetchGroqStatus()
+    fetchGroqKeys()
     const interval = setInterval(fetchGroqStatus, 30000)
     return () => clearInterval(interval)
   }, [fetchGroqStatus])
+
+  // Fetch dynamic Groq keys from KV
+  const fetchGroqKeys = useCallback(() => {
+    fetch('/api/groq/keys')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) setGroqKeys(data.data.keys || [])
+      })
+      .catch(() => {})
+  }, [])
+
+  // Add new Groq API key
+  async function tambahGroqKey() {
+    if (!newKeyValue.trim() || newKeyValue.trim().length < 10) {
+      setKeyActionMsg({ type: 'error', text: 'API key tidak valid (minimal 10 karakter)' })
+      return
+    }
+    setAddingKey(true)
+    setKeyActionMsg(null)
+    try {
+      const res = await fetch('/api/groq/keys', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apiKey: newKeyValue.trim() }),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error)
+      setKeyActionMsg({ type: 'success', text: data.message })
+      setNewKeyValue('')
+      fetchGroqKeys()
+      fetchGroqStatus()
+    } catch (err: unknown) {
+      setKeyActionMsg({ type: 'error', text: err instanceof Error ? err.message : 'Gagal menambahkan key' })
+    } finally {
+      setAddingKey(false)
+    }
+  }
+
+  // Delete Groq API key
+  async function hapusGroqKey(label: string) {
+    if (!confirm(`Yakin ingin menghapus ${label}? Key ini tidak akan bisa dipakai lagi untuk generate.`)) return
+    setDeletingKey(label)
+    setKeyActionMsg(null)
+    try {
+      const res = await fetch('/api/groq/keys', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ label }),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error)
+      setKeyActionMsg({ type: 'success', text: data.message })
+      fetchGroqKeys()
+      fetchGroqStatus()
+    } catch (err: unknown) {
+      setKeyActionMsg({ type: 'error', text: err instanceof Error ? err.message : 'Gagal menghapus key' })
+    } finally {
+      setDeletingKey(null)
+    }
+  }
 
   async function simpanSemua() {
     setSaving(true)
@@ -431,50 +497,108 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* 5 API Key Inputs */}
-        <div className="space-y-3 pt-2 border-t border-white/10">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-white/60 flex items-center gap-1.5">
-            <Key className="h-3.5 w-3.5" />
-            Masukkan API Key (hingga 5)
-          </h3>
-          {GROQ_KEYS.map((gk) => (
-            <div key={gk.key}>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-bold text-white/70">
-                  {gk.label}
-                </label>
-                {saved[gk.key] && (
-                  <span className="flex items-center gap-1 text-xs text-aqua-glow font-bold">
-                    <Check className="h-3.5 w-3.5" />
-                    Tersimpan
-                  </span>
-                )}
-              </div>
-              <div className="relative">
+        {/* Dynamic API Key Management */}
+        <div className="space-y-4 pt-2 border-t border-white/10">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white/60 flex items-center gap-1.5">
+              <Key className="h-3.5 w-3.5" />
+              Kelola API Key ({groqKeys.length} terdaftar)
+            </h3>
+          </div>
+
+          {/* Action message */}
+          {keyActionMsg && (
+            <div className={`flex items-start gap-3 rounded-lg p-3 text-xs ${
+              keyActionMsg.type === 'success'
+                ? 'border border-green-400/30 bg-green-500/10 text-green-300'
+                : 'border border-red-400/30 bg-red-500/10 text-red-300'
+            }`}>
+              {keyActionMsg.type === 'success'
+                ? <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5" />
+                : <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+              }
+              <span>{keyActionMsg.text}</span>
+            </div>
+          )}
+
+          {/* Existing keys list */}
+          {groqKeys.length > 0 && (
+            <div className="space-y-2">
+              {groqKeys.map((gk) => (
+                <div
+                  key={gk.label}
+                  className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="grid h-8 w-8 place-items-center rounded-lg bg-aqua-glow/10">
+                      <Key className="h-4 w-4 text-aqua-glow" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-white">{gk.label}</p>
+                      <p className="text-[10px] text-white/40 font-mono">...{gk.keySuffix}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => hapusGroqKey(gk.label)}
+                    disabled={deletingKey === gk.label}
+                    className="flex items-center gap-1.5 rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-300 hover:bg-red-500/20 transition-all disabled:opacity-50"
+                  >
+                    {deletingKey === gk.label ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-3.5 w-3.5" />
+                    )}
+                    Hapus
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Add new key */}
+          <div className="rounded-lg border border-dashed border-white/20 bg-white/[0.02] p-4 space-y-3">
+            <label className="block text-xs font-bold text-white/60">
+              Tambah API Key Baru
+            </label>
+            <div className="flex gap-2">
+              <div className="relative flex-1">
                 <input
-                  type={show[gk.key] ? 'text' : 'password'}
-                  value={values[gk.key] || ''}
-                  onChange={(e) =>
-                    setValues((prev) => ({ ...prev, [gk.key]: e.target.value }))
-                  }
-                  placeholder="gsk_..."
+                  type={show['new_groq_key'] ? 'text' : 'password'}
+                  value={newKeyValue}
+                  onChange={(e) => setNewKeyValue(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') tambahGroqKey() }}
+                  placeholder="gsk_xxxxxxxxxxxxxxxxxxxx"
                   className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 pr-10 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
                 />
                 <button
                   type="button"
-                  onClick={() =>
-                    setShow((prev) => ({ ...prev, [gk.key]: !prev[gk.key] }))
-                  }
+                  onClick={() => setShow((prev) => ({ ...prev, 'new_groq_key': !prev['new_groq_key'] }))}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
                 >
-                  {show[gk.key] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {show['new_groq_key'] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
+              <button
+                onClick={tambahGroqKey}
+                disabled={addingKey || !newKeyValue.trim()}
+                className="flex items-center gap-1.5 rounded-lg gradient-aqua px-4 py-2.5 text-sm font-bold text-white shadow-glow hover:opacity-90 transition-opacity disabled:opacity-50 shrink-0"
+              >
+                {addingKey ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Plus className="h-4 w-4" />
+                )}
+                Tambah
+              </button>
             </div>
-          ))}
-          <p className="text-xs text-white/40">
-            Setelah menyimpan key baru, tekan <strong>Refresh Status</strong> untuk melihat status terbaru.
-          </p>
+            <p className="text-[10px] text-white/40">
+              Dapatkan API Key gratis di{' '}
+              <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" className="text-aqua-glow hover:underline">
+                console.groq.com/keys
+              </a>
+              {' '}— maksimal 10 key. Setiap key = ~14.400 request/hari.
+            </p>
+          </div>
         </div>
       </div>
 

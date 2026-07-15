@@ -127,6 +127,31 @@ function truncateRingkasan(text, max = 500) {
   return text.slice(0, max).trim() + '...'
 }
 
+/**
+ * Ekstrak URL gambar dari blok RSS/Atom.
+ * Prioritas: media:content > media:thumbnail > enclosure > img in description
+ */
+function extractImageUrl(block) {
+  // media:content url="..."
+  const mediaContent = block.match(/<media:content[^>]*\surl=["']([^"']+)["']/i)
+  if (mediaContent?.[1]) return mediaContent[1]
+
+  // media:thumbnail url="..."
+  const mediaThumb = block.match(/<media:thumbnail[^>]*\surl=["']([^"']+)["']/i)
+  if (mediaThumb?.[1]) return mediaThumb[1]
+
+  // enclosure url="..." type="image/..."
+  const enclosure = block.match(/<enclosure[^>]*\surl=["']([^"']+)["'][^>]*\stype=["']image\//i)
+  if (enclosure?.[1]) return enclosure[1]
+
+  // <img src="..."> dalam description
+  const descBlock = extractTag(block, 'description')
+  const imgInDesc = descBlock.match(/<img[^>]*\ssrc=["']([^"']+)["']/i)
+  if (imgInDesc?.[1]) return imgInDesc[1]
+
+  return ''
+}
+
 function parseRSSFeed(xml) {
   const isAtom = /<feed[\s>]/i.test(xml) && !/<rss[\s>]/i.test(xml)
   const blockTag = isAtom ? 'entry' : 'item'
@@ -162,7 +187,9 @@ function parseRSSFeed(xml) {
       extractTag(block, 'content')
     const ringkasan = truncateRingkasan(bersihkanTeks(ringkasanRaw))
 
-    items.push({ judul, link, tanggal, ringkasan })
+    const imageUrl = extractImageUrl(block)
+
+    items.push({ judul, link, tanggal, ringkasan, imageUrl })
   }
 
   return items
@@ -193,6 +220,7 @@ async function scrapeBeritaPerikanan() {
           sumberNama: sumber.nama,
           asal: sumber.asal,
           tanggal: m.tanggal,
+          imageUrl: m.imageUrl || '',
         }))
     })
   )
@@ -304,11 +332,82 @@ Respons hanya JSON:
   return JSON.parse(completion.choices[0].message.content)
 }
 
+// ---------- GitHub Image Storage (duplikat dari lib/ai/cloudflare-image.ts) ----------
+async function uploadToGithub(buffer, destPath) {
+  const token = process.env.GITHUB_TOKEN
+  const owner = process.env.GITHUB_OWNER
+  const repo = process.env.GITHUB_REPO
+  if (!token || !owner || !repo) return ''
+
+  try {
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${destPath}`
+    const existing = await fetch(apiUrl, {
+      headers: { Authorization: `Bearer ${token}`, 'User-Agent': 'aplesi-enterprise' },
+    })
+
+    let sha
+    if (existing.ok) {
+      const data = await existing.json()
+      sha = data.sha
+    }
+
+    const res = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'aplesi-enterprise',
+      },
+      body: JSON.stringify({
+        message: `chore: add image for ${destPath.split('/').pop()}`,
+        content: buffer.toString('base64'),
+        ...(sha ? { sha } : {}),
+      }),
+    })
+
+    if (!res.ok) {
+      console.warn(`   ⚠️ GitHub upload gagal: ${res.status}`)
+      return ''
+    }
+
+    return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@main/${destPath}`
+  } catch (err) {
+    console.warn(`   ⚠️ GitHub upload error:`, err.message)
+    return ''
+  }
+}
+
+/**
+ * Download gambar dari URL eksternal & simpan ke GitHub.
+ * Return raw URL atau '' jika gagal.
+ */
+async function downloadDanSimpanGambar(imageUrl, id) {
+  try {
+    const res = await fetch(imageUrl, {
+      signal: AbortSignal.timeout(10000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AplesiBot/1.0)' },
+    })
+    if (!res.ok) return ''
+    const contentType = res.headers.get('content-type') || ''
+    if (!contentType.includes('image')) return ''
+
+    const buffer = Buffer.from(await res.arrayBuffer())
+    if (buffer.length < 1000) return ''
+
+    const ext = contentType.includes('webp') ? 'webp' : contentType.includes('png') ? 'png' : 'jpg'
+    const destPath = `public/images/news/${id}-${Date.now()}.${ext}`
+    return await uploadToGithub(buffer, destPath)
+  } catch {
+    return ''
+  }
+}
+
+// ---------- Generate gambar via FLUX-1 Schnell (duplikat dari lib/ai/cloudflare-image.ts) ----------
 async function generateGambar(prompt) {
-  console.log('   🖼️ Generating gambar...')
+  console.log('   🖼️ Generating gambar via FLUX-1...')
   try {
     const response = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0`,
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
       {
         method: 'POST',
         headers: {
@@ -316,10 +415,10 @@ async function generateGambar(prompt) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: `${prompt}, fish farming Indonesia, professional photography, high quality`,
-          num_steps: 20,
-          width: 1200,
-          height: 640, // wajib kelipatan 64 di backend Triton Cloudflare -- 630 selalu gagal HTTP 500
+          prompt: `${prompt}, professional photography, high quality, 4k`,
+          num_steps: 4,
+          width: 1024,
+          height: 576,
         }),
       }
     )
@@ -332,12 +431,9 @@ async function generateGambar(prompt) {
 }
 
 // ---------- Kuota harian generate gambar (dibagi dgn scripts/auto-post.mjs) ----------
-// Lihat catatan lengkap di auto-post.mjs -- key KV sengaja SAMA persis
-// (`neuron-image-usage:YYYY-MM-DD`) supaya kuota harian benar-benar dibagi
-// antara auto-post.yml (1x/hari) dan generate-berita.yml (8x/hari), bukan
-// dihitung terpisah per script.
-// SDXL saat ini masih Beta ($0.00/step), jadi batas bisa longgar.
-const BATAS_GAMBAR_PER_HARI = 100
+// FLUX-1 Schnell: 10.000 Neuron gratis/bulan (~10.000 langkah).
+// num_steps=4 → ~2.500 gambar/bulan. Counter jaga-jaga.
+const BATAS_GAMBAR_PER_HARI = 50
 
 function kvKuotaKey() {
   const tanggalUTC = new Date().toISOString().split('T')[0]
@@ -412,14 +508,33 @@ async function main() {
       const tanggal = new Date().toISOString().split('T')[0]
 
       let gambarPath = '/images/og-default.png'
-      const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
-      const gambarBuffer = await generateGambarDenganKuota(promptGambar)
-      if (gambarBuffer) {
-        const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
-        await mkdir(imgDir, { recursive: true })
-        const imgFile = `${slug}.png`
-        await writeFile(join(imgDir, imgFile), gambarBuffer)
-        gambarPath = `/images/artikel/${imgFile}`
+
+      // Hybrid image pipeline: RSS image → download, atau generate via FLUX-1
+      if (berita.imageUrl) {
+        console.log('   📥 Download gambar dari RSS...')
+        const downloaded = await downloadDanSimpanGambar(berita.imageUrl, berita.id)
+        if (downloaded) {
+          gambarPath = downloaded
+          console.log(`   ✅ Gambar RSS tersimpan: ${gambarPath}`)
+        }
+      }
+
+      if (gambarPath === '/images/og-default.png') {
+        const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
+        const gambarBuffer = await generateGambarDenganKuota(promptGambar)
+        if (gambarBuffer) {
+          const imgFile = `artikel/${slug}-${Date.now()}.png`
+          const githubUrl = await uploadToGithub(gambarBuffer, `public/images/${imgFile}`)
+          if (githubUrl) {
+            gambarPath = githubUrl
+          } else {
+            // Fallback: simpan lokal (untuk CI/CD yang commit dulu)
+            const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
+            await mkdir(imgDir, { recursive: true })
+            await writeFile(join(imgDir, `${slug}.png`), gambarBuffer)
+            gambarPath = `/images/artikel/${slug}.png`
+          }
+        }
       }
 
       const frontmatter = `---
