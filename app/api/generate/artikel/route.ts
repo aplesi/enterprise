@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { success: false, error: errMsg || 'Internal server error' },
+      { success: false, error: errMsg || 'Internal server error', debug: { name: err instanceof Error ? err.name : 'Unknown', stack: err instanceof Error ? err.stack?.slice(0, 500) : undefined } },
       { status: 500 }
     )
   }
