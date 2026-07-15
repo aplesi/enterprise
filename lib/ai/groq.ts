@@ -164,7 +164,7 @@ export async function generateArtikel(
     berita: 'gaya jurnalistik, ringkas dan faktual',
   }
 
-  const panjangConfig = panjangMap[req.panjang]
+  const panjangConfig = panjangMap[req.panjang] || panjangMap['sedang']
 
   const systemPrompt = `Kamu adalah penulis konten profesional untuk website budidaya ikan "Aplesi" (aplesi.my.id), menulis atas nama Tim Redaksi APLESI berdasarkan praktik budidaya nyata.
 Selalu tulis dalam Bahasa Indonesia yang baik dan benar.
@@ -195,7 +195,7 @@ SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam 
 Kategori: ${req.kategori}
 Keywords yang harus ada: ${req.keywords?.join(', ') || '-'}
 Panjang: ${panjangConfig.label} — INI WAJIB DIPENUHI, jangan kurang dari ${panjangConfig.minWords} kata.
-Gaya penulisan: ${toneMap[req.tone]}
+Gaya penulisan: ${toneMap[req.tone] || toneMap['informatif']}
 
 ${templateHowToPrompt(req.topik)}
 ${templateFaqPrompt(req.topik)}
