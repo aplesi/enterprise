@@ -35,7 +35,7 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
       },
       body: JSON.stringify({
         prompt: enhancedPrompt,
-        num_inference_steps: 4, // FLUX-1 Schnell optimal steps
+        num_inference_steps: 8, // Ditingkatkan dari 4 ke 8 agar AI punya waktu menggambar detail spesifik ikan
       }),
     },
     REQUEST_TIMEOUT_MS
