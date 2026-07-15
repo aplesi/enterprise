@@ -141,7 +141,10 @@ async function generateGambar(prompt) {
       }
     )
     if (!response.ok) throw new Error(await response.text())
-    return Buffer.from(await response.arrayBuffer())
+    const data = await response.json()
+    if (!data.result?.image) throw new Error('No image in FLUX-1 response')
+    // Decode base64 image to Buffer
+    return Buffer.from(data.result.image, 'base64')
   } catch (err) {
     console.warn('⚠️ Generate gambar gagal:', err.message)
     return null
