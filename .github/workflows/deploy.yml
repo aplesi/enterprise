@@ -28,19 +28,21 @@ jobs:
       - name: Generate Data Artikel
         run: npm run generate:artikel
 
-      - name: Rename wrangler.jsonc (avoid Worker/Pages conflict)
-        run: mv wrangler.jsonc wrangler.jsonc.bak
-
       - name: Build untuk Cloudflare Pages (OpenNext)
         run: npm run pages:build
         env:
           NODE_ENV: production
+          SKIP_WRANGLER_CONFIG_CHECK: "yes"
 
-      - name: Restore wrangler.jsonc
-        run: mv wrangler.jsonc.bak wrangler.jsonc
+      - name: Rename wrangler.jsonc (avoid Worker/Pages conflict)
+        run: mv wrangler.jsonc wrangler.jsonc.bak
 
       - name: Deploy ke Cloudflare Pages
         run: npx wrangler pages deploy .open-next --project-name=enterprise --branch=main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+
+      - name: Restore wrangler.jsonc
+        run: mv wrangler.jsonc.bak wrangler.jsonc
+        if: always()
