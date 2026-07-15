@@ -6,6 +6,7 @@ function getHeaders() {
     Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
     Accept: 'application/vnd.github.v3+json',
     'Content-Type': 'application/json',
+    'User-Agent': 'aplesi-enterprise',
     'X-GitHub-Api-Version': '2022-11-28',
   }
 }
