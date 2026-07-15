@@ -27,7 +27,13 @@ async function groqChatWithRotation(
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const { client, state } = await getAvailableClient()
     try {
-      const completion = await client.chat.completions.create(params) as import('groq-sdk/resources/chat/completions').ChatCompletion
+      // Timeout 90 detik per percobaan — mencegah hang tanpa batas
+      const completion = await Promise.race([
+        client.chat.completions.create(params) as Promise<import('groq-sdk/resources/chat/completions').ChatCompletion>,
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('Groq API timeout setelah 90 detik')), 90_000)
+        ),
+      ])
       markSuccess(state)
       const content = completion.choices[0]?.message?.content
       if (!content) throw new Error('Groq tidak mengembalikan respons')
@@ -40,6 +46,10 @@ async function groqChatWithRotation(
         markRateLimited(state, retryAfter)
         console.warn(`[Groq Pool] Key ${state.label} kena rate limit, retry after ${retryAfter}s. Mencoba key lain...`)
         continue
+      }
+      // Connection error — langsung throw dengan pesan jelas
+      if (errMsg.includes('fetch failed') || errMsg.includes('ECONNREFUSED') || errMsg.includes('ENOTFOUND') || errMsg.includes('UND_ERR_CONNECT_TIMEOUT')) {
+        throw new Error(`Gagal terhubung ke Groq API (${state.label}): ${errMsg}`)
       }
       // Error lain — langsung throw
       throw err
@@ -55,9 +65,9 @@ export async function generateArtikel(
   req: GenerateArtikelRequest
 ): Promise<GenerateArtikelResponse> {
   const panjangMap = {
-    pendek: '500-700 kata',
-    sedang: '1000-1500 kata',
-    panjang: '2000-2500 kata',
+    pendek: { label: '500-700 kata', minWords: 500, maxTokens: 4096 },
+    sedang: { label: '1000-1500 kata', minWords: 1000, maxTokens: 6144 },
+    panjang: { label: '2000-2500 kata', minWords: 2000, maxTokens: 8192 },
   }
 
   const toneMap = {
@@ -66,17 +76,29 @@ export async function generateArtikel(
     berita: 'gaya jurnalistik, ringkas dan faktual',
   }
 
+  const panjangConfig = panjangMap[req.panjang]
+
   const systemPrompt = `Kamu adalah penulis konten profesional untuk website budidaya ikan "Aplesi" (aplesi.my.id), menulis atas nama Tim Redaksi APLESI berdasarkan praktik budidaya nyata.
 Selalu tulis dalam Bahasa Indonesia yang baik dan benar.
 Fokus pada konten praktis dan berguna untuk peternak ikan di Indonesia.
 Gunakan heading H2 dan H3 yang relevan.
 Sertakan tips praktis dan pengalaman lapangan, data spesifik (angka, rentang biaya, durasi), bukan klaim generik.
 
+⚠️ ATURAN PANJANG ARTIKEL — KRITIS, JANGAN DILANGGAR:
+- Target panjang konten: ${panjangConfig.label}.
+- Hitung kata Anda secara mental saat menulis. Artikel yang terlalu pendek akan DITOLAK.
+- Untuk target 2000-2500 kata: kamu WAJIB menulis MINIMAL 10 section (H2/H3), masing-masing 150-250 kata.
+- Untuk target 1000-1500 kata: kamu WAJIB menulis MINIMAL 6 section (H2/H3), masing-masing 120-200 kata.
+- Jangan pernah menulis section kurang dari 100 kata — itu terlalu dangkal dan tidak bernilai.
+- Setiap section HARUS berisi paragraf penjelasan mendalam, BUKAN hanya daftar bullet point singkat.
+
 ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
 1. ANSWER-FIRST: di bawah SETIAP heading H2/H3, kalimat PERTAMA harus langsung menjawab inti topik heading tersebut -- bukan basa-basi pembuka. Kalimat 2-4 berisi detail pendukung (data/angka), lalu bullet points jika ada langkah/daftar.
 2. PANJANG PER SECTION: setiap section di bawah satu H2/H3 sebaiknya 150-200 kata (minimum 100, maksimum 300). Jangan buat section super singkat (di bawah 50 kata) -- itu terlalu dangkal. Jangan juga lewat 300 kata untuk satu poin -- pecah jadi sub-heading baru kalau perlu.
 3. PANJANG PARAGRAF: tiap paragraf sekitar 60-100 kata, satu ide utama per paragraf.
 4. Jika artikel ini berupa panduan langkah-demi-langkah, gunakan heading H3 bernomor eksplisit ("### 1. Nama Langkah", "### 2. Nama Langkah", dst).
+5. SERTAKAN DATA KONKRET: biaya dalam Rupiah (contoh: Rp 2.000.000-5.000.000), durasi (contoh: 3-4 bulan), ukuran (contoh: diameter 3 meter), dosis (contoh: 5 ml per 1000 liter). Jangan menulis "biaya murah" tanpa angka.
+6. Untuk SEO lokal Indonesia: sebutkan nama daerah/kota penghasil ikan terbesar, nama merek pakan/probiotik populer di Indonesia, dan referensi ke standar KKP (Kementerian Kelautan dan Perikanan) jika relevan.
 
 SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk model Stable Diffusion, yang menggambarkan SATU adegan visual KONKRET dan SPESIFIK yang benar-benar dibahas di artikel ini (bukan judul artikel, bukan deskripsi generik "fish farming"). Ambil detail nyata dari isi artikel: jenis ikan/spesies, jenis kolam/media, alat/bahan yang disebutkan, tahapan yang sedang dijelaskan, atau kondisi visual yang relevan (warna air, tekstur pakan, dsb). Contoh format yang benar: "close-up of catfish fingerlings being released into a blue tarpaulin pond, clear morning light, hand visible pouring fish from a plastic bag, rural Indonesian aquaculture setting, realistic photography style". Jangan buat prompt umum seperti "fish farming pond Indonesia" -- harus spesifik ke isi artikel.`
 
@@ -84,7 +106,7 @@ SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam 
 
 Kategori: ${req.kategori}
 Keywords yang harus ada: ${req.keywords.join(', ')}
-Panjang: ${panjangMap[req.panjang]}
+Panjang: ${panjangConfig.label} — INI WAJIB DIPENUHI, jangan kurang dari ${panjangConfig.minWords} kata.
 Gaya penulisan: ${toneMap[req.tone]}
 
 ${templateHowToPrompt(req.topik)}
@@ -110,7 +132,7 @@ Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
       { role: 'user', content: userPrompt },
     ],
     temperature: 0.7,
-    max_tokens: 4096,
+    max_tokens: panjangConfig.maxTokens,
     response_format: { type: 'json_object' },
   })
 

@@ -47,6 +47,10 @@ export default function GeneratePage() {
     setHasil(null)
     setPublished(false)
 
+    // Timeout 120 detik — generate artikel panjang bisa 30-60 detik
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 120_000)
+
     try {
       setLoadingStep('Menghubungi Groq AI...')
       const res = await fetch('/api/generate/artikel', {
@@ -60,15 +64,40 @@ export default function GeneratePage() {
           tone,
           generateGambar,
         }),
+        signal: controller.signal,
       })
 
-      if (!res.ok) throw new Error(await res.text())
+      clearTimeout(timeout)
+
+      if (!res.ok) {
+        const text = await res.text()
+        let errorMsg = text
+        try {
+          const json = JSON.parse(text)
+          if (json.error) errorMsg = json.error
+        } catch {
+          // text bukan JSON, pakai apa adanya
+        }
+        throw new Error(errorMsg)
+      }
 
       setLoadingStep('Memproses hasil...')
       const data = await res.json()
+
+      if (!data.success) {
+        throw new Error(data.error || 'Generate gagal, respons tidak valid')
+      }
+
       setHasil(data.data)
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Terjadi kesalahan')
+      clearTimeout(timeout)
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        setError('Request timeout — koneksi ke AI terlalu lama (>120 detik). Coba lagi atau pilih panjang artikel yang lebih pendek.')
+      } else if (err instanceof TypeError && err.message === 'Failed to fetch') {
+        setError('Gagal terhubung ke server. Pastikan koneksi internet stabil dan dev server berjalan.')
+      } else {
+        setError(err instanceof Error ? err.message : 'Terjadi kesalahan tidak diketahui')
+      }
     } finally {
       setLoading(false)
       setLoadingStep('')
@@ -84,7 +113,15 @@ export default function GeneratePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ artikel: hasil, kategori }),
       })
-      if (!res.ok) throw new Error(await res.text())
+      if (!res.ok) {
+        const text = await res.text()
+        try {
+          const json = JSON.parse(text)
+          throw new Error(json.error || text)
+        } catch {
+          throw new Error(text)
+        }
+      }
       setPublished(true)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Gagal publish')

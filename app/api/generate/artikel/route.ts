@@ -37,8 +37,33 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, data: artikel })
   } catch (err: unknown) {
     console.error('Generate artikel error:', err)
+
+    const errMsg = err instanceof Error ? err.message : String(err)
+
+    // Klasifikasi error agar pesan di UI lebih jelas
+    if (errMsg.includes('GroqPoolExhaustedError') || errMsg.includes('rate limit')) {
+      return NextResponse.json(
+        { success: false, error: `Semua API key Groq sedang rate-limited. Tunggu beberapa menit lalu coba lagi. Detail: ${errMsg}` },
+        { status: 429 }
+      )
+    }
+
+    if (errMsg.includes('fetch failed') || errMsg.includes('ECONNREFUSED') || errMsg.includes('ENOTFOUND') || errMsg.includes('UND_ERR_CONNECT_TIMEOUT')) {
+      return NextResponse.json(
+        { success: false, error: 'Gagal terhubung ke Groq AI. Kemungkinan koneksi internet terputus atau server Groq sedang down. Coba lagi dalam beberapa saat.' },
+        { status: 502 }
+      )
+    }
+
+    if (errMsg.includes('JSON') || errMsg.includes('Unexpected token')) {
+      return NextResponse.json(
+        { success: false, error: 'Groq AI mengembalikan respons yang tidak valid (bukan JSON). Coba generate ulang.' },
+        { status: 502 }
+      )
+    }
+
     return NextResponse.json(
-      { success: false, error: err instanceof Error ? err.message : 'Internal server error' },
+      { success: false, error: errMsg || 'Internal server error' },
       { status: 500 }
     )
   }
