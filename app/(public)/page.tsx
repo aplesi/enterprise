@@ -213,9 +213,9 @@ function CtaBand() {
                 Daftar keanggotaan APLESI untuk akses program, harga koperasi, dan jaringan pasar nasional.
               </p>
             </div>
-            <Button className="shrink-0 rounded-full bg-white px-7 py-6 text-sm font-bold text-navy-deep shadow-card hover:bg-white/90">
+            <Link href="/kontak" className="shrink-0 inline-flex items-center gap-1 rounded-full bg-white px-7 py-3 text-sm font-bold text-[#0a1628] shadow-card hover:bg-white/90 transition-colors">
               Daftar Anggota Sekarang <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
