@@ -26,6 +26,10 @@ export async function POST(req: NextRequest) {
 
     const tanggal = new Date().toISOString().split('T')[0]
 
+    // Hitung reading time: ~200 kata per menit
+    const wordCount = artikel.konten ? artikel.konten.split(/\s+/).filter(Boolean).length : 0
+    const waktuBaca = Math.max(1, Math.ceil(wordCount / 200))
+
     const frontmatter = generateFrontmatter({
       judul: artikel.judul,
       slug: artikel.slug,
@@ -35,6 +39,7 @@ export async function POST(req: NextRequest) {
       tags: artikel.tags,
       penulis: 'Tim Redaksi APLESI',
       tanggal,
+      waktu_baca: waktuBaca,
       status: 'published',
       seoTitle: artikel.seoTitle,
       seoDesc: artikel.seoDesc,

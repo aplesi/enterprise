@@ -1,9 +1,10 @@
 // app/admin/(dashboard)/generate/page.tsx
 'use client'
 
-import { useState } from 'react'
-import { Loader2, Sparkles, XCircle, CheckCircle2, Send, Lightbulb } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { Loader2, Sparkles, XCircle, CheckCircle2, Send, Lightbulb, Eye, Code } from 'lucide-react'
 import { KATEGORI_LIST as KATEGORI_TAKSONOMI } from '@/config/kategori'
+import { marked } from 'marked'
 
 const KATEGORI_LIST = KATEGORI_TAKSONOMI.map((k) => k.nama)
 
@@ -39,6 +40,13 @@ export default function GeneratePage() {
   const [hasil, setHasil] = useState<HasilGenerate | null>(null)
   const [error, setError] = useState('')
   const [published, setPublished] = useState(false)
+  const [previewMode, setPreviewMode] = useState<'preview' | 'raw'>('preview')
+
+  // Pre-render markdown → HTML untuk preview
+  const previewHtml = useMemo(() => {
+    if (!hasil?.konten) return ''
+    return marked.parse(hasil.konten) as string
+  }, [hasil?.konten])
 
   async function handleGenerate() {
     if (!topik.trim()) return
@@ -345,13 +353,46 @@ export default function GeneratePage() {
           </div>
 
           <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Preview Konten (Markdown)</div>
-            <textarea
-              value={hasil.konten}
-              readOnly
-              rows={12}
-              className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-xs text-white/80 placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all resize-y"
-            />
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-white/70">Preview Konten</div>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setPreviewMode('preview')}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
+                    previewMode === 'preview'
+                      ? 'bg-aqua-glow/20 text-aqua-glow'
+                      : 'bg-white/5 text-white/40 hover:text-white/60'
+                  }`}
+                >
+                  <Eye className="h-3 w-3" />
+                  Preview
+                </button>
+                <button
+                  onClick={() => setPreviewMode('raw')}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
+                    previewMode === 'raw'
+                      ? 'bg-aqua-glow/20 text-aqua-glow'
+                      : 'bg-white/5 text-white/40 hover:text-white/60'
+                  }`}
+                >
+                  <Code className="h-3 w-3" />
+                  Markdown
+                </button>
+              </div>
+            </div>
+            {previewMode === 'preview' ? (
+              <div
+                className="prose prose-invert prose-sm max-w-none rounded-lg border border-white/15 bg-white/5 p-5 overflow-y-auto max-h-[500px]"
+                dangerouslySetInnerHTML={{ __html: previewHtml }}
+              />
+            ) : (
+              <textarea
+                value={hasil.konten}
+                readOnly
+                rows={12}
+                className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-xs text-white/80 placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all resize-y"
+              />
+            )}
           </div>
         </div>
       )}

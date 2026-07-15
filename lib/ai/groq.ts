@@ -5,6 +5,7 @@ import type { GenerateArtikelRequest, GenerateArtikelResponse, BeritaItem } from
 import { slugify } from '@/lib/utils'
 import { templateFaqPrompt } from '@/lib/seo/faq'
 import { templateHowToPrompt } from '@/lib/seo/howto'
+import { getArtikelTerkait } from '@/lib/db/artikel'
 import {
   getAvailableClient,
   markRateLimited,
@@ -13,7 +14,74 @@ import {
   GroqPoolExhaustedError,
 } from '@/lib/ai/groq-pool'
 
+/**
+ * Rakit image prompt deterministik dari judul + kategori.
+ * Tidak memanggil LLM — zero cost, zero risk hallucination.
+ */
+function buildFallbackImagePrompt(judul: string, kategori: string): string {
+  const kategoriMap: Record<string, string> = {
+    'Pembenihan': 'fish hatchery, fish breeding pond, baby fish fry',
+    'Pakan': 'fish feed preparation, fish feeding in pond',
+    'Penyakit': 'fish health inspection, aquaculture veterinarian',
+    'Kolam': 'fish pond construction, earthen pond with water',
+    'Panen': 'fish harvesting, net full of catfish',
+    'Teknologi': 'modern aquaculture technology, bioflok system',
+    'Tips': 'Indonesian fish farmer working, aquaculture practice',
+    'Berita': 'Indonesian aquaculture industry, fish market',
+  }
+  const scene = kategoriMap[kategori] || 'Indonesian fish farming, catfish aquaculture pond'
+  return `${judul}, ${scene}, realistic photography, natural lighting, high quality`
+}
+
 const MODEL = 'llama-3.3-70b-versatile'
+
+/**
+ * Strip markdown code fence (```json ... ```) dari output Groq sebelum JSON.parse.
+ * Groq kadang membungkus JSON di dalam fence meski sudah minta response_format: json_object.
+ * Ini murah (regex) dan menghindari retry API call yang boros kuota.
+ */
+function stripJsonFence(raw: string): string {
+  let s = raw.trim()
+  // Strip ```json ... ``` atau ``` ... ```
+  const fenceMatch = s.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?\s*```$/)
+  if (fenceMatch) {
+    s = fenceMatch[1].trim()
+  }
+  return s
+}
+
+/**
+ * Parse JSON dari Groq dengan strip-fence otomatis.
+ * Gagal → throw error yang jelas.
+ */
+function safeParseGroqJson<T>(raw: string): T {
+  const stripped = stripJsonFence(raw)
+  try {
+    return JSON.parse(stripped) as T
+  } catch {
+    // Kalau strip gagal, coba parse raw asli (siapa tahu beda format)
+    try {
+      return JSON.parse(raw) as T
+    } catch {
+      throw new Error(
+        `Gagal parse JSON dari Groq. Output (200 char pertama): ${raw.slice(0, 200)}`
+      )
+    }
+  }
+}
+
+/**
+ * Hitung jumlah kata dalam string markdown.
+ * Strip heading markers, link syntax, dll untuk hitung lebih akurat.
+ */
+function countWords(text: string): number {
+  return text
+    .replace(/#{1,6}\s+/g, '')       // strip heading markers
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) → text
+    .replace(/[*_~`]+/g, '')          // strip emphasis markers
+    .split(/\s+/)
+    .filter((w) => w.length > 0).length
+}
 
 /**
  * Wrapper untuk chat completion Groq dengan rotasi key otomatis.
@@ -59,6 +127,26 @@ async function groqChatWithRotation(
     'Semua API key Groq kena rate limit setelah 5 percobaan.',
     60
   )
+}
+
+/**
+ * Sisipkan section "Artikel Terkait" di akhir konten secara deterministik.
+ * Query D1 by kategori — zero LLM cost, zero risk hallucinated slugs.
+ */
+async function appendInternalLinks(konten: string, kategori: string, slug: string): Promise<string> {
+  try {
+    const terkait = await getArtikelTerkait(kategori, slug, 3)
+    if (terkait.length === 0) return konten
+
+    const linksSection = terkait
+      .map((a) => `- [${a.judul}](/artikel/${a.slug})`)
+      .join('\n')
+
+    return `${konten}\n\n## Baca Juga\n\n${linksSection}`
+  } catch {
+    // Gagal query D1 — kembalikan konten asli tanpa perubahan
+    return konten
+  }
 }
 
 export async function generateArtikel(
@@ -136,17 +224,65 @@ Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
     response_format: { type: 'json_object' },
   })
 
-  const parsed = JSON.parse(raw)
+  let parsed = safeParseGroqJson<{
+    judul: string
+    ringkasan: string
+    konten: string
+    tags: string[]
+    seoTitle: string
+    seoDesc: string
+    imagePrompt: string
+  }>(raw)
+
+  // --- Retry min-words: kalau konten terlalu pendek, minta model memperluas ---
+  const actualWords = countWords(parsed.konten)
+  if (actualWords < panjangConfig.minWords) {
+    console.warn(
+      `[Groq] Konten terlalu pendek: ${actualWords}/${panjangConfig.minWords} kata. Retry dengan prompt perluas...`
+    )
+    const retryRaw = await groqChatWithRotation({
+      model: MODEL,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+        { role: 'assistant', content: JSON.stringify(parsed) },
+        {
+          role: 'user',
+          content: `Artikel di atas hanya ${actualWords} kata, kurang dari target ${panjangConfig.minWords} kata. PERLUAS artikel ini menjadi ${panjangConfig.label} dengan menambahkan:
+- Detail lebih dalam di setiap section yang sudah ada
+- Tambahkan 2-3 section baru yang relevan
+- Sertakan lebih banyak data konkret (angka, biaya, durasi)
+- Jangan hapus konten yang sudah ada, hanya TAMBAH dan PERLUAS
+
+Respons format JSON yang sama.`,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: panjangConfig.maxTokens,
+      response_format: { type: 'json_object' },
+    })
+
+    const retryParsed = safeParseGroqJson<typeof parsed>(retryRaw)
+    const retryWords = countWords(retryParsed.konten)
+    // Pakai hasil retry kalau lebih panjang
+    if (retryWords > actualWords) {
+      console.warn(`[Groq] Retry berhasil: ${actualWords} → ${retryWords} kata`)
+      parsed = retryParsed
+    }
+  }
+
+  const slug = slugify(parsed.judul)
+  const kontenDenganLinks = await appendInternalLinks(parsed.konten, req.kategori, slug)
 
   return {
     judul: parsed.judul,
     ringkasan: parsed.ringkasan,
-    konten: parsed.konten,
+    konten: kontenDenganLinks,
     tags: parsed.tags || [],
     seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
     seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
-    imagePrompt: parsed.imagePrompt || `${parsed.judul}, Indonesian aquaculture, realistic photography`,
-    slug: slugify(parsed.judul),
+    imagePrompt: parsed.imagePrompt || buildFallbackImagePrompt(parsed.judul, req.kategori),
+    slug,
   }
 }
 
@@ -166,7 +302,7 @@ Respons hanya array JSON: ["judul1", "judul2", ...]`,
     response_format: { type: 'json_object' },
   })
 
-  const parsed = JSON.parse(raw)
+  const parsed = safeParseGroqJson<{ judul: string[]; titles: string[] }>(raw)
   return parsed.judul || parsed.titles || []
 }
 
@@ -217,7 +353,7 @@ ${JSON.stringify(
     response_format: { type: 'json_object' },
   })
 
-  const parsed = JSON.parse(raw)
+  const parsed = safeParseGroqJson<{ hasil: HasilRewriteBerita[] }>(raw)
   return parsed.hasil || []
 }
 
@@ -295,7 +431,52 @@ Respons hanya JSON:
     response_format: { type: 'json_object' },
   })
 
-  const parsed = JSON.parse(raw)
+  let parsed = safeParseGroqJson<{
+    judul: string
+    ringkasan: string
+    konten: string
+    tags: string[]
+    seoTitle: string
+    seoDesc: string
+    imagePrompt: string
+  }>(raw)
+
+  // --- Retry min-words: kalau konten terlalu pendek, minta model memperluas ---
+  const minWordsBerita = 800
+  const actualWords = countWords(parsed.konten)
+  if (actualWords < minWordsBerita) {
+    console.warn(
+      `[Groq] Konten berita terlalu pendek: ${actualWords}/${minWordsBerita} kata. Retry...`
+    )
+    const retryRaw = await groqChatWithRotation({
+      model: MODEL,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+        { role: 'assistant', content: JSON.stringify(parsed) },
+        {
+          role: 'user',
+          content: `Artikel recap di atas hanya ${actualWords} kata, kurang dari target 800-1200 kata. PERLUAS dengan:
+- Tambahkan analisis dampak lebih mendalam bagi pembudidaya
+- Tambahkan data/contoh spesifik terkait topik berita
+- Tambahkan section baru: "Dampak bagi Pembudidaya Lokal" dan "Langkah yang Bisa Diambil"
+- Jangan hapus konten yang sudah ada, hanya TAMBAH dan PERLUAS
+
+Respons format JSON yang sama.`,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 4096,
+      response_format: { type: 'json_object' },
+    })
+
+    const retryParsed = safeParseGroqJson<typeof parsed>(retryRaw)
+    const retryWords = countWords(retryParsed.konten)
+    if (retryWords > actualWords) {
+      console.warn(`[Groq] Retry berita berhasil: ${actualWords} → ${retryWords} kata`)
+      parsed = retryParsed
+    }
+  }
 
   return {
     judul: parsed.judul,
@@ -304,7 +485,7 @@ Respons hanya JSON:
     tags: parsed.tags || [],
     seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
     seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
-    imagePrompt: parsed.imagePrompt || `${parsed.judul}, Indonesian aquaculture, realistic photography`,
+    imagePrompt: parsed.imagePrompt || buildFallbackImagePrompt(parsed.judul, 'Berita'),
     slug: slugify(parsed.judul),
     sumberAsli: { nama: berita.sumberNama, url: berita.link },
   }
