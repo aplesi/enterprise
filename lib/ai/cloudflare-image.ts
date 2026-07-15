@@ -82,7 +82,9 @@ export async function generateGambarDenganFallback(
     console.log(`[ImageGen] FLUX-1 success, image size: ${arrayBuffer.byteLength} bytes`)
 
     // Save image to GitHub repo (public/images/artikel/)
-    const fileName = `${slug}-${Date.now()}.png`
+    // FLUX-1 outputs JPEG, so use .jpg extension to match actual content type
+    // (Next.js /_next/image rejects files where extension doesn't match content)
+    const fileName = `${slug}-${Date.now()}.jpg`
     const filePath = `public/images/artikel/${fileName}`
     
     console.log(`[ImageGen] Saving to GitHub: ${filePath}...`)
@@ -124,7 +126,7 @@ export async function generateGambarDenganFallback(
       )
 
       if (ghResponse.ok) {
-        // Return jsDelivr CDN URL — correct content-type (image/png), unlike raw.githubusercontent.com (text/plain)
+        // Return jsDelivr CDN URL — correct content-type, unlike raw.githubusercontent.com (text/plain)
         const cdnUrl = `https://cdn.jsdelivr.net/gh/${githubOwner}/${githubRepo}@main/public/images/artikel/${fileName}`
         console.log(`[ImageGen] GitHub save success: ${cdnUrl}`)
         return { url: cdnUrl, source: 'ai' }
@@ -272,7 +274,7 @@ export async function downloadDanSimpanGambar(
     )
 
     if (ghResponse.ok) {
-      // Return jsDelivr CDN URL — correct content-type (image/png), unlike raw.githubusercontent.com (text/plain)
+      // Return jsDelivr CDN URL — correct content-type, unlike raw.githubusercontent.com (text/plain)
       const cdnUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_OWNER}/${GITHUB_REPO}@main/public/images/news/${fileName}`
       console.log(`[ImageDownload] Saved to GitHub: ${cdnUrl}`)
       return cdnUrl

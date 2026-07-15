@@ -526,7 +526,7 @@ async function main() {
         const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
         const gambarBuffer = await generateGambarDenganKuota(promptGambar)
         if (gambarBuffer) {
-          const imgFile = `artikel/${slug}-${Date.now()}.png`
+          const imgFile = `artikel/${slug}-${Date.now()}.jpg`
           const githubUrl = await uploadToGithub(gambarBuffer, `public/images/${imgFile}`)
           if (githubUrl) {
             gambarPath = githubUrl
@@ -534,8 +534,8 @@ async function main() {
             // Fallback: simpan lokal (untuk CI/CD yang commit dulu)
             const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
             await mkdir(imgDir, { recursive: true })
-            await writeFile(join(imgDir, `${slug}.png`), gambarBuffer)
-            gambarPath = `/images/artikel/${slug}.png`
+            await writeFile(join(imgDir, `${slug}.jpg`), gambarBuffer)
+            gambarPath = `/images/artikel/${slug}.jpg`
           }
         }
       }
