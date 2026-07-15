@@ -61,7 +61,7 @@ export default function AdsPage() {
     <div className="w-full space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+          <h1 className="text-xl font-semibold tracking-tight text-white flex items-center gap-2">
             <Megaphone className="h-7 w-7 text-aqua-glow" />
             Ads — Google AdSense
           </h1>

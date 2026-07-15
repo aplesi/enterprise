@@ -184,7 +184,7 @@ export default function JadwalPage() {
   return (
     <div className="w-full space-y-6">
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-white">Jadwal Auto-Post</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-white">Jadwal Auto-Post</h1>
         <p className="text-white/60 text-sm mt-1">
           Atur jadwal posting otomatis harian via GitHub Actions
         </p>

@@ -51,7 +51,7 @@ export default function LoginPage() {
           <div className="mb-4 grid h-16 w-16 place-items-center rounded-2xl gradient-aqua shadow-glow">
             <Fish className="h-8 w-8 text-white" strokeWidth={2.5} />
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-white">
+          <h1 className="text-xl font-semibold tracking-tight text-white">
             Aplesi Admin
           </h1>
           <p className="mt-1 text-sm text-white/60">

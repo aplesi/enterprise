@@ -168,7 +168,7 @@ export default function AdminProdukPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-lg font-semibold text-white flex items-center gap-3">
             <ShoppingBag className="h-7 w-7 text-aqua-glow" />
             Manajemen Produk
           </h1>

@@ -110,7 +110,7 @@ export default function RiwayatGeneratePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-white flex items-center gap-3">
+          <h1 className="text-lg font-semibold text-white flex items-center gap-3">
             <ClipboardList className="h-7 w-7 text-aqua-glow" />
             Riwayat Generate
           </h1>
@@ -292,7 +292,7 @@ function StatCard({ label, value, icon: Icon, accent }: {
         <Icon className={`h-4 w-4 ${accentClass}`} />
         <span className="text-xs font-bold uppercase tracking-wider text-white/50">{label}</span>
       </div>
-      <div className={`text-2xl font-black ${accentClass}`}>{value}</div>
+      <div className={`text-lg font-semibold ${accentClass}`}>{value}</div>
     </div>
   )
 }

@@ -141,7 +141,7 @@ export default function GeneratePage() {
   return (
     <div className="w-full space-y-6">
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-white">Generate Artikel dengan AI</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-white">Generate Artikel dengan AI</h1>
         <p className="text-white/60 text-sm mt-1">
           Powered by Groq (LLaMA 3.3 70B) + Cloudflare AI
         </p>

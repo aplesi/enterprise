@@ -76,7 +76,7 @@ export default function AnalyticsPage() {
     <div className="w-full space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-white">Analytics</h1>
+          <h1 className="text-xl font-semibold tracking-tight text-white">Analytics</h1>
           <p className="text-white/60 text-sm mt-1">Pantau performa website Aplesi</p>
         </div>
         <div className="flex gap-2">
@@ -110,7 +110,7 @@ export default function AnalyticsPage() {
                   {stat.perubahan}
                 </span>
               </div>
-              <div className="text-2xl font-bold text-white">{stat.value}</div>
+              <div className="text-lg font-semibold text-white">{stat.value}</div>
               <div className="text-xs text-white/60 mt-1">{stat.label}</div>
             </div>
           )

@@ -323,7 +323,7 @@ export default function SettingsPage() {
     <div className="w-full space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+          <h1 className="text-xl font-semibold tracking-tight text-white flex items-center gap-2">
             <SettingsIcon className="h-7 w-7 text-aqua-glow" />
             Settings
           </h1>
@@ -392,7 +392,7 @@ export default function SettingsPage() {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">Total Key</p>
-                  <p className="text-lg font-black text-white">{groqStatus.totalKeys}</p>
+                  <p className="text-base font-semibold text-white">{groqStatus.totalKeys}</p>
                 </div>
               </div>
             </div>
@@ -403,7 +403,7 @@ export default function SettingsPage() {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">Tersedia</p>
-                  <p className="text-lg font-black text-green-400">{groqStatus.available}</p>
+                  <p className="text-base font-semibold text-green-400">{groqStatus.available}</p>
                 </div>
               </div>
             </div>
@@ -414,7 +414,7 @@ export default function SettingsPage() {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">Rate Limited</p>
-                  <p className="text-lg font-black text-red-400">{groqStatus.rateLimited}</p>
+                  <p className="text-base font-semibold text-red-400">{groqStatus.rateLimited}</p>
                 </div>
               </div>
             </div>
