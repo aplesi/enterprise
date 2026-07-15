@@ -155,7 +155,8 @@ async function generateGambar(prompt) {
 // kuota Neuron). Counter ini jaga-jaga: begitu kuota harian gabungan (kedua
 // script) tercapai, generate gambar di-skip dan pakai fallback og-default.png
 // -- supaya kalau beta berakhir, kita tidak kebobolan tagihan/limit mendadak.
-const BATAS_GAMBAR_PER_HARI = 15
+// SDXL saat ini masih Beta ($0.00/step), jadi batas bisa longgar.
+const BATAS_GAMBAR_PER_HARI = 100
 
 function kvKuotaKey() {
   const tanggalUTC = new Date().toISOString().split('T')[0]

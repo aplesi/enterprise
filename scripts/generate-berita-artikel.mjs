@@ -336,7 +336,8 @@ async function generateGambar(prompt) {
 // (`neuron-image-usage:YYYY-MM-DD`) supaya kuota harian benar-benar dibagi
 // antara auto-post.yml (1x/hari) dan generate-berita.yml (8x/hari), bukan
 // dihitung terpisah per script.
-const BATAS_GAMBAR_PER_HARI = 15
+// SDXL saat ini masih Beta ($0.00/step), jadi batas bisa longgar.
+const BATAS_GAMBAR_PER_HARI = 100
 
 function kvKuotaKey() {
   const tanggalUTC = new Date().toISOString().split('T')[0]
