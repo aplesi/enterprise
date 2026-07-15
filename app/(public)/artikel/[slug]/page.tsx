@@ -147,11 +147,20 @@ export default async function ArtikelDetailPage({
               </div>
             )}
 
+            {/* Konten Artikel -- pre-rendered HTML dari D1 database.
+                Markdown→HTML dikonversi sekali saat insert/update via marked(),
+                menghilangkan 100% CPU overhead react-markdown di render-time.
+                (Sebelumnya react-markdown + remark-gfm memicu Error 1102 karena
+                melebihi batas CPU 50ms Cloudflare Worker pada artikel panjang) */}
+            <article
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: artikel.kontenHtml || artikel.konten }}
+            />
+
             {/* Box Atribusi — hanya untuk artikel recap kategori "Berita Terkini",
-                jujur nunjukkin ini berbasis laporan sumber eksternal (bukan
-                liputan asli Aplesi) sesuai kesepakatan etika kutipan */}
+                ditempatkan di akhir konten agar tidak mengganggu pengalaman baca */}
             {artikel.sumberBerita && (
-              <div className="mb-8 px-5 py-4 bg-blue-50 border border-blue-100 rounded-xl text-sm text-gray-700">
+              <div className="mt-8 px-5 py-4 bg-blue-50 border border-blue-100 rounded-xl text-sm text-gray-700">
                 📰 Artikel ini merupakan rangkuman &amp; analisis berdasarkan laporan dari{' '}
                 <a
                   href={artikel.sumberBerita.url}
@@ -164,16 +173,6 @@ export default async function ArtikelDetailPage({
                 {artikel.tanggalBerita && `, ${formatTanggal(artikel.tanggalBerita)}`}.
               </div>
             )}
-
-            {/* Konten Artikel -- pre-rendered HTML dari D1 database.
-                Markdown→HTML dikonversi sekali saat insert/update via marked(),
-                menghilangkan 100% CPU overhead react-markdown di render-time.
-                (Sebelumnya react-markdown + remark-gfm memicu Error 1102 karena
-                melebihi batas CPU 50ms Cloudflare Worker pada artikel panjang) */}
-            <article
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: artikel.kontenHtml || artikel.konten }}
-            />
 
             {/* Tags */}
             {artikel.tags.length > 0 && (

@@ -296,7 +296,7 @@ ATURAN WAJIB (etis, anti-thin-content, anti-plagiarisme):
 1. JANGAN menerjemahkan/menyalin ulang secara dekat dari ringkasan sumber -- tulis dari sudut pandang baru dengan analisis ASLI.
 2. WAJIB ada nilai tambah nyata: apa artinya berita ini bagi pembudidaya ikan skala kecil-menengah di Indonesia? Dampak praktis, peluang, atau risiko apa yang relevan?
 3. Kaitkan dengan topik budidaya ikan Aplesi yang relevan jika masuk akal (pakan, kolam, penyakit, dsb) -- tapi jangan dipaksakan.
-4. WAJIB sertakan kalimat atribusi eksplisit di awal konten, contoh format: "Berdasarkan laporan dari [Nama Sumber] ([tanggal]), ..." -- ganti [Nama Sumber] dan [tanggal] sesuai data yang diberikan.
+4. WAJIB sertakan kalimat atribusi eksplisit di AKHIR konten (sebelum FAQ jika ada), contoh format: "Artikel ini merupakan rangkuman & analisis berdasarkan laporan dari [Nama Sumber] ([tanggal])." -- ganti [Nama Sumber] dan [tanggal] sesuai data yang diberikan. JANGAN taruh atribusi di awal artikel.
 5. Panjang total 800-1200 kata, format Markdown, heading H2/H3, jawab inti tiap heading di kalimat pertama section itu (answer-first).
 6. Tulis dalam Bahasa Indonesia yang baik dan benar.`,
       },
