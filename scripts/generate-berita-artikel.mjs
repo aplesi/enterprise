@@ -659,7 +659,10 @@ async function scrapeOgImage(pageUrl) {
     const match =
       html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
       html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i)
-    return match ? match[1] : ''
+    if (match && !match[1].includes('googleusercontent.com')) {
+      return match[1]
+    }
+    return ''
   } catch {
     return ''
   }
@@ -850,7 +853,7 @@ async function main() {
       // === Pipeline gambar 3-tier: RSS → OG scrape → FLUX-1 AI ===
 
       // Tier 1: Gambar langsung dari RSS feed
-      if (berita.imageUrl) {
+      if (berita.imageUrl && !berita.imageUrl.includes('googleusercontent.com')) {
         console.log('   📥 [Tier 1] Download gambar dari RSS...')
         const downloaded = await downloadDanSimpanGambar(berita.imageUrl, berita.id)
         if (downloaded) {
