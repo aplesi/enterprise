@@ -62,6 +62,52 @@ async function d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita, konte
 }
 
 /**
+ * INSERT berita mentah ke tabel `berita` D1.
+ * Ini yang membuat halaman /news bisa menampilkan daftar berita.
+ * Menggunakan INSERT OR IGNORE agar tidak duplikat (ext_id unik).
+ */
+async function d1InsertBeritaBatch(items) {
+  if (!D1_URL) {
+    console.warn('⚠️ CF_D1_DATABASE_ID tidak diset, skip INSERT berita ke D1')
+    return 0
+  }
+
+  let inserted = 0
+  for (const item of items) {
+    try {
+      const res = await fetch(D1_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.CF_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sql: `INSERT OR IGNORE INTO berita (ext_id, judul, judul_asli, ringkasan, ringkasan_asli, url_sumber, sumber_id, sumber_nama, asal, tanggal, gambar_url)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          params: [
+            item.id,
+            item.judul,
+            item.judul,
+            item.ringkasan || '',
+            item.ringkasan || '',
+            item.link,
+            item.sumberId,
+            item.sumberNama,
+            item.asal === 'internasional' ? 'internasional' : 'indonesia',
+            item.tanggal || new Date().toISOString(),
+            item.imageUrl || '',
+          ],
+        }),
+      })
+      if (res.ok) inserted++
+    } catch {
+      // Skip individual errors, lanjut ke berita berikutnya
+    }
+  }
+  return inserted
+}
+
+/**
  * Update ringkasan berita di D1 dengan recap lengkap (800-1200 kata).
  * Flag sudah_jadi_artikel = 1 supaya /news bisa tampilkan versi recap.
  */
@@ -556,6 +602,14 @@ async function main() {
   console.log('🔍 Scrape sumber RSS...')
   const semuaBerita = await scrapeBeritaPerikanan()
   console.log(`   ${semuaBerita.length} berita relevan ditemukan.`)
+
+  // INSERT SEMUA berita mentah ke tabel `berita` D1
+  // Ini memastikan halaman /news selalu punya data terbaru untuk ditampilkan
+  if (semuaBerita.length > 0) {
+    console.log('📥 Menyimpan berita mentah ke D1 (tabel berita)...')
+    const jumlahInsert = await d1InsertBeritaBatch(semuaBerita)
+    console.log(`   ✅ ${jumlahInsert} berita baru berhasil masuk D1`)
+  }
 
   const registry = await kvGetRegistry()
   const registrySet = new Set(registry)
