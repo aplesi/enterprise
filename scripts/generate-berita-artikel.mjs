@@ -62,9 +62,11 @@ async function d1InsertArtikel(slug, artikel, gambarPath, tanggal, berita, konte
 }
 
 /**
- * INSERT berita mentah ke tabel `berita` D1.
+ * INSERT berita ke tabel `berita` D1 (dengan judul/ringkasan yang sudah di-rewrite).
  * Ini yang membuat halaman /news bisa menampilkan daftar berita.
  * Menggunakan INSERT OR IGNORE agar tidak duplikat (ext_id unik).
+ * Field `judul` & `ringkasan` berisi versi rewrite.
+ * Field `judul_asli` & `ringkasan_asli` berisi versi mentah dari RSS.
  */
 async function d1InsertBeritaBatch(items) {
   if (!D1_URL) {
@@ -86,10 +88,10 @@ async function d1InsertBeritaBatch(items) {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           params: [
             item.id,
-            item.judul,
-            item.judul,
-            item.ringkasan || '',
-            item.ringkasan || '',
+            item.judul,                                   // versi rewrite (atau asli jika rewrite gagal)
+            item.judulAsli || item.judul,                  // versi asli RSS
+            item.ringkasan || '',                          // versi rewrite
+            item.ringkasanAsli || item.ringkasan || '',    // versi asli RSS
             item.link,
             item.sumberId,
             item.sumberNama,
@@ -111,6 +113,70 @@ async function d1InsertBeritaBatch(items) {
  * Update ringkasan berita di D1 dengan recap lengkap (800-1200 kata).
  * Flag sudah_jadi_artikel = 1 supaya /news bisa tampilkan versi recap.
  */
+
+// ---------- Rewrite judul & ringkasan via Groq AI ----------
+// Parafrase judul+ringkasan (kata/kalimat diubah, makna & fakta tetap sama).
+// Berita internasional sekaligus diterjemahkan ke Bahasa Indonesia.
+const UKURAN_BATCH_REWRITE = 8
+
+async function rewriteSatuBatch(items) {
+  const completion = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      {
+        role: 'system',
+        content: `Kamu adalah editor konten untuk website budidaya ikan APLESI (aplesi.my.id).
+Tugasmu: menulis ULANG (parafrase) judul dan ringkasan tiap berita di bawah ini.
+
+ATURAN WAJIB:
+1. Ganti kata dan susunan kalimat dari aslinya, TAPI makna dan fakta harus tetap 100% sama -- jangan menambah, mengurangi, atau mengubah informasi apapun.
+2. Untuk berita dengan asal "internasional" (aslinya berbahasa Inggris): TERJEMAHKAN sekaligus ke Bahasa Indonesia yang natural saat memparafrase -- jangan terjemahan literal kata-per-kata.
+3. Untuk berita dengan asal "indonesia": tetap dalam Bahasa Indonesia, cukup ubah kata/susunan kalimatnya.
+4. Judul hasil rewrite: maksimal sekitar 15 kata.
+5. Ringkasan hasil rewrite: 1-2 kalimat, maksimal sekitar 200 karakter.
+6. Pertahankan field "id" persis sama seperti input, untuk mencocokkan hasil.
+
+Balas HANYA JSON valid dengan format:
+{"hasil": [{"id": "...", "judul": "...", "ringkasan": "..."}]}`
+      },
+      {
+        role: 'user',
+        content: `Parafrase (dan terjemahkan jika internasional) berita-berita berikut:\n\n${JSON.stringify(
+          items.map((i) => ({ id: i.id, judul: i.judul, ringkasan: i.ringkasan, asal: i.asal })),
+          null, 2
+        )}`
+      },
+    ],
+    temperature: 0.6,
+    max_tokens: 4096,
+    response_format: { type: 'json_object' },
+  })
+
+  const parsed = JSON.parse(completion.choices[0].message.content)
+  return parsed.hasil || []
+}
+
+async function rewriteBeritaBatch(items) {
+  if (items.length === 0) return {}
+
+  const batches = []
+  for (let i = 0; i < items.length; i += UKURAN_BATCH_REWRITE) {
+    batches.push(items.slice(i, i + UKURAN_BATCH_REWRITE))
+  }
+
+  const rewriteMap = {}
+  const results = await Promise.allSettled(batches.map(rewriteSatuBatch))
+
+  for (const result of results) {
+    if (result.status === 'fulfilled') {
+      for (const r of result.value) {
+        rewriteMap[r.id] = { judul: r.judul, ringkasan: r.ringkasan }
+      }
+    }
+  }
+
+  return rewriteMap
+}
 async function d1UpdateBeritaRecap(extId, artikel, gambarPath) {
   if (!D1_URL) return
   const res = await fetch(D1_URL, {
@@ -603,11 +669,35 @@ async function main() {
   const semuaBerita = await scrapeBeritaPerikanan()
   console.log(`   ${semuaBerita.length} berita relevan ditemukan.`)
 
-  // INSERT SEMUA berita mentah ke tabel `berita` D1
+  // Rewrite judul & ringkasan via Groq AI sebelum disimpan ke D1
+  // Berita internasional otomatis diterjemahkan ke Bahasa Indonesia
+  // Berita nasional diparafrase agar tidak plagiat dari sumber asli
+  let rewriteMap = {}
+  if (semuaBerita.length > 0) {
+    console.log('✍️ Rewrite judul & ringkasan via Groq AI...')
+    try {
+      rewriteMap = await rewriteBeritaBatch(semuaBerita)
+      console.log(`   ✅ ${Object.keys(rewriteMap).length} berita berhasil di-rewrite`)
+    } catch (err) {
+      console.warn('   ⚠️ Rewrite gagal, pakai judul/ringkasan asli:', err.message)
+    }
+  }
+
+  // INSERT berita ke tabel `berita` D1 (dengan judul/ringkasan yang sudah di-rewrite)
   // Ini memastikan halaman /news selalu punya data terbaru untuk ditampilkan
   if (semuaBerita.length > 0) {
-    console.log('📥 Menyimpan berita mentah ke D1 (tabel berita)...')
-    const jumlahInsert = await d1InsertBeritaBatch(semuaBerita)
+    console.log('📥 Menyimpan berita ke D1 (tabel berita)...')
+    const dataUntukInsert = semuaBerita.map((b) => {
+      const rw = rewriteMap[b.id]
+      return {
+        ...b,
+        judulAsli: b.judul,                      // simpan versi asli RSS
+        ringkasanAsli: b.ringkasan,              // simpan versi asli RSS
+        judul: rw?.judul || b.judul,             // pakai versi rewrite (atau fallback asli)
+        ringkasan: rw?.ringkasan || b.ringkasan, // pakai versi rewrite (atau fallback asli)
+      }
+    })
+    const jumlahInsert = await d1InsertBeritaBatch(dataUntukInsert)
     console.log(`   ✅ ${jumlahInsert} berita baru berhasil masuk D1`)
   }
 
