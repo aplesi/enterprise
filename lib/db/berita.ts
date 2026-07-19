@@ -22,6 +22,8 @@ interface BeritaRow {
   gambar_url: string
   sudah_jadi_artikel: number
   created_at: string
+  slug?: string
+  konten_recap?: string
 }
 
 function rowToNewsItem(row: BeritaRow): NewsItem {
@@ -33,6 +35,8 @@ function rowToNewsItem(row: BeritaRow): NewsItem {
     tanggal: row.tanggal,
     kategori: row.asal === 'indonesia' ? 'nasional' : 'internasional',
     imageUrl: row.gambar_url || '',
+    slug: row.slug,
+    kontenRecap: row.konten_recap,
   }
 }
 
@@ -78,6 +82,14 @@ export async function countBerita(): Promise<number> {
     `SELECT COUNT(*) as total FROM berita`
   )
   return row?.total || 0
+}
+
+export async function getBeritaBySlug(slug: string): Promise<NewsItem | null> {
+  const row = await queryFirst<BeritaRow>(
+    `SELECT * FROM berita WHERE slug = ?`,
+    [slug]
+  )
+  return row ? rowToNewsItem(row) : null
 }
 
 // --- WRITE ---
@@ -141,6 +153,14 @@ export async function updateGambarUrl(extId: string, gambarUrl: string): Promise
   const result = await query(
     `UPDATE berita SET gambar_url = ? WHERE ext_id = ?`,
     [gambarUrl, extId]
+  )
+  return result.success
+}
+
+export async function updateBeritaRecap(extId: string, slug: string, kontenRecap: string): Promise<boolean> {
+  const result = await query(
+    `UPDATE berita SET sudah_jadi_artikel = 1, slug = ?, konten_recap = ? WHERE ext_id = ?`,
+    [slug, kontenRecap, extId]
   )
   return result.success
 }

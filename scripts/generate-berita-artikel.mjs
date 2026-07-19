@@ -177,7 +177,7 @@ async function rewriteBeritaBatch(items) {
 
   return rewriteMap
 }
-async function d1UpdateBeritaRecap(extId, artikel, gambarPath) {
+async function d1UpdateBeritaRecap(extId, slug, artikel, gambarPath) {
   if (!D1_URL) return
   const res = await fetch(D1_URL, {
     method: 'POST',
@@ -186,8 +186,8 @@ async function d1UpdateBeritaRecap(extId, artikel, gambarPath) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      sql: `UPDATE berita SET ringkasan = ?, gambar_url = ?, sudah_jadi_artikel = 1 WHERE ext_id = ?`,
-      params: [artikel.konten, gambarPath || '', extId],
+      sql: `UPDATE berita SET slug = ?, konten_recap = ?, gambar_url = ?, sudah_jadi_artikel = 1 WHERE ext_id = ?`,
+      params: [slug, artikel.konten, gambarPath || '', extId],
     }),
   })
   if (!res.ok) throw new Error(`D1 HTTP ${res.status}`)
@@ -774,9 +774,9 @@ async function main() {
         }
       }
 
-      // Simpan recap ke D1 berita (UPDATE ringkasan yang sudah ada)
+      // Simpan recap ke D1 berita (UPDATE slug dan konten_recap)
       try {
-        await d1UpdateBeritaRecap(berita.id, artikel, gambarPath)
+        await d1UpdateBeritaRecap(berita.id, slug, artikel, gambarPath)
         console.log(`   ✅ Recap disimpan ke D1 berita: ${berita.id}`)
       } catch (err) {
         console.warn(`   ⚠️ Gagal update recap ke D1 berita:`, err.message)

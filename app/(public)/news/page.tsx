@@ -100,7 +100,7 @@ export default async function NewsPage({
             {/* Featured News */}
             {featured && (
               <div className="mb-12">
-                <a href={featured.url} target="_blank" rel="noopener noreferrer nofollow" className="group block">
+                <a href={featured.slug ? `/news/${featured.slug}` : featured.url} target={featured.slug ? undefined : "_blank"} rel={featured.slug ? undefined : "noopener noreferrer nofollow"} className="group block">
                   <div className="card-modern overflow-hidden hover:shadow-luxury-lg transition-all duration-500 hover:-translate-y-1">
                     <div className="grid lg:grid-cols-2 gap-0">
                       {/* Image — dari RSS atau gradient fallback */}
@@ -159,7 +159,7 @@ export default async function NewsPage({
                         </div>
 
                         <div className="flex items-center gap-3 text-azure font-bold group-hover:gap-4 transition-all">
-                          <span>Baca di {featured.sumber}</span>
+                          <span>{featured.slug ? "Baca Selengkapnya" : `Baca di ${featured.sumber}`}</span>
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M5 12h14"/>
                             <path d="m12 5 7 7-7 7"/>
@@ -177,9 +177,9 @@ export default async function NewsPage({
               {sisanya.map((news, idx) => (
                 <a
                   key={`${news.url}-${idx}`}
-                  href={news.url}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
+                  href={news.slug ? `/news/${news.slug}` : news.url}
+                  target={news.slug ? undefined : "_blank"}
+                  rel={news.slug ? undefined : "noopener noreferrer nofollow"}
                   className="group"
                 >
                   <article className="card-modern overflow-hidden hover:shadow-luxury transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
@@ -225,7 +225,7 @@ export default async function NewsPage({
                       )}
 
                       <div className="flex items-center gap-2 text-azure font-semibold text-sm pt-4 border-t border-gray-100 mt-auto">
-                        <span>Baca di {news.sumber}</span>
+                        <span>{news.slug ? "Baca Selengkapnya" : `Baca di ${news.sumber}`}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
                           <path d="M5 12h14"/>
                           <path d="m12 5 7 7-7 7"/>

@@ -152,6 +152,8 @@ export interface NewsItem {
   tanggal: string
   kategori: 'nasional' | 'internasional'
   imageUrl: string
+  slug?: string
+  kontenRecap?: string
 }
 
 // --- API Response ---
