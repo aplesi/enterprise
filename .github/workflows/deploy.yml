@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  workflow_call: # Dipanggil otomatis oleh auto-post.yml setelah artikel baru di-commit
 
 jobs:
   deploy:
