@@ -584,6 +584,30 @@ async function downloadDanSimpanGambar(imageUrl, id) {
   }
 }
 
+/**
+ * Fallback: scrape og:image dari halaman sumber asli.
+ * Berguna saat RSS tidak menyediakan gambar (contoh: Google News).
+ * Return URL gambar OG atau '' jika gagal.
+ */
+async function scrapeOgImage(pageUrl) {
+  try {
+    // Google News redirect — ikuti redirect ke sumber asli
+    const res = await fetch(pageUrl, {
+      redirect: 'follow',
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AplesiBot/1.0)' },
+      signal: AbortSignal.timeout(12000),
+    })
+    if (!res.ok) return ''
+    const html = await res.text()
+    const match =
+      html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i)
+    return match ? match[1] : ''
+  } catch {
+    return ''
+  }
+}
+
 // ---------- Generate gambar via FLUX-1 Schnell (duplikat dari lib/ai/cloudflare-image.ts) ----------
 async function generateGambar(prompt) {
   console.log('   🖼️ Generating gambar via FLUX-1...')
@@ -686,6 +710,20 @@ async function main() {
   // INSERT berita ke tabel `berita` D1 (dengan judul/ringkasan yang sudah di-rewrite)
   // Ini memastikan halaman /news selalu punya data terbaru untuk ditampilkan
   if (semuaBerita.length > 0) {
+    // Backfill gambar: scrape og:image untuk berita yang tidak punya gambar dari RSS
+    const tanpaGambar = semuaBerita.filter((b) => !b.imageUrl)
+    if (tanpaGambar.length > 0) {
+      console.log(`🔍 Backfill og:image untuk ${tanpaGambar.length} berita tanpa gambar...`)
+      const ogResults = await Promise.allSettled(
+        tanpaGambar.map(async (b) => {
+          const ogUrl = await scrapeOgImage(b.link)
+          if (ogUrl) b.imageUrl = ogUrl
+        })
+      )
+      const berhasil = tanpaGambar.filter((b) => b.imageUrl).length
+      console.log(`   ✅ ${berhasil}/${tanpaGambar.length} gambar OG berhasil ditemukan`)
+    }
+
     console.log('📥 Menyimpan berita ke D1 (tabel berita)...')
     const dataUntukInsert = semuaBerita.map((b) => {
       const rw = rewriteMap[b.id]
@@ -752,9 +790,11 @@ async function main() {
 
       let gambarPath = ''
 
-      // Hybrid image pipeline: RSS image → download, atau generate via FLUX-1
+      // === Pipeline gambar 3-tier: RSS → OG scrape → FLUX-1 AI ===
+
+      // Tier 1: Gambar langsung dari RSS feed
       if (berita.imageUrl) {
-        console.log('   📥 Download gambar dari RSS...')
+        console.log('   📥 [Tier 1] Download gambar dari RSS...')
         const downloaded = await downloadDanSimpanGambar(berita.imageUrl, berita.id)
         if (downloaded) {
           gambarPath = downloaded
@@ -762,7 +802,20 @@ async function main() {
         }
       }
 
+      // Tier 2: Scrape og:image dari halaman sumber asli
       if (!gambarPath) {
+        console.log('   🔍 [Tier 2] Scrape og:image dari sumber asli...')
+        const ogUrl = await scrapeOgImage(berita.link)
+        if (ogUrl) {
+          // Simpan URL OG langsung (tanpa download ke GitHub) — lebih cepat & hemat
+          gambarPath = ogUrl
+          console.log(`   ✅ OG image ditemukan: ${ogUrl.slice(0, 80)}...`)
+        }
+      }
+
+      // Tier 3: Generate gambar via Cloudflare AI FLUX-1
+      if (!gambarPath) {
+        console.log('   🖼️ [Tier 3] Generate gambar via FLUX-1...')
         const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
         const gambarBuffer = await generateGambarDenganKuota(promptGambar)
         if (gambarBuffer) {
@@ -772,6 +825,10 @@ async function main() {
             gambarPath = githubUrl
           }
         }
+      }
+
+      if (!gambarPath) {
+        console.warn('   ⚠️ Semua tier gambar gagal, berita tanpa gambar.')
       }
 
       // Simpan recap ke D1 berita (UPDATE slug dan konten_recap)

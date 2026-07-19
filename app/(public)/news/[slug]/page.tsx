@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import Image from 'next/image'
+// Gambar berita pakai <img> biasa karena URL dari domain eksternal (OG image)
 import Link from 'next/link'
 import { getBeritaBySlug, getBeritaTerbaru } from '@/lib/db/berita'
 import { formatTanggal } from '@/lib/utils'
@@ -138,13 +138,11 @@ export default async function NewsDetailPage({
             {/* Gambar Utama */}
             {news.imageUrl && (
               <div className="relative w-full h-64 md:h-[400px] rounded-2xl overflow-hidden mb-10 bg-gray-50 border border-gray-100 shadow-sm">
-                <Image
+                <img
                   src={news.imageUrl}
                   alt={news.judul}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 800px"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="eager"
                 />
               </div>
             )}
@@ -226,7 +224,7 @@ export default async function NewsDetailPage({
                         className="flex flex-col gap-3 group items-start">
                         {b.imageUrl && (
                           <div className="relative w-full h-32 bg-gray-100 rounded-xl overflow-hidden">
-                            <Image src={b.imageUrl} alt={b.judul} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="320px" />
+                            <img src={b.imageUrl} alt={b.judul} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                           </div>
                         )}
                         <div>
