@@ -6,11 +6,14 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch: # Memungkinkan trigger manual
 
+# Izin di level workflow — diturunkan ke semua job termasuk reusable workflow
+permissions:
+  contents: write
+  deployments: write
+
 jobs:
   auto-generate-post:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Dibutuhkan untuk push commit
 
     steps:
       - name: Checkout Repository
