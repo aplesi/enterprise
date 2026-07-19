@@ -466,39 +466,96 @@ function slugify(text) {
     .trim()
 }
 
+/**
+ * Scrape konten teks lengkap dari halaman sumber berita.
+ * Mengambil body text (paragraf) dari HTML halaman, strip tags.
+ * Return string teks (max ~3000 kata agar muat di context Groq).
+ */
+async function scrapeKontenSumber(url) {
+  try {
+    const res = await fetch(url, {
+      redirect: 'follow',
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AplesiBot/1.0; +https://aplesi.my.id)' },
+      signal: AbortSignal.timeout(15000),
+    })
+    if (!res.ok) return ''
+    const html = await res.text()
+
+    // Hapus script, style, nav, header, footer
+    let clean = html
+      .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+      .replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, '')
+      .replace(/<header[^>]*>[\s\S]*?<\/header>/gi, '')
+      .replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, '')
+      .replace(/<aside[^>]*>[\s\S]*?<\/aside>/gi, '')
+
+    // Ambil hanya konten dalam <p> tags (paragraf artikel)
+    const paragraphs = clean.match(/<p[^>]*>([\s\S]*?)<\/p>/gi) || []
+    const teks = paragraphs
+      .map((p) => p.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim())
+      .filter((p) => p.length > 40) // filter paragraf pendek (navigasi, dll)
+      .join('\n\n')
+
+    // Limit agar tidak melebihi context window Groq
+    const words = teks.split(/\s+/)
+    if (words.length > 2500) {
+      return words.slice(0, 2500).join(' ') + '...'
+    }
+    return teks
+  } catch {
+    return ''
+  }
+}
+
 async function generateRecapArtikel(berita) {
+  // Scrape konten lengkap dari sumber asli
+  console.log('   📄 Scrape konten lengkap dari sumber...')
+  const kontenSumber = await scrapeKontenSumber(berita.link)
+  const adaKonten = kontenSumber.length > 200
+  if (adaKonten) {
+    console.log(`   ✅ Konten sumber: ${kontenSumber.split(/\s+/).length} kata`)
+  } else {
+    console.log('   ⚠️ Konten sumber terlalu pendek/gagal, recap dari judul+ringkasan saja')
+  }
+
   const completion = await groq.chat.completions.create({
     model: 'llama-3.3-70b-versatile',
     messages: [
       {
         role: 'system',
-        content: `Kamu adalah Tim Redaksi APLESI (aplesi.my.id), menulis artikel recap & analisis berdasarkan berita perikanan yang sedang beredar.
+        content: `Kamu adalah Tim Redaksi APLESI (aplesi.my.id), menulis artikel berita lengkap berdasarkan berita perikanan dari sumber terpercaya.
 
-ATURAN WAJIB (etis, anti-thin-content, anti-plagiarisme):
-1. JANGAN menerjemahkan/menyalin ulang secara dekat dari ringkasan sumber -- tulis dari sudut pandang baru dengan analisis ASLI.
-2. WAJIB ada nilai tambah nyata: apa artinya berita ini bagi pembudidaya ikan skala kecil-menengah di Indonesia? Dampak praktis, peluang, atau risiko apa yang relevan?
-3. Kaitkan dengan topik budidaya ikan Aplesi yang relevan jika masuk akal (pakan, kolam, penyakit, dsb) -- tapi jangan dipaksakan.
-4. WAJIB sertakan kalimat atribusi eksplisit di AKHIR konten (sebelum FAQ jika ada), contoh format: "Artikel ini merupakan rangkuman & analisis berdasarkan laporan dari [Nama Sumber] ([tanggal])." -- ganti [Nama Sumber] dan [tanggal] sesuai data yang diberikan. JANGAN taruh atribusi di awal artikel.
-5. Panjang total 800-1200 kata, format Markdown, heading H2/H3, jawab inti tiap heading di kalimat pertama section itu (answer-first).
-6. Tulis dalam Bahasa Indonesia yang baik dan benar.`,
+ATURAN WAJIB (etis, anti-thin-content, anti-plagiarisme, aman Google AdSense):
+1. Tulis ULANG berita secara LENGKAP dengan kata-katamu sendiri — JANGAN menyalin kalimat dari sumber. Ubah struktur kalimat, sinonim, dan sudut pandang.
+2. WAJIB memasukkan SEMUA fakta, data, angka, nama pihak, dan kutipan yang ada di konten sumber. JANGAN meringkas — KEMBANGKAN. Tambahkan konteks dan analisis.
+3. Berikan nilai tambah: apa artinya berita ini bagi pembudidaya ikan skala kecil-menengah di Indonesia? Dampak praktis, peluang, atau risiko apa yang relevan?
+4. Kaitkan dengan topik budidaya ikan yang relevan jika masuk akal (pakan, kolam, penyakit, pasar, ekspor, dsb) — tapi jangan dipaksakan.
+5. WAJIB sertakan kalimat atribusi eksplisit di AKHIR konten: "Artikel ini merupakan rangkuman & analisis berdasarkan laporan dari [Nama Sumber] ([tanggal])."
+6. Panjang MINIMAL 1000 kata, IDEALNYA 1200-1800 kata. Format Markdown, heading H2/H3.
+7. Tulis dalam Bahasa Indonesia yang baik, informatif, dan jurnalistik.
+8. Setiap section H2 harus punya minimal 3-4 paragraf substansial, bukan cuma 1-2 kalimat.`,
       },
       {
         role: 'user',
-        content: `Buat artikel recap & analisis dari berita berikut:
+        content: `Buat artikel berita lengkap berdasarkan informasi berikut:
 
 Judul asli: "${berita.judul}"
 Ringkasan asli: "${berita.ringkasan}"
 Sumber: ${berita.sumberNama}
 Tanggal: ${berita.tanggal}
 Asal: ${berita.asal === 'internasional' ? 'media internasional (berbahasa Inggris)' : 'media Indonesia'}
+${adaKonten ? `\nKONTEN LENGKAP DARI SUMBER (tulis ulang dengan kata-katamu, JANGAN salin):\n---\n${kontenSumber}\n---` : ''}
 
-Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk Stable Diffusion, menggambarkan SATU adegan visual konkret yang relevan dengan topik berita ini (bukan judul, bukan generik).
+PENTING: Artikel harus MINIMAL 1000 kata dan mencakup SEMUA informasi dari konten sumber di atas. Jangan meringkas — kembangkan dan tambahkan analisis.
+
+Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk Stable Diffusion.
 
 Respons hanya JSON:
 {
   "judul": "...",
   "ringkasan": "... (max 160 karakter)",
-  "konten": "... (markdown, 800-1200 kata)",
+  "konten": "... (markdown, MINIMAL 1000 kata, idealnya 1200-1800 kata)",
   "tags": ["tag1", "tag2", "tag3"],
   "seoTitle": "... (max 60 karakter)",
   "seoDesc": "... (max 160 karakter)",
@@ -507,7 +564,7 @@ Respons hanya JSON:
       },
     ],
     temperature: 0.7,
-    max_tokens: 4096,
+    max_tokens: 8192,
     response_format: { type: 'json_object' },
   })
 
