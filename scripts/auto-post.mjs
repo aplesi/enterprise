@@ -96,8 +96,10 @@ Setelah itu buat juga "imagePrompt": prompt image-generation dalam Bahasa
 Inggris untuk Stable Diffusion, menggambarkan SATU adegan visual konkret
 yang benar-benar dibahas di artikel ini (spesies ikan, jenis kolam, alat,
 tahapan yang dijelaskan, dsb) -- BUKAN judul artikel, BUKAN deskripsi
-generik seperti "fish farming Indonesia". Contoh: "close-up of catfish
-fingerlings in a blue tarpaulin pond, hand feeding pellets, morning
+generik. PENTING: Jika artikel membahas "ikan lele" (catfish), prompt WAJIB
+menyertakan deskripsi visual spesifik "catfish with long whiskers and dark skin"
+agar AI tidak menggambar ikan mas/koi. Contoh: "close-up of a dark skin catfish 
+with long whiskers in a blue tarpaulin pond, hand feeding pellets, morning
 light, rural Indonesian aquaculture, realistic photography".
 
 Respons hanya JSON:
