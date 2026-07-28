@@ -1,46 +1,83 @@
 ---
-judul: "Cara Membuat Saluran Pembuangan Air Permukaan dan Dasar Kolam Terpal"
-slug: "membuat-saluran-pembuangan-air-permukaan-dan-dasar-kolam-terpal"
-ringkasan: "Membuat saluran pembuangan air kolam terpal dengan benar untuk menjaga kualitas air dan kesehatan ikan"
-gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZcRMHJKliagQcLaleTLDlsy658UhNUjWzZtKVWJOibja4AERwsf0geMNKO8hcwU40gQ2EL8qw-EeiIQkLjjfIjJvMmLD-IvP2-n0H_VCtsEGx6B9WP431kVoYFnRF9eN4-lJ76pf-gJnx/s320/01IMG_0178.jpg"
-kategori: "Blog"
-tags: ["kolam terpal", "saluran pembuangan", "ikan"]
-penulis: "Tim Redaksi APLESI"
-tanggal: "2012-04-10"
-status: "published"
-seoTitle: "Cara Membuat Saluran Pembuangan Air Kolam Terpal"
-seoDesc: "Membuat saluran pembuangan air permukaan dan dasar kolam terpal dengan benar untuk menjaga kualitas air dan kesehatan ikan"
+judul: Cara Membuat Saluran Pembuangan Air Permukaan dan Dasar Kolam Terpal
+slug: membuat-saluran-pembuangan-air-permukaan-dan-dasar-kolam-terpal
+ringkasan: Membuat saluran pembuangan air yang efektif untuk kolam terpal
+gambar: >-
+  https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZcRMHJKliagQcLaleTLDlsy658UhNUjWzZtKVWJOibja4AERwsf0geMNKO8hcwU40gQ2EL8qw-EeiIQkLjjfIjJvMmLD-IvP2-n0H_VCtsEGx6B9WP431kVoYFnRF9eN4-lJ76pf-gJnx/s320/01IMG_0178.jpg
+kategori: Blog
+tags:
+  - kolam terpal
+  - saluran pembuangan
+  - ikan
+penulis: Tim Redaksi APLESI
+tanggal: '2012-04-10'
+status: published
+seoTitle: Cara Membuat Saluran Pembuangan Air Kolam Terpal
+seoDesc: >-
+  Membuat saluran pembuangan air permukaan dan dasar kolam terpal yang efektif
+  untuk meningkatkan kualitas air dan kesehatan ikan
 ---
 
-## Alat dan Bahan
-Membuat saluran pembuangan air permukaan dan dasar kolam terpal memerlukan beberapa alat dan bahan, yaitu:
-* 3 buah paralon panjang @1m, ukuran 1" - 2" sesuai selera
-* 1 buah paralon pendek, ukuran 10-15cm
-* 1 buah knee yang leherna lebar
-* 1 buah knee yang leherna pendek
-* 1 buah sok drat dalam
-* 1 buah sok drat luar
-* 1 buah lem aica aibon/lem tangit
-* Amplas
-* Pisau cutter yang baru dan tajam
-* Bor dan mata bor kecil
-* Gergaji besi
-## Persiapan Lahan
-Sebelum membuat saluran pembuangan, lakukan persiapan lahan dengan:
-* Membuat lubang di tanah di salah satu sisi dekat kerangka bambu, ukuran 50cm x 50cm, sedalam 20-30cm
-* Mengatur dasar kolam supaya miring ke arah lubang tersebut, kemiringan 10% sudah cukup
-* Membuat permukaan tanah kolam dan lubang mulus, tanpa batu atau kerikil
-## Cara Membuat Saluran Pembuangan
-Untuk membuat saluran pembuangan, ikuti langkah-langkah berikut:
-* Potong paralon panjang menjadi tiga bagian, yaitu paralon A, B, dan C
-* Pasang paralon A ke dalam kolam, paralon B ke dasar kolam, dan paralon C ke luar kolam
-* Gunakan knee yang leherna lebar dan pendek untuk menghubungkan paralon
-* Pasang sok drat dalam dan luar untuk menghubungkan paralon
-* Gunakan lem aica aibon/lem tangit untuk merekatkan paralon
-### Pertanyaan yang Sering Diajukan
-### Apa fungsi saluran pembuangan air permukaan dan dasar kolam terpal?
-Fungsi saluran pembuangan air permukaan dan dasar kolam terpal adalah untuk menjaga kualitas air dan kesehatan ikan dengan mengeluarkan air kotor dan membawa air baru ke dalam kolam
-### Bagaimana cara membuat saluran pembuangan air permukaan dan dasar kolam terpal?
-Cara membuat saluran pembuangan air permukaan dan dasar kolam terpal adalah dengan menggunakan paralon, knee, sok drat, dan lem aica aibon/lem tangit
-### Apa yang perlu diperhatikan saat membuat saluran pembuangan air permukaan dan dasar kolam terpal?
-Hal yang perlu diperhatikan saat membuat saluran pembuangan air permukaan dan dasar kolam terpal adalah kemiringan dasar kolam, permukaan tanah yang mulus, dan penggunaan bahan yang tepat
+# Pendahuluan
+Cara membuat saluran pembuangan air permukaan dan dasar kolam terpal merupakan salah satu aspek penting dalam budidaya ikan. Kolam terpal yang dirancang dengan baik dapat membantu meningkatkan kualitas air dan kesehatan ikan. Dalam artikel ini, kita akan membahas cara membuat saluran pembuangan air permukaan dan dasar kolam terpal yang efektif.
+
+## Mengapa Saluran Pembuangan Air Penting?
+Saluran pembuangan air permukaan dan dasar kolam terpal sangat penting karena dapat membantu menghilangkan kotoran dan sisa-sisa makanan yang tidak termakan oleh ikan. Jika kotoran dan sisa-sisa makanan tidak dihilangkan, maka dapat menyebabkan penurunan kualitas air dan berdampak negatif pada kesehatan ikan. Oleh karena itu, membuat saluran pembuangan air yang efektif sangat penting untuk menjaga kesehatan ikan dan meningkatkan hasil panen.
+
+## Desain Saluran Pembuangan Air
+Desain saluran pembuangan air permukaan dan dasar kolam terpal harus dirancang dengan baik agar dapat berfungsi efektif. Berikut beberapa tips untuk membuat desain saluran pembuangan air yang efektif:
+* Pastikan saluran pembuangan air memiliki kemiringan yang cukup untuk memungkinkan air mengalir keluar dengan lancar.
+* Gunakan pipa yang cukup besar untuk memungkinkan air mengalir keluar dengan cepat.
+* Pastikan saluran pembuangan air tidak terlalu panjang agar air tidak mengalir terlalu lama dan menyebabkan penurunan kualitas air.
+
+## Membuat Saluran Pembuangan Air Permukaan
+Membuat saluran pembuangan air permukaan relatif mudah dan dapat dilakukan dengan menggunakan bahan-bahan yang sederhana. Berikut beberapa langkah untuk membuat saluran pembuangan air permukaan:
+* Siapkan pipa yang cukup besar dan panjang untuk memungkinkan air mengalir keluar dengan lancar.
+* Pasang pipa pada bagian atas kolam terpal dengan kemiringan yang cukup untuk memungkinkan air mengalir keluar dengan lancar.
+* Pastikan pipa tidak terlalu panjang agar air tidak mengalir terlalu lama dan menyebabkan penurunan kualitas air.
+
+## Membuat Saluran Pembuangan Air Dasar
+Membuat saluran pembuangan air dasar lebih rumit daripada membuat saluran pembuangan air permukaan. Berikut beberapa langkah untuk membuat saluran pembuangan air dasar:
+* Siapkan pipa yang cukup besar dan panjang untuk memungkinkan air mengalir keluar dengan lancar.
+* Gali lubang pada bagian dasar kolam terpal untuk memungkinkan pipa dipasang.
+* Pasang pipa pada bagian dasar kolam terpal dengan kemiringan yang cukup untuk memungkinkan air mengalir keluar dengan lancar.
+
+## Biaya dan Waktu
+Biaya untuk membuat saluran pembuangan air permukaan dan dasar kolam terpal relatif terjangkau dan dapat bervariasi tergantung pada bahan-bahan yang digunakan. Berikut beberapa perkiraan biaya untuk membuat saluran pembuangan air:
+* Pipa: Rp 50.000 - Rp 100.000
+* Bahan-bahan lainnya: Rp 20.000 - Rp 50.000
+* Total biaya: Rp 70.000 - Rp 150.000
+Waktu untuk membuat saluran pembuangan air permukaan dan dasar kolam terpal relatif singkat dan dapat bervariasi tergantung pada kompleksitas desain. Berikut beberapa perkiraan waktu untuk membuat saluran pembuangan air:
+* Membuat saluran pembuangan air permukaan: 1-2 jam
+* Membuat saluran pembuangan air dasar: 2-4 jam
+
+## Kesimpulan
+Membuat saluran pembuangan air permukaan dan dasar kolam terpal merupakan salah satu aspek penting dalam budidaya ikan. Dengan membuat saluran pembuangan air yang efektif, kita dapat membantu meningkatkan kualitas air dan kesehatan ikan. Dalam artikel ini, kita telah membahas cara membuat saluran pembuangan air permukaan dan dasar kolam terpal yang efektif.
+
+### 1. Tips untuk Membuat Saluran Pembuangan Air yang Efektif
+* Pastikan saluran pembuangan air memiliki kemiringan yang cukup untuk memungkinkan air mengalir keluar dengan lancar.
+* Gunakan pipa yang cukup besar untuk memungkinkan air mengalir keluar dengan cepat.
+* Pastikan saluran pembuangan air tidak terlalu panjang agar air tidak mengalir terlalu lama dan menyebabkan penurunan kualitas air.
+
+### 2. Manfaat Membuat Saluran Pembuangan Air
+* Meningkatkan kualitas air
+* Meningkatkan kesehatan ikan
+* Meningkatkan hasil panen
+
+### 3. Kesalahan yang Sering Terjadi saat Membuat Saluran Pembuangan Air
+* Saluran pembuangan air yang terlalu panjang
+* Saluran pembuangan air yang tidak memiliki kemiringan yang cukup
+* Saluran pembuangan air yang terlalu kecil
+
+## FAQ
+### Cara Membuat Saluran Pembuangan Air yang Efektif?
+Cara membuat saluran pembuangan air yang efektif adalah dengan memastikan saluran pembuangan air memiliki kemiringan yang cukup untuk memungkinkan air mengalir keluar dengan lancar, menggunakan pipa yang cukup besar untuk memungkinkan air mengalir keluar dengan cepat, dan memastikan saluran pembuangan air tidak terlalu panjang agar air tidak mengalir terlalu lama dan menyebabkan penurunan kualitas air.
+
+### Apa Manfaat Membuat Saluran Pembuangan Air?
+Manfaat membuat saluran pembuangan air adalah meningkatkan kualitas air, meningkatkan kesehatan ikan, dan meningkatkan hasil panen.
+
+### Berapa Biaya untuk Membuat Saluran Pembuangan Air?
+Biaya untuk membuat saluran pembuangan air relatif terjangkau dan dapat bervariasi tergantung pada bahan-bahan yang digunakan. Perkiraan biaya untuk membuat saluran pembuangan air adalah Rp 70.000 - Rp 150.000.
+
+### Berapa Waktu untuk Membuat Saluran Pembuangan Air?
+Waktu untuk membuat saluran pembuangan air relatif singkat dan dapat bervariasi tergantung pada kompleksitas desain. Perkiraan waktu untuk membuat saluran pembuangan air adalah 1-4 jam.

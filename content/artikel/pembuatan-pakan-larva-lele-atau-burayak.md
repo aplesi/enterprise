@@ -1,38 +1,64 @@
 ---
-judul: "Cara Membuat Pakan Larva Lele yang Sehat dan Bergizi"
-slug: "pembuatan-pakan-larva-lele-atau-burayak"
-ringkasan: "Pembuatan pakan larva lele yang tepat untuk meningkatkan kelangsungan hidup"
-gambar: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjdCJwujiE9I6I_Cwrht1tPeWBoRFMZwvYPC8YZMbpaSsSD0um_kXIZvVzkElxv8ynR-ed3cbk7689xRZxTb9TSS5fON8mItlK_XabBDVLzvn3rzZBaWkshzUMDnFFgSRGH6obypdufB89f/s400/Cara+mudah+membuat+pasta+untuk+larva+lele.jpg"
-kategori: "Pakan Larva lele"
-tags: ["pembuatan pakan larva lele", "pakan alternatif", "cacing sutra", "atermia"]
-penulis: "Tim Redaksi APLESI"
-tanggal: "2016-03-10"
-status: "published"
-seoTitle: "Pembuatan Pakan Larva Lele yang Sehat"
-seoDesc: "Pembuatan pakan larva lele yang tepat untuk meningkatkan kelangsungan hidup"
+judul: Cara Membuat Pakan Larva Lele yang Sehat dan Bergizi
+slug: pembuatan-pakan-larva-lele-atau-burayak
+ringkasan: >-
+  Membuat pakan larva lele yang sehat dan bergizi dengan menggunakan bahan-bahan
+  alami
+gambar: >-
+  https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjdCJwujiE9I6I_Cwrht1tPeWBoRFMZwvYPC8YZMbpaSsSD0um_kXIZvVzkElxv8ynR-ed3cbk7689xRZxTb9TSS5fON8mItlK_XabBDVLzvn3rzZBaWkshzUMDnFFgSRGH6obypdufB89f/s400/Cara+mudah+membuat+pasta+untuk+larva+lele.jpg
+kategori: Pakan Larva lele
+tags:
+  - pembuatan pakan larva lele
+  - pakan alternatif
+  - cacing sutra
+  - atermia
+penulis: Tim Redaksi APLESI
+tanggal: '2016-03-10'
+status: published
+seoTitle: Cara Membuat Pakan Larva Lele yang Sehat dan Bergizi
+seoDesc: >-
+  Membuat pakan larva lele yang sehat dan bergizi dengan menggunakan bahan-bahan
+  alami
 ---
 
+# Pendahuluan
+Pembuatan pakan larva lele yang sehat dan bergizi sangat penting untuk meningkatkan kemampuan bertahan hidup dan pertumbuhan larva lele. Pakan yang seimbang dan bergizi akan membantu larva lele untuk tumbuh dengan baik dan meningkatkan kemampuan mereka untuk beradaptasi dengan lingkungan. Dalam artikel ini, kita akan membahas tentang cara membuat pakan larva lele yang sehat dan bergizi menggunakan bahan-bahan alami.
 
-## Pembuatan Pakan Larva Lele
-Pembuatan pakan larva lele harus dilakukan dengan hati-hati untuk memastikan kelangsungan hidup yang baik. Setelah pemijahan, telur lele akan menetas dalam waktu 1 hari dan memiliki bentuk bulat dengan ekor kecil berwarna hijau transparan.
+## Bahan-Bahan yang Dibutuhkan
+Untuk membuat pakan larva lele yang sehat dan bergizi, kita membutuhkan beberapa bahan-bahan alami seperti cacing sutra, atermia, dan lain-lain. Cacing sutra merupakan sumber protein yang sangat baik untuk larva lele, sedangkan atermia merupakan sumber nutrisi yang kaya akan asam amino dan vitamin. Selain itu, kita juga membutuhkan beberapa bahan-bahan lain seperti tepung ikan, tepung kedelai, dan minyak ikan.
 
-## Pengontrolan Suhu Air
-Pengontrolan suhu air sangat penting untuk memastikan kelangsungan hidup larva lele. Suhu air yang stabil dapat dicapai dengan mempertahankan ketinggian air minimal 30 cm dan menggunakan plankton atau air hijau untuk mengatur suhu.
+## Cara Membuat Pakan Larva Lele
+Untuk membuat pakan larva lele, kita perlu melakukan beberapa langkah-langkah berikut:
+* Siapkan bahan-bahan yang dibutuhkan seperti cacing sutra, atermia, tepung ikan, tepung kedelai, dan minyak ikan.
+* Cincang cacing sutra dan atermia menjadi ukuran yang kecil untuk memudahkan proses pencernaan larva lele.
+* Campurkan cacing sutra, atermia, tepung ikan, dan tepung kedelai dalam sebuah wadah.
+* Tambahkan minyak ikan ke dalam campuran dan aduk hingga rata.
+* Bentuk campuran menjadi bentuk pelet atau butiran kecil untuk memudahkan proses pemberian pakan.
 
-## Pemberian Makanan
-Larva lele tidak membutuhkan makanan pada hari pertama sampai hari ke-3 karena masih memiliki cadangan makanan dari kuning telur. Namun, setelah hari ke-4, larva lele membutuhkan makanan seperti cacing sutra atau atermia.
+## Kelebihan Pakan Alternatif
+Pakan alternatif seperti cacing sutra dan atermia memiliki beberapa kelebihan dibandingkan dengan pakan komersial. Beberapa kelebihan tersebut adalah:
+* Lebih seimbang dan bergizi karena mengandung nutrisi alami yang lengkap.
+* Lebih murah dibandingkan dengan pakan komersial karena dapat dibuat sendiri.
+* Lebih ramah lingkungan karena tidak mengandung bahan kimia tambahan.
 
-## Pembuatan Pakan Alternatif
-Jika pakan alami tidak tersedia, dapat menggunakan pakan alternatif yang terbuat dari pakan udang dan pakan ikan lele. Berikut adalah cara membuat pakan alternatif:
-* Campurkan pakan udang dan pakan ikan lele dengan air sampai basah
-* Biarkan fermentasi minimal 24 jam
-* Remas-remas sampai lumat
-* Buat bulat
+## Tips dan Saran
+Berikut beberapa tips dan saran untuk membuat pakan larva lele yang sehat dan bergizi:
+* Pastikan untuk menggunakan bahan-bahan yang segar dan berkualitas untuk membuat pakan.
+* Jangan lupa untuk mencuci tangan sebelum dan sesudah proses pembuatan pakan.
+* Simpan pakan dalam wadah yang tertutup rapat untuk menjaga kesegarannya.
 
-### Pertanyaan yang Sering Diajukan
-### Apa itu pakan larva lele?
-Pakan larva lele adalah makanan yang diberikan kepada larva lele untuk memenuhi kebutuhan nutrisinya.
-### Kapan larva lele membutuhkan makanan?
-Larva lele membutuhkan makanan setelah hari ke-4 karena cadangan makanan dari kuning telur sudah habis.
-### Apa jenis pakan yang baik untuk larva lele?
-Pakan yang baik untuk larva lele adalah cacing sutra, atermia, atau pakan alternatif yang terbuat dari pakan udang dan pakan ikan lele.
+## Biaya dan Waktu yang Dibutuhkan
+Biaya yang dibutuhkan untuk membuat pakan larva lele yang sehat dan bergizi relatif terjangkau, yaitu sekitar Rp 50.000 - Rp 100.000 per kilogram. Waktu yang dibutuhkan untuk membuat pakan juga relatif singkat, yaitu sekitar 30 menit - 1 jam.
+
+## Kesimpulan
+Membuat pakan larva lele yang sehat dan bergizi sangat penting untuk meningkatkan kemampuan bertahan hidup dan pertumbuhan larva lele. Dengan menggunakan bahan-bahan alami seperti cacing sutra dan atermia, kita dapat membuat pakan yang seimbang dan bergizi. Dengan memperhatikan beberapa tips dan saran, kita dapat membuat pakan yang berkualitas dan efektif.
+
+### 1. Apa itu Pakan Alternatif?
+Pakan alternatif adalah pakan yang dibuat dari bahan-bahan alami seperti cacing sutra dan atermia.
+
+### 2. Apa Kelebihan Pakan Alternatif?
+Kelebihan pakan alternatif adalah lebih seimbang dan bergizi, lebih murah, dan lebih ramah lingkungan.
+
+### 3. Bagaimana Cara Membuat Pakan Larva Lele?
+Cara membuat pakan larva lele adalah dengan mencampurkan bahan-bahan seperti cacing sutra, atermia, tepung ikan, dan minyak ikan, kemudian membentuknya menjadi pelet atau butiran kecil.
+
