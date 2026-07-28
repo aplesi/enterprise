@@ -1,5 +1,5 @@
 // config/navigation.ts
-import { Home, Sparkles, Calendar, Folder, BarChart3, DollarSign, ShoppingBag, Users, Settings, Megaphone, ClipboardList } from 'lucide-react'
+import { Home, Sparkles, Calendar, Folder, BarChart3, DollarSign, ShoppingBag, Users, Settings, Megaphone, ClipboardList, FileText } from 'lucide-react'
 
 export const navPublic = [
   { label: 'Beranda', href: '/' },
@@ -12,6 +12,7 @@ export const navPublic = [
 
 export const navAdmin = [
   { label: 'Dashboard', href: '/admin', icon: Home },
+  { label: 'Artikel', href: '/admin/artikel', icon: FileText },
   { label: 'Generate Artikel', href: '/admin/generate', icon: Sparkles },
   { label: 'Riwayat Generate', href: '/admin/riwayat', icon: ClipboardList },
   { label: 'Jadwal Auto-Post', href: '/admin/jadwal', icon: Calendar },
