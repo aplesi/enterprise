@@ -123,33 +123,6 @@ export default function AdminArtikelPage() {
             className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-aqua-glow/50 transition-colors"
           />
         </div>
-
-        {/* Filter Kategori */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={() => { setFilterKategori(''); setPage(0) }}
-            className={`px-3 py-2 rounded-lg text-xs font-bold transition-all ${
-              !filterKategori
-                ? 'bg-aqua-glow/20 text-aqua-glow border border-aqua-glow/30'
-                : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
-            }`}
-          >
-            Semua
-          </button>
-          {kategoriList.map((kat) => (
-            <button
-              key={kat}
-              onClick={() => { setFilterKategori(kat); setPage(0) }}
-              className={`px-3 py-2 rounded-lg text-xs font-bold transition-all ${
-                filterKategori === kat
-                  ? 'bg-aqua-glow/20 text-aqua-glow border border-aqua-glow/30'
-                  : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
-              }`}
-            >
-              {kat}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Artikel List */}
