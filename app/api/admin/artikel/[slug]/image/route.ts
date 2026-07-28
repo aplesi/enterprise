@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { generateGambarDanSimpan } from '@/lib/ai/cloudflare-image'
 import { getArtikelBySlug, updateArtikel } from '@/lib/db/artikel'
 import { simpanArtikelKeGitHub } from '@/lib/db/github'
@@ -34,6 +35,11 @@ export async function POST(
     if (!dbUpdated) {
       throw new Error('Gagal update gambar di database')
     }
+    
+    // Purge cache agar realtime
+    revalidatePath(`/artikel/${slug}`)
+    revalidatePath('/artikel')
+    revalidatePath('/')
 
     // 4. Update file Markdown di GitHub Repo
     try {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { getArtikelBySlug, updateArtikel } from '@/lib/db/artikel'
 import { simpanArtikelKeGitHub } from '@/lib/db/github'
 import matter from 'gray-matter'
@@ -104,6 +105,11 @@ export async function PUT(
     })
 
     await updateArtikel(slug, updateData)
+
+    // 9. Revalidate (Purge Cache) agar website update secara real-time tanpa menunggu build!
+    revalidatePath(`/artikel/${slug}`)
+    revalidatePath('/artikel')
+    revalidatePath('/')
 
     return NextResponse.json({ success: true, message: 'Artikel berhasil diperbarui' })
   } catch (error: unknown) {
