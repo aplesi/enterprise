@@ -11,6 +11,9 @@ import { BreadcrumbJsonLd, FaqJsonLd, HowToJsonLd } from '@/components/seo/JsonL
 import { extractFaq } from '@/lib/seo/faq'
 import { extractHowToSteps } from '@/lib/seo/howto'
 import { AdsenseDisplay } from '@/components/ads/AdsenseDisplay'
+import { cookies } from 'next/headers'
+import { verifySessionToken } from '@/lib/auth/crypto'
+import { EditableArticleImage } from '@/components/admin/EditableArticleImage'
 
 export const revalidate = 300 // cache 5 menit
 
@@ -40,6 +43,18 @@ export default async function ArtikelDetailPage({
   const { slug } = await params
   const artikel = await getArtikelBySlug(slug)
   if (!artikel) notFound()
+
+  let isAdmin = false
+  try {
+    const cookieStore = await cookies()
+    const sessionCookie = cookieStore.get('aplesi_admin_session')
+    if (sessionCookie && sessionCookie.value) {
+      const { token, hashedToken } = JSON.parse(sessionCookie.value)
+      if (token && hashedToken) {
+        isAdmin = await verifySessionToken(token, hashedToken)
+      }
+    }
+  } catch (e) {}
 
   // Ambil artikel terkait (kategori sama, bukan artikel ini)
   // Ambil artikel terkait (kategori sama, bukan artikel ini)
@@ -136,16 +151,20 @@ export default async function ArtikelDetailPage({
 
             {/* Gambar Utama */}
             {artikel.gambar && (
-              <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8 bg-gray-100">
-                <Image
-                  src={artikel.gambar}
-                  alt={artikel.judul}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 700px"
-                />
-              </div>
+              isAdmin ? (
+                <EditableArticleImage slug={artikel.slug} gambar={artikel.gambar} judul={artikel.judul} />
+              ) : (
+                <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8 bg-gray-100">
+                  <Image
+                    src={artikel.gambar}
+                    alt={artikel.judul}
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 700px"
+                  />
+                </div>
+              )
             )}
 
             {/* Konten Artikel -- pre-rendered HTML dari D1 database.
