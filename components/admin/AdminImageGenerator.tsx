@@ -1,30 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import { Edit3, Loader2, Image as ImageIcon, X } from 'lucide-react'
+import { useState } from 'react'
+import { Sparkles, Loader2, Image as ImageIcon, X } from 'lucide-react'
 
-interface EditableArticleImageProps {
+interface AdminImageGeneratorProps {
   slug: string
-  gambar: string
-  judul: string
+  onSuccess?: () => void
 }
 
-export function EditableArticleImage({ slug, gambar: initialGambar, judul }: EditableArticleImageProps) {
-  const [gambar, setGambar] = useState(initialGambar)
+export function AdminImageGenerator({ slug, onSuccess }: AdminImageGeneratorProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [prompt, setPrompt] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [isAdmin, setIsAdmin] = useState(false)
-
-  useEffect(() => {
-    fetch('/api/admin/check-session')
-      .then(res => {
-        if (res.ok) setIsAdmin(true)
-      })
-      .catch(() => {})
-  }, [])
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return
@@ -50,9 +38,9 @@ export function EditableArticleImage({ slug, gambar: initialGambar, judul }: Edi
 
       const data = await res.json()
       if (data.success && data.data?.gambarUrl) {
-        setGambar(data.data.gambarUrl)
         setIsOpen(false)
         setPrompt('')
+        if (onSuccess) onSuccess()
       } else {
         throw new Error(data.error || 'Gagal mengubah gambar')
       }
@@ -65,37 +53,21 @@ export function EditableArticleImage({ slug, gambar: initialGambar, judul }: Edi
 
   return (
     <>
-      <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8 bg-gray-100 group">
-        <Image
-          src={gambar}
-          alt={judul}
-          fill
-          className="object-cover"
-          priority
-          sizes="(max-width: 768px) 100vw, 700px"
-        />
-        
-        {/* Hover Overlay & Edit Button (Only visible on hover if admin) */}
-        {isAdmin && (
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-            <button
-              onClick={() => setIsOpen(true)}
-              className="flex items-center gap-2 bg-white/20 hover:bg-white/30 border border-white/50 backdrop-blur-md text-white px-5 py-2.5 rounded-full font-bold shadow-xl transition-all"
-            >
-              <Edit3 className="w-4 h-4" />
-              Ubah Gambar (AI)
-            </button>
-          </div>
-        )}
-      </div>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="flex-shrink-0 p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-aqua-glow transition-colors"
+        title="Ubah Gambar (AI)"
+      >
+        <Sparkles className="h-4 w-4" />
+      </button>
 
       {/* Modal Dialog */}
-      {isAdmin && isOpen && (
+      {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="p-5 border-b border-gray-100 flex items-center justify-between">
               <h3 className="font-bold text-gray-900 flex items-center gap-2 text-lg">
-                <ImageIcon className="w-5 h-5 text-green-600" />
+                <ImageIcon className="w-5 h-5 text-aqua-glow" />
                 Generate Ulang Gambar
               </h3>
               <button
@@ -116,7 +88,7 @@ export function EditableArticleImage({ slug, gambar: initialGambar, judul }: Edi
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="e.g. close-up photograph of a farmer feeding tilapia in a round tarpaulin biofloc pond, golden morning light..."
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all resize-y min-h-[100px]"
+                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-aqua-glow/50 focus:ring-1 focus:ring-aqua-glow/50 outline-none transition-all resize-y min-h-[100px]"
                   disabled={loading}
                 />
               </div>
@@ -139,7 +111,7 @@ export function EditableArticleImage({ slug, gambar: initialGambar, judul }: Edi
               <button
                 onClick={handleGenerate}
                 disabled={loading || !prompt.trim()}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-2 text-sm font-bold rounded-lg shadow-md transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 bg-aqua-glow hover:bg-aqua-glow/90 text-white px-5 py-2 text-sm font-bold rounded-lg shadow-md transition-colors disabled:opacity-50"
               >
                 {loading ? (
                   <>

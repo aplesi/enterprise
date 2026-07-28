@@ -11,7 +11,6 @@ import { BreadcrumbJsonLd, FaqJsonLd, HowToJsonLd } from '@/components/seo/JsonL
 import { extractFaq } from '@/lib/seo/faq'
 import { extractHowToSteps } from '@/lib/seo/howto'
 import { AdsenseDisplay } from '@/components/ads/AdsenseDisplay'
-import { EditableArticleImage } from '@/components/admin/EditableArticleImage'
 
 export const revalidate = 300 // cache 5 menit
 
@@ -137,7 +136,16 @@ export default async function ArtikelDetailPage({
 
             {/* Gambar Utama */}
             {artikel.gambar && (
-              <EditableArticleImage slug={artikel.slug} gambar={artikel.gambar} judul={artikel.judul} />
+              <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8 bg-gray-100">
+                <Image
+                  src={artikel.gambar}
+                  alt={artikel.judul}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 700px"
+                />
+              </div>
             )}
 
             {/* Konten Artikel -- pre-rendered HTML dari D1 database.

@@ -15,6 +15,7 @@ import {
   Calendar,
   Eye,
 } from 'lucide-react'
+import { AdminImageGenerator } from '@/components/admin/AdminImageGenerator'
 
 interface ArtikelItem {
   slug: string
@@ -167,14 +168,17 @@ export default function AdminArtikelPage() {
                         {artikel.ringkasan}
                       </p>
                     </div>
-                    <Link
-                      href={`/artikel/${artikel.slug}`}
-                      target="_blank"
-                      className="flex-shrink-0 p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-aqua-glow transition-colors"
-                      title="Lihat artikel"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Link>
+                    <div className="flex items-center gap-1">
+                      <AdminImageGenerator slug={artikel.slug} onSuccess={fetchData} />
+                      <Link
+                        href={`/artikel/${artikel.slug}`}
+                        target="_blank"
+                        className="flex-shrink-0 p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-aqua-glow transition-colors"
+                        title="Lihat artikel"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </Link>
+                    </div>
                   </div>
 
                   {/* Meta */}
