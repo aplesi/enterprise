@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ExternalLink,
+  Edit2,
   Image as ImageIcon,
   Calendar,
   Eye,
@@ -170,6 +171,13 @@ export default function AdminArtikelPage() {
                     </div>
                     <div className="flex items-center gap-1">
                       <AdminImageGenerator slug={artikel.slug} onSuccess={fetchData} />
+                      <Link
+                        href={`/admin/artikel/${artikel.slug}`}
+                        className="flex-shrink-0 p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-aqua-glow transition-colors"
+                        title="Edit Artikel"
+                      >
+                        <Edit2 className="h-4 w-4" />
+                      </Link>
                       <Link
                         href={`/artikel/${artikel.slug}`}
                         target="_blank"
