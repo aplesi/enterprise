@@ -365,17 +365,22 @@ async function scrapeBeritaPerikanan() {
       const mentah = parseRSSFeed(xml)
       return mentah
         .filter((m) => relevan(m.judul, m.ringkasan, sumber.asal))
-        .map((m) => ({
-          id: buatId(m.link),
-          judul: m.judul,
-          ringkasan: m.ringkasan,
-          link: m.link,
-          sumberId: sumber.id,
-          sumberNama: sumber.nama,
-          asal: sumber.asal,
-          tanggal: m.tanggal,
-          imageUrl: m.imageUrl || '',
-        }))
+        .map((m) => {
+          let img = m.imageUrl || ''
+          if (img.includes('googleusercontent.com')) img = ''
+          
+          return {
+            id: buatId(m.link),
+            judul: m.judul,
+            ringkasan: m.ringkasan,
+            link: m.link,
+            sumberId: sumber.id,
+            sumberNama: sumber.nama,
+            asal: sumber.asal,
+            tanggal: m.tanggal,
+            imageUrl: img,
+          }
+        })
     })
   )
 
