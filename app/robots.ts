@@ -12,6 +12,15 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/admin/', '/api/', '/go/'],
       },
+      // Wajib: Izinkan crawler Google AdSense secara eksplisit
+      {
+        userAgent: 'Mediapartners-Google',
+        allow: '/',
+      },
+      {
+        userAgent: 'Google-Display-Ads-Bot',
+        allow: '/',
+      },
       // Izinkan GPT/OpenAI crawler (untuk rekomendasi ChatGPT)
       {
         userAgent: 'GPTBot',
