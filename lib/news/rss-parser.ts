@@ -41,7 +41,23 @@ function stripHtmlTags(str: string): string {
 }
 
 function bersihkanTeks(raw: string): string {
-  return decodeEntities(stripHtmlTags(stripCdata(raw))).trim()
+  if (!raw) return ''
+  // 1. Lepas CDATA
+  let text = stripCdata(raw)
+  // 2. Decode entities pertama kali agar &lt; menjadi < dan &gt; menjadi >
+  text = decodeEntities(text)
+  // 3. Bersihkan tag HTML (sekarang tag seperti <a href="..."> tertangkap)
+  text = stripHtmlTags(text)
+  // 4. Decode lagi untuk entity yang mungkin tersisa (&amp; dll) lalu bersihkan tag lagi jika ada nested
+  text = stripHtmlTags(decodeEntities(text))
+  return text.replace(/\s+/g, ' ').trim()
+}
+
+function truncateRingkasan(text: string, max = 300): string {
+  if (text.length <= max) return text
+  const cut = text.slice(0, max)
+  const lastSpace = cut.lastIndexOf(' ')
+  return (lastSpace > 50 ? cut.slice(0, lastSpace) : cut).trim() + '...'
 }
 
 function extractTag(block: string, tag: string): string {
@@ -54,11 +70,6 @@ function extractSelfClosingHref(block: string, tag: string): string {
   const re = new RegExp(`<${tag}[^>]*\\shref=["']([^"']+)["'][^>]*/?>`, 'i')
   const m = block.match(re)
   return m ? m[1] : ''
-}
-
-function truncateRingkasan(text: string, max = 500): string {
-  if (text.length <= max) return text
-  return text.slice(0, max).trim() + '...'
 }
 
 /**

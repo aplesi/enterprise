@@ -42,6 +42,13 @@ function relevan(judul: string, ringkasan: string, asal: string): boolean {
   return kataKunci.some((kw) => teks.includes(kw))
 }
 
+function normalisasiJudul(judul: string): string {
+  return (judul || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
+    .trim()
+}
+
 function buatId(link: string): string {
   let hash = 0
   for (let i = 0; i < link.length; i++) {
@@ -103,10 +110,16 @@ export async function scrapeBeritaPerikanan(): Promise<HasilScrape> {
     }
   })
 
-  // Dedup berdasarkan id (hash dari link)
+  // Dedup cerdas: berdasarkan ID link dan normalisasi judul
   const peta = new Map<string, BeritaItem>()
+  const setJudul = new Set<string>()
   for (const item of semua) {
-    if (!peta.has(item.id)) peta.set(item.id, item)
+    const norm = normalisasiJudul(item.judul)
+    if (!norm || setJudul.has(norm)) continue
+    if (!peta.has(item.id)) {
+      setJudul.add(norm)
+      peta.set(item.id, item)
+    }
   }
 
   const items = Array.from(peta.values()).sort(

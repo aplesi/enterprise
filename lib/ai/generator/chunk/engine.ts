@@ -27,7 +27,7 @@ ATURAN KETAT:
 `
 
   let raw = await groqChatWithRotation({
-    model: 'llama-3.3-70b-versatile',
+    model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
     messages: [
       { role: 'system', content: 'Kamu adalah Pakar Konten APLESI yang menulis markdown teknis, mendalam, tanpa basa-basi (fluff-free).' },
       { role: 'user', content: prompt }

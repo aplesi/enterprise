@@ -9,7 +9,7 @@ export async function runEditorialReview(context: EditorContext): Promise<Editor
   
   try {
     const jsonString = await groqChatWithRotation({
-      model: 'llama-3.3-70b-versatile',
+      model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT_EDITOR },
         { role: 'user', content: llmInput }

@@ -12,7 +12,7 @@ export async function GET() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
         messages: [{ role: 'user', content: 'Say hello in 3 words' }],
         max_tokens: 20,
       }),

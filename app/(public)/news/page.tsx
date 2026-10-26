@@ -23,6 +23,57 @@ function labelKategori(kategori: string): string {
   return kategori === 'internasional' ? 'Internasional' : 'Nasional'
 }
 
+function getFallbackVisual(judul: string, sumber: string) {
+  const j = (judul || '').toLowerCase()
+  if (j.includes('udang') || j.includes('shrimp') || j.includes('tambak')) {
+    return {
+      bg: 'from-blue-700 via-teal-800 to-slate-900',
+      badge: 'Tambak & Udang',
+      icon: '🦐',
+    }
+  }
+  if (j.includes('ekspor') || j.includes('pasar') || j.includes('harga') || j.includes('miliar')) {
+    return {
+      bg: 'from-amber-800 via-orange-900 to-slate-950',
+      badge: 'Ekonomi & Pasar',
+      icon: '📈',
+    }
+  }
+  if (j.includes('kkp') || j.includes('kementerian') || j.includes('kebijakan') || j.includes('regulasi') || j.includes('barantin')) {
+    return {
+      bg: 'from-indigo-800 via-blue-950 to-slate-950',
+      badge: 'Kebijakan & Regulasi',
+      icon: '🏛️',
+    }
+  }
+  if (j.includes('pakan') || j.includes('feed') || j.includes('nutrisi')) {
+    return {
+      bg: 'from-emerald-800 via-teal-950 to-midnight',
+      badge: 'Pakan & Nutrisi',
+      icon: '🌾',
+    }
+  }
+  if (j.includes('rumput laut') || j.includes('seaweed')) {
+    return {
+      bg: 'from-teal-800 via-cyan-950 to-slate-900',
+      badge: 'Rumput Laut',
+      icon: '🌿',
+    }
+  }
+  if (j.includes('lele') || j.includes('nila') || j.includes('bioflok') || j.includes('kolam') || j.includes('ras') || j.includes('patin')) {
+    return {
+      bg: 'from-cyan-900 via-blue-950 to-slate-950',
+      badge: 'Budidaya Kolam',
+      icon: '🐟',
+    }
+  }
+  return {
+    bg: 'from-midnight via-slate-900 to-azure/60',
+    badge: 'Kabar Perikanan',
+    icon: '🌊',
+  }
+}
+
 export default async function NewsPage({
   searchParams,
 }: {
@@ -113,8 +164,15 @@ export default async function NewsPage({
                             loading="lazy"
                           />
                         ) : (
-                          <div className="absolute inset-0 bg-gradient-to-br from-azure/25 via-midnight/10 to-midnight/40 flex items-center justify-center">
-                            <span className="relative text-white font-bold text-xl px-8 text-center drop-shadow">
+                          <div className={`absolute inset-0 bg-gradient-to-br ${getFallbackVisual(featured.judul, featured.sumber).bg} flex flex-col items-center justify-center p-8 text-center relative overflow-hidden`}>
+                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <span className="text-5xl mb-3 relative z-10 transform hover:scale-110 transition-transform">
+                              {getFallbackVisual(featured.judul, featured.sumber).icon}
+                            </span>
+                            <span className="relative z-10 text-white/80 font-medium text-xs tracking-wider uppercase mb-1">
+                              {getFallbackVisual(featured.judul, featured.sumber).badge}
+                            </span>
+                            <span className="relative z-10 text-white font-bold text-xl px-4 drop-shadow">
                               {featured.sumber}
                             </span>
                           </div>
@@ -192,8 +250,19 @@ export default async function NewsPage({
                           loading="lazy"
                         />
                       ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-azure/10 via-white to-midnight/10 flex items-center justify-center">
-                          <span className="text-midnight/70 font-bold text-sm px-4 text-center">{news.sumber}</span>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${getFallbackVisual(news.judul, news.sumber).bg} flex items-center justify-between px-6 relative overflow-hidden`}>
+                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                          <div className="relative z-10">
+                            <span className="block text-white/70 text-[10px] tracking-wider uppercase font-semibold">
+                              {getFallbackVisual(news.judul, news.sumber).badge}
+                            </span>
+                            <span className="text-white font-bold text-base drop-shadow-sm line-clamp-1">
+                              {news.sumber}
+                            </span>
+                          </div>
+                          <span className="text-3xl relative z-10 opacity-90">
+                            {getFallbackVisual(news.judul, news.sumber).icon}
+                          </span>
                         </div>
                       )}
                       <div className="absolute top-4 left-4">

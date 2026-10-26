@@ -26,10 +26,14 @@ interface BeritaRow {
   konten_recap?: string
 }
 
+function stripHtmlTags(str: string): string {
+  return str.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 function rowToNewsItem(row: BeritaRow): NewsItem {
   return {
-    judul: row.judul,
-    ringkasan: row.ringkasan || '',
+    judul: stripHtmlTags(row.judul || ''),
+    ringkasan: stripHtmlTags(row.ringkasan || ''),
     url: row.url_sumber,
     sumber: row.sumber_nama || '',
     tanggal: row.tanggal,

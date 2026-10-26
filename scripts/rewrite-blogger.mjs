@@ -77,7 +77,7 @@ function getAvailableKey() {
   return { ...earliest, mustWait: Math.max(0, waitMs) }
 }
 
-const MODEL = 'llama-3.3-70b-versatile'
+const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'
 
 // D1 Helper
 const CF_D1_DATABASE_ID = process.env.CF_D1_DATABASE_ID

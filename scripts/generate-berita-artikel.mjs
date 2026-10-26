@@ -19,7 +19,7 @@ import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 import Groq from 'groq-sdk'
 import { marked } from 'marked'
-import { AI_STRUCTURE_PROMPT } from '../prompts/index.mjs'
+import { AI_STRUCTURE_PROMPT, JOURNALISM_NEWS_PROMPT } from '../prompts/index.mjs'
 
 function renderMarkdown(markdown) {
   const tokens = marked.lexer(markdown)
@@ -153,20 +153,19 @@ const UKURAN_BATCH_REWRITE = 8
 
 async function rewriteSatuBatch(items) {
   const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+    model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
     messages: [
       {
         role: 'system',
-        content: `Kamu adalah editor konten untuk website budidaya ikan APLESI (aplesi.my.id).
-Tugasmu: menulis ULANG (parafrase) judul dan ringkasan tiap berita di bawah ini.
+        content: `Kamu adalah Redaktur Berita Agribisnis APLESI (aplesi.my.id).
+Tugasmu: menulis ulang judul dan ringkasan berita perikanan menjadi berita jurnalistik yang tajam, kredibel, dan informatif.
 
 ATURAN WAJIB:
-1. Ganti kata dan susunan kalimat dari aslinya, TAPI makna dan fakta harus tetap 100% sama -- jangan menambah, mengurangi, atau mengubah informasi apapun.
-2. Untuk berita dengan asal "internasional" (aslinya berbahasa Inggris): TERJEMAHKAN sekaligus ke Bahasa Indonesia yang natural saat memparafrase -- jangan terjemahan literal kata-per-kata.
-3. Untuk berita dengan asal "indonesia": tetap dalam Bahasa Indonesia, cukup ubah kata/susunan kalimatnya.
-4. Judul hasil rewrite: maksimal sekitar 15 kata.
-5. Ringkasan hasil rewrite: 1-2 kalimat, maksimal sekitar 200 karakter.
-6. Pertahankan field "id" persis sama seperti input, untuk mencocokkan hasil.
+1. JUDUL: Buat judul berita jurnalistik yang padat, lugas, dan akurat (maks 14 kata). Hindari judul kaku atau terjemahan mesin.
+2. RINGKASAN: Tulis 1-2 kalimat (maks 180 karakter) menggunakan prinsip 5W+1H — langsung sebutkan peristiwa utama, pelaku/lembaga, dan dampaknya.
+3. FAKTA TETAP 100% AKURAT: Jangan menambah fakta fiktif. Jika berita internasional (Inggris), terjemahkan ke Bahasa Indonesia jurnalistik yang mengalir alami.
+4. BEBAS KODE HTML: Dilarang keras menyertakan tag HTML apa pun (<a, <font, &nbsp;, dll) dalam output.
+5. Pertahankan field "id" persis sama seperti input, untuk mencocokkan hasil.
 
 Balas HANYA JSON valid dengan format:
 {"hasil": [{"id": "...", "judul": "...", "ringkasan": "..."}]}`
@@ -559,21 +558,21 @@ async function generateRecapArtikel(berita) {
   }
 
   const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+    model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
     messages: [
       {
         role: 'system',
-        content: `Kamu adalah Tim Redaksi APLESI (aplesi.my.id), menulis artikel berita lengkap berdasarkan berita perikanan dari sumber terpercaya.
+        content: `Kamu adalah Redaktur Senior & Wartawan Investigasi Agribisnis Perikanan APLESI (aplesi.my.id), menulis laporan berita mendalam, kritis, dan berbobot berdasarkan fakta perikanan terkini.
 
-ATURAN WAJIB (etis, anti-thin-content, anti-plagiarisme, aman Google AdSense):
-1. Tulis ULANG berita secara LENGKAP dengan kata-katamu sendiri — JANGAN menyalin kalimat dari sumber. Ubah struktur kalimat, sinonim, dan sudut pandang.
-2. WAJIB memasukkan SEMUA fakta, data, angka, nama pihak, dan kutipan yang ada di konten sumber. JANGAN meringkas — KEMBANGKAN. Tambahkan konteks dan analisis.
-3. Berikan nilai tambah: apa artinya berita ini bagi pembudidaya ikan skala kecil-menengah di Indonesia? Dampak praktis, peluang, atau risiko apa yang relevan?
-4. Kaitkan dengan topik budidaya ikan yang relevan jika masuk akal (pakan, kolam, penyakit, pasar, ekspor, dsb) — tapi jangan dipaksakan.
-5. WAJIB sertakan kalimat atribusi eksplisit di AKHIR konten: "Artikel ini merupakan rangkuman & analisis berdasarkan laporan dari [Nama Sumber] ([tanggal])."
+ATURAN WAJIB (Jurnalisme Berkualitas, Anti-Thin-Content, Anti-Plagiarisme, Standar Google AdSense):
+1. Tulis ULANG berita secara KOMPREHENSIF dengan sudut pandang jurnalisme agribisnis — JANGAN menyalin kalimat dari sumber. Gunakan piramida terbalik (5W+1H pada lead paragraf pertama).
+2. WAJIB memasukkan SEMUA fakta, data kuantitatif, regulasi, nama pihak/lembaga, dan kutipan narasumber. KEMBANGKAN dengan analisis dampak ekonomi dan teknis.
+3. SUDUT PANDANG PETERNAK RAKYAT: kupas tuntas dampaknya bagi pembudidaya ikan skala kecil-menengah di Indonesia (biaya pakan, benih, margin laba per kg, risiko air/cuaca, akses pasar).
+4. DILARANG menggunakan kata klise AI seperti: "Di era digital yang pesat...", "Mari kita telusuri...", "Penting untuk diingat bahwa...", "Tidak dapat dipungkiri...".
+5. WAJIB sertakan kalimat atribusi eksplisit di AKHIR konten: "Artikel analisis ini disusun oleh Tim Redaksi APLESI berdasarkan data dan laporan dari [Nama Sumber] ([tanggal])."
 6. Panjang MINIMAL 1000 kata, IDEALNYA 1200-1800 kata. Format Markdown, heading H2/H3.
-7. Tulis dalam Bahasa Indonesia yang baik, informatif, dan jurnalistik.
-8. Setiap section H2 harus punya minimal 3-4 paragraf substansial, bukan cuma 1-2 kalimat.`,
+7. Tulis dalam Bahasa Indonesia baku, lugas, mengalir, dan bernas.
+8. Setiap section H2 harus punya minimal 3-4 paragraf berbobot, bukan sekadar poin singkat.`,
       },
       {
         role: 'user',
@@ -588,11 +587,9 @@ ${adaKonten ? `\nKONTEN LENGKAP DARI SUMBER (tulis ulang dengan kata-katamu, JAN
 
 PENTING: Artikel harus MINIMAL 1000 kata dan mencakup SEMUA informasi dari konten sumber di atas. Jangan meringkas — kembangkan dan tambahkan analisis.
 
-${AI_STRUCTURE_PROMPT}
+${JOURNALISM_NEWS_PROMPT}
 
-Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk Stable Diffusion.
-
-Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk Stable Diffusion.
+Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk FLUX-1 / Stable Diffusion dengan gaya photojournalism dokumenter autentik (contoh: "editorial documentary photography, Indonesian fish farmers inspecting aquaculture pond at morning, realistic texture, natural lighting, shot on 35mm lens, high resolution photojournalism, authentic, no CGI, no 3D cartoon").
 
 Respons hanya JSON:
 {
