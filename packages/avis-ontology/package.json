@@ -1,0 +1,21 @@
+{
+  "name": "avis-ontology",
+  "version": "1.0.0",
+  "description": "AVIS Core Ontology Interfaces and Validation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.4"
+  }
+}

@@ -1,10 +1,52 @@
-// scripts/auto-post.mjs
+// @ts-nocheck
+// scripts/auto-post.ts
 // Script yang dijalankan oleh GitHub Actions setiap hari
 
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
+import dotenv from 'dotenv'
 import Groq from 'groq-sdk'
 import { marked } from 'marked'
+import { generateArticleV2 } from '../lib/ai/generator/orchestrator'
+import { evaluateMarkdown } from '../lib/quality/engine/core'
+import { parseMarkdown } from '../lib/markdown/parse'
+import { enrichDocument } from '../lib/quality/enrichment/enricher'
+import { buildEditorContext } from '../lib/ai/editor/context'
+import { runEditorialReview } from '../lib/ai/editor/engine'
+import { metrics } from '../lib/metrics/collector'
+
+dotenv.config()
+
+function renderMarkdown(markdown) {
+  const tokens = marked.lexer(markdown)
+  const groupedTokens = []
+  let currentGroup = []
+
+  for (const token of tokens) {
+    if (token.type === 'heading' && token.depth === 2) {
+      if (currentGroup.length > 0) groupedTokens.push(currentGroup)
+      currentGroup = [token]
+    } else {
+      currentGroup.push(token)
+    }
+  }
+  if (currentGroup.length > 0) groupedTokens.push(currentGroup)
+
+  let finalHtml = ''
+  for (const group of groupedTokens) {
+    const firstToken = group[0]
+    group.links = tokens.links
+    const groupHtml = marked.parser(group)
+    
+    if (firstToken && firstToken.type === 'heading' && firstToken.depth === 2) {
+      const id = firstToken.text.toLowerCase().replace(/[^\w]+/g, '-')
+      finalHtml += `<section id="${id}">\n${groupHtml}</section>\n`
+    } else {
+      finalHtml += groupHtml
+    }
+  }
+  return finalHtml
+}
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -76,51 +118,85 @@ function slugify(text) {
     .trim()
 }
 
-async function generateArtikel(topik) {
-  console.log(`📝 Generating artikel: "${topik}"`)
+async function generateArtikel(topik: string) {
+  console.log(`\n[PIPELINE] START -> Generating V2: "${topik}"`)
+  const startTime = Date.now()
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [
-      {
-        role: 'system',
-        content: 'Kamu adalah penulis konten profesional untuk website budidaya lele. Tulis dalam Bahasa Indonesia yang baik. Selalu kembalikan respons dalam format JSON valid.'
-      },
-      {
-        role: 'user',
-        content: `Tulis artikel lengkap tentang: "${topik}"
-        
-Panjang: 1000-1500 kata, format Markdown, dengan heading H2 dan H3.
+  const req = {
+    topik: topik,
+    kategori: "Budidaya",
+    keywords: [topik],
+    targetWords: 2500,
+    tone: "Informatif, teknis, dan profesional"
+  }
+  
+  const { konten, blueprint } = await generateArticleV2(req)
+  const durationMs = Date.now() - startTime
+  const wordCount = konten.split(/\s+/).filter(Boolean).length
 
-Setelah itu buat juga "imagePrompt": prompt image-generation dalam Bahasa
-Inggris untuk Stable Diffusion, menggambarkan SATU adegan visual konkret
-yang benar-benar dibahas di artikel ini (spesies ikan, jenis kolam, alat,
-tahapan yang dijelaskan, dsb) -- BUKAN judul artikel, BUKAN deskripsi
-generik. PENTING: Jika artikel membahas "ikan lele" (catfish), prompt WAJIB
-menyertakan deskripsi visual spesifik "catfish with long whiskers and dark skin"
-agar AI tidak menggambar ikan mas/koi. Contoh: "close-up of a dark skin catfish 
-with long whiskers in a blue tarpaulin pond, hand feeding pellets, morning
-light, rural Indonesian aquaculture, realistic photography".
+  console.log(`[PIPELINE] Quality Engine -> Evaluating...`)
+  const allEntities = blueprint.sections.flatMap((s: any) => s.entitiesToCover || [])
+  const qualityReport = evaluateMarkdown(konten, undefined, { keywords: req.keywords, entities: allEntities })
+  
+  if (qualityReport.status !== 'PASS') {
+    console.log(`[PIPELINE] Quality FAIL (Score: ${qualityReport.overall}). Skip Publish.`)
+    metrics.log({
+      articleSlug: slugify(blueprint.title),
+      wordCount,
+      durationMs,
+      coverageScore: qualityReport.categories['ENTITY']?.score || 0,
+      densityScore: qualityReport.categories['READABILITY']?.score || 0,
+      qualityScore: qualityReport.overall,
+      editorialScore: 0,
+      publishDecision: 'FAIL'
+    })
+    return null
+  }
+  console.log(`[PIPELINE] Quality PASS (Score: ${qualityReport.overall}).`)
 
-Respons hanya JSON:
-{
-  "judul": "...",
-  "ringkasan": "... (max 160 karakter)",
-  "konten": "... (markdown)",
-  "tags": ["tag1", "tag2", "tag3"],
-  "seoTitle": "... (max 60 karakter)",
-  "seoDesc": "... (max 160 karakter)",
-  "kategori": "...",
-  "imagePrompt": "..."
-}`
-      }
-    ],
-    temperature: 0.7,
-    max_tokens: 4096,
-    response_format: { type: 'json_object' }
+  console.log(`[PIPELINE] Editorial Engine -> Reviewing...`)
+  const baseDoc = parseMarkdown(konten)
+  const richDoc = enrichDocument(baseDoc)
+  const editorContext = buildEditorContext(richDoc, qualityReport, 'panduan', [])
+  const editorialReport = await runEditorialReview(editorContext)
+  
+  let publishDecision = 'FAIL'
+  if (editorialReport.status === 'PASS') {
+    publishDecision = 'PASS'
+    console.log(`[PIPELINE] Editorial PASS (Score: ${editorialReport.overall}).`)
+  } else {
+    publishDecision = editorialReport.status
+    console.log(`[PIPELINE] Editorial ${editorialReport.status} (Score: ${editorialReport.overall}). Skip Publish.`)
+  }
+
+  console.log(`[PIPELINE] Metrics Saved.`)
+  metrics.log({
+    articleSlug: slugify(blueprint.title),
+    wordCount,
+    durationMs,
+    coverageScore: qualityReport.categories['ENTITY']?.score || 0,
+    densityScore: qualityReport.categories['READABILITY']?.score || 0,
+    qualityScore: qualityReport.overall,
+    editorialScore: editorialReport.overall,
+    publishDecision: publishDecision
   })
 
-  return JSON.parse(completion.choices[0].message.content)
+  if (publishDecision !== 'PASS') {
+    return null
+  }
+
+  console.log(`[PIPELINE] DONE -> Ready to Publish.`)
+
+  return {
+    judul: blueprint.title,
+    ringkasan: `Panduan lengkap mengenai ${topik} untuk pembudidaya lele.`,
+    konten: konten,
+    tags: [topik],
+    seoTitle: blueprint.title.substring(0, 60),
+    seoDesc: `Panduan lengkap mengenai ${topik} untuk pembudidaya lele.`.substring(0, 160),
+    kategori: "Budidaya",
+    imagePrompt: `${blueprint.title}, Indonesian aquaculture, realistic photography, highly detailed`
+  }
 }
 
 async function generateGambar(prompt) {
@@ -263,6 +339,10 @@ async function main() {
     try {
       const topik = pilihTopik()
       const artikel = await generateArtikel(topik)
+      if (!artikel) {
+        console.log(`⚠️ Artikel gagal Quality/Editorial, skip publish.`)
+        continue
+      }
       const slug = slugify(artikel.judul)
 
       // Generate dan simpan gambar, pakai imagePrompt spesifik dari
@@ -311,7 +391,7 @@ ${artikel.konten}`
 
       // Pre-render markdown → HTML dan simpan ke D1
       try {
-        const kontenHtml = await marked(artikel.konten)
+        const kontenHtml = renderMarkdown(artikel.konten)
         await d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml)
         console.log(`✅ Artikel disimpan ke D1: ${slug}`)
       } catch (err) {

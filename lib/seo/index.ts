@@ -2,6 +2,8 @@
 
 import type { Metadata } from 'next'
 import type { Artikel } from '@/types'
+import { extractRingkasanSingkat } from './ringkasan-singkat'
+import { extractReferensi } from './referensi'
 
 const SITE_URL = process.env.SITE_URL || 'https://www.aplesi.my.id'
 const SITE_NAME = 'Aplesi'
@@ -58,11 +60,21 @@ export function generateJsonLd(artikel: Artikel): string {
     ? `${SITE_URL}${artikel.gambar.startsWith('/') ? '' : '/'}${artikel.gambar}`
     : `${SITE_URL}/og?judul=${encodeURIComponent(artikel.judul)}`
 
+  const ringkasanSingkat = extractRingkasanSingkat(artikel.konten) || artikel.ringkasan
+  const referensiTambahan = extractReferensi(artikel.konten)
+  
+  let citations: string[] = []
+  if (artikel.sumberBerita?.url) {
+    citations.push(artikel.sumberBerita.url)
+  }
+  citations = Array.from(new Set([...citations, ...referensiTambahan]))
+
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: artikel.judul,
     description: artikel.ringkasan,
+    abstract: ringkasanSingkat,
     image: [ogImage],
     author: {
       '@type': 'Person',
@@ -83,17 +95,26 @@ export function generateJsonLd(artikel: Artikel): string {
     keywords: artikel.tags.join(', '),
     articleSection: artikel.kategori,
     inLanguage: 'id-ID',
-    about: {
-      '@type': 'Thing',
-      name: artikel.kategori,
-      description: `Informasi tentang ${artikel.kategori} dalam budidaya ikan`,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['#ringkasan-singkat', '#jawaban-singkat', '#penjelasan-lengkap']
     },
+    ...(citations.length > 0 ? { citation: citations } : {}),
+    about: [
+      {
+        '@type': 'Thing',
+        name: artikel.kategori,
+        description: `Informasi tentang ${artikel.kategori} dalam budidaya ikan`,
+      },
+      ...(artikel.tags && artikel.tags.length > 0
+        ? artikel.tags.map(tag => ({ '@type': 'Thing', name: tag }))
+        : [])
+    ],
     // Untuk artikel recap kategori "Berita Terkini": tandai jujur bahwa
     // artikel ini berbasis laporan sumber eksternal (etis & akurat ke Google/AI
     // soal asal-usul konten -- lihat scripts/generate-berita-artikel.mjs)
     ...(artikel.sumberBerita
       ? {
-          citation: artikel.sumberBerita.url,
           isBasedOn: {
             '@type': 'NewsArticle',
             url: artikel.sumberBerita.url,

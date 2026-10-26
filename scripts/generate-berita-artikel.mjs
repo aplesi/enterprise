@@ -19,6 +19,38 @@ import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 import Groq from 'groq-sdk'
 import { marked } from 'marked'
+import { AI_STRUCTURE_PROMPT } from '../prompts/index.mjs'
+
+function renderMarkdown(markdown) {
+  const tokens = marked.lexer(markdown)
+  const groupedTokens = []
+  let currentGroup = []
+
+  for (const token of tokens) {
+    if (token.type === 'heading' && token.depth === 2) {
+      if (currentGroup.length > 0) groupedTokens.push(currentGroup)
+      currentGroup = [token]
+    } else {
+      currentGroup.push(token)
+    }
+  }
+  if (currentGroup.length > 0) groupedTokens.push(currentGroup)
+
+  let finalHtml = ''
+  for (const group of groupedTokens) {
+    const firstToken = group[0]
+    group.links = tokens.links
+    const groupHtml = marked.parser(group)
+    
+    if (firstToken && firstToken.type === 'heading' && firstToken.depth === 2) {
+      const id = firstToken.text.toLowerCase().replace(/[^\w]+/g, '-')
+      finalHtml += `<section id="${id}">\n${groupHtml}</section>\n`
+    } else {
+      finalHtml += groupHtml
+    }
+  }
+  return finalHtml
+}
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -513,6 +545,8 @@ async function scrapeKontenSumber(url) {
   }
 }
 
+
+
 async function generateRecapArtikel(berita) {
   // Scrape konten lengkap dari sumber asli
   console.log('   📄 Scrape konten lengkap dari sumber...')
@@ -553,6 +587,10 @@ Asal: ${berita.asal === 'internasional' ? 'media internasional (berbahasa Inggri
 ${adaKonten ? `\nKONTEN LENGKAP DARI SUMBER (tulis ulang dengan kata-katamu, JANGAN salin):\n---\n${kontenSumber}\n---` : ''}
 
 PENTING: Artikel harus MINIMAL 1000 kata dan mencakup SEMUA informasi dari konten sumber di atas. Jangan meringkas — kembangkan dan tambahkan analisis.
+
+${AI_STRUCTURE_PROMPT}
+
+Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk Stable Diffusion.
 
 Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk Stable Diffusion.
 

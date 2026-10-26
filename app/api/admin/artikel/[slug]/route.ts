@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { getArtikelBySlug, updateArtikel } from '@/lib/db/artikel'
 import { simpanArtikelKeGitHub } from '@/lib/db/github'
 import matter from 'gray-matter'
+import { renderMarkdown } from '@/lib/markdown'
 
 // GET: Ambil detail artikel untuk form edit
 export async function GET(
@@ -94,7 +95,8 @@ export async function PUT(
       seoTitle: body.seoTitle,
       seoDesc: body.seoDesc,
       status: body.status,
-      konten: newKonten
+      konten: newKonten,
+      kontenHtml: renderMarkdown(newKonten)
     }
     
     // Hapus field yang undefined agar tidak error

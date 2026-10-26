@@ -1,7 +1,18 @@
+import 'dotenv/config';
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import Groq from 'groq-sdk';
+import { AI_STRUCTURE_PROMPT } from '../prompts/index.mjs';
+
+// Untuk pilot run: isi slug artikel yang ingin diproses (tanpa .md).
+// Kosongkan array ini untuk kembali ke mode "semua artikel" (mode lama).
+const TARGET_SLUGS = [
+  'sistem-bioflok-budidaya-lele-intensif'
+];
+
+// Atau limit jumlah dari hasil auto-detect (dipakai kalau TARGET_SLUGS kosong)
+const LIMIT = 5;
 
 // Kumpulkan semua API key dari environment
 const apiKeys = Object.keys(process.env)
@@ -22,22 +33,16 @@ const systemPrompt = `Kamu adalah penulis konten profesional untuk website budid
 Selalu tulis dalam Bahasa Indonesia yang baik dan benar.
 Fokus pada konten praktis dan berguna untuk peternak ikan di Indonesia.
 Gunakan heading H2 dan H3 yang relevan.
-Sertakan tips praktis dan pengalaman lapangan, data spesifik (angka, rentang biaya, durasi), bukan klaim generik.
+Sertakan tips praktis dan pengalaman lapangan secara realistis. ⚠️ JANGAN berhalusinasi atau mengarang angka spesifik seperti harga pasti, luas kolam, persentase keberhasilan yang fiktif, atau mengarang tahun/lokasi spesifik (misalnya menyebut "Jawa Barat di tahun 2020"). Gunakan estimasi rentang wajar jika perlu, dan hindari klaim faktual palsu.
 
 ⚠️ ATURAN PANJANG ARTIKEL — KRITIS, JANGAN DILANGGAR:
-- Target panjang konten: 2000-2500 kata.
+- Target panjang konten: 2000-3000 kata.
 - Hitung kata Anda secara mental saat menulis. Artikel yang terlalu pendek akan DITOLAK.
-- Untuk target 2000-2500 kata: kamu WAJIB menulis MINIMAL 10 section (H2/H3), masing-masing 150-250 kata.
+- Untuk target 2000-3000 kata: kamu WAJIB menulis MINIMAL 10 section (H2/H3), masing-masing 150-250 kata.
 - Jangan pernah menulis section kurang dari 100 kata — itu terlalu dangkal dan tidak bernilai.
 - Setiap section HARUS berisi paragraf penjelasan mendalam, BUKAN hanya daftar bullet point singkat.
 
-ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
-1. ANSWER-FIRST: di bawah SETIAP heading H2/H3, kalimat PERTAMA harus langsung menjawab inti topik heading tersebut -- bukan basa-basi pembuka. Kalimat 2-4 berisi detail pendukung (data/angka), lalu bullet points jika ada langkah/daftar.
-2. PANJANG PER SECTION: setiap section di bawah satu H2/H3 sebaiknya 150-200 kata (minimum 100, maksimum 300). Jangan buat section super singkat (di bawah 50 kata) -- itu terlalu dangkal. Jangan juga lewat 300 kata untuk satu poin -- pecah jadi sub-heading baru kalau perlu.
-3. PANJANG PARAGRAF: tiap paragraf sekitar 60-100 kata, satu ide utama per paragraf.
-4. Jika artikel ini berupa panduan langkah-demi-langkah, gunakan heading H3 bernomor eksplisit ("### 1. Nama Langkah", "### 2. Nama Langkah", dst).
-5. SERTAKAN DATA KONKRET: biaya dalam Rupiah (contoh: Rp 2.000.000-5.000.000), durasi (contoh: 3-4 bulan), ukuran (contoh: diameter 3 meter), dosis (contoh: 5 ml per 1000 liter). Jangan menulis "biaya murah" tanpa angka.
-6. Untuk SEO lokal Indonesia: sebutkan nama daerah/kota penghasil ikan terbesar, nama merek pakan/probiotik populer di Indonesia, dan referensi ke standar KKP (Kementerian Kelautan dan Perikanan) jika relevan.
+${AI_STRUCTURE_PROMPT}
 
 Format respons HARUS dalam JSON valid seperti ini:
 {
@@ -71,17 +76,30 @@ async function main() {
     // Hitung kata
     const wordCount = parsed.content.split(/\s+/).filter(Boolean).length;
     
-    if (wordCount < 400) {
-      filesToProcess.push({ file, filePath, parsed, wordCount });
+    // Deteksi apakah sudah memenuhi format AI-First (memiliki ## Ringkasan Singkat)
+    const hasRingkasanSingkat = /^##\s+ringkasan singkat/im.test(parsed.content);
+    
+    if (wordCount < 400 || !hasRingkasanSingkat) {
+      filesToProcess.push({ file, filePath, parsed, wordCount, hasRingkasanSingkat });
     }
   }
 
-  console.log(`Menemukan ${filesToProcess.length} artikel pendek yang perlu di-regenerate.`);
+  console.log(`Menemukan ${filesToProcess.length} artikel yang perlu di-regenerate (pendek atau belum standar AI-First).`);
 
-  for (const item of filesToProcess) {
-    const { file, filePath, parsed, wordCount } = item;
+  let filesToRun = filesToProcess;
+  if (TARGET_SLUGS && TARGET_SLUGS.length > 0) {
+    filesToRun = filesToProcess.filter(item => TARGET_SLUGS.includes(item.file.replace('.md', '')));
+  } else {
+    filesToRun.sort((a, b) => a.wordCount - b.wordCount);
+    filesToRun = filesToRun.slice(0, LIMIT);
+  }
+
+  for (const item of filesToRun) {
+    const { file, filePath, parsed, wordCount, hasRingkasanSingkat } = item;
     countShort++;
-    console.log(`\n[${countShort}/${filesToProcess.length}] ⏳ Meng-generate ulang: ${file} (Saat ini: ${wordCount} kata)`);
+    
+    const reason = wordCount < 400 ? `Pendek: ${wordCount} kata` : `Format lama (tanpa Ringkasan Singkat)`;
+    console.log(`\n[${countShort}/${filesToRun.length}] ⏳ Meng-generate ulang: ${file} (${reason})`);
     
     const { judul, kategori, tags } = parsed.data;
 
@@ -89,7 +107,7 @@ async function main() {
 
 Kategori: ${kategori || 'Budidaya'}
 Keywords yang harus ada: ${(tags || []).join(', ')}
-Panjang: 2000-2500 kata — INI WAJIB DIPENUHI, jangan kurang dari 2000 kata.
+Panjang: 2000-3000 kata — INI WAJIB DIPENUHI, jangan kurang dari 2000 kata.
 Gaya penulisan: informatif dan edukatif, gaya bahasa formal tapi mudah dipahami
 
 Buatkan juga bagian FAQ dengan format H3 di bagian bawah artikel.`;
@@ -133,8 +151,8 @@ Buatkan juga bagian FAQ dengan format H3 di bagian bawah artikel.`;
       if (err.message.includes('rate_limit') || err.message.includes('429')) {
         console.log('⏳ Rate limit tercapai! Rotasi kunci API...');
         rotateKey();
-        // Coba masukkan kembali file ini ke antrian agar tidak terlewat
-        filesToProcess.push(item);
+        // Coba masukkan kembali file ini ke antrian filesToRun agar dieksekusi ulang
+        filesToRun.push(item);
         await new Promise(r => setTimeout(r, 5000));
       }
     }

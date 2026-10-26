@@ -6,6 +6,7 @@ import { slugify } from '@/lib/utils'
 import { templateFaqPrompt } from '@/lib/seo/faq'
 import { templateHowToPrompt } from '@/lib/seo/howto'
 import { getArtikelTerkait } from '@/lib/db/artikel'
+import { AI_STRUCTURE_PROMPT } from '@/prompts/index.mjs'
 import {
   getAvailableKey,
   markRateLimited,
@@ -90,8 +91,9 @@ function countWords(text: string): number {
  * Jika key aktif kena 429, tandai rate limited lalu coba key berikutnya.
  * Maksimum 5 percobaan (sesuai jumlah key).
  */
-async function groqChatWithRotation(
+export async function groqChatWithRotation(
   params: GroqChatParams
+
 ): Promise<string> {
   const maxAttempts = 5
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
@@ -205,8 +207,9 @@ Keywords yang harus ada: ${req.keywords?.join(', ') || '-'}
 Panjang: ${panjangConfig.label} — INI WAJIB DIPENUHI, jangan kurang dari ${panjangConfig.minWords} kata.
 Gaya penulisan: ${toneMap[req.tone] || toneMap['informatif']}
 
-${templateHowToPrompt(req.topik)}
-${templateFaqPrompt(req.topik)}
+${AI_STRUCTURE_PROMPT}
+
+Target panjang total: 2000-3000 kata.
 
 Format respons HARUS dalam JSON valid seperti ini:
 {

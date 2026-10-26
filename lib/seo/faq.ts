@@ -17,12 +17,22 @@ interface FaqItem {
 export function extractFaq(konten: string): FaqItem[] {
   const lines = konten.split('\n')
   const faqItems: FaqItem[] = []
+  let inFaqSection = false
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim()
 
-    // Deteksi heading H2 atau H3
-    const isHeading = line.startsWith('## ') || line.startsWith('### ')
+    // Cek apakah masuk ke section FAQ (mengabaikan kapitalisasi)
+    if (line.startsWith('## ')) {
+      const heading = line.replace(/^##\s+/, '').trim().toLowerCase()
+      inFaqSection = heading === 'faq' || heading === 'pertanyaan yang sering diajukan'
+      continue
+    }
+
+    if (!inFaqSection) continue
+
+    // Deteksi heading H3 di dalam section FAQ
+    const isHeading = line.startsWith('### ')
     if (!isHeading) continue
 
     const headingText = line.replace(/^#{2,3}\s+/, '').trim()

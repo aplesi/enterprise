@@ -11,6 +11,37 @@
 import { readFile, writeFile } from 'fs/promises'
 import { marked } from 'marked'
 
+function renderMarkdown(markdown) {
+  const tokens = marked.lexer(markdown)
+  const groupedTokens = []
+  let currentGroup = []
+
+  for (const token of tokens) {
+    if (token.type === 'heading' && token.depth === 2) {
+      if (currentGroup.length > 0) groupedTokens.push(currentGroup)
+      currentGroup = [token]
+    } else {
+      currentGroup.push(token)
+    }
+  }
+  if (currentGroup.length > 0) groupedTokens.push(currentGroup)
+
+  let finalHtml = ''
+  for (const group of groupedTokens) {
+    const firstToken = group[0]
+    group.links = tokens.links
+    const groupHtml = marked.parser(group)
+    
+    if (firstToken && firstToken.type === 'heading' && firstToken.depth === 2) {
+      const id = firstToken.text.toLowerCase().replace(/[^\w]+/g, '-')
+      finalHtml += `<section id="${id}">\n${groupHtml}</section>\n`
+    } else {
+      finalHtml += groupHtml
+    }
+  }
+  return finalHtml
+}
+
 async function main() {
   console.log('📖 Membaca /tmp/artikel-kosong.json...')
 
@@ -38,7 +69,7 @@ async function main() {
   const sqlStatements = []
 
   for (const row of results) {
-    const kontenHtml = await marked(row.konten || '')
+    const kontenHtml = renderMarkdown(row.konten || '')
     // Escape single quotes untuk SQL
     const escaped = kontenHtml.replace(/'/g, "''")
     sqlStatements.push(`UPDATE artikel SET konten_html = '${escaped}' WHERE id = ${row.id};`)

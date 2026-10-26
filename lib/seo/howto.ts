@@ -14,9 +14,20 @@ const NUMBERED_HEADING = /^#{2,3}\s+(\d+)[.)]\s*(.+)$/
 export function extractHowToSteps(konten: string): HowToStep[] {
   const lines = konten.split('\n')
   const steps: HowToStep[] = []
+  let inHowToSection = false
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim()
+
+    // Cek apakah masuk ke section Langkah-Langkah (mengabaikan kapitalisasi)
+    if (line.startsWith('## ')) {
+      const heading = line.replace(/^##\s+/, '').trim().toLowerCase()
+      inHowToSection = heading === 'langkah-langkah'
+      continue
+    }
+
+    if (!inHowToSection) continue
+
     const match = line.match(NUMBERED_HEADING)
     if (!match) continue
 

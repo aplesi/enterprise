@@ -1,0 +1,143 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Quality Pipeline Integration > should fail article missing FAQ 1`] = `
+{
+  "categories": {
+    "CONTENT": {
+      "maxScore": 30,
+      "percentage": 86.66666666666667,
+      "score": 26,
+    },
+    "SEO": {
+      "maxScore": 15,
+      "percentage": 33.33333333333333,
+      "score": 5,
+    },
+  },
+  "engineVersion": "1.0.0",
+  "overall": 67,
+  "promptVersion": 3,
+  "recommendations": [
+    "Artikel terlalu pendek (897 kata). Tambahkan penjelasan lebih mendalam pada bagian Penjelasan Lengkap agar mencapai minimal 1000 kata.",
+    "Anda kehilangan section wajib berikut: faq. Pastikan membuat heading H2 persis seperti yang diminta pada instruksi.",
+    "Buat heading H2 dengan judul "FAQ" dan berikan daftar pertanyaan dan jawaban.",
+  ],
+  "rules": [
+    {
+      "category": "CONTENT",
+      "id": "content-min-words",
+      "maxScore": 10,
+      "message": "Total kata: 897. Target: 1000.",
+      "passed": false,
+      "recommendation": "Artikel terlalu pendek (897 kata). Tambahkan penjelasan lebih mendalam pada bagian Penjelasan Lengkap agar mencapai minimal 1000 kata.",
+      "score": 8,
+      "severity": "CRITICAL",
+      "title": "Minimum Word Count",
+    },
+    {
+      "category": "CONTENT",
+      "id": "content-required-sections",
+      "maxScore": 20,
+      "message": "Missing sections: faq",
+      "passed": false,
+      "recommendation": "Anda kehilangan section wajib berikut: faq. Pastikan membuat heading H2 persis seperti yang diminta pada instruksi.",
+      "score": 18,
+      "severity": "CRITICAL",
+      "title": "Required 12 Sections AI-First",
+    },
+    {
+      "category": "SEO",
+      "id": "seo-min-faq",
+      "maxScore": 10,
+      "message": "Section FAQ tidak ditemukan.",
+      "passed": false,
+      "recommendation": "Buat heading H2 dengan judul "FAQ" dan berikan daftar pertanyaan dan jawaban.",
+      "score": 0,
+      "severity": "CRITICAL",
+      "title": "Minimum FAQ Elements",
+    },
+    {
+      "category": "SEO",
+      "id": "seo-min-links",
+      "maxScore": 5,
+      "message": "Internal: 1, External: 1",
+      "passed": true,
+      "recommendation": "",
+      "score": 5,
+      "severity": "WARNING",
+      "title": "Minimum Internal/External Links",
+    },
+  ],
+  "status": "FAIL",
+  "warnings": [],
+}
+`;
+
+exports[`Quality Pipeline Integration > should pass perfect article 1`] = `
+{
+  "categories": {
+    "CONTENT": {
+      "maxScore": 30,
+      "percentage": 100,
+      "score": 30,
+    },
+    "SEO": {
+      "maxScore": 15,
+      "percentage": 100,
+      "score": 15,
+    },
+  },
+  "engineVersion": "1.0.0",
+  "overall": 100,
+  "promptVersion": 3,
+  "recommendations": [],
+  "rules": [
+    {
+      "category": "CONTENT",
+      "id": "content-min-words",
+      "maxScore": 10,
+      "message": "Total kata: 1736. Target: 1000.",
+      "passed": true,
+      "recommendation": "",
+      "score": 10,
+      "severity": "CRITICAL",
+      "title": "Minimum Word Count",
+    },
+    {
+      "category": "CONTENT",
+      "id": "content-required-sections",
+      "maxScore": 20,
+      "message": "Semua section lengkap",
+      "passed": true,
+      "recommendation": "",
+      "score": 20,
+      "severity": "CRITICAL",
+      "title": "Required 12 Sections AI-First",
+    },
+    {
+      "category": "SEO",
+      "id": "seo-min-faq",
+      "maxScore": 10,
+      "message": "Ditemukan 4 FAQ (Target: 4-6)",
+      "passed": true,
+      "recommendation": "",
+      "score": 10,
+      "severity": "CRITICAL",
+      "title": "Minimum FAQ Elements",
+    },
+    {
+      "category": "SEO",
+      "id": "seo-min-links",
+      "maxScore": 5,
+      "message": "Internal: 1, External: 1",
+      "passed": true,
+      "recommendation": "",
+      "score": 5,
+      "severity": "WARNING",
+      "title": "Minimum Internal/External Links",
+    },
+  ],
+  "status": "PASS",
+  "warnings": [],
+}
+`;

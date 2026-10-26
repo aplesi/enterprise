@@ -94,14 +94,18 @@ export default async function ArtikelDetailPage({
 
             {/* Header Artikel */}
             <header className="mb-8">
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
                 <Link
                   href={`/kategori/${artikel.kategori.toLowerCase()}`}
                   className="badge-green hover:bg-green-200 transition-colors"
                 >
                   {artikel.kategori}
                 </Link>
-                <span className="text-gray-300">·</span>
+                <time itemProp="dateModified" dateTime={artikel.diperbarui || artikel.tanggal} className="px-3 py-1 bg-green-50 text-green-700 font-medium rounded-full text-xs flex items-center gap-1 border border-green-100">
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                  Data diperbarui: {formatTanggal(artikel.diperbarui || artikel.tanggal)}
+                </time>
+                <span className="text-gray-300 ml-1">·</span>
                 <span className="text-sm text-gray-400">{(artikel.waktuBaca ?? 0) > 0 ? artikel.waktuBaca : 1} menit baca</span>
               </div>
 
@@ -125,12 +129,6 @@ export default async function ArtikelDetailPage({
                 <time dateTime={artikel.tanggal}>
                   {formatTanggal(artikel.tanggal)}
                 </time>
-                {artikel.diperbarui && (
-                  <>
-                    <span>·</span>
-                    <span>Diperbarui {formatTanggal(artikel.diperbarui)}</span>
-                  </>
-                )}
               </div>
             </header>
 

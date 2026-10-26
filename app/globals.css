@@ -159,6 +159,49 @@
     color: var(--muted-foreground);
     border: 1px solid var(--border);
   }
+
+  /* === Styling Spesifik Section AI-First === */
+  .prose section#ringkasan-singkat,
+  .prose section#jawaban-singkat {
+    @apply my-6 p-5 rounded-xl border-l-4;
+    background-color: var(--muted);
+    border-color: var(--primary);
+  }
+  
+  .prose section#ringkasan-singkat p:first-of-type,
+  .prose section#jawaban-singkat p:first-of-type {
+    @apply font-semibold text-lg mb-2;
+    color: var(--foreground);
+  }
+
+  .prose section#checklist {
+    @apply my-6 p-6 rounded-2xl border shadow-sm;
+    background-color: var(--background);
+    border-color: var(--border);
+  }
+  
+  .prose section#checklist ul {
+    @apply list-none pl-0 space-y-3;
+  }
+  
+  .prose section#checklist li {
+    @apply flex items-start gap-3;
+  }
+
+  .prose section#studi-kasus {
+    @apply my-8 p-6 rounded-xl relative;
+    background: linear-gradient(135deg, var(--slate), var(--charcoal));
+    color: white;
+  }
+  
+  .prose section#studi-kasus h2 {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.2);
+  }
+  
+  .prose section#studi-kasus p {
+    color: var(--mist);
+  }
 }
 
 @layer components {

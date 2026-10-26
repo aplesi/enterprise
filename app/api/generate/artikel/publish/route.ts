@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { simpanArtikelKeGitHub } from '@/lib/db/github'
 import { generateFrontmatter } from '@/lib/utils'
 import { insertArtikel } from '@/lib/db/artikel'
-import { marked } from 'marked'
+import { renderMarkdown } from '@/lib/markdown'
 import type { GenerateArtikelResponse } from '@/types'
 
 
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     // Simpan juga ke D1 agar artikel LANGSUNG muncul tanpa menunggu rebuild
     try {
       // Pre-render markdown → HTML sekali di sini (eliminasi react-markdown CPU di render-time)
-      const kontenHtml = await marked(artikel.konten)
+      const kontenHtml = renderMarkdown(artikel.konten)
 
       await insertArtikel({
         slug: artikel.slug,

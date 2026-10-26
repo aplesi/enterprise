@@ -35,7 +35,6 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
       },
       body: JSON.stringify({
         prompt: enhancedPrompt,
-        num_inference_steps: 4, // FLUX-1 Schnell optimal steps (1-4)
       }),
     },
     REQUEST_TIMEOUT_MS
