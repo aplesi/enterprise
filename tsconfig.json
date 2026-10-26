@@ -25,7 +25,12 @@
     "paths": {
       "@/*": [
         "./*"
-      ]
+      ],
+      "avis-ontology": ["./packages/avis-ontology/src/index.ts"],
+      "avis-graph-loader": ["./packages/avis-graph-loader/src/index.ts"],
+      "avis-rule-engine": ["./packages/avis-rule-engine/src/index.ts"],
+      "avis-scene-builder": ["./packages/avis-scene-builder/src/index.ts"],
+      "avis-pipeline": ["./packages/avis-pipeline/src/index.ts"]
     }
   },
   "include": [
@@ -36,6 +41,7 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "packages"
   ]
 }
