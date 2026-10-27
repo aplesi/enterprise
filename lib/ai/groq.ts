@@ -16,35 +16,73 @@ import {
   groqFetchChatCompletion,
   type GroqChatParams,
 } from '@/lib/ai/groq-pool'
+import { detectCommodity } from '@/lib/ai/skills/article-writer-skill'
 
 /**
- * Rakit image prompt deterministik dari judul + kategori.
+ * Rakit image prompt deterministik dari judul + kategori berbasis multi-komoditas.
  * Dioptimalkan untuk model FLUX-1 Schnell agar menghasilkan fotografi dokumenter
- * budidaya perikanan Indonesia yang realistis, bukan anatomi ikan close-up CGI/mutasi aneh.
+ * budidaya perikanan & krustasea Indonesia yang realistis, bukan anatomi ikan close-up CGI/mutasi aneh.
  */
 export function buildFallbackImagePrompt(judul: string, kategori: string): string {
   const cleanJudul = judul.replace(/[^\w\s-]/g, ' ').replace(/\s+/g, ' ').trim()
+  const commodity = detectCommodity(judul)
 
-  const kategoriMap: Record<string, string> = {
-    'Pembenihan': 'Indonesian freshwater fish hatchery facility, round nursery tanks with aeration, Indonesian aquaculture specialist inspecting clean water quality, morning daylight',
-    'Pakan': 'Indonesian fish farmer scattering floating feed pellets into a large round biofloc pond, water splashes, wearing straw hat and farm boots, lush tropical farm backdrop',
-    'Penyakit & Pengobatan': 'Indonesian fish farm technician testing water parameters with digital dissolved oxygen and pH probe at a biofloc pond, natural outdoor daylight',
-    'Penyakit': 'Indonesian fish farm technician testing water parameters with digital dissolved oxygen and pH probe at a biofloc pond, natural outdoor daylight',
-    'Manajemen Kolam': 'Rows of commercial round tarpaulin biofloc ponds under UV greenhouse net canopy in Indonesia, aerator splashing water, clean modern aquaculture infrastructure',
-    'Kolam': 'Rows of commercial round tarpaulin biofloc ponds under UV greenhouse net canopy in Indonesia, aerator splashing water, clean modern aquaculture infrastructure',
-    'Panen & Pascapanen': 'Indonesian local fish farmers sorting freshly harvested freshwater fish into clean plastic crates, sorting basin with clear water, early morning market preparation',
-    'Panen': 'Indonesian local fish farmers sorting freshly harvested freshwater fish into clean plastic crates, sorting basin with clear water, early morning market preparation',
-    'Bisnis & Pemasaran': 'Indonesian modern aquaculture agribusiness facility, catfish distribution center with aeration tanks, authentic rural commercial setting',
-    'Bisnis': 'Indonesian modern aquaculture agribusiness facility, catfish distribution center with aeration tanks, authentic rural commercial setting',
-    'Teknologi': 'Modern IoT-equipped Indonesian fish farm, smart water monitoring sensors mounted on round biofloc tank edge, clean technical setup, natural sunlight',
-    'Tips & Trik': 'Experienced Indonesian fish farmer sharing practical knowledge beside outdoor fish ponds, friendly expression, authentic Indonesian rural setting',
-    'Tips': 'Experienced Indonesian fish farmer sharing practical knowledge beside outdoor fish ponds, friendly expression, authentic Indonesian rural setting',
-    'Berita Terkini': 'Indonesian fisheries and aquaculture port or commercial freshwater fish center, vibrant activity, authentic Indonesian maritime sector',
-    'Berita': 'Indonesian fisheries and aquaculture port or commercial freshwater fish center, vibrant activity, authentic Indonesian maritime sector',
+  let speciesVisual = ''
+  switch (commodity) {
+    case 'vaname':
+      speciesVisual = 'Indonesian coastal intensive shrimp farm or round HDPE canvas ponds, paddlewheel aerators splashing water with sea spray, aquaculture technician checking lively whiteleg shrimp on a feeding tray (anco) under morning sunlight'
+      break
+    case 'lobster':
+      speciesVisual = 'Freshwater red claw crayfish (Cherax quadricarinatus) aquaculture facility in Indonesia, clean indoor breeding tanks with arranged PVC pipe shelters and aeration bubbles, clear water, realistic documentary style'
+      break
+    case 'kepiting':
+      speciesVisual = 'Modern vertical indoor mud crab box farming facility (apartemen kepiting) in Indonesia, stacked blue crab condo boxes with recirculating aquaculture system (RAS), technician inspecting a large healthy mud crab'
+      break
+    case 'nila':
+      speciesVisual = 'Commercial Indonesian tilapia (ikan nila) fish farm, large freshwater pond or floating net cages with aerator splashing, Indonesian fish farmer tossing floating pellets, active healthy fish feeding on water surface'
+      break
+    case 'gurame':
+      speciesVisual = 'Traditional and modern giant gourami (ikan gurame) aquaculture pond in Indonesia, clear fresh water with lush tropical taro and sente leaves on pond bank, calm water ripples, morning sunbeams'
+      break
+    case 'patin':
+      speciesVisual = 'Commercial Indonesian pangasius (ikan patin) fish farm, large freshwater earthen ponds with active aerators, farmers preparing harvest, authentic rural Indonesian setting'
+      break
+    case 'gabus':
+      speciesVisual = 'Indonesian snakehead fish (ikan gabus / Channa striata) farming facility, secured raised canvas ponds with protective netting, clear water, documentary photojournalism'
+      break
+    case 'udang_galah':
+      speciesVisual = 'Indonesian giant freshwater prawn (udang galah) earthen pond farm, clear shallow water with submerged branch shelters, farmer inspecting healthy prawns'
+      break
+    case 'lele':
+      speciesVisual = 'Indonesian commercial catfish aquaculture, clean round biofloc tarpaulin ponds with fine bubble aeration splashing under greenhouse UV canopy'
+      break
+    default:
+      speciesVisual = ''
+      break
   }
 
-  const scene = kategoriMap[kategori] || 'Indonesian fish farming facility with round biofloc tarpaulin tanks, lush tropical rural background'
-  return `${scene}, context: ${cleanJudul.slice(0, 80)}, 35mm documentary photography, photojournalism style, natural ambient daylight, sharp focus, authentic Indonesian setting, no CGI, no cartoon, no distorted anatomy`
+  const kategoriMap: Record<string, string> = {
+    'Pembenihan': 'Indonesian freshwater aquaculture hatchery facility, nursery tanks with aeration, Indonesian specialist inspecting water quality, morning daylight',
+    'Pakan': 'Indonesian aquaculture farmer scattering feed pellets into a large pond, water ripples and splashes, wearing farm boots, lush tropical farm backdrop',
+    'Penyakit & Pengobatan': 'Indonesian aquaculture technician testing water parameters with digital dissolved oxygen and pH probe at pond edge, natural outdoor daylight',
+    'Penyakit': 'Indonesian aquaculture technician testing water parameters with digital dissolved oxygen and pH probe at pond edge, natural outdoor daylight',
+    'Manajemen Kolam': 'Commercial aquaculture ponds under tropical sky in Indonesia, aerators splashing water, clean modern aquaculture infrastructure',
+    'Kolam': 'Commercial aquaculture ponds under tropical sky in Indonesia, aerators splashing water, clean modern aquaculture infrastructure',
+    'Panen & Pascapanen': 'Indonesian aquaculture workers sorting freshly harvested fish and crustaceans into clean plastic crates with crushed ice, early morning market preparation',
+    'Panen': 'Indonesian aquaculture workers sorting freshly harvested fish and crustaceans into clean plastic crates with crushed ice, early morning market preparation',
+    'Bisnis & Pemasaran': 'Indonesian modern aquaculture agribusiness facility, distribution and packing center with oxygenated transport tanks, commercial setting',
+    'Bisnis': 'Indonesian modern aquaculture agribusiness facility, distribution and packing center with oxygenated transport tanks, commercial setting',
+    'Teknologi': 'Modern IoT-equipped Indonesian aquaculture farm, smart water monitoring sensors mounted on pond edge, clean technical setup, natural sunlight',
+    'Tips & Trik': 'Experienced Indonesian aquaculture farmer demonstrating practical pond techniques, friendly expression, authentic Indonesian rural setting',
+    'Tips': 'Experienced Indonesian aquaculture farmer demonstrating practical pond techniques, friendly expression, authentic Indonesian rural setting',
+    'Berita Terkini': 'Indonesian fisheries and aquaculture port or commercial aquatic commodities center, vibrant activity, authentic Indonesian maritime sector',
+    'Berita': 'Indonesian fisheries and aquaculture port or commercial aquatic commodities center, vibrant activity, authentic Indonesian maritime sector',
+  }
+
+  const categoryScene = kategoriMap[kategori] || 'Indonesian modern aquaculture facility, clean ponds, lush tropical rural background'
+  const primaryScene = speciesVisual || categoryScene
+
+  return `${primaryScene}, context: ${cleanJudul.slice(0, 80)}, 35mm documentary photography, photojournalism style, natural ambient daylight, sharp focus, authentic Indonesian setting, no CGI, no cartoon, no distorted anatomy`
 }
 
 const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'

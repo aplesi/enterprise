@@ -22,7 +22,7 @@ import { runEditorialReview } from '../lib/ai/editor/engine'
 import { metrics } from '../lib/metrics/collector'
 import { buildFallbackImagePrompt } from '../lib/ai/groq'
 import { getContextualAquacultureFallback } from '../lib/ai/cloudflare-image'
-import { validateAndSanitizeArticle, sanitizeLatexMath, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
+import { validateAndSanitizeArticle, sanitizeLatexMath, detectCommodity, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
 import { notifySearchEngines } from '../lib/seo/indexer'
 
 function renderMarkdown(markdown) {
@@ -169,49 +169,91 @@ interface EvergreenTopic {
   keywords: string[]
 }
 
-// Database topik evergreen budidaya perikanan Indonesia terpetakan ke taksonomi resmi
+// Database 60+ topik evergreen multi-komoditas akuakultur Indonesia (Lele, Nila, Gurame, Vaname, Lobster, Patin, Gabus, dll.)
 const TOPIK_EVERGREEN_POOL: EvergreenTopic[] = [
-  // 1. Pembenihan
+  // ================= 1. PEMBENIHAN =================
   { topik: 'teknik seleksi indukan lele matang gonad berkualitas', kategori: 'Pembenihan', keywords: ['seleksi indukan lele', 'indukan matang gonad', 'pembenihan lele'] },
+  { topik: 'manajemen pembenihan nila merah monoseks jantan metode sex reversal', kategori: 'Pembenihan', keywords: ['pembenihan nila merah', 'nila monoseks jantan', 'sex reversal nila'] },
+  { topik: 'teknik pembuatan sarang ijuk dan pemijahan alami ikan gurame', kategori: 'Pembenihan', keywords: ['pemijahan ikan gurame', 'sarang ijuk gurame', 'benih gurame'] },
+  { topik: 'SOP aklimatisasi dan uji stres benur udang vaname PL 10 sebelum tebar', kategori: 'Pembenihan', keywords: ['benur udang vaname', 'aklimatisasi benur', 'uji stres vaname'] },
+  { topik: 'teknik perkawinan dan perawatan indukan bertelur lobster air tawar red claw', kategori: 'Pembenihan', keywords: ['pembenihan lobster air tawar', 'lobster bertelur', 'cherax quadricarinatus'] },
   { topik: 'cara menetaskan telur lele dengan metode corong aerasi', kategori: 'Pembenihan', keywords: ['menetaskan telur lele', 'corong penetasan', 'larva lele'] },
+  { topik: 'pembenihan ikan patin siam dengan induksi hormon ovaprim dan striping', kategori: 'Pembenihan', keywords: ['pembenihan patin', 'striping patin ovaprim', 'larva patin'] },
+  { topik: 'teknik pembenihan ikan gabus haruan di kolam terpal semi intensif', kategori: 'Pembenihan', keywords: ['pembenihan ikan gabus', 'channa striata', 'burayak gabus'] },
+  { topik: 'manajemen pendederan benih udang galah all-male sampai ukuran tokol', kategori: 'Pembenihan', keywords: ['udang galah all-male', 'benih udang galah', 'tokol udang galah'] },
   { topik: 'perawatan larva lele usia 1 sampai 14 hari bebas kanibal', kategori: 'Pembenihan', keywords: ['perawatan larva lele', 'cacing sutra lele', 'mencegah kanibalisme'] },
-  { topik: 'panduan pembenihan lele sistem suntik ovaprim terukur', kategori: 'Pembenihan', keywords: ['pembenihan lele ovaprim', 'dosis suntik ovaprim', 'induksi hormon lele'] },
 
-  // 2. Pakan
+  // ================= 2. PAKAN =================
   { topik: 'formulasi pakan pelet apung lele mandiri protein 32 persen', kategori: 'Pakan', keywords: ['pakan pelet apung', 'resep pakan lele', 'protein 32 persen'] },
+  { topik: 'strategi pemberian pakan nila protein 28 persen hemat biaya dengan azolla', kategori: 'Pakan', keywords: ['pakan ikan nila', 'azolla untuk nila', 'protein pakan nila'] },
+  { topik: 'kombinasi pakan pelet dan hijauan daun sente untuk percepatan pertumbuhan gurame', kategori: 'Pakan', keywords: ['pakan gurame daun sente', 'daun talas pakan gurame', 'pelet gurame'] },
+  { topik: 'teknik membaca kontrol anco tambak udang vaname untuk cegah overfeeding', kategori: 'Pakan', keywords: ['kontrol anco vaname', 'feeding tray udang', 'feeding rate vaname'] },
+  { topik: 'formulasi pakan pelet tenggelam sinking untuk lobster air tawar dan suplemen cacing', kategori: 'Pakan', keywords: ['pakan lobster air tawar', 'pelet tenggelam sinking', 'nutrisi lobster'] },
   { topik: 'budidaya maggot BSF sebagai alternatif pakan lele hemat biaya', kategori: 'Pakan', keywords: ['maggot BSF untuk lele', 'pakan alternatif lele', 'biaya pakan hemat'] },
+  { topik: 'pemberian pakan ikan patin FCR rendah 1.1 berbasis pelet apung komersial', kategori: 'Pakan', keywords: ['pakan ikan patin', 'FCR patin rendah', 'pelet patin'] },
+  { topik: 'pelatihan pakan pelet apung protein 40 persen untuk ikan gabus sejak burayak', kategori: 'Pakan', keywords: ['pakan pelet ikan gabus', 'protein pakan gabus', 'channa striata feed'] },
   { topik: 'teknik fermentasi pakan lele dengan probiotik EM4 dan molase', kategori: 'Pakan', keywords: ['fermentasi pakan lele', 'probiotik EM4', 'efisiensi pakan FCR'] },
-  { topik: 'jadwal dan dosis feeding rate pemberian pakan lele intensif', kategori: 'Pakan', keywords: ['feeding rate lele', 'jadwal pakan lele', 'FCR lele'] },
+  { topik: 'manajemen feeding rate udang vaname berdasarkan estimasi biomassa DOC 30 sampai 90', kategori: 'Pakan', keywords: ['feeding rate vaname', 'biomassa udang DOC', 'manajemen pakan tambak'] },
 
-  // 3. Penyakit & Pengobatan
+  // ================= 3. PENYAKIT & PENGOBATAN =================
   { topik: 'pencegahan dan pengobatan penyakit moncong putih pada lele', kategori: 'Penyakit & Pengobatan', keywords: ['penyakit moncong putih', 'flavobacterium lele', 'obat moncong putih'] },
+  { topik: 'penanganan penyakit streptococcosis mata menonjol pada ikan nila bioflok', kategori: 'Penyakit & Pengobatan', keywords: ['streptococcosis nila', 'pop eye nila', 'streptococcus agalactiae'] },
+  { topik: 'pengobatan penyakit bercak merah cacar air dan borok aeromonas pada gurame', kategori: 'Penyakit & Pengobatan', keywords: ['cacar gurame', 'aeromonas gurame', 'obat borok gurame'] },
+  { topik: 'deteksi dini dan mitigasi penyakit berak putih white feces disease pada udang vaname', kategori: 'Penyakit & Pengobatan', keywords: ['white feces disease vaname', 'berak putih udang', 'pengobatan WFD'] },
+  { topik: 'pencegahan kematian masal lobster air tawar akibat gagal molting dan jamur cangkang', kategori: 'Penyakit & Pengobatan', keywords: ['gagal molting lobster', 'burn spot disease lobster', 'penyakit lobster air tawar'] },
   { topik: 'mengatasi penyakit perut kembung dan dropsy pada lele', kategori: 'Penyakit & Pengobatan', keywords: ['perut kembung lele', 'dropsy lele', 'pengobatan ikan kembung'] },
+  { topik: 'pengendalian parasit kutu ikan argulus dan cacing lernaea pada kolam air tawar', kategori: 'Penyakit & Pengobatan', keywords: ['kutu ikan argulus', 'cacing jangkar lernaea', 'obat parasit kolam'] },
+  { topik: 'pencegahan virus bintik putih white spot syndrome virus WSSV pada tambak udang', kategori: 'Penyakit & Pengobatan', keywords: ['WSSV udang vaname', 'white spot virus', 'biosekuriti tambak'] },
   { topik: 'penggunaan daun sirih dan garam krosok sebagai antiseptik alami kolam', kategori: 'Penyakit & Pengobatan', keywords: ['daun sirih untuk ikan', 'garam krosok kolam', 'antiseptik alami lele'] },
   { topik: 'penanganan infeksi bakteri aeromonas hydrophila pada budidaya lele', kategori: 'Penyakit & Pengobatan', keywords: ['aeromonas hydrophila lele', 'borok lele', 'antibiotik alami ikan'] },
 
-  // 4. Manajemen Kolam
+  // ================= 4. MANAJEMEN KOLAM =================
   { topik: 'panduan konstruksi kolam terpal bulat rangka besi wiremesh', kategori: 'Manajemen Kolam', keywords: ['kolam terpal bulat', 'rangka wiremesh', 'konstruksi kolam lele'] },
+  { topik: 'budidaya nila sistem bioflok kolam bundar aerasi intensif tanpa ganti air', kategori: 'Manajemen Kolam', keywords: ['nila bioflok kolam bundar', 'aerasi nila bioflok', 'probiotik nila'] },
+  { topik: 'manajemen mineral kalsium dan magnesium pada tambak vaname salinitas rendah', kategori: 'Manajemen Kolam', keywords: ['mineral tambak vaname', 'salinitas rendah vaname', 'kalsium magnesium udang'] },
+  { topik: 'desain apartemen dan penataan shelter pipa PVC bertingkat untuk lobster air tawar', kategori: 'Manajemen Kolam', keywords: ['shelter lobster air tawar', 'apartemen lobster PVC', 'kolam lobster rumahan'] },
+  { topik: 'manajemen kualitas air keramba jaring apung KJA nila di danau dan waduk', kategori: 'Manajemen Kolam', keywords: ['KJA nila waduk', 'keramba jaring apung', 'kualitas air KJA'] },
+  { topik: 'penataan titik kincir air tambak vaname untuk pengumpulan lumpur di central drain', kategori: 'Manajemen Kolam', keywords: ['kincir air vaname', 'central drain tambak', 'arus air kincir'] },
+  { topik: 'budidaya kepiting bakau sistem vertikal box indoor apartemen kepiting RAS', kategori: 'Manajemen Kolam', keywords: ['apartemen kepiting indoor', 'crab box RAS', 'kepiting bakau vertikal'] },
   { topik: 'manajemen nitrit amonia dan alkalinitas pada sistem bioflok lele', kategori: 'Manajemen Kolam', keywords: ['nitrit amonia kolam', 'alkalinitas bioflok', 'kualitas air lele'] },
   { topik: 'cara sterilisasi dan penyiapan air kolam sebelum tebar benih', kategori: 'Manajemen Kolam', keywords: ['sterilisasi air kolam', 'penyiapan air lele', 'tebar benih lele'] },
   { topik: 'penerapan sistem RAS sirkulasi air tertutup hemat lahan', kategori: 'Manajemen Kolam', keywords: ['sistem RAS lele', 'resirkulasi air kolam', 'filter mekanis biologis'] },
 
-  // 5. Panen & Pascapanen
+  // ================= 5. PANEN & PASCAPANEN =================
   { topik: 'SOP pemuasaan dan sortasi lele sebelum panen agar tidak susut', kategori: 'Panen & Pascapanen', keywords: ['pemuasaan lele panen', 'sortasi ikan lele', 'panen lele susut'] },
+  { topik: 'teknik pemanenan bertahap nila konsumsi ukuran 3 sampai 5 ekor per kg', kategori: 'Panen & Pascapanen', keywords: ['panen bertahap nila', 'ukuran panen nila', 'sortasi nila konsumsi'] },
+  { topik: 'SOP panen udang vaname teknik es curah chilling agar kesegaran dan warna terjaga', kategori: 'Panen & Pascapanen', keywords: ['panen udang vaname', 'teknik chilling udang', 'kualitas udang panen'] },
+  { topik: 'penanganan dan pengemasan lobster air tawar hidup sistem kering untuk pengiriman jarak jauh', kategori: 'Panen & Pascapanen', keywords: ['packing lobster hidup', 'pengiriman lobster kering', 'ekspor lobster air tawar'] },
   { topik: 'teknik grading ikan lele untuk mencegah kanibalisme dan keseragaman ukuran', kategori: 'Panen & Pascapanen', keywords: ['grading lele', 'alat sortir lele', 'keseragaman panen'] },
+  { topik: 'teknik pemanenan dan seleksi gurame konsumsi tanpa merusak sisik', kategori: 'Panen & Pascapanen', keywords: ['panen ikan gurame', 'sisik gurame utuh', 'sortir gurame konsumsi'] },
   { topik: 'peluang usaha pengolahan abon lele dan lele asap higienis', kategori: 'Panen & Pascapanen', keywords: ['abon lele', 'lele asap higienis', 'hilirisasi budidaya lele'] },
+  { topik: 'ekstraksi albumin ikan gabus untuk kebutuhan industri medis dan suplemen kesehatan', kategori: 'Panen & Pascapanen', keywords: ['ekstraksi albumin gabus', 'albumin channa striata', 'minyak ikan gabus'] },
 
-  // 6. Bisnis & Pemasaran
+  // ================= 6. BISNIS & PEMASARAN =================
   { topik: 'analisa usaha budidaya lele 1000 ekor kolam terpal lengkap BEP', kategori: 'Bisnis & Pemasaran', keywords: ['analisa usaha lele 1000 ekor', 'modal budidaya lele', 'BEP ternak lele'] },
+  { topik: 'analisa usaha budidaya nila bioflok 4 kolam D3 lengkap modal pakan dan ROI', kategori: 'Bisnis & Pemasaran', keywords: ['analisa usaha nila bioflok', 'modal nila D3', 'keuntungan nila bioflok'] },
+  { topik: 'analisa bisnis tambak udang vaname kolam terpal bulat sistem semi intensif', kategori: 'Bisnis & Pemasaran', keywords: ['analisa usaha vaname', 'modal tambak udang terpal', 'keuntungan udang vaname'] },
+  { topik: 'prospek bisnis ternak lobster air tawar rumahan lahan sempit keuntungan tinggi', kategori: 'Bisnis & Pemasaran', keywords: ['bisnis lobster air tawar', 'ternak lobster rumahan', 'keuntungan lobster air tawar'] },
+  { topik: 'analisa usaha pembesaran ikan patin kolam tanah kontrak pasokan pabrik fillet', kategori: 'Bisnis & Pemasaran', keywords: ['usaha pembesaran patin', 'kontrak pabrik fillet patin', 'modal ternak patin'] },
+  { topik: 'analisa cashflow pemeliharaan gurame 10 bulan segmen restoran sunda dan pasar induk', kategori: 'Bisnis & Pemasaran', keywords: ['analisa usaha gurame', 'cashflow budidaya gurame', 'keuntungan ternak gurame'] },
   { topik: 'strategi kemitraan supplier pakan dan pengepul pasar induk lele', kategori: 'Bisnis & Pemasaran', keywords: ['supplier pakan lele', 'pengepul lele pasar induk', 'rantai pasok lele'] },
   { topik: 'cara pemasaran lele langsung ke restoran dan pedagang pecel lele', kategori: 'Bisnis & Pemasaran', keywords: ['pemasaran lele langsung', 'suplai pecel lele', 'harga jual lele'] },
 
-  // 7. Teknologi
+  // ================= 7. TEKNOLOGI =================
   { topik: 'penerapan aerator venturi dan microbubble untuk hemat listrik kolam', kategori: 'Teknologi', keywords: ['aerator venturi', 'microbubble kolam', 'hemat listrik aerasi'] },
+  { topik: 'penerapan automatic feeder digital berbasis timer untuk kolam ikan nila intensif', kategori: 'Teknologi', keywords: ['autofeeder ikan nila', 'pemberi pakan otomatis', 'teknologi pakan kolam'] },
+  { topik: 'pemanfaatan sensor DO dan salinitas IoT real-time pada tambak udang vaname modern', kategori: 'Teknologi', keywords: ['sensor IoT tambak udang', 'monitoring DO salinitas', 'smart tambak vaname'] },
+  { topik: 'teknologi blower root bioflok untuk suplai oksigen stabil ribuan liter air', kategori: 'Teknologi', keywords: ['blower root bioflok', 'aerasi kolam bioflok', 'suplai oksigen kolam'] },
   { topik: 'sistem monitoring kualitas air otomatis berbasis sensor IoT perikanan', kategori: 'Teknologi', keywords: ['IoT perikanan', 'sensor pH otomatis', 'monitoring kolam digital'] },
+  { topik: 'desain resirkulasi RAS apartemen kepiting bakau hemat air dengan protein skimmer', kategori: 'Teknologi', keywords: ['RAS apartemen kepiting', 'protein skimmer kepiting', 'filter biologis RAS'] },
 
-  // 8. Tips & Trik
+  // ================= 8. TIPS & TRIK =================
   { topik: 'cara mengatasi lele menggantung dan stres pasca hujan lebat', kategori: 'Tips & Trik', keywords: ['lele menggantung', 'lele stres hujan', 'stabilisasi pH hujan'] },
+  { topik: 'trik menstabilkan alkalinitas dan pH tambak vaname pasca hujan deras', kategori: 'Tips & Trik', keywords: ['pH tambak pasca hujan', 'alkalinitas vaname hujan', 'kapur tambak udang'] },
+  { topik: 'trik mempercepat pergantian kulit molting lobster air tawar dengan suplementasi mineral', kategori: 'Tips & Trik', keywords: ['mempercepat molting lobster', 'kalsium lobster air tawar', 'tips ternak lobster'] },
+  { topik: 'cara mencegah daging patin berbau lumpur dengan teknik kolam air mengalir sebelum panen', kategori: 'Tips & Trik', keywords: ['patin bau lumpur', 'menghilangkan bau tanah ikan', 'flushing kolam patin'] },
   { topik: 'trik mengurangi bau air kolam lele di pemukiman padat penduduk', kategori: 'Tips & Trik', keywords: ['mengurangi bau kolam lele', 'kolam lele perkotaan', 'bakteri pengurai bau'] },
+  { topik: 'cara menaikkan kadar oksigen terlarut kolam nila secara darurat saat listrik padam', kategori: 'Tips & Trik', keywords: ['DO darurat kolam nila', 'genset aerator kolam', 'tips oksigen ikan'] },
 ]
 
 const MORNING_CLUSTER = ['Manajemen Kolam', 'Pembenihan', 'Pakan', 'Penyakit & Pengobatan']
@@ -301,31 +343,48 @@ async function pilihTopikUnik(
     return !slugExists && !titleExists && !hasOverlap
   })
 
-  // Prioritaskan topik yang cocok dengan preferred cluster jadwal ini
+  // Deteksi komoditas dari 2-3 artikel terbaru untuk memastikan rotasi antar komoditas (misal lele -> vaname -> nila -> lobster)
+  const recentTitles = existingTitles.slice(0, 3)
+  const recentCommodities = new Set(recentTitles.map(t => detectCommodity(t)))
+  console.log(`[TopikSelector] Komoditas artikel terbaru di D1: ${Array.from(recentCommodities).join(', ') || 'belum ada'}`)
+
+  // Prioritaskan topik yang cocok dengan preferred cluster jadwal sesi ini (Morning vs Evening)
   const clusterMatches = available.filter(item => preferredCategories.includes(item.kategori))
+
+  // Saring topik di cluster jadwal yang komoditasnya BERBEDA dengan artikel terakhir (balanced rotation)
+  const diverseClusterMatches = clusterMatches.filter(item => !recentCommodities.has(detectCommodity(item.topik)))
+
+  if (diverseClusterMatches.length > 0) {
+    const chosen = diverseClusterMatches[0]
+    console.log(`[TopikSelector] Terpilih topik rotasi komoditas [${detectCommodity(chosen.topik).toUpperCase()}]: "${chosen.topik}" (${chosen.kategori})`)
+    return chosen
+  }
+
   if (clusterMatches.length > 0) {
-    console.log(`[TopikSelector] Ditemukan ${clusterMatches.length} topik segar sesuai jadwal cluster (${preferredCategories.join(', ')}).`)
-    return clusterMatches[0]
+    const chosen = clusterMatches[0]
+    console.log(`[TopikSelector] Terpilih topik cluster jadwal: "${chosen.topik}" (${chosen.kategori})`)
+    return chosen
   }
 
   if (available.length > 0) {
-    console.log(`[TopikSelector] Cluster utama habis, memilih dari ${available.length} topik segar kategori lain.`)
-    return available[0]
+    const chosen = available[0]
+    console.log(`[TopikSelector] Terpilih topik dari kategori alternatif: "${chosen.topik}" (${chosen.kategori})`)
+    return chosen
   }
 
-  // 2. Jika seluruh static pool sudah terpakai di D1, generate topik baru via Groq sesuai cluster jadwal
-  console.log('[TopikSelector] Seluruh static pool telah terbit. Meminta Groq membuat topik baru yang unik untuk cluster ini...')
+  // 2. Jika seluruh static pool sudah terpakai di D1, generate topik baru via Groq multi-komoditas
+  console.log('[TopikSelector] Seluruh static pool telah terbit. Meminta Groq membuat topik multi-komoditas baru...')
   try {
     const completion = await groq.chat.completions.create({
       model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
       messages: [
         {
           role: 'system',
-          content: 'Kamu adalah Fisheries Research Director APLESI. Buat 1 ide topik artikel panduan mendalam untuk budidaya lele/ikan air tawar yang belum pernah dibahas.'
+          content: 'Kamu adalah Fisheries Research Director APLESI Enterprise. Buat 1 ide topik artikel panduan mendalam multi-komoditas akuakultur Indonesia (Nila, Gurame, Udang Vaname, Lobster Air Tawar, Kepiting Bakau, Patin, Gabus, Bawal, atau Lele) yang belum pernah dibahas.'
         },
         {
           role: 'user',
-          content: `Berikut daftar sebagian judul artikel yang SUDAH ada di database kami:\n${existingTitles.slice(0, 20).map(t => `- "${t}"`).join('\n')}\n\nKategori prioritas sesi ini adalah: ${preferredCategories.join(', ')}.\nBuat 1 ide topik baru yang segar, spesifik, dan aplikatif untuk pembudidaya Indonesia. Kembalikan format JSON: {"topik": "string", "kategori": "${preferredCategories[0]}", "keywords": ["string"]}`
+          content: `Berikut daftar sebagian judul artikel yang SUDAH ada di database kami:\n${existingTitles.slice(0, 20).map(t => `- "${t}"`).join('\n')}\n\nKategori prioritas sesi ini adalah: ${preferredCategories.join(', ')}.\nHindari komoditas yang baru saja dibahas: ${Array.from(recentCommodities).join(', ')}.\nBuat 1 ide topik baru yang segar, bernilai ekonomi tinggi, dan aplikatif untuk pembudidaya Indonesia. Kembalikan format JSON: {"topik": "string", "kategori": "${preferredCategories[0]}", "keywords": ["string"]}`
         }
       ],
       response_format: { type: 'json_object' }

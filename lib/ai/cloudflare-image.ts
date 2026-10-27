@@ -75,16 +75,29 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
  */
 export function getContextualAquacultureFallback(slug: string): string {
   const s = slug.toLowerCase()
+
+  // 1. Commodity-aware check
+  if (s.includes('vaname') || s.includes('vannamei') || s.includes('udang') || s.includes('tambak')) {
+    return '/images/fallbacks/biofloc-pond.jpg'
+  }
+  if (s.includes('lobster') || s.includes('crayfish') || s.includes('kepiting') || s.includes('crab')) {
+    return '/images/fallbacks/biofloc-pond.jpg'
+  }
+  if (s.includes('lele') && (s.includes('indukan') || s.includes('pembenihan') || s.includes('benih') || s.includes('gonad') || s.includes('pemijahan'))) {
+    return '/images/fallbacks/catfish-breeding.jpg'
+  }
+
+  // 2. Topical categories
   if (s.includes('pakan') || s.includes('nutrisi') || s.includes('pelet') || s.includes('maggot') || s.includes('feeding')) {
     return '/images/fallbacks/pond-feeding.jpg'
   }
   if (s.includes('pembenihan') || s.includes('bibit') || s.includes('larva') || s.includes('indukan') || s.includes('gonad') || s.includes('pemijahan') || s.includes('telur')) {
     return '/images/fallbacks/catfish-breeding.jpg'
   }
-  if (s.includes('penyakit') || s.includes('kesehatan') || s.includes('jamur') || s.includes('air') || s.includes('probiotik') || s.includes('bakteri') || s.includes('moncong')) {
+  if (s.includes('penyakit') || s.includes('kesehatan') || s.includes('jamur') || s.includes('air') || s.includes('probiotik') || s.includes('bakteri') || s.includes('moncong') || s.includes('strepto')) {
     return '/images/fallbacks/water-testing.jpg'
   }
-  if (s.includes('panen') || s.includes('bisnis') || s.includes('pasar') || s.includes('asap') || s.includes('jual') || s.includes('bep') || s.includes('harga')) {
+  if (s.includes('panen') || s.includes('bisnis') || s.includes('pasar') || s.includes('asap') || s.includes('jual') || s.includes('bep') || s.includes('harga') || s.includes('grading')) {
     return '/images/fallbacks/catfish-harvest.jpg'
   }
   return '/images/fallbacks/biofloc-pond.jpg'

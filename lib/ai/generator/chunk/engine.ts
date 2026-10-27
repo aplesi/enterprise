@@ -23,7 +23,7 @@ Topik Utama Artikel: ${context.topik}
 Kategori: ${context.kategori}
 Tone: ${context.tone}
 
-${buildTechnicalDomainBounds()}
+${buildTechnicalDomainBounds(context.topik)}
 
 ${chunkCtx}
 

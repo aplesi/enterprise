@@ -15,7 +15,7 @@ Kategori: ${req.kategori}
 Keywords: ${req.keywords.join(', ')}
 Target Kata Total: ${req.targetWords}
 
-${buildTechnicalDomainBounds()}
+${buildTechnicalDomainBounds(req.topik)}
 
 ATURAN STRUKTUR (GEO & SEO STANDAR):
 1. Bagi artikel menjadi minimal 10 dan maksimal 15 section (H2).
