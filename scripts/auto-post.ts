@@ -2,9 +2,15 @@
 // scripts/auto-post.ts
 // Script yang dijalankan oleh GitHub Actions setiap hari
 
+import dotenv from 'dotenv'
+import path from 'path'
+
+// Load .env.local strictly before importing internal modules
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
+dotenv.config()
+
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
-import dotenv from 'dotenv'
 import Groq from 'groq-sdk'
 import { marked } from 'marked'
 import { generateArticleV2 } from '../lib/ai/generator/orchestrator'
@@ -18,9 +24,6 @@ import { buildFallbackImagePrompt } from '../lib/ai/groq'
 import { getContextualAquacultureFallback } from '../lib/ai/cloudflare-image'
 import { validateAndSanitizeArticle, sanitizeLatexMath, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
 import { notifySearchEngines } from '../lib/seo/indexer'
-
-dotenv.config()
-dotenv.config({ path: '.env.local' })
 
 function renderMarkdown(markdown) {
   const cleanMarkdown = sanitizeLatexMath(markdown)
@@ -442,13 +445,19 @@ async function generateArtikel(
 
 async function generateGambar(prompt) {
   console.log(`🖼️ Generating gambar via FLUX-1...`)
+  const accountId = process.env.CF_ACCOUNT_ID
+  const apiToken = process.env.CF_API_TOKEN
+  if (!accountId || !apiToken) {
+    console.warn('⚠️ CF_ACCOUNT_ID atau CF_API_TOKEN belum diset di environment.')
+    return null
+  }
   try {
     const response = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.CF_API_TOKEN}`,
+          Authorization: `Bearer ${apiToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -456,17 +465,25 @@ async function generateGambar(prompt) {
         }),
       }
     )
-    if (!response.ok) throw new Error(await response.text())
+    if (!response.ok) {
+      const errText = await response.text()
+      if (response.status === 429) {
+        console.warn(`⚠️ Cloudflare Workers AI kuota harian habis (429 Too Many Requests - 10,000 neurons limit). Menggunakan visual akuakultur otentik.`)
+      } else {
+        console.warn(`⚠️ Cloudflare Workers AI HTTP ${response.status} ${response.statusText}: ${errText}`)
+      }
+      return null
+    }
     const data = await response.json()
-    if (!data.result?.image) throw new Error('No image in FLUX-1 response')
-    // Decode base64 image (FLUX-1 returns JPEG) and convert to PNG for browser compatibility
+    if (!data.result?.image) {
+      console.warn('⚠️ FLUX-1 response tidak memuat field result.image')
+      return null
+    }
+    // Decode base64 image (FLUX-1 returns JPEG)
     const jpegBuffer = Buffer.from(data.result.image, 'base64')
-    // Save as PNG to avoid Next.js image optimization rejection
-    // Note: This requires sharp or similar library. For now, return as-is.
-    // The actual conversion happens in cloudflare-image.ts when saving to GitHub.
     return jpegBuffer
-  } catch (err) {
-    console.warn('⚠️ Generate gambar gagal:', err.message)
+  } catch (err: any) {
+    console.warn('⚠️ Generate gambar exception:', err.message)
     return null
   }
 }

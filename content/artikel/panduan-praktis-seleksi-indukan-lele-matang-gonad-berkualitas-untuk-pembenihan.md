@@ -2,7 +2,7 @@
 judul: "Panduan Praktis Seleksi Indukan Lele Matang Gonad Berkualitas untuk Pembenihan"
 slug: "panduan-praktis-seleksi-indukan-lele-matang-gonad-berkualitas-untuk-pembenihan"
 ringkasan: "Panduan lengkap mengenai teknik seleksi indukan lele matang gonad berkualitas untuk pembudidaya lele di Indonesia."
-gambar: "/images/fallbacks/catfish-breeding.jpg"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/panduan-praktis-seleksi-indukan-lele-matang-gonad-berkualitas-untuk-pembenihan.jpg"
 waktu_baca: 22
 kategori: "Pembenihan"
 tags: ["seleksi indukan lele", "indukan matang gonad", "pembenihan lele"]

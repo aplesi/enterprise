@@ -21,6 +21,10 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
   const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID
   const CF_API_TOKEN = process.env.CF_API_TOKEN
 
+  if (!CF_ACCOUNT_ID || !CF_API_TOKEN) {
+    throw new Error('CF_ACCOUNT_ID atau CF_API_TOKEN belum diset di environment')
+  }
+
   // FLUX-1 works best with detailed, descriptive prompts
   // Only add quality suffix, NOT generic fish farming terms that dilute specificity
   const enhancedPrompt = `${prompt}, sharp focus, well-lit, realistic photojournalism style, high resolution`
@@ -42,7 +46,10 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
 
   if (!response.ok) {
     const err = await response.text()
-    throw new Error(`Cloudflare AI error: ${err}`)
+    if (response.status === 429) {
+      throw new Error(`Cloudflare AI 429 Quota Exceeded (10,000 neurons daily limit reached): ${err}`)
+    }
+    throw new Error(`Cloudflare AI error (${response.status} ${response.statusText}): ${err}`)
   }
 
   const result = await response.json() as { result?: { image?: string }; errors?: unknown[] }
