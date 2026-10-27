@@ -118,7 +118,7 @@ function ArticlesSection({ articles }: { articles: any[] }) {
                     <span>·</span>
                     <span className="flex items-center gap-1">
                       <Clock className="h-3.5 w-3.5" />
-                      {artikel.waktuBaca} mnt
+                      {artikel.waktuBaca && artikel.waktuBaca > 0 ? artikel.waktuBaca : 5} mnt
                     </span>
                   </div>
                   <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug text-primary transition-colors group-hover:text-accent">

@@ -2,7 +2,8 @@
 judul: "Panduan Praktis Seleksi Indukan Lele Matang Gonad Berkualitas untuk Pembenihan"
 slug: "panduan-praktis-seleksi-indukan-lele-matang-gonad-berkualitas-untuk-pembenihan"
 ringkasan: "Panduan lengkap mengenai teknik seleksi indukan lele matang gonad berkualitas untuk pembudidaya lele di Indonesia."
-gambar: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=1200&q=80"
+gambar: "/images/fallbacks/catfish-breeding.jpg"
+waktu_baca: 22
 kategori: "Pembenihan"
 tags: ["seleksi indukan lele", "indukan matang gonad", "pembenihan lele"]
 penulis: "Tim Redaksi APLESI"
@@ -97,13 +98,13 @@ Volume flok bioflok 25 – 35 mL/L menandakan populasi mikroba aktif yang 
 Untuk prosedur pemantauan terperinci, lihat [Manajemen Kualitas Air Kolam Lele](/artikel/manajemen-kualitas-air-kolam-lele).
 
 ## Kriteria Teknis Seleksi Indukan Lele Berkualitas  
-Seleksi indukan lele matang gonad harus memenuhi tiga dimensi utama: fisik (ukuran benih 5‑9 cm dengan penampilan eksterior bebas luka atau deformitas), biokimia (kandungan protein tubuh 30‑35 % dan kadar lemak tidak melebihi 8 % untuk menghindari penurunan fertilitas), serta reproduktif (stadium gonad I‑IV yang teridentifikasi melalui inspeksi mikroskopik). Hanya individu yang lolos ketiga kriteria ini dapat dijadikan indukan berkualitas tinggi sesuai SNI/KKP.
+Seleksi indukan lele matang gonad harus memenuhi tiga dimensi utama: fisik (bobot indukan standar 700–1.200 gram dengan penampilan eksterior bebas luka atau deformitas), biokimia (kandungan nutrisi tubuh prima dan kadar lemak terkontrol tidak melebihi 8% agar tidak menimbun lemak di sekitar kantung gonad yang menghambat ovulasi), serta reproduktif (stadium gonad III–IV yang teridentifikasi melalui kanulasi atau visual papila urogenital). Hanya individu yang lolos ketiga kriteria ini yang layak dijadikan indukan unggul sesuai SNI/KKP.
 
-### 1. Kriteria Fisik (Ukuran Benih & Kondisi Eksterior)  
-1. Ukuran benih harus berada dalam rentang 5‑9 cm total panjang (TL). Pada fase ini, rasio berat‑panjang (W/L) ideal 1,2‑1,4 g/cm, menandakan pertumbuhan proporsional.  
-2. Kulit harus halus, tidak terdapat bekas luka, skala terkelupas, atau pertumbuhan eksotik (mis‑growth). Inspeksi visual dilakukan pada pencahayaan alami 1 000 lux untuk menghindari bias.  
-3. Sirip dorsal, pectoral, dan anal harus utuh, tidak melengkung atau robek; kondisi ini meminimalkan stres selama pemijahan.  
-4. Periksa warna insang; merah cerah menandakan oksigenasi optimal, sedangkan kebiruan atau pucat mengindikasikan hipoksia yang dapat menurunkan kualitas gamet.
+### 1. Kriteria Fisik (Bobot Indukan & Kondisi Eksterior)  
+1. Bobot indukan lele harus berada dalam rentang standar SNI yaitu 700–1.200 gram (0,7–1,2 kg) per ekor dengan panjang tubuh 35–50 cm. Indukan di bawah 700 gram umumnya belum matang optimal, sedangkan di atas 1,5 kg gerakannya lambat dan efisiensi pemijahan menurun.  
+2. Kulit harus licin, cerah, tidak berlendir berlebihan, dan bebas dari luka, borok (*Aeromonas*), atau cacat fisik. Inspeksi visual dilakukan di bawah pencahayaan terang untuk memastikan kesehatan sirip dan sungut.  
+3. Sirip dorsal, pektoral, dan ekor harus utuh tanpa sobekan; kelengkapan fisik ini mencegah infeksi jamur (*Saprolegnia*) pasca-pemijahan.  
+4. Warna insang harus merah segar menandakan sirkulasi oksigen optimal, bebas dari parasit insang (*Dactylogyrus*).
 
 ### 2. Kriteria Biokimia (Protein & Lemak Tubuh)  
 1. Protein tubuh harus berada pada 30‑35 % dari berat basah, yang tercapai dengan pemberian pakan benih 30‑35 % protein selama fase pertumbuhan awal (referensi: [Manajemen Kualitas Air Kolam Lele](/artikel/manajemen-kualitas-air-kolam-lele)). Analisis proximate dilakukan dengan metode Kjeldahl.  
@@ -113,24 +114,22 @@ Seleksi indukan lele matang gonad harus memenuhi tiga dimensi utama: fisik (ukur
 
 ### 3. Kriteria Reproduktif (Stadium Gonad I‑IV)  
 1. Gonad harus berada pada stadium I‑IV, dimana I = primordia, II = vitellogenesis awal, III = vitellogenesis penuh, IV = matang (pre‑spawning). Pemeriksaan dilakukan dengan preparat histologi 5 µm dan pewarnaan H&E.  
-2. Indeks Gonad (GSI) dihitung:  
+2. Indeks Gonad (GSI) dihitung dengan formula:  
 
-\[
-\text{GSI} = \frac{\text{Berat Gonad (g)}}{\text{Berat Total (g)}} \times 100
-\]
+> **Rumus Indeks Kematangan Gonad (GSI):** (Bobot Gonad (gram) ÷ Bobot Total Tubuh (gram)) × 100%
 
-Nilai GSI ≥ 5 % menandakan stadium III‑IV, yang merupakan ambang minimal untuk indukan matang gonad.  
+Nilai GSI ≥ 5 % menandakan stadium III‑IV, yang merupakan ambang minimal kematangan gonad untuk indukan lele siap pijah.  
 3. Pada stadium III, oosit berdiameter 0,8‑1,2 mm dengan vitellin terdistribusi merata; pada stadium IV, oosit mencapai 1,5‑2,0 mm dan menunjukkan zona pellucida tebal.  
 4. Sperma pada stadium III‑IV harus memiliki motilitas ≥ 80 % dan konsentrasi ≥ 2 × 10⁶ sperma/mL, yang diukur dengan mikroskop fase kontras.
 
 | Parameter                | Nilai Minimum | Nilai Maksimum |
 |--------------------------|---------------|----------------|
-| Ukuran benih (TL)        | 5 cm          | 9 cm           |
-| Protein tubuh (%)        | 30            | 35             |
-| Lemak tubuh (%)          | 0             | 8              |
-| GSI (%)                  | 5             | —              |
-| Motilitas sperma (%)     | 80            | —              |
-| Konsentrasi sperma (×10⁶/mL) | 2          | —              |
+| Bobot Indukan (gram)     | 700           | 1.200          |
+| Panjang Tubuh (cm)       | 35            | 50             |
+| Kadar Lemak Tubuh (%)    | 0             | 8              |
+| GSI Indukan Betina (%)   | 5             | 12             |
+| Motilitas Sperma Jantan (%) | 80         | —              |
+| Konsentrasi Sperma (×10⁶/mL) | 2         | —              |
 
 Pemenuhan ketiga kriteria ini menjamin bahwa indukan lele matang gonad memiliki potensi reproduksi optimal, konversi pakan efisien (FCR 0,8‑1,1), dan menghasilkan benih dengan performa pertumbuhan yang konsisten.
 
@@ -200,9 +199,9 @@ Penyaringan indukan menilai ukuran, kondisi fisik, dan kematangan gonad secara v
 
 | Checklist Penyaringan | Kriteria | Status |
 |-----------------------|----------|--------|
-| Ukuran lele           | 7‑9 cm   | ☐ |
-| FCR fase pembesaran   | ≤ 1.1    | ☐ |
-| Kematangan gonad (ultrasonik) | > 70 % | ☐ |
+| Bobot indukan lele    | 700‑1.200 g | ☐ |
+| FCR pakan pemeliharaan | ≤ 1.1    | ☐ |
+| Kematangan gonad (kanulasi/papila) | Stadium III‑IV | ☐ |
 | Skor kesehatan       | ≤ 2 (tidak ada luka) | ☐ |
 
 * *Frekuensi monitoring:**satu kali per batch, dengan verifikasi ulang tiap 48 jam bila diperlukan.**Penanggung jawab:** Supervisor Pembenihan & Ahli Reproduksi.
@@ -229,49 +228,45 @@ Verifikasi akhir memastikan semua indukan memenuhi standar SNI sebelum dipindahk
 > Untuk integrasi lebih lanjut dengan sistem bioflok, lihat [Panduan Lengkap Sistem Bioflok Budidaya Lele Intensif: SOP dari Persiapan Kolam hingga Panen](/artikel/sistem-bioflok-budidaya-lele-intensif).
 
 ## Perhitungan FCR, Dosis Pakan, dan Rasio C/N Bioflok  
-FCR (Feed Conversion Ratio) mengukur efisiensi pakan dengan membandingkan total pakan yang diberikan (kg) terhadap total biomassa lele yang dihasilkan (kg). Dosis pakan per biomassa dihitung dari FCR dikalikan persentase protein pakan, sedangkan rasio C/N bioflok ditentukan oleh total karbon yang disuplai (molase + inokulan *Bacillus sp.*) dibagi nitrogen amonia terlarut. Rumus‑rumus ini wajib dipatuhi untuk mencapai FCR ideal 0,8‑1,1 dan rasio C/N 12:1‑15:1 sesuai SNI.
+FCR (Feed Conversion Ratio) mengukur efisiensi pakan dengan membandingkan total pakan yang diberikan (kg) terhadap total biomassa lele yang dihasilkan (kg). Kebutuhan pakan harian dihitung berdasarkan persentase feeding rate (FR) terhadap total biomassa kolam (3%–5% untuk fase pembesaran, 1%–2% untuk pemeliharaan indukan). Sementara itu, rasio C/N bioflok ditentukan dari perbandingan total karbon tambahan (molase) terhadap total nitrogen amonia terlarut untuk menjaga parameter SNI.
 
-### 1. FCR dan Dosis Pakan  
-FCR memberikan indikator utama profitabilitas budidaya lele. Rumus dasar:  
+### 1. FCR dan Manajemen Pakan (Feeding Rate)  
+FCR menjadi indikator utama efisiensi biaya budidaya lele. Rumus baku FCR:  
 
-\[
-\text{FCR} = \frac{\text{Total Pakan (kg)}}{\text{Total Biomassa (kg)}}
-\]
+> **Rumus Feed Conversion Ratio (FCR):** Total Pakan Diberikan (kg) ÷ Total Pertambahan Bobot Biomassa Lele (kg)
 
-Dosis pakan per biomassa (kg pakan / kg biomassa) dihitung dengan memperhitungkan kadar protein pakan:  
+Untuk pemberian pakan harian, pembudidaya berpatokan pada feeding rate (FR) harian sesuai standar SNI:  
 
-\[
-\text{Dosis Pakan} = \frac{\text{FCR} \times \text{Protein\%}}{100}
-\]
+> **Rumus Kebutuhan Pakan Harian (Feeding Rate / FR):**  
+> Pakan Harian (kg) = Total Biomassa Kolam (kg) × Persentase FR (3% – 5% per hari)
 
-Jika FCR = 0,95 dan pakan mengandung 32 % protein, dosis pakan = 0,95 × 32 / 100 = 0,304 kg pakan / kg biomassa (304 g). Nilai ini menjadi acuan harian pada fase pembesaran lele (biomassa 0,5‑1 kg / ekor) untuk menjaga FCR dalam batas SNI.
+Pada fase pembesaran lele konsumsi (ukuran panen 8–12 ekor/kg atau bobot 80–125 gram/ekor), dosis pakan harian standar adalah 3%–5% dari total biomassa kolam, dibagi dalam 2–3 kali jadwal pemberian (pagi, sore, dan malam). Untuk indukan matang gonad (bobot standar 700–1.200 gram/ekor), dosis pakan diberikan sebanyak 1%–2% biomassa per hari menggunakan pelet protein 32%–35% ditambah pakan segar bernutrisi (seperti cacing tanah atau keong mas) untuk memacu vitellogenesis tanpa membuat indukan berlemak berlebih.
 
 ### 2. Rasio C/N Bioflok  
-Rasio C/N mengontrol pertumbuhan mikroorganisme bioflok yang memetabolisme amonia menjadi nitrogen tak berbahaya. Rumusnya:  
+Rasio C/N mengontrol pertumbuhan mikroorganisme heterotrof bioflok yang memetabolisme amonia beracun menjadi biomassa flok protein. Rumusnya:  
 
-\[
-\text{Rasio C/N} = \frac{C_{\text{molase}} + C_{\text{inokulan}}}{N_{\text{amonia}}}
-\]
+> **Rumus Rasio C/N Bioflok:** Total Karbon Organik Tambahan (Molase) ÷ Total Nitrogen Amonia Terlarut
 
-Molase menyediakan karbon (≈ 0,4 g C / g molase). Inokulan *Bacillus sp.* menambah ~0,05 g C / ml. Untuk mencapai rasio 13:1 pada kolam 1 m³ dengan amonia terlarut 0,08 mg L⁻¹ (≈ 0,001 g N), diperlukan total C ≈ 0,013 g, yang dapat dipenuhi dengan 30 ml molase (12 g C) dan 5 ml inokulan (0,25 g C).  
+Molase menyediakan sekitar 40% karbon organik (≈ 0,4 g C per gram molase). Inokulan *Bacillus sp.* menambah populasi bakteri pengurai. Untuk mencapai rasio 12:1 hingga 15:1 sesuai SNI pada kolam 1 m³ dengan amonia terlarut 0,08 mg/L (≈ 0,001 g N), diperlukan penambahan karbon terukur:
 
-| Parameter | Nilai | Satuan |
-|-----------|-------|--------|
-| Amonia (NH₃) | 0,08 | mg L⁻¹ |
-| Molase | 30 | ml |
-| Inokulan *Bacillus sp.* | 5 | ml |
-| Rasio C/N target | 13:1 | – |
+| Parameter | Nilai Rekomendasi | Satuan |
+|-----------|-------------------|--------|
+| Amonia Bebas (NH₃) | < 0,1 | mg/L |
+| Rasio C/N Target | 12:1 – 15:1 | – |
+| Dosis Molase Awal | 30 – 50 | mL/m³ kolam |
+| Inokulan *Bacillus sp.* | 5 – 10 | mL/m³ kolam |
 
-### 3. Contoh Perhitungan 1 m³ Kolam  
-Misalkan kolam 1 m³ menghasilkan 12 kg biomassa lele dalam siklus 30 hari. Total pakan yang diberikan = FCR × biomassa = 0,92 × 12 = 11,04 kg. Dengan pakan 32 % protein, dosis pakan per biomassa = (0,92 × 32)/100 = 0,294 kg pakan / kg biomassa (≈ 294 g).  
+### 3. Contoh Perhitungan Praktis Kolam 1 m³  
+Misalkan kolam terpal 1 m³ memelihara 120 ekor lele konsumsi dengan rata-rata bobot 100 gram/ekor (total biomassa kolam 12 kg). Pada feeding rate standar 4% per hari, kebutuhan pakan harian adalah:  
+`12 kg biomassa × 4% = 0,48 kg (480 gram pakan pelet per hari)`.  
+Pakan ini dibagi menjadi dua sesi: 240 gram pagi hari (09:00) dan 240 gram sore hari (17:00).
 
-Untuk rasio C/N 14:1, amonia terukur 0,07 mg L⁻¹ (≈ 0,00087 g N). Total C yang dibutuhkan = 0,00087 g N × 14 = 0,0122 g C. Dosis molase = 0,0122 g C / 0,4 g C g⁻¹ ≈ 30 ml, ditambah 5 ml inokulan *Bacillus sp.* untuk menutup selisih.  
-
-Implementasi perhitungan ini memastikan FCR berada pada rentang 0,8‑1,1, dosis protein tepat, dan rasio C/N optimal, sehingga produksi lele mencapai kualitas gonad matang sesuai standar SNI.  
+Jika dalam satu siklus pembesaran total pakan yang dihabiskan adalah 11,4 kg untuk menghasilkan pertambahan biomassa 12 kg lele siap panen, maka:  
+`FCR = 11,4 kg pakan ÷ 12 kg biomassa = 0,95` (masuk rentang ideal SNI 0,8–1,1).
 
 * Referensi SOP bioflok lengkap:* [Panduan Lengkap Sistem Bioflok Budidaya Lele Intensif: SOP dari Persiapan Kolam hingga Panen](/artikel/sistem-bioflok-budidaya-lele-intensif)
 
-## Studi Kasus: Implementasi Seleksi Indukan di Farm X (2024)  
+## Studi Kasus: Implementasi Seleksi Indukan di Farm X (2026)  
 Implementasi seleksi indukan lele matang gonad di Farm X menghasilkan penurunan FCR dari 1.25 menjadi 0.92, peningkatan pertumbuhan rata‑rata menjadi 3.8 cm/minggu, dan ROI 38 % dalam 6 bulan. Analisis AI mengidentifikasi korelasi kuat antara indeks kematangan gonad (score ≥ 8) dan efisiensi pakan, memvalidasi standar SNI air (suhu 27 °C, pH 7.2, DO > 4 mg/L).
 
 ### Data Awal vs. Hasil Seleksi  
@@ -330,9 +325,7 @@ Campurkan garam secara merata menggunakan pompa sirkulasi selama 30 menit, kem
 Rasio C/N = **(Total Karbon yang ditambahkan) / (Total Nitrogen yang dihasilkan)**. Pada bioflok lele, gunakan molase (C ≈ 0.4 g C/g) atau tetes tebu (C ≈ 0.45 g C/g) sebagai sumber karbon, dan asumsikan nitrogen dari protein pakan (N ≈ 0.16 g N/g protein).  
 
 Rumus:  
-\[
-\text{C/N} = \frac{C_{\text{karbon (g)}}}{N_{\text{nitrogen (g)}}}
-\]
+> **Rasio C/N:** Total Karbon Terlarut (gram) ÷ Total Nitrogen Terlarut (gram)
 
 Contoh: 30 kg pakan dengan 30 % protein → N = 30 kg × 0.30 × 0.16 = 1.44 kg N. Tambahkan 20 kg molase → C = 20 kg × 0.40 = 8 kg C.  
 C/N = 8 / 1.44 ≈ **5.6**, masih di bawah target 12‑15. Tambahkan molase hingga C ≈ 18 kg (C/N ≈ 12.5).  
@@ -354,7 +347,7 @@ Seleksi indukan matang gonad yang mematuhi standar SNI merupakan kunci stabilita
 |----|--------------|--------------------------------------|
 | 1 | **Verifikasi Parameter Air Harian** | Catat suhu 26‑30 °C, pH 7.0‑7.5, DO > 3 mg/L; koreksi dengan aerasi atau penambahan air bersih bila melampaui batas. |
 | 2 | **Ukur Volume Flok Bioflok (15‑40 mL/L)** | Gunakan kerucut Imhoff; bila di bawah 15 mL/L, tambahkan sumber karbon (molase) untuk mencapai rasio C/N 12:1‑15:1. |
-| 3 | **Seleksi Gonad Berdasarkan Ukuran & Kematangan** | Pilih lele 7‑9 cm dengan gonad padat, tidak ada kista; gunakan palpasi ringan dan inspeksi visual. |
+| 3 | **Seleksi Indukan Berdasarkan Bobot & Kematangan** | Pilih indukan lele 700–1.200 gram dengan gonad matang stadium III–IV (perut buncit lembek pada betina, papila urogenital meruncing kemerahan pada jantan). |
 | 4 | **Terapkan Dosis Garam Krosok 1‑2 kg/m³** | Garam non‑yodium meningkatkan osmoregulasi dan mengurangi patogen pada indukan selama fase pemijahan. |
 | 5 | **Catat FCR dan Sesuaikan Pakan** | Hitung FCR harian; pertahankan 0.8‑1.1 dengan pakan 30‑35 % protein untuk benih dan 26‑30 % untuk fase pembesaran. |
 

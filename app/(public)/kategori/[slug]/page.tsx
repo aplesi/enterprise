@@ -106,7 +106,7 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
                       <p className="text-gray-500 text-sm line-clamp-2 mb-3">{artikel.ringkasan}</p>
                       <div className="flex items-center justify-between text-xs text-gray-400">
                         <span>{formatTanggal(artikel.tanggal)}</span>
-                        <span>{artikel.waktuBaca} mnt baca</span>
+                        <span>{artikel.waktuBaca && artikel.waktuBaca > 0 ? artikel.waktuBaca : 5} mnt baca</span>
                       </div>
                     </div>
                   </Link>

@@ -127,7 +127,7 @@ export default async function PenulisPage({ params }: { params: Promise<{ nama: 
                     </h3>
                     <div className="flex items-center justify-between text-xs text-gray-400">
                       <span>{formatTanggal(artikel.tanggal)}</span>
-                      <span>{artikel.waktuBaca} mnt baca</span>
+                      <span>{artikel.waktuBaca && artikel.waktuBaca > 0 ? artikel.waktuBaca : 5} mnt baca</span>
                     </div>
                   </div>
                 </Link>

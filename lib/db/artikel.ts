@@ -29,7 +29,9 @@ function rowToArtikel(row: Record<string, unknown>): Artikel {
       ? { nama: row.sumber_berita_nama as string, url: (row.sumber_berita_url as string) || '' }
       : undefined,
     tanggalBerita: (row.tanggal_berita as string) || undefined,
-    waktuBaca: (row.waktu_baca as number) || 0,
+    waktuBaca: (typeof row.waktu_baca === 'number' && row.waktu_baca > 0)
+      ? row.waktu_baca
+      : Math.max(1, Math.ceil(((row.konten as string) || (row.ringkasan as string) || '').split(/\s+/).filter(Boolean).length / 200)),
   }
 }
 

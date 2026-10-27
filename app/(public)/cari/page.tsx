@@ -106,7 +106,7 @@ export default async function CariPage({
                     <div className="flex items-center gap-2 mt-1.5 text-xs text-gray-400">
                       <span>{formatTanggal(artikel.tanggal)}</span>
                       <span>·</span>
-                      <span>{artikel.waktuBaca} mnt baca</span>
+                      <span>{artikel.waktuBaca && artikel.waktuBaca > 0 ? artikel.waktuBaca : 5} mnt baca</span>
                     </div>
                   </div>
                 </Link>

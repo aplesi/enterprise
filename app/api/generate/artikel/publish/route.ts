@@ -69,6 +69,7 @@ export async function POST(req: NextRequest) {
         tags: artikel.tags,
         penulis: 'Tim Redaksi APLESI',
         tanggal,
+        waktuBaca,
         seoTitle: artikel.seoTitle,
         seoDesc: artikel.seoDesc,
         status: 'published',

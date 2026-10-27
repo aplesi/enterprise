@@ -27,7 +27,8 @@ ATURAN STRUKTUR (GEO & SEO STANDAR):
 7. Section terakhir harus berisi Kesimpulan dan Rekomendasi Aksi.
 8. JANGAN gunakan bahasa yang bertele-tele di intent.${existingWarning}
 9. JANGAN tambahkan karakter '#' pada properti heading.
-10. Kamu WAJIB merespons dengan JSON valid yang sesuai persis dengan skema berikut:
+10. TAHUN DAN WAKTU: Tahun saat ini adalah 2026. DILARANG KERAS mencantumkan tahun lampau seperti 2023, 2024, atau 2025 di judul maupun heading. Jika membutuhkan konteks waktu/tahun, gunakan '2026' atau format evergreen tanpa tahun.
+11. Kamu WAJIB merespons dengan JSON valid yang sesuai persis dengan skema berikut:
 
 {
   "title": "Judul SEO Friendly dan Otoritatif (Maks 60 Karakter)",

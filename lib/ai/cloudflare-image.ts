@@ -68,19 +68,19 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
  */
 export function getContextualAquacultureFallback(slug: string): string {
   const s = slug.toLowerCase()
-  if (s.includes('pakan') || s.includes('nutrisi') || s.includes('pelet') || s.includes('maggot')) {
-    return 'https://images.unsplash.com/photo-1534043464124-3be32fe00099?auto=format&fit=crop&w=1200&q=80'
+  if (s.includes('pakan') || s.includes('nutrisi') || s.includes('pelet') || s.includes('maggot') || s.includes('feeding')) {
+    return '/images/fallbacks/pond-feeding.jpg'
   }
-  if (s.includes('pembenihan') || s.includes('bibit') || s.includes('larva') || s.includes('indukan')) {
-    return 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=1200&q=80'
+  if (s.includes('pembenihan') || s.includes('bibit') || s.includes('larva') || s.includes('indukan') || s.includes('gonad') || s.includes('pemijahan') || s.includes('telur')) {
+    return '/images/fallbacks/catfish-breeding.jpg'
   }
-  if (s.includes('penyakit') || s.includes('kesehatan') || s.includes('jamur') || s.includes('air') || s.includes('probiotik')) {
-    return 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80'
+  if (s.includes('penyakit') || s.includes('kesehatan') || s.includes('jamur') || s.includes('air') || s.includes('probiotik') || s.includes('bakteri') || s.includes('moncong')) {
+    return '/images/fallbacks/water-testing.jpg'
   }
-  if (s.includes('panen') || s.includes('bisnis') || s.includes('pasar') || s.includes('asap') || s.includes('jual')) {
-    return 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80'
+  if (s.includes('panen') || s.includes('bisnis') || s.includes('pasar') || s.includes('asap') || s.includes('jual') || s.includes('bep') || s.includes('harga')) {
+    return '/images/fallbacks/catfish-harvest.jpg'
   }
-  return '/images/hero-pond.jpg'
+  return '/images/fallbacks/biofloc-pond.jpg'
 }
 
 /**

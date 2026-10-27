@@ -16,14 +16,15 @@ import { runEditorialReview } from '../lib/ai/editor/engine'
 import { metrics } from '../lib/metrics/collector'
 import { buildFallbackImagePrompt } from '../lib/ai/groq'
 import { getContextualAquacultureFallback } from '../lib/ai/cloudflare-image'
-import { validateAndSanitizeArticle, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
+import { validateAndSanitizeArticle, sanitizeLatexMath, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
 import { notifySearchEngines } from '../lib/seo/indexer'
 
 dotenv.config()
 dotenv.config({ path: '.env.local' })
 
 function renderMarkdown(markdown) {
-  const tokens = marked.lexer(markdown)
+  const cleanMarkdown = sanitizeLatexMath(markdown)
+  const tokens = marked.lexer(cleanMarkdown)
   const groupedTokens = []
   let currentGroup = []
 
@@ -124,7 +125,7 @@ async function d1EnsureUniqueSlug(baseSlug: string): Promise<string> {
   return candidate
 }
 
-async function d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml) {
+async function d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml, waktuBaca) {
   if (!D1_URL || !process.env.CF_API_TOKEN) {
     console.warn('⚠️ D1 credentials tidak lengkap, skip D1 insert')
     return
@@ -136,8 +137,8 @@ async function d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, konten_html, gambar, kategori, tags, penulis, tanggal, seo_title, seo_desc, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      sql: `INSERT OR IGNORE INTO artikel (slug, judul, ringkasan, konten, konten_html, gambar, kategori, tags, penulis, tanggal, waktu_baca, seo_title, seo_desc, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       params: [
         slug,
         artikel.judul,
@@ -149,6 +150,7 @@ async function d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml) {
         JSON.stringify(artikel.tags || []),
         'Tim Redaksi APLESI',
         tanggal,
+        waktuBaca || 5,
         artikel.seoTitle || null,
         artikel.seoDesc || null,
         'published',
@@ -241,6 +243,38 @@ function slugify(text: string): string {
     .trim()
 }
 
+const DEDUP_STOPWORDS = new Set([
+  'dan', 'atau', 'untuk', 'pada', 'di', 'ke', 'dari', 'yang', 'dengan', 'secara',
+  'cara', 'panduan', 'teknik', 'metode', 'tips', 'trik', 'lengkap', 'praktis', 'optimal',
+  '2023', '2024', '2025', '2026', 'lele', 'ikan', 'budidaya'
+])
+
+function extractTopicKeywords(text: string): Set<string> {
+  const words = text.toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length > 2 && !DEDUP_STOPWORDS.has(w))
+  return new Set(words)
+}
+
+function isTopicDuplicate(topic: string, existingTitles: string[], existingSlugs: Set<string>): boolean {
+  const topicKws = Array.from(extractTopicKeywords(topic))
+  if (topicKws.length === 0) return false
+
+  const allExisting = [...existingTitles, ...Array.from(existingSlugs)]
+
+  for (const item of allExisting) {
+    const itemKws = extractTopicKeywords(item)
+    const matchCount = topicKws.filter(w => itemKws.has(w)).length
+    const overlapRatio = matchCount / topicKws.length
+    // Jika 60% atau lebih kata kunci signifikan sama persis, anggap topik sudah dibahas
+    if (overlapRatio >= 0.6) {
+      return true
+    }
+  }
+  return false
+}
+
 async function pilihTopikUnik(
   existingSlugs: Set<string>,
   existingTitles: string[],
@@ -255,12 +289,13 @@ async function pilihTopikUnik(
     }
   }
 
-  // 1. Cari topik dari static pool yang belum ada di D1 (berdasarkan slug dan judul)
+  // 1. Cari topik dari static pool yang belum ada di D1 (berdasarkan slug, judul, & token similarity)
   const available = TOPIK_EVERGREEN_POOL.filter(item => {
     const s = slugify(item.topik)
     const slugExists = existingSlugs.has(s) || Array.from(existingSlugs).some(es => es.includes(s) || s.includes(es))
     const titleExists = existingTitles.some(t => t.toLowerCase().includes(item.topik.toLowerCase()))
-    return !slugExists && !titleExists
+    const hasOverlap = isTopicDuplicate(item.topik, existingTitles, existingSlugs)
+    return !slugExists && !titleExists && !hasOverlap
   })
 
   // Prioritaskan topik yang cocok dengan preferred cluster jadwal ini
@@ -417,8 +452,7 @@ async function generateGambar(prompt) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: `${prompt}, professional photography, high quality, 4k`,
-          steps: 4,
+          prompt: `${prompt}, realistic Indonesian aquaculture documentary photography, 4k`,
         }),
       }
     )
@@ -607,6 +641,10 @@ async function main() {
         console.log(`ℹ️ Menggunakan fallback visual kontekstual: ${gambarPath}`)
       }
 
+      // Hitung reading time akurat (rata-rata 200 kata/menit)
+      const wordCount = artikel.konten ? artikel.konten.split(/\s+/).filter(Boolean).length : 0
+      const waktuBaca = Math.max(1, Math.ceil(wordCount / 200))
+
       // Buat file markdown dengan frontmatter
       const frontmatter = `---
 judul: "${artikel.judul}"
@@ -617,6 +655,7 @@ kategori: "${artikel.kategori || 'Pembenihan'}"
 tags: [${artikel.tags.map(t => `"${t}"`).join(', ')}]
 penulis: "Tim Redaksi APLESI"
 tanggal: "${tanggal}"
+waktu_baca: ${waktuBaca}
 status: "published"
 seoTitle: "${artikel.seoTitle}"
 seoDesc: "${artikel.seoDesc}"
@@ -628,7 +667,7 @@ ${artikel.konten}`
         const artikelDir = join(process.cwd(), 'content', 'artikel')
         await mkdir(artikelDir, { recursive: true })
         await writeFile(join(artikelDir, `${slug}.md`), frontmatter)
-        console.log(`✅ Artikel disimpan: ${slug}.md`)
+        console.log(`✅ Artikel disimpan: ${slug}.md (waktu baca: ${waktuBaca} mnt)`)
       } catch (fsErr: any) {
         console.warn(`⚠️ Gagal simpan file .md (lingkungan read-only):`, fsErr.message)
       }
@@ -636,8 +675,8 @@ ${artikel.konten}`
       // Pre-render markdown → HTML dan simpan ke D1
       try {
         const kontenHtml = renderMarkdown(artikel.konten)
-        await d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml)
-        console.log(`✅ Artikel disimpan ke D1: ${slug}`)
+        await d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml, waktuBaca)
+        console.log(`✅ Artikel disimpan ke D1: ${slug} (waktu_baca: ${waktuBaca})`)
 
         // Instant Indexing Ping: Notifikasi ke Google, Bing, Perplexity & ChatGPT Search
         const publishedUrl = `https://www.aplesi.my.id/artikel/${slug}`

@@ -18,6 +18,10 @@ export interface AquacultureStandards {
     proteinGrowout: string
     bioflocCnRatio: string
     saltDosage: string
+    feedingRateGrowout: string
+    feedingRateBroodstock: string
+    harvestWeightCatfish: string
+    broodstockWeightCatfish: string
   }
   pricingIDR: {
     feedPerSack: string
@@ -40,6 +44,10 @@ export const AQUACULTURE_STANDARDS: AquacultureStandards = {
     proteinGrowout: '26% – 30% (tahap pembesaran hingga panen konsumsi)',
     bioflocCnRatio: '12:1 sampai 15:1 (sumber karbon molase/tetes tebu + inokulan Bacillus sp.)',
     saltDosage: '1 – 2 kg/m³ garam krosok non-yodium untuk antiseptik & osmoregulasi',
+    feedingRateGrowout: '3% – 5% dari total biomassa ikan per hari (dibagi 2-3 kali pemberian: pagi, sore, malam)',
+    feedingRateBroodstock: '1% – 2% dari total biomassa indukan per hari (pakan pelet protein 32-35% + pakan alami)',
+    harvestWeightCatfish: '8 – 12 ekor/kg (bobot 80 – 125 gram per ekor konsumsi, masa budidaya 60-75 hari)',
+    broodstockWeightCatfish: '700 – 1.200 gram per ekor (betina) dan 800 – 1.500 gram per ekor (jantan), umur > 1 tahun',
   },
   pricingIDR: {
     feedPerSack: 'Rp 320.000 – Rp 380.000 per sak 30 kg (protein 30-32%)',
@@ -75,17 +83,29 @@ export function buildTechnicalDomainBounds(): string {
    - Amonia Bebas (TAN / NH3): ${s.catfish.tanAmmonia}
    - Nitrit (NO2): ${s.catfish.nitrite}
    - Volume Flok Bioflok: ${s.catfish.flocVolume}
-2. Produksi, Nutrisi & FCR:
+2. Produksi, Nutrisi, Feeding Rate & FCR:
    - Target FCR Ideal: ${s.catfish.fcr}
+   - Rumus FCR yang Benar: FCR = Total Pakan Diberikan (kg) ÷ (Total Bobot Panen (kg) - Bobot Awal Tebar (kg))
+   - Kebutuhan Pakan Harian Pembesaran (Feeding Rate / FR): ${s.catfish.feedingRateGrowout}
+   - Rumus Kebutuhan Pakan Harian: Pakan Harian (kg) = Total Biomassa Ikan di Kolam (kg) × Persentase FR (3% – 5%)
+   - Kebutuhan Pakan Harian Indukan: ${s.catfish.feedingRateBroodstock}
+   - DILARANG KERAS mengarang rumus pakan palsu seperti (FCR x Protein%) / 100!
    - Kadar Protein Pakan Benih: ${s.catfish.proteinNursery}
    - Kadar Protein Pembesaran: ${s.catfish.proteinGrowout}
    - Rasio C/N Bioflok: ${s.catfish.bioflocCnRatio}
    - Dosis Garam Krosok: ${s.catfish.saltDosage}
-3. Acuan Biaya Riil Pasar Indonesia (Rupiah):
+3. Ukuran & Bobot Lele Standar Pasar Indonesia:
+   - Ukuran Panen Lele Konsumsi: ${s.catfish.harvestWeightCatfish}
+   - DILARANG mengklaim lele konsumsi berbobot 0,5–1 kg/ekor!
+   - Ukuran Indukan Lele Matang Gonad: ${s.catfish.broodstockWeightCatfish}
+4. Acuan Biaya Riil Pasar Indonesia (Rupiah):
    - Pakan Pabrikan: ${s.pricingIDR.feedPerSack}
    - Benih Lele Ukur 5-7 cm: ${s.pricingIDR.fingerlings57cm}
    - Benih Lele Ukur 7-9 cm: ${s.pricingIDR.fingerlings79cm}
    - Harga Jual Panen Pembudidaya: ${s.pricingIDR.harvestMarketPrice}
+5. Ketepatan Waktu & Tahun:
+   - TAHUN SAAT INI ADALAH 2026.
+   - DILARANG KERAS mencantumkan tahun lampau (2023, 2024, 2025) pada judul, heading, slug, atau teks artikel! Gunakan '2026' jika relevan, atau tuliskan secara evergreen tanpa tahun.
 
 DILARANG KERAS MENGHALUSINASIKAN parameter di luar ambang batas ilmiah di atas!`
 }
@@ -120,8 +140,12 @@ ${linkTargets.slice(0, 5).map(t => `   - [${t.judul}](/artikel/${t.slug})`).join
 3. TABEL PARAMETER / KOMPARASI MARKDOWN:
    Wajib memiliki minimal satu tabel Markdown terstruktur (| Parameter | Standar Ideal | Dampak Buruk | Solusi Koreksi | atau tabel analisa biaya).
 
-4. SOP & FORMULA KALKULASI KONKRET:
-   Wajib mencantumkan minimal satu rumus atau SOP perhitungan matematis praktis (contoh: rumus FCR = Total Pakan / (Bobot Panen - Bobot Awal), atau rumus penambahan molase C/N, atau feeding rate 3-5% biomassa).
+4. SOP & FORMULA KALKULASI KONKRET (PLAIN TEXT ONLY — TANPA LATEX):
+   Wajib mencantumkan minimal satu rumus atau SOP perhitungan matematis praktis.
+   DILARANG MENGGUNAKAN SINTAKS LATEX MATH (\\frac, \\text, \\times, \\[, \\], $$, dll).
+   Tuliskan semua rumus menggunakan teks tebal atau callout Markdown biasa dengan simbol aritmatika standar (÷, ×, +, -, /), contoh:
+   > **Rumus FCR:** Total Pakan yang Diberikan (kg) ÷ Total Pertambahan Bobot Biomassa Lele (kg)
+   > **Rumus Kebutuhan Pakan Harian:** Total Biomassa Lele (kg) × Persentase FR (3% – 5% per hari)
 
 5. STRUKTUR FAQ SPESIFIK:
    Pada section FAQ, buat 4–5 pertanyaan teknis menggunakan heading ### Pertanyaan? diikuti jawaban langsung 2-3 kalimat padat.${linkInstruction}`
@@ -144,6 +168,45 @@ GAYA PENULISAN:
 - Fokus pada solusi aplikatif, data metrik, prosedur bertahap, dan mitigasi kegagalan kolam.`
 }
 
+/**
+ * Membersihkan sintaks LaTeX mentah (\text, \frac, \times, \[, \], $$)
+ * menjadi teks biasa yang rapi dan mudah dibaca di Markdown/HTML.
+ */
+export function sanitizeLatexMath(content: string): string {
+  if (!content) return ''
+  let s = content
+
+  // 1. Bersihkan subscript berformat _{...} menjadi _...
+  s = s.replace(/_\{([^}]+)\}/g, '_$1')
+
+  // 2. Loop unwrap \text{...}
+  while (/\\+text\{/i.test(s)) {
+    s = s.replace(/\\+text\{([^{}]+)\}/g, '$1')
+  }
+
+  // 3. Loop unwrap \frac{A}{B} menjadi (A ÷ B)
+  while (/\\+frac\{/i.test(s)) {
+    s = s.replace(/\\+frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1 ÷ $2)')
+  }
+
+  // 4. Operator matematika LaTeX
+  s = s.replace(/\\+times/g, '×')
+  s = s.replace(/\\+cdot/g, '·')
+  s = s.replace(/\\+approx/g, '≈')
+
+  // 5. Delimiter blok matematika
+  s = s.replace(/\\+\[\s*/g, '')
+  s = s.replace(/\s*\\+\]/g, '')
+  s = s.replace(/\\+\(\s*/g, '')
+  s = s.replace(/\s*\\+\)/g, '')
+  s = s.replace(/\$\$\s*/g, '')
+
+  // 6. Sanitasi tahun usang (2024/2025) menjadi 2026
+  s = s.replace(/\b(2023|2024|2025)\b/g, '2026')
+
+  return s
+}
+
 export interface ValidationReport {
   valid: boolean
   errors: string[]
@@ -159,10 +222,11 @@ export interface ValidationReport {
 
 /**
  * Validasi ketat artikel hasil generate sebelum publish ke D1/Markdown:
- * 1. Memeriksa jumlah kata (minimal 1.200 kata).
- * 2. Memeriksa keberadaan tabel Markdown.
- * 3. Memeriksa keberadaan FAQ.
- * 4. Memverifikasi internal links: Link ke /artikel/(slug) yang tidak ada di validSlugs
+ * 1. Sanitasi otomatis sintaks LaTeX & tahun halusinasi.
+ * 2. Memeriksa jumlah kata (minimal 1.200 kata).
+ * 3. Memeriksa keberadaan tabel Markdown.
+ * 4. Memeriksa keberadaan FAQ.
+ * 5. Memverifikasi internal links: Link ke /artikel/(slug) yang tidak ada di validSlugs
  *    otomatis dibersihkan menjadi plain text agar tidak menghasilkan 404 broken link!
  */
 export function validateAndSanitizeArticle(
@@ -171,21 +235,24 @@ export function validateAndSanitizeArticle(
 ): ValidationReport {
   const errors: string[] = []
 
+  // 0. Bersihkan LaTeX math dan tahun usang
+  const cleanLatex = sanitizeLatexMath(content)
+
   // 1. Hitung jumlah kata
-  const words = content.split(/\s+/).filter(Boolean)
+  const words = cleanLatex.split(/\s+/).filter(Boolean)
   const wordCount = words.length
   if (wordCount < 1200) {
     errors.push(`Jumlah kata (${wordCount}) di bawah batas minimum 1.200 kata`)
   }
 
   // 2. Cek tabel markdown (| Header | Header |)
-  const hasTable = /\|.+?\|[\r\n]+\|[-:| ]+\|/m.test(content)
+  const hasTable = /\|.+?\|[\r\n]+\|[-:| ]+\|/m.test(cleanLatex)
   if (!hasTable) {
     errors.push('Artikel belum memiliki tabel Markdown terstruktur')
   }
 
   // 3. Cek FAQ
-  const faqMatches = content.match(/###\s+[^?\n]+\?/g) || []
+  const faqMatches = cleanLatex.match(/###\s+[^?\n]+\?/g) || []
   const faqCount = faqMatches.length
   if (faqCount < 3) {
     errors.push(`Jumlah pertanyaan FAQ (${faqCount}) kurang dari minimal 3 pertanyaan`)
@@ -196,7 +263,7 @@ export function validateAndSanitizeArticle(
   let internalLinkCount = 0
   let strippedHallucinatedLinks = 0
 
-  const sanitizedContent = content.replace(
+  const sanitizedContent = cleanLatex.replace(
     /\[([^\]]+)\]\((\/artikel\/([a-zA-Z0-9_-]+))\)/g,
     (match, anchorText, fullPath, slug) => {
       // Jika slug terdaftar di D1, pertahankan link

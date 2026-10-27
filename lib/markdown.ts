@@ -1,7 +1,9 @@
 import { marked, Token, TokensList } from 'marked'
+import { sanitizeLatexMath } from './ai/skills/article-writer-skill'
 
 export function renderMarkdown(markdown: string): string {
-  const tokens = marked.lexer(markdown)
+  const cleanMarkdown = sanitizeLatexMath(markdown)
+  const tokens = marked.lexer(cleanMarkdown)
   const groupedTokens: Token[][] = []
   let currentGroup: Token[] = []
 
