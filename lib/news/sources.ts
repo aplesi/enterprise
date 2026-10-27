@@ -14,7 +14,33 @@ export interface SumberBerita {
 }
 
 export const SUMBER_BERITA: SumberBerita[] = [
-  // ---------- Indonesia ----------
+  // ---------- Indonesia (Bing News — menyertakan tag <News:Image>) ----------
+  {
+    id: 'bing-id-perikanan',
+    nama: 'Bing News — Budidaya Ikan & Perikanan',
+    url: 'https://www.bing.com/news/search?q=%22budidaya+ikan%22+OR+perikanan+OR+nelayan&format=rss',
+    asal: 'indonesia',
+  },
+  {
+    id: 'bing-id-kkp',
+    nama: 'Bing News — Kebijakan KKP',
+    url: 'https://www.bing.com/news/search?q=%22Kementerian+Kelautan+dan+Perikanan%22+OR+KKP&format=rss',
+    asal: 'indonesia',
+  },
+  {
+    id: 'bing-id-udang-tambak',
+    nama: 'Bing News — Udang & Tambak',
+    url: 'https://www.bing.com/news/search?q=%22budidaya+udang%22+OR+tambak+ikan&format=rss',
+    asal: 'indonesia',
+  },
+  {
+    id: 'bing-id-ekspor',
+    nama: 'Bing News — Ekspor Hasil Laut RI',
+    url: 'https://www.bing.com/news/search?q=%22ekspor+perikanan%22+OR+%22ekspor+udang%22+Indonesia&format=rss',
+    asal: 'indonesia',
+  },
+
+  // ---------- Indonesia (Google News) ----------
   {
     id: 'gnews-id-perikanan',
     nama: 'Google News — Perikanan & Budidaya Ikan',
@@ -41,6 +67,12 @@ export const SUMBER_BERITA: SumberBerita[] = [
   },
 
   // ---------- Internasional ----------
+  {
+    id: 'bing-en-aquaculture',
+    nama: 'Bing News — Aquaculture Industry',
+    url: 'https://www.bing.com/news/search?q=aquaculture+fish+farming&format=rss',
+    asal: 'internasional',
+  },
   {
     id: 'gnews-en-aquaculture',
     nama: 'Google News — Aquaculture Industry',

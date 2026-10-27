@@ -188,31 +188,198 @@ export async function scrapeAndSaveToDB(): Promise<{ inserted: number; total: nu
 }
 
 /**
+ * Direct decode base64 dari token Google News (CBMi...)
+ */
+function decodeCBMiDirect(token: string): string | null {
+  try {
+    const b64 = token.replace(/-/g, '+').replace(/_/g, '/')
+    const pad = b64.length % 4
+    const padded = pad ? b64 + '='.repeat(4 - pad) : b64
+    const decoded = Buffer.from(padded, 'base64').toString('latin1')
+    const urlMatch = decoded.match(/https?:\/\/[a-zA-Z0-9-._~:\/?#[\]@!$&'()*+,;=%]+/)
+    if (urlMatch && !urlMatch[0].includes('google.com')) {
+      return urlMatch[0]
+    }
+  } catch {}
+  return null
+}
+
+/**
+ * Decode URL Google News (news.google.com/rss/articles/...) menjadi URL penerbit asli.
+ * Menggunakan direct Base64 decode atau Google Batchexecute RPC (Fbv4je).
+ */
+export async function resolveGoogleNewsUrl(googleUrl: string): Promise<string> {
+  if (!googleUrl || !googleUrl.includes('news.google.com')) return googleUrl
+
+  const match = googleUrl.match(/(?:articles|read)\/([^?&/]+)/)
+  if (!match) return googleUrl
+  const base64Str = match[1]
+
+  // 1. Direct Base64 check (cepat, tanpa HTTP request)
+  const direct = decodeCBMiDirect(base64Str)
+  if (direct) return direct
+
+  // 2. Fetch Google page untuk ambil signature (data-n-a-sg) & timestamp (data-n-a-ts)
+  try {
+    const pageUrl = `https://news.google.com/rss/articles/${base64Str}`
+    const pageRes = await fetch(pageUrl, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+      signal: AbortSignal.timeout(6000),
+    })
+
+    if (!pageRes.ok) return googleUrl
+    const html = await pageRes.text()
+
+    const sg = html.match(/data-n-a-sg="([^"]+)"/)?.[1]
+    const ts = html.match(/data-n-a-ts="([^"]+)"/)?.[1]
+    if (!sg || !ts) return googleUrl
+
+    // 3. Panggil batchexecute RPC (Fbv4je / garturlreq)
+    const payload = [
+      'Fbv4je',
+      `["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],"X","X",1,[1,1,1],1,1,null,0,0,null,0],"${base64Str}",${ts},"${sg}"]`,
+    ]
+    const reqData = `f.req=${encodeURIComponent(JSON.stringify([[payload]]))}`
+
+    const rpcRes = await fetch('https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+      },
+      body: reqData,
+      signal: AbortSignal.timeout(6000),
+    })
+
+    if (!rpcRes.ok) return googleUrl
+    const text = await rpcRes.text()
+    const splitParts = text.split('\n\n')
+    if (splitParts.length >= 2) {
+      const parsedData = JSON.parse(splitParts[1])
+      const row = parsedData.find(
+        (d: unknown[]) => Array.isArray(d) && (d[0] === 'wrb.fr' || d[0] === 'w779db') && d[1] === 'Fbv4je'
+      )
+      if (row && row[2]) {
+        const inner = JSON.parse(row[2])
+        const decodedUrl = inner[1]
+        if (decodedUrl && typeof decodedUrl === 'string' && decodedUrl.startsWith('http')) {
+          return decodedUrl
+        }
+      }
+    }
+  } catch {
+    // Fallback ke original url jika terjadi kegagalan
+  }
+
+  return googleUrl
+}
+
+export function resolveBingNewsUrl(bingUrl: string): string {
+  try {
+    const parsed = new URL(bingUrl)
+    const target = parsed.searchParams.get('url')
+    if (target) {
+      return decodeURIComponent(target)
+    }
+  } catch {}
+  return bingUrl
+}
+
+function isValidImageUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') return false
+  if (!url.startsWith('http://') && !url.startsWith('https://')) return false
+  if (url.includes('googleusercontent.com')) return false
+  if (url.includes('w3.org') || url.includes('schema.org')) return false
+  return true
+}
+
+/**
+ * Scrape og:image / twitter:image dari halaman web artikel asli.
+ * Otomatis mendecode Google News / Bing News token terlebih dahulu.
+ */
+export async function scrapeOgImage(pageUrl: string): Promise<string> {
+  try {
+    let targetUrl = pageUrl
+    if (pageUrl.includes('news.google.com')) {
+      targetUrl = await resolveGoogleNewsUrl(pageUrl)
+    } else if (pageUrl.includes('bing.com/news/apiclick')) {
+      targetUrl = resolveBingNewsUrl(pageUrl)
+    }
+
+    if (!targetUrl || targetUrl.includes('news.google.com')) return ''
+
+    const res = await fetch(targetUrl, {
+      redirect: 'follow',
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+      signal: AbortSignal.timeout(8000),
+    })
+
+    if (!res.ok) return ''
+    const html = await res.text()
+
+    // 1. og:image
+    const ogMatch =
+      html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i)
+    if (ogMatch && isValidImageUrl(ogMatch[1])) return ogMatch[1].trim()
+
+    // 2. twitter:image
+    const twMatch =
+      html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]*property=["']twitter:image["'][^>]*content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i)
+    if (twMatch && isValidImageUrl(twMatch[1])) return twMatch[1].trim()
+
+    // 3. link rel="image_src"
+    const linkMatch = html.match(/<link[^>]*rel=["']image_src["'][^>]*href=["']([^"']+)["']/i)
+    if (linkMatch && isValidImageUrl(linkMatch[1])) return linkMatch[1].trim()
+
+    return ''
+  } catch {
+    return ''
+  }
+}
+
+/**
  * Proses gambar untuk berita baru — hybrid pipeline.
  * Dijalankan sebagai background task (tidak blocking response).
  *
  * Prioritas:
- * 1. Ada imageUrl dari RSS → download & simpan
- * 2. Tidak ada → generate via FLUX-1 dari judul
+ * 1. Ada imageUrl dari RSS → gunakan
+ * 2. Scrape og:image dari situs asli
+ * 3. Generate via FLUX-1 dari judul
  */
 async function prosesGambarBerita(
   items: BeritaItem[],
   rewriteMap: Record<string, { judul: string; ringkasan: string }>
 ): Promise<void> {
-  // Proses max 5 berita per batch (hemat resource)
-  const batch = items.slice(0, 5)
+  const batch = items.slice(0, 10)
 
   for (const item of batch) {
     try {
       const judul = rewriteMap[item.id]?.judul || item.judul
-      let gambarUrl = ''
+      let gambarUrl = item.imageUrl || ''
 
-      // Prioritas 1: Download gambar dari RSS
+      // Prioritas 1: Download gambar dari RSS jika valid
       if (item.imageUrl) {
         gambarUrl = await downloadDanSimpanGambar(item.imageUrl, item.id)
       }
 
-      // Prioritas 2: Generate via FLUX-1 jika tidak ada gambar RSS
+      // Prioritas 2: Scrape og:image dari situs asli jika RSS tidak ada gambar
+      if (!gambarUrl) {
+        gambarUrl = await scrapeOgImage(item.link)
+      }
+
+      // Prioritas 3: Generate via FLUX-1 jika og:image juga nihil
       if (!gambarUrl) {
         const prompt = buildFallbackImagePrompt(judul, 'berita')
         gambarUrl = await generateGambarDanSimpan(prompt, `news-${item.id}`)

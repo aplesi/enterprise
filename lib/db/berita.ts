@@ -201,3 +201,13 @@ export async function getBeritaTanpaGambar(limit = 10): Promise<Array<{ ext_id: 
   )
   return result.results || []
 }
+
+/**
+ * Hitung jumlah total berita yang belum punya gambar
+ */
+export async function countBeritaTanpaGambar(): Promise<number> {
+  const result = await query<{ count: number }>(
+    `SELECT COUNT(*) as count FROM berita WHERE (gambar_url IS NULL OR gambar_url = '')`
+  )
+  return result.results?.[0]?.count || 0
+}

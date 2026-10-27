@@ -74,9 +74,13 @@ function extractSelfClosingHref(block: string, tag: string): string {
 
 /**
  * Extract URL gambar dari blok RSS/Atom.
- * Prioritas: media:content > media:thumbnail > enclosure > img di description
+ * Prioritas: News:Image (Bing) > media:content > media:thumbnail > enclosure > img di description
  */
 function extractImageUrl(block: string): string {
+  // 0. <News:Image>...</News:Image> (Bing News RSS)
+  const bingImage = block.match(/<News:Image[^>]*>([\s\S]*?)<\/News:Image>/i)
+  if (bingImage && bingImage[1].trim()) return decodeEntities(bingImage[1].trim())
+
   // 1. <media:content url="..."> atau <media:content medium="image" url="...">
   const mediaContent = block.match(
     /<media:content[^>]*\surl=["']([^"']+)["'][^>]*/i
@@ -125,6 +129,15 @@ export function parseRSSFeed(xml: string): RSSItemMentah[] {
       link = bersihkanTeks(extractTag(block, 'link'))
     }
     if (!link) continue
+
+    // Decode direct publisher URL from Bing News apiclick redirect
+    if (link.includes('bing.com/news/apiclick.aspx')) {
+      try {
+        const u = new URL(link)
+        const target = u.searchParams.get('url')
+        if (target) link = decodeURIComponent(target)
+      } catch {}
+    }
 
     const tanggalRaw =
       extractTag(block, 'pubDate') ||

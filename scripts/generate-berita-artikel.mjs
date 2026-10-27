@@ -317,6 +317,10 @@ function truncateRingkasan(text, max = 500) {
  * Prioritas: media:content > media:thumbnail > enclosure > img in description
  */
 function extractImageUrl(block) {
+  // News:Image (Bing News RSS)
+  const bingImg = block.match(/<News:Image[^>]*>([\s\S]*?)<\/News:Image>/i)
+  if (bingImg?.[1]?.trim()) return decodeEntities(bingImg[1].trim())
+
   // media:content url="..."
   const mediaContent = block.match(/<media:content[^>]*\surl=["']([^"']+)["']/i)
   if (mediaContent?.[1]) return mediaContent[1]
@@ -355,6 +359,15 @@ function parseRSSFeed(xml) {
       link = bersihkanTeks(extractTag(block, 'link'))
     }
     if (!link) continue
+
+    // Decode direct publisher URL dari Bing News
+    if (link.includes('bing.com/news/apiclick.aspx')) {
+      try {
+        const u = new URL(link)
+        const target = u.searchParams.get('url')
+        if (target) link = decodeURIComponent(target)
+      } catch {}
+    }
 
     const tanggalRaw =
       extractTag(block, 'pubDate') ||
@@ -681,6 +694,83 @@ async function downloadDanSimpanGambar(imageUrl, id) {
   }
 }
 
+function decodeCBMiDirect(token) {
+  try {
+    const b64 = token.replace(/-/g, '+').replace(/_/g, '/')
+    const pad = b64.length % 4
+    const padded = pad ? b64 + '='.repeat(4 - pad) : b64
+    const decoded = Buffer.from(padded, 'base64').toString('latin1')
+    const urlMatch = decoded.match(/https?:\/\/[a-zA-Z0-9-._~:\/?#[\]@!$&'()*+,;=%]+/)
+    if (urlMatch && !urlMatch[0].includes('google.com')) {
+      return urlMatch[0]
+    }
+  } catch {}
+  return null
+}
+
+async function resolveGoogleNewsUrl(googleUrl) {
+  if (!googleUrl || !googleUrl.includes('news.google.com')) return googleUrl
+  const match = googleUrl.match(/(?:articles|read)\/([^?&/]+)/)
+  if (!match) return googleUrl
+  const base64Str = match[1]
+
+  const direct = decodeCBMiDirect(base64Str)
+  if (direct) return direct
+
+  try {
+    const pageUrl = `https://news.google.com/rss/articles/${base64Str}`
+    const pageRes = await fetch(pageUrl, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+      signal: AbortSignal.timeout(6000),
+    })
+    if (!pageRes.ok) return googleUrl
+    const html = await pageRes.text()
+
+    const sg = html.match(/data-n-a-sg="([^"]+)"/)?.[1]
+    const ts = html.match(/data-n-a-ts="([^"]+)"/)?.[1]
+    if (!sg || !ts) return googleUrl
+
+    const payload = [
+      'Fbv4je',
+      `["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],"X","X",1,[1,1,1],1,1,null,0,0,null,0],"${base64Str}",${ts},"${sg}"]`,
+    ]
+    const reqData = `f.req=${encodeURIComponent(JSON.stringify([[payload]]))}`
+
+    const rpcRes = await fetch('https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+      },
+      body: reqData,
+      signal: AbortSignal.timeout(6000),
+    })
+    if (!rpcRes.ok) return googleUrl
+    const text = await rpcRes.text()
+    const splitParts = text.split('\n\n')
+    if (splitParts.length >= 2) {
+      const parsedData = JSON.parse(splitParts[1])
+      const row = parsedData.find(
+        (d) => Array.isArray(d) && (d[0] === 'wrb.fr' || d[0] === 'w779db') && d[1] === 'Fbv4je'
+      )
+      if (row && row[2]) {
+        const inner = JSON.parse(row[2])
+        const decodedUrl = inner[1]
+        if (decodedUrl && typeof decodedUrl === 'string' && decodedUrl.startsWith('http')) {
+          return decodedUrl
+        }
+      }
+    }
+  } catch {}
+
+  return googleUrl
+}
+
 /**
  * Fallback: scrape og:image dari halaman sumber asli.
  * Berguna saat RSS tidak menyediakan gambar (contoh: Google News).
@@ -688,18 +778,35 @@ async function downloadDanSimpanGambar(imageUrl, id) {
  */
 async function scrapeOgImage(pageUrl) {
   try {
-    // Google News redirect — ikuti redirect ke sumber asli
-    const res = await fetch(pageUrl, {
+    let targetUrl = pageUrl
+    if (pageUrl.includes('news.google.com')) {
+      targetUrl = await resolveGoogleNewsUrl(pageUrl)
+    } else if (pageUrl.includes('bing.com/news/apiclick')) {
+      try {
+        const u = new URL(pageUrl)
+        const t = u.searchParams.get('url')
+        if (t) targetUrl = decodeURIComponent(t)
+      } catch {}
+    }
+
+    if (!targetUrl || targetUrl.includes('news.google.com')) return ''
+
+    const res = await fetch(targetUrl, {
       redirect: 'follow',
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AplesiBot/1.0)' },
-      signal: AbortSignal.timeout(12000),
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+      },
+      signal: AbortSignal.timeout(10000),
     })
     if (!res.ok) return ''
     const html = await res.text()
     const match =
       html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
-      html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i)
-    if (match && !match[1].includes('googleusercontent.com')) {
+      html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i) ||
+      html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i)
+    if (match && !match[1].includes('googleusercontent.com') && match[1].startsWith('http')) {
       return match[1]
     }
     return ''

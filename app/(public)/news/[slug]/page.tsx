@@ -3,11 +3,12 @@ import type { Metadata } from 'next'
 // Gambar berita pakai <img> biasa karena URL dari domain eksternal (OG image)
 import Link from 'next/link'
 import { getBeritaBySlug, getBeritaTerbaru } from '@/lib/db/berita'
-import { formatTanggal } from '@/lib/utils'
+import { formatTanggal, bersihkanRingkasan } from '@/lib/utils'
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd'
 import { extractFaq } from '@/lib/seo/faq'
 import { AdsenseDisplay } from '@/components/ads/AdsenseDisplay'
 import { marked } from 'marked'
+import { NewsImageWithFallback } from '@/components/news/NewsImageWithFallback'
 
 export const revalidate = 300 // cache 5 menit
 
@@ -21,13 +22,15 @@ export async function generateMetadata({
   const news = await getBeritaBySlug(slug)
   
   if (!news) return { title: 'Berita tidak ditemukan' }
+
+  const ringkasanBersih = bersihkanRingkasan(news.ringkasan, news.sumber)
   
   return {
     title: `${news.judul} | Aplesi News`,
-    description: news.ringkasan || `Berita selengkapnya mengenai ${news.judul} dari ${news.sumber}.`,
+    description: ringkasanBersih || `Berita selengkapnya mengenai ${news.judul} di Aplesi News.`,
     openGraph: {
       title: news.judul,
-      description: news.ringkasan,
+      description: ringkasanBersih,
       type: 'article',
       publishedTime: news.tanggal,
       images: news.imageUrl ? [news.imageUrl] : [],
@@ -55,7 +58,7 @@ export default async function NewsDetailPage({
     ? news.kontenRecap
     : `## Duduk Perkara & Poin Kunci Berita
 
-${news.ringkasan || news.judul}
+${bersihkanRingkasan(news.ringkasan, news.sumber) || news.judul}
 
 Laporan terkini ini menyoroti dinamika penting pada sektor perikanan dan budidaya nasional yang berdampak langsung pada ekosistem budidaya ikan di Indonesia.
 
@@ -72,11 +75,7 @@ Bagi pembudidaya kolam terpal, kolam tanah, maupun sistem bioflok di tingkat aka
 
 ## Catatan Redaksi APLESI
 
-Tim Redaksi APLESI menggarisbawahi pentingnya penerapan Cara Budidaya Ikan yang Baik (CBIB) serta kemandirian formulasi pakan alternatif bernutrisi tinggi sebagai tameng pelindung margin pembudidaya menghadapi fluktuasi ekonomi perikanan.
-
-## Atribusi Sumber
-
-Laporan awal dan informasi rujukan dipublikasikan oleh **${news.sumber}** pada ${formatTanggal(news.tanggal)}. Pembaca dapat meninjau publikasi pembanding melalui saluran resmi terkait.`
+Tim Redaksi APLESI menggarisbawahi pentingnya penerapan Cara Budidaya Ikan yang Baik (CBIB) serta kemandirian formulasi pakan alternatif bernutrisi tinggi sebagai tameng pelindung margin pembudidaya menghadapi fluktuasi ekonomi perikanan.`
 
   const faqItems = extractFaq(kontenMarkdown)
 
@@ -164,51 +163,19 @@ Laporan awal dan informasi rujukan dipublikasikan oleh **${news.sumber}** pada $
             </header>
 
             {/* Gambar Utama */}
-            {news.imageUrl && (
-              <div className="relative w-full h-64 md:h-[400px] rounded-2xl overflow-hidden mb-10 bg-gray-50 border border-gray-100 shadow-sm">
-                <img
-                  src={news.imageUrl}
-                  alt={news.judul}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading="eager"
-                />
-              </div>
-            )}
+            <NewsImageWithFallback
+              src={news.imageUrl}
+              alt={news.judul}
+              judul={news.judul}
+              kategori={news.kategori}
+              variant="detail"
+            />
 
             {/* Konten Recap */}
             <article
               className="prose prose-lg prose-azure max-w-none prose-headings:text-midnight prose-p:text-gray-700 prose-a:text-azure"
               dangerouslySetInnerHTML={{ __html: kontenHtml }}
             />
-
-            {/* Box Atribusi — sangat penting untuk etika AI & AdSense */}
-            <div className="mt-12 px-6 py-5 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-700 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center flex-shrink-0 shadow-sm border border-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
-                  <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
-                  <path d="M18 14h-8"/>
-                  <path d="M15 18h-5"/>
-                  <path d="M10 6h8v4h-8V6Z"/>
-                </svg>
-              </div>
-              <div>
-                <p className="font-medium mb-1 text-midnight">Sumber Informasi</p>
-                <p className="text-gray-600 leading-relaxed">
-                  Artikel di atas merupakan ringkasan yang ditulis ulang secara otomatis oleh AI berdasarkan laporan berita dari{' '}
-                  <a
-                    href={news.url}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    className="font-semibold text-azure hover:underline inline-flex items-center gap-1"
-                  >
-                    {news.sumber}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
-                    </svg>
-                  </a>. Silakan kunjungi tautan tersebut untuk membaca berita selengkapnya dari sumber aslinya.
-                </p>
-              </div>
-            </div>
 
             {/* FAQ Section */}
             {faqItems.length > 0 && (
@@ -249,19 +216,19 @@ Laporan awal dan informasi rujukan dipublikasikan oleh **${news.sumber}** pada $
                   <div className="space-y-6">
                     {beritaLainnya.map((b) => (
                       <Link key={b.url} href={b.slug ? `/news/${b.slug}` : b.url} target={b.slug ? undefined : "_blank"}
-                        className="flex flex-col gap-3 group items-start">
-                        {b.imageUrl && (
-                          <div className="relative w-full h-32 bg-gray-100 rounded-xl overflow-hidden">
-                            <img src={b.imageUrl} alt={b.judul} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                          </div>
-                        )}
+                        className="flex flex-col gap-3 group items-start w-full">
+                        <NewsImageWithFallback
+                          src={b.imageUrl}
+                          alt={b.judul}
+                          judul={b.judul}
+                          kategori="nasional"
+                          variant="sidebar"
+                        />
                         <div>
                           <p className="text-sm font-bold text-midnight group-hover:text-azure transition-colors line-clamp-2 leading-snug mb-2">
                             {b.judul}
                           </p>
                           <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                            <span>{b.sumber}</span>
-                            <span>•</span>
                             <span>{formatTanggal(b.tanggal).split(' ')[0] + ' ' + formatTanggal(b.tanggal).split(' ')[1]}</span>
                           </div>
                         </div>

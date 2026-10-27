@@ -54,6 +54,20 @@ export function truncate(text: string, maxLength: number): string {
   return text.slice(0, maxLength).trim() + '...'
 }
 
+export function bersihkanRingkasan(ringkasan: string, sumber?: string): string {
+  if (!ringkasan) return ''
+  let teks = ringkasan.trim()
+  if (sumber) {
+    const escaped = sumber.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    teks = teks.replace(new RegExp(`\\s*[-–—|•]?\\s*${escaped}\\s*(\\.*)?$`, 'i'), '')
+  }
+  teks = teks
+    .replace(/\s*[-–—|•]?\s*[A-Za-z0-9-]+\.(com|co\.id|id|org|net|gov|go\.id|info|biz|tv|me|xyz)(\s*\.{1,3})?$/i, '')
+    .replace(/\s*[-–—|•]\s*[^-–—|•]+(\.{1,3})?$/, '')
+    .trim()
+  return teks
+}
+
 export function generateFrontmatter(data: Record<string, unknown>): string {
   const lines = ['---']
   for (const [key, value] of Object.entries(data)) {
