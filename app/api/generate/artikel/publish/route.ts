@@ -9,6 +9,7 @@ import { generateFrontmatter } from '@/lib/utils'
 import { insertArtikel, generateUniqueSlug } from '@/lib/db/artikel'
 import { renderMarkdown } from '@/lib/markdown'
 import { getContextualAquacultureFallback } from '@/lib/ai/cloudflare-image'
+import { notifySearchEngines } from '@/lib/seo/indexer'
 import type { GenerateArtikelResponse } from '@/types'
 
 export async function POST(req: NextRequest) {
@@ -100,6 +101,12 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       )
     }
+
+    // 3. Instant Search Engine Ping (IndexNow, Google Sitemap, Bing, Perplexity)
+    const liveArticleUrl = `https://www.aplesi.my.id/artikel/${finalSlug}`
+    notifySearchEngines(liveArticleUrl).catch((err) => {
+      console.warn('[Indexer] Gagal trigger ping dari admin publish:', err)
+    })
 
     return NextResponse.json({
       success: true,

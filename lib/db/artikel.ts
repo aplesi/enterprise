@@ -161,9 +161,9 @@ export async function getArtikelByPenulis(penulis: string): Promise<Artikel[]> {
   return results.map(rowToArtikel)
 }
 
-export async function getSitemapData(): Promise<Array<{ slug: string; tanggal: string }>> {
-  const { results } = await query<{ slug: string; tanggal: string }>(
-    `SELECT slug, tanggal FROM artikel WHERE status = 'published' ORDER BY tanggal DESC`
+export async function getSitemapData(): Promise<Array<{ slug: string; tanggal: string; diperbarui?: string }>> {
+  const { results } = await query<{ slug: string; tanggal: string; diperbarui?: string }>(
+    `SELECT slug, tanggal, diperbarui FROM artikel WHERE status = 'published' ORDER BY tanggal DESC`
   )
   return results
 }

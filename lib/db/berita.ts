@@ -211,3 +211,25 @@ export async function countBeritaTanpaGambar(): Promise<number> {
   )
   return result.results?.[0]?.count || 0
 }
+
+/**
+ * Ambil data sitemap untuk berita (semua berita yang memiliki slug)
+ */
+export async function getBeritaSitemapData(limit = 1000): Promise<Array<{ slug: string; tanggal: string }>> {
+  const result = await query<{ slug: string; tanggal: string }>(
+    `SELECT slug, tanggal FROM berita WHERE slug IS NOT NULL AND slug != '' ORDER BY tanggal DESC LIMIT ?`,
+    [limit]
+  )
+  return result.results || []
+}
+
+/**
+ * Ambil berita terbaru untuk Google News Sitemap (48-72 jam terakhir / 100 item teratas)
+ */
+export async function getLatestBeritaForNewsSitemap(limit = 100): Promise<Array<{ slug: string; judul: string; tanggal: string }>> {
+  const result = await query<{ slug: string; judul: string; tanggal: string }>(
+    `SELECT slug, judul, tanggal FROM berita WHERE slug IS NOT NULL AND slug != '' ORDER BY tanggal DESC LIMIT ?`,
+    [limit]
+  )
+  return result.results || []
+}

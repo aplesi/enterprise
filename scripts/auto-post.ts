@@ -17,6 +17,7 @@ import { metrics } from '../lib/metrics/collector'
 import { buildFallbackImagePrompt } from '../lib/ai/groq'
 import { getContextualAquacultureFallback } from '../lib/ai/cloudflare-image'
 import { validateAndSanitizeArticle, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
+import { notifySearchEngines } from '../lib/seo/indexer'
 
 dotenv.config()
 dotenv.config({ path: '.env.local' })
@@ -637,8 +638,12 @@ ${artikel.konten}`
         const kontenHtml = renderMarkdown(artikel.konten)
         await d1Insert(slug, artikel, gambarPath, tanggal, kontenHtml)
         console.log(`✅ Artikel disimpan ke D1: ${slug}`)
+
+        // Instant Indexing Ping: Notifikasi ke Google, Bing, Perplexity & ChatGPT Search
+        const publishedUrl = `https://www.aplesi.my.id/artikel/${slug}`
+        await notifySearchEngines(publishedUrl)
       } catch (err: any) {
-        console.warn(`⚠️ Gagal simpan ke D1:`, err.message)
+        console.warn(`⚠️ Gagal simpan ke D1 atau ping search engines:`, err.message)
       }
     } catch (err: any) {
       console.error(`❌ Error generate artikel ${i + 1}:`, err.message)

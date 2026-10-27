@@ -895,6 +895,30 @@ function esc(str) {
   return String(str).replace(/\\/g, '\\\\').replace(/"/g, '\\"')
 }
 
+async function pingSearchEnginesBerita(urls) {
+  if (!urls || urls.length === 0) return
+  const key = process.env.INDEXNOW_KEY || 'aplesi9f8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a'
+  const payload = {
+    host: 'www.aplesi.my.id',
+    key,
+    keyLocation: `https://www.aplesi.my.id/${key}.txt`,
+    urlList: urls,
+  }
+  try {
+    const res = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(payload),
+    })
+    console.log(`   📡 IndexNow ping untuk ${urls.length} URL berita (Status ${res.status})`)
+  } catch (err) {
+    console.warn(`   ⚠️ IndexNow ping gagal:`, err.message)
+  }
+  try {
+    fetch('https://www.google.com/ping?sitemap=' + encodeURIComponent('https://www.aplesi.my.id/news-sitemap.xml')).catch(() => {})
+  } catch {}
+}
+
 async function main() {
   console.log('🔍 Scrape sumber RSS...')
   const semuaBerita = await scrapeBeritaPerikanan()
@@ -987,6 +1011,7 @@ async function main() {
   console.log(`📝 ${beritaBaru.length} berita baru akan dijadikan artikel (ID: ${alokasiId}, EN: ${alokasiEn})...`)
 
   const registryBaru = [...registry]
+  const newlyPublishedUrls = []
 
   for (const berita of beritaBaru) {
     try {
@@ -1042,6 +1067,7 @@ async function main() {
       try {
         await d1UpdateBeritaRecap(berita.id, slug, artikel, gambarPath)
         console.log(`   ✅ Recap disimpan ke D1 berita: ${berita.id}`)
+        newlyPublishedUrls.push(`https://www.aplesi.my.id/news/${slug}`)
       } catch (err) {
         console.warn(`   ⚠️ Gagal update recap ke D1 berita:`, err.message)
       }
@@ -1059,6 +1085,12 @@ async function main() {
       // Sengaja TIDAK ditambah ke registry -- akan dicoba lagi di siklus
       // cron berikutnya (bukan hilang permanen kalau Groq/CF sempat error).
     }
+  }
+
+  // Notifikasi Search Engines untuk semua URL berita baru yang terbit di siklus ini
+  if (newlyPublishedUrls.length > 0) {
+    console.log(`\n🚀 Mengirim instant indexing notification untuk ${newlyPublishedUrls.length} berita baru...`)
+    await pingSearchEnginesBerita(newlyPublishedUrls)
   }
 
   // Simpan registry & counter

@@ -45,7 +45,10 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://www.aplesi.my.id/sitemap.xml',
+    sitemap: [
+      'https://www.aplesi.my.id/sitemap.xml',
+      'https://www.aplesi.my.id/news-sitemap.xml',
+    ],
     host: 'https://www.aplesi.my.id',
   }
 }
