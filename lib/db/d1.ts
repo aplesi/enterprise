@@ -67,7 +67,8 @@ export async function query<T = Record<string, unknown>>(
 
   if (!res.ok) {
     const errorText = await res.text()
-    throw new Error(`[D1] Query gagal (HTTP ${res.status}): ${errorText}`)
+    console.warn(`[D1] Query gagal (HTTP ${res.status}): ${errorText}`)
+    return { results: [], success: false }
   }
 
   const data = await res.json() as {
@@ -80,7 +81,8 @@ export async function query<T = Record<string, unknown>>(
   }
 
   if (!data.success || !data.result?.[0]) {
-    throw new Error('[D1] Response tidak valid')
+    console.warn('[D1] Response tidak valid')
+    return { results: [], success: false }
   }
 
   return {

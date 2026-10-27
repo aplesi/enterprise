@@ -15,6 +15,7 @@ import { getBeritaTerbaru, insertBeritaBatch, countBerita, updateGambarUrl } fro
 import { rewriteBeritaBatch } from '@/lib/ai/groq'
 import { downloadDanSimpanGambar, generateGambarDanSimpan } from '@/lib/ai/cloudflare-image'
 import { buildFallbackImagePrompt } from '@/lib/ai/groq'
+import { slugify } from '@/lib/utils'
 
 const KATA_KUNCI_ID = [
   'budidaya ikan indonesia', 'produksi perikanan nasional', 'ekspor udang',
@@ -155,18 +156,21 @@ export async function scrapeAndSaveToDB(): Promise<{ inserted: number; total: nu
   // Simpan ke D1
   const dataInsert = items.map((item) => {
     const rewrite = rewriteMap[item.id]
+    const cleanJudul = (rewrite?.judul || item.judul).replace(/\s*-\s*[^-]+$/, '').trim()
+    const cleanSumber = (item.judul.match(/ - ([^-]+)$/)?.[1] || item.sumberNama || 'Redaksi Perikanan').trim()
     return {
       extId: item.id,
-      judul: rewrite?.judul || item.judul,
+      judul: cleanJudul,
       judulAsli: item.judul,
       ringkasan: rewrite?.ringkasan || item.ringkasan,
       ringkasanAsli: item.ringkasan,
       urlSumber: item.link,
       sumberId: item.sumberId,
-      sumberNama: item.sumberNama,
+      sumberNama: cleanSumber,
       asal: item.asal as 'indonesia' | 'internasional',
       tanggal: item.tanggal,
       gambarUrl: item.imageUrl || '',
+      slug: `${slugify(cleanJudul)}-${item.id}`,
     }
   })
 

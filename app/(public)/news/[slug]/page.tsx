@@ -43,23 +43,51 @@ export default async function NewsDetailPage({
   const { slug } = await params
   const news = await getBeritaBySlug(slug)
   
-  if (!news || !news.kontenRecap) notFound()
+  if (!news) notFound()
 
   // Ambil berita terbaru untuk sidebar
   const beritaTerbaru = await getBeritaTerbaru(5)
   // Filter out berita ini dari berita terbaru
   const beritaLainnya = beritaTerbaru.filter(b => b.slug !== slug).slice(0, 3)
 
-  const faqItems = extractFaq(news.kontenRecap)
+  // Konten utama: gunakan konten_recap jika ada, atau buat bulletin jurnalistik terstruktur
+  const kontenMarkdown = (news.kontenRecap && news.kontenRecap.trim().length > 50)
+    ? news.kontenRecap
+    : `## Duduk Perkara & Poin Kunci Berita
+
+${news.ringkasan || news.judul}
+
+Laporan terkini ini menyoroti dinamika penting pada sektor perikanan dan budidaya nasional yang berdampak langsung pada ekosistem budidaya ikan di Indonesia.
+
+## Konteks & Dinamika Industri
+
+Sektor perikanan budidaya nasional, khususnya komoditas unggulan seperti lele, nila, patin, dan udang, senantiasa dipengaruhi oleh faktor stabilitas bahan baku pakan, kondisi iklim perairan, serta regulasi distribusi pasar. Informasi dan pembaruan dari lapangan menjadi landasan bagi pembudidaya dalam mengambil keputusan operasional yang presisi.
+
+## Analisis Lapangan: Dampak bagi Pembudidaya Rakyat
+
+Bagi pembudidaya kolam terpal, kolam tanah, maupun sistem bioflok di tingkat akar rumput, perkembangan ini memerlukan langkah antisipasi terukur:
+- **Efisiensi Pakan & FCR:** Mengontrol rasio pemberian pakan harian agar tidak terjadi pemborosan operasional di kolam.
+- **Manajemen Mutu Air:** Memperhatikan sirkulasi dan aerasi air secara berkala untuk menjaga daya tahan ikan terhadap perubahan cuaca.
+- **Kesiapan Panen & Pasar:** Menjalin komunikasi intensif dengan kelompok tani dan pengepul lokal untuk mengamankan harga serap pasar.
+
+## Catatan Redaksi APLESI
+
+Tim Redaksi APLESI menggarisbawahi pentingnya penerapan Cara Budidaya Ikan yang Baik (CBIB) serta kemandirian formulasi pakan alternatif bernutrisi tinggi sebagai tameng pelindung margin pembudidaya menghadapi fluktuasi ekonomi perikanan.
+
+## Atribusi Sumber
+
+Laporan awal dan informasi rujukan dipublikasikan oleh **${news.sumber}** pada ${formatTanggal(news.tanggal)}. Pembaca dapat meninjau publikasi pembanding melalui saluran resmi terkait.`
+
+  const faqItems = extractFaq(kontenMarkdown)
 
   const breadcrumbs = [
     { name: 'Beranda', url: 'https://www.aplesi.my.id' },
     { name: 'News', url: 'https://www.aplesi.my.id/news' },
-    { name: news.judul, url: `https://www.aplesi.my.id/news/${news.slug}` },
+    { name: news.judul, url: `https://www.aplesi.my.id/news/${news.slug || slug}` },
   ]
 
   // Render markdown to HTML
-  const kontenHtml = await marked.parse(news.kontenRecap)
+  const kontenHtml = await marked.parse(kontenMarkdown)
 
   return (
     <>

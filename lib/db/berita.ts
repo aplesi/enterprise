@@ -6,6 +6,7 @@
 
 import { query, queryFirst, insert } from '@/lib/db/d1'
 import type { NewsItem } from '@/types'
+import { slugify } from '@/lib/utils'
 
 interface BeritaRow {
   id: number
@@ -31,15 +32,17 @@ function stripHtmlTags(str: string): string {
 }
 
 function rowToNewsItem(row: BeritaRow): NewsItem {
+  const cleanJudul = stripHtmlTags(row.judul || '').replace(/\s*-\s*[^-]+$/, '').trim()
+  const rawJudul = stripHtmlTags(row.judul || '')
   return {
-    judul: stripHtmlTags(row.judul || ''),
+    judul: cleanJudul || rawJudul,
     ringkasan: stripHtmlTags(row.ringkasan || ''),
     url: row.url_sumber,
-    sumber: row.sumber_nama || '',
+    sumber: stripHtmlTags(row.sumber_nama || ''),
     tanggal: row.tanggal,
     kategori: row.asal === 'indonesia' ? 'nasional' : 'internasional',
     imageUrl: row.gambar_url || '',
-    slug: row.slug,
+    slug: row.slug || slugify(cleanJudul || rawJudul),
     kontenRecap: row.konten_recap,
   }
 }
@@ -89,10 +92,19 @@ export async function countBerita(): Promise<number> {
 }
 
 export async function getBeritaBySlug(slug: string): Promise<NewsItem | null> {
-  const row = await queryFirst<BeritaRow>(
+  let row = await queryFirst<BeritaRow>(
     `SELECT * FROM berita WHERE slug = ?`,
     [slug]
   )
+  if (!row) {
+    const { results } = await query<BeritaRow>(
+      `SELECT * FROM berita ORDER BY tanggal DESC LIMIT 150`
+    )
+    row = results.find(r => {
+      const clean = r.judul ? r.judul.replace(/\s*-\s*[^-]+$/, '').trim() : ''
+      return r.slug === slug || slugify(r.judul) === slug || slugify(clean) === slug
+    }) || null
+  }
   return row ? rowToNewsItem(row) : null
 }
 
@@ -110,12 +122,13 @@ export interface InsertBeritaData {
   asal: 'indonesia' | 'internasional'
   tanggal: string
   gambarUrl?: string
+  slug?: string
 }
 
 export async function insertBerita(data: InsertBeritaData): Promise<number> {
   return insert(
-    `INSERT OR IGNORE INTO berita (ext_id, judul, judul_asli, ringkasan, ringkasan_asli, url_sumber, sumber_id, sumber_nama, asal, tanggal, gambar_url)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT OR IGNORE INTO berita (ext_id, judul, judul_asli, ringkasan, ringkasan_asli, url_sumber, sumber_id, sumber_nama, asal, tanggal, gambar_url, slug)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       data.extId,
       data.judul,
@@ -128,6 +141,7 @@ export async function insertBerita(data: InsertBeritaData): Promise<number> {
       data.asal,
       data.tanggal,
       data.gambarUrl || '',
+      data.slug || slugify(data.judul),
     ]
   )
 }
