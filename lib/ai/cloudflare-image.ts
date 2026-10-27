@@ -63,6 +63,27 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
 }
 
 /**
+ * Dapatkan URL gambar fallback kontekstual berbasis topik/slug saat AI FLUX-1 kuotanya habis.
+ * Menghasilkan visual fotografi akuakultur asli dan relevan, bukan sekadar banner generik.
+ */
+export function getContextualAquacultureFallback(slug: string): string {
+  const s = slug.toLowerCase()
+  if (s.includes('pakan') || s.includes('nutrisi') || s.includes('pelet') || s.includes('maggot')) {
+    return 'https://images.unsplash.com/photo-1534043464124-3be32fe00099?auto=format&fit=crop&w=1200&q=80'
+  }
+  if (s.includes('pembenihan') || s.includes('bibit') || s.includes('larva') || s.includes('indukan')) {
+    return 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=1200&q=80'
+  }
+  if (s.includes('penyakit') || s.includes('kesehatan') || s.includes('jamur') || s.includes('air') || s.includes('probiotik')) {
+    return 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80'
+  }
+  if (s.includes('panen') || s.includes('bisnis') || s.includes('pasar') || s.includes('asap') || s.includes('jual')) {
+    return 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80'
+  }
+  return '/images/hero-pond.jpg'
+}
+
+/**
  * Generate gambar dengan fallback ke placeholder
  * TIDAK PERNAH THROW — selalu return result
  * Returns: { url: string, source: 'ai' | 'placeholder' }
@@ -140,9 +161,10 @@ export async function generateGambarDenganFallback(
     console.error('[ImageGen] Failed:', err instanceof Error ? err.message : String(err))
   }
 
-  // 2. Final fallback: placeholder (TIDAK PERNAH THROW)
-  console.log('[ImageGen] Using placeholder fallback')
-  return { url: '/images/og-default.png', source: 'placeholder' }
+  // 2. Final fallback: placeholder kontekstual (TIDAK PERNAH THROW)
+  const fallbackUrl = getContextualAquacultureFallback(slug)
+  console.log(`[ImageGen] Using contextual fallback: ${fallbackUrl}`)
+  return { url: fallbackUrl, source: 'placeholder' }
 }
 
 export async function generateGambarDanSimpan(

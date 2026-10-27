@@ -31,4 +31,5 @@ export interface GenerationContext {
   tone: string
   previousContentSummary: string
   completedSections: string[]
+  internalLinkTargets?: Array<{ slug: string; judul: string }>
 }

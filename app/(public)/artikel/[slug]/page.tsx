@@ -2,7 +2,6 @@
 
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { getArtikelBySlug, getAllSlugs, getArtikelTerkait } from '@/lib/db/artikel'
 import { generateMetaArtikel, generateJsonLd } from '@/lib/seo'
@@ -11,8 +10,10 @@ import { BreadcrumbJsonLd, FaqJsonLd, HowToJsonLd } from '@/components/seo/JsonL
 import { extractFaq } from '@/lib/seo/faq'
 import { extractHowToSteps } from '@/lib/seo/howto'
 import { AdsenseDisplay } from '@/components/ads/AdsenseDisplay'
+import { ArticleImageWithFallback } from '@/components/blog/ArticleImageWithFallback'
 
 export const revalidate = 300 // cache 5 menit
+export const dynamicParams = true // Mengizinkan artikel D1 baru langsung dirender tanpa menunggu rebuild statis
 
 // Generate static params untuk semua artikel
 export async function generateStaticParams() {
@@ -133,18 +134,14 @@ export default async function ArtikelDetailPage({
             </header>
 
             {/* Gambar Utama */}
-            {artikel.gambar && (
-              <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8 bg-gray-100">
-                <Image
-                  src={artikel.gambar}
-                  alt={artikel.judul}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 700px"
-                />
-              </div>
-            )}
+            <ArticleImageWithFallback
+              src={artikel.gambar}
+              alt={artikel.judul}
+              judul={artikel.judul}
+              kategori={artikel.kategori}
+              variant="detail"
+              priority
+            />
 
             {/* Konten Artikel -- pre-rendered HTML dari D1 database.
                 Markdown→HTML dikonversi sekali saat insert/update via marked(),
@@ -245,11 +242,13 @@ export default async function ArtikelDetailPage({
                     {artikelTerkait.map((a) => (
                       <Link key={a.slug} href={`/artikel/${a.slug}`}
                         className="flex gap-3 group items-center">
-                        <div className="relative w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden">
-                          {a.gambar && (
-                            <Image src={a.gambar} alt={a.judul} fill className="object-cover" sizes="64px" />
-                          )}
-                        </div>
+                        <ArticleImageWithFallback
+                          src={a.gambar}
+                          alt={a.judul}
+                          judul={a.judul}
+                          kategori={a.kategori}
+                          variant="sidebar"
+                        />
                         <div>
                           <p className="text-sm text-gray-800 group-hover:text-green-600 transition-colors line-clamp-2 font-medium leading-tight">
                             {a.judul}
@@ -276,10 +275,14 @@ export default async function ArtikelDetailPage({
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {artikelTerkait.map((a) => (
                 <Link key={a.slug} href={`/artikel/${a.slug}`} className="card">
-                  <div className="relative h-36 bg-gray-100">
-                    {a.gambar && (
-                      <Image src={a.gambar} alt={a.judul} fill className="object-cover" />
-                    )}
+                  <div className="relative h-36 bg-gray-100 overflow-hidden rounded-t-xl">
+                    <ArticleImageWithFallback
+                      src={a.gambar}
+                      alt={a.judul}
+                      judul={a.judul}
+                      kategori={a.kategori}
+                      variant="card"
+                    />
                   </div>
                   <div className="p-3">
                     <p className="text-sm font-medium text-gray-800 line-clamp-2">{a.judul}</p>

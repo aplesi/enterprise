@@ -57,6 +57,7 @@ const LISTING_COLUMNS = `slug, judul, ringkasan, gambar, kategori, tags, penulis
 // Query ringan untuk halaman daftar artikel — tanpa konten, dengan pagination SQL
 export async function getArtikelListing(opts: {
   kategori?: string
+  tipe?: 'semua' | 'panduan' | 'berita'
   limit: number
   offset: number
 }): Promise<Artikel[]> {
@@ -68,6 +69,12 @@ export async function getArtikelListing(opts: {
     params.push(opts.kategori)
   }
 
+  if (opts.tipe === 'panduan') {
+    where += ` AND (kategori != 'Berita Terkini' AND (sumber_berita_nama IS NULL OR sumber_berita_nama = ''))`
+  } else if (opts.tipe === 'berita') {
+    where += ` AND (kategori = 'Berita Terkini' OR (sumber_berita_nama IS NOT NULL AND sumber_berita_nama != ''))`
+  }
+
   params.push(opts.limit, opts.offset)
 
   const { results } = await query(
@@ -77,17 +84,25 @@ export async function getArtikelListing(opts: {
   return results.map(rowToArtikel)
 }
 
-// Hitung total artikel (dengan optional filter kategori) — untuk pagination
-export async function countArtikelFiltered(kategori?: string): Promise<number> {
+// Hitung total artikel (dengan optional filter kategori dan tipe konten) — untuk pagination
+export async function countArtikelFiltered(kategori?: string, tipe?: 'semua' | 'panduan' | 'berita'): Promise<number> {
+  const params: (string | number)[] = []
+  let where = `status = 'published'`
+
   if (kategori) {
-    const row = await queryFirst<{ total: number }>(
-      `SELECT COUNT(*) as total FROM artikel WHERE status = 'published' AND kategori = ?`,
-      [kategori]
-    )
-    return row?.total || 0
+    where += ` AND kategori = ?`
+    params.push(kategori)
   }
+
+  if (tipe === 'panduan') {
+    where += ` AND (kategori != 'Berita Terkini' AND (sumber_berita_nama IS NULL OR sumber_berita_nama = ''))`
+  } else if (tipe === 'berita') {
+    where += ` AND (kategori = 'Berita Terkini' OR (sumber_berita_nama IS NOT NULL AND sumber_berita_nama != ''))`
+  }
+
   const row = await queryFirst<{ total: number }>(
-    `SELECT COUNT(*) as total FROM artikel WHERE status = 'published'`
+    `SELECT COUNT(*) as total FROM artikel WHERE ${where}`,
+    params
   )
   return row?.total || 0
 }
@@ -284,4 +299,53 @@ export async function updateArtikel(
 export async function deleteArtikel(slug: string): Promise<boolean> {
   const result = await query('DELETE FROM artikel WHERE slug = ?', [slug])
   return result.success
+}
+
+// --- DEDUPLICATION & UNIQUE SLUG GUARDS ---
+
+/**
+ * Mengambil semua slug dan judul artikel yang sudah ada di D1.
+ * Digunakan untuk mencegah duplikasi topik dan kanibalisasi kata kunci saat generate artikel AI.
+ */
+export async function getAllExistingSlugsAndTitles(): Promise<{ slugs: string[]; titles: string[] }> {
+  const { results } = await query<{ slug: string; judul: string }>(
+    `SELECT slug, judul FROM artikel`
+  )
+  return {
+    slugs: results.map(r => r.slug),
+    titles: results.map(r => r.judul),
+  }
+}
+
+/**
+ * Cek ketersediaan slug di Cloudflare D1
+ */
+export async function isSlugAvailable(slug: string): Promise<boolean> {
+  const row = await queryFirst<{ cnt: number }>(
+    `SELECT COUNT(*) as cnt FROM artikel WHERE slug = ?`,
+    [slug]
+  )
+  return (row?.cnt || 0) === 0
+}
+
+/**
+ * Menghasilkan slug yang terjamin 100% unik di D1.
+ * Jika `budidaya-lele` sudah ada, mencoba `budidaya-lele-2`, `budidaya-lele-3`, dst.
+ */
+export async function generateUniqueSlug(baseSlug: string): Promise<string> {
+  const cleanBase = baseSlug
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'artikel'
+
+  let candidate = cleanBase
+  let counter = 1
+
+  while (!(await isSlugAvailable(candidate))) {
+    counter++
+    candidate = `${cleanBase}-${counter}`
+  }
+
+  return candidate
 }

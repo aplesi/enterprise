@@ -6,11 +6,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { simpanArtikelKeGitHub } from '@/lib/db/github'
 import { generateFrontmatter } from '@/lib/utils'
-import { insertArtikel } from '@/lib/db/artikel'
+import { insertArtikel, generateUniqueSlug } from '@/lib/db/artikel'
 import { renderMarkdown } from '@/lib/markdown'
+import { getContextualAquacultureFallback } from '@/lib/ai/cloudflare-image'
 import type { GenerateArtikelResponse } from '@/types'
-
-
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,15 +25,20 @@ export async function POST(req: NextRequest) {
 
     const tanggal = new Date().toISOString().split('T')[0]
 
+    // Pastikan slug terjamin 100% unik di Cloudflare D1
+    const finalSlug = await generateUniqueSlug(artikel.slug)
+
     // Hitung reading time: ~200 kata per menit
     const wordCount = artikel.konten ? artikel.konten.split(/\s+/).filter(Boolean).length : 0
     const waktuBaca = Math.max(1, Math.ceil(wordCount / 200))
 
+    const finalImage = artikel.gambarUrl || getContextualAquacultureFallback(finalSlug)
+
     const frontmatter = generateFrontmatter({
       judul: artikel.judul,
-      slug: artikel.slug,
+      slug: finalSlug,
       ringkasan: artikel.ringkasan,
-      gambar: artikel.gambarUrl || '/images/og-default.png',
+      gambar: finalImage,
       kategori,
       tags: artikel.tags,
       penulis: 'Tim Redaksi APLESI',
@@ -47,37 +51,19 @@ export async function POST(req: NextRequest) {
 
     const kontenLengkap = `${frontmatter}\n\n${artikel.konten}`
 
-    // PRODUCTION & DEVELOPMENT: commit ke GitHub
-    // Ini men-trigger auto-deploy Cloudflare Pages secara otomatis
-    const githubToken = process.env.GITHUB_TOKEN
-    if (!githubToken) {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'GITHUB_TOKEN belum diset. Tambahkan di environment variables Cloudflare Pages.' 
-        },
-        { status: 500 }
-      )
-    }
-
-    const githubUrl = await simpanArtikelKeGitHub(
-      artikel.slug,
-      kontenLengkap,
-      `feat: tambah artikel "${artikel.judul}"`
-    )
-
-    // Simpan juga ke D1 agar artikel LANGSUNG muncul tanpa menunggu rebuild
+    // 1. Simpan ke Cloudflare D1 terlebih dahulu (sehingga artikel LANGSUNG LIVE seketika)
+    let d1Success = false
     try {
       // Pre-render markdown → HTML sekali di sini (eliminasi react-markdown CPU di render-time)
       const kontenHtml = renderMarkdown(artikel.konten)
 
       await insertArtikel({
-        slug: artikel.slug,
+        slug: finalSlug,
         judul: artikel.judul,
         ringkasan: artikel.ringkasan,
         konten: artikel.konten,
         kontenHtml,
-        gambar: artikel.gambarUrl || '/images/og-default.png',
+        gambar: finalImage,
         kategori,
         tags: artikel.tags,
         penulis: 'Tim Redaksi APLESI',
@@ -86,16 +72,40 @@ export async function POST(req: NextRequest) {
         seoDesc: artikel.seoDesc,
         status: 'published',
       })
+      d1Success = true
     } catch (d1err) {
-      // D1 insert gagal bukan fatal — artikel tetap tersimpan di GitHub
-      console.warn('D1 insert gagal (artikel tetap ada di GitHub):', d1err)
+      console.warn('D1 insert gagal:', d1err)
+    }
+
+    // 2. Commit ke GitHub (Auto-deploy & Static Backup)
+    let githubUrl = ''
+    const githubToken = process.env.GITHUB_TOKEN
+    if (githubToken) {
+      try {
+        githubUrl = await simpanArtikelKeGitHub(
+          finalSlug,
+          kontenLengkap,
+          `feat: tambah artikel "${artikel.judul}"`
+        )
+      } catch (ghErr) {
+        console.warn('⚠️ Gagal sinkronisasi ke GitHub repo:', ghErr)
+      }
+    } else {
+      console.warn('ℹ️ GITHUB_TOKEN tidak diset, artikel tersimpan langsung di database D1.')
+    }
+
+    if (!d1Success && !githubUrl) {
+      return NextResponse.json(
+        { success: false, error: 'Gagal menyimpan artikel ke D1 database dan GitHub.' },
+        { status: 500 }
+      )
     }
 
     return NextResponse.json({
       success: true,
       message: 'Artikel berhasil dipublish! Langsung muncul di website.',
-      url: `/artikel/${artikel.slug}`,
-      githubUrl,
+      url: `/artikel/${finalSlug}`,
+      githubUrl: githubUrl || undefined,
     })
 
   } catch (err: unknown) {

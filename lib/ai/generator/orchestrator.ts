@@ -11,10 +11,12 @@ export interface V2GeneratorRequest {
   keywords: string[]
   targetWords: number
   tone: string
+  existingTitles?: string[]
+  internalLinkTargets?: Array<{ slug: string; judul: string }>
 }
 
 export async function generateArticleV2(req: V2GeneratorRequest): Promise<{ konten: string, blueprint: ArticleBlueprint }> {
-  console.log('[V2] 1. Generating Outline Blueprint...')
+  console.log('[V2] 1. Generating Outline Blueprint with Master Writer Skill...')
   let blueprint = await buildOutline(req)
   
   let outlineValidation = validateOutline(blueprint, req.targetWords)
@@ -50,7 +52,8 @@ export async function generateArticleV2(req: V2GeneratorRequest): Promise<{ kont
     keywords: req.keywords,
     tone: req.tone,
     previousContentSummary: '',
-    completedSections: []
+    completedSections: [],
+    internalLinkTargets: req.internalLinkTargets,
   }
   
   const chunksMarkdown: string[] = []

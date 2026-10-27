@@ -19,21 +19,32 @@ import {
 
 /**
  * Rakit image prompt deterministik dari judul + kategori.
- * Tidak memanggil LLM — zero cost, zero risk hallucination.
+ * Dioptimalkan untuk model FLUX-1 Schnell agar menghasilkan fotografi dokumenter
+ * budidaya perikanan Indonesia yang realistis, bukan anatomi ikan close-up CGI/mutasi aneh.
  */
 export function buildFallbackImagePrompt(judul: string, kategori: string): string {
+  const cleanJudul = judul.replace(/[^\w\s-]/g, ' ').replace(/\s+/g, ' ').trim()
+
   const kategoriMap: Record<string, string> = {
-    'Pembenihan': 'fish hatchery, fish breeding pond, baby fish fry',
-    'Pakan': 'fish feed preparation, fish feeding in pond',
-    'Penyakit': 'fish health inspection, aquaculture veterinarian',
-    'Kolam': 'fish pond construction, earthen pond with water',
-    'Panen': 'fish harvesting, net full of catfish',
-    'Teknologi': 'modern aquaculture technology, bioflok system',
-    'Tips': 'Indonesian fish farmer working, aquaculture practice',
-    'Berita': 'Indonesian aquaculture industry, fish market',
+    'Pembenihan': 'Indonesian freshwater fish hatchery facility, round nursery tanks with aeration, Indonesian aquaculture specialist inspecting clean water quality, morning daylight',
+    'Pakan': 'Indonesian fish farmer scattering floating feed pellets into a large round biofloc pond, water splashes, wearing straw hat and farm boots, lush tropical farm backdrop',
+    'Penyakit & Pengobatan': 'Indonesian fish farm technician testing water parameters with digital dissolved oxygen and pH probe at a biofloc pond, natural outdoor daylight',
+    'Penyakit': 'Indonesian fish farm technician testing water parameters with digital dissolved oxygen and pH probe at a biofloc pond, natural outdoor daylight',
+    'Manajemen Kolam': 'Rows of commercial round tarpaulin biofloc ponds under UV greenhouse net canopy in Indonesia, aerator splashing water, clean modern aquaculture infrastructure',
+    'Kolam': 'Rows of commercial round tarpaulin biofloc ponds under UV greenhouse net canopy in Indonesia, aerator splashing water, clean modern aquaculture infrastructure',
+    'Panen & Pascapanen': 'Indonesian local fish farmers sorting freshly harvested freshwater fish into clean plastic crates, sorting basin with clear water, early morning market preparation',
+    'Panen': 'Indonesian local fish farmers sorting freshly harvested freshwater fish into clean plastic crates, sorting basin with clear water, early morning market preparation',
+    'Bisnis & Pemasaran': 'Indonesian modern aquaculture agribusiness facility, catfish distribution center with aeration tanks, authentic rural commercial setting',
+    'Bisnis': 'Indonesian modern aquaculture agribusiness facility, catfish distribution center with aeration tanks, authentic rural commercial setting',
+    'Teknologi': 'Modern IoT-equipped Indonesian fish farm, smart water monitoring sensors mounted on round biofloc tank edge, clean technical setup, natural sunlight',
+    'Tips & Trik': 'Experienced Indonesian fish farmer sharing practical knowledge beside outdoor fish ponds, friendly expression, authentic Indonesian rural setting',
+    'Tips': 'Experienced Indonesian fish farmer sharing practical knowledge beside outdoor fish ponds, friendly expression, authentic Indonesian rural setting',
+    'Berita Terkini': 'Indonesian fisheries and aquaculture port or commercial freshwater fish center, vibrant activity, authentic Indonesian maritime sector',
+    'Berita': 'Indonesian fisheries and aquaculture port or commercial freshwater fish center, vibrant activity, authentic Indonesian maritime sector',
   }
-  const scene = kategoriMap[kategori] || 'Indonesian fish farming, catfish aquaculture pond'
-  return `${judul}, ${scene}, realistic photography, natural lighting, high quality`
+
+  const scene = kategoriMap[kategori] || 'Indonesian fish farming facility with round biofloc tarpaulin tanks, lush tropical rural background'
+  return `${scene}, context: ${cleanJudul.slice(0, 80)}, 35mm documentary photography, photojournalism style, natural ambient daylight, sharp focus, authentic Indonesian setting, no CGI, no cartoon, no distorted anatomy`
 }
 
 const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'

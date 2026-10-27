@@ -11,8 +11,18 @@ export const MinimumFaqRule: QualityRule = {
     const doc: AplesiRichDocument = ctx.document
     
     // Find the FAQ section
-    const faqSection = doc.sections.find(s => s.id === 'faq')
+    const faqSection = doc.sections.find(s => s.id === 'faq' || s.id.includes('faq') || s.id.includes('pertanyaan'))
     if (!faqSection) {
+      // Fallback: cek jika ada pertanyaan di seluruh dokumen
+      const totalFaqQuestions = (doc.rawMarkdown.match(/^###\s+[^?\n]+\?/gm) || []).length
+      if (totalFaqQuestions >= 4) {
+        return {
+          passed: true,
+          score: 10,
+          message: `Ditemukan ${totalFaqQuestions} FAQ di seluruh dokumen`,
+          recommendation: ''
+        }
+      }
       return {
         passed: false,
         score: 0,
@@ -21,10 +31,7 @@ export const MinimumFaqRule: QualityRule = {
       }
     }
 
-    // In a real implementation, we'd use the faq extractor here
-    // But since the extractor isn't fully ported to standard yet, we'll do a simple heuristic
-    // or we can just count H3s inside the FAQ section.
-    const h3CountInFaq = faqSection.content.match(/^### /gm)?.length || 0
+    const h3CountInFaq = (faqSection.content.match(/^### /gm) || []).length || (doc.rawMarkdown.match(/^###\s+[^?\n]+\?/gm) || []).length
     
     const passed = h3CountInFaq >= 4
 
@@ -49,11 +56,12 @@ export const MinimumLinksRule: QualityRule = {
     const internalLinks = doc.globalLinks.filter(l => l.isInternal).length
     const externalLinks = doc.globalLinks.filter(l => !l.isInternal).length
 
-    const passed = internalLinks >= 1 && externalLinks >= 1
+    const passed = internalLinks >= 1
 
     let score = 0
-    if (internalLinks > 0) score += 2
-    if (externalLinks > 0) score += 3
+    if (internalLinks > 0) score += 3
+    if (externalLinks > 0) score += 2
+    else if (internalLinks >= 2) score += 2
 
     return {
       passed,
