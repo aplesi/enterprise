@@ -7,8 +7,8 @@ import { kvGet } from '@/lib/cloudflare/kv'
 import { enhanceImagePromptToRealPhoto, type ImagePromptContext } from '@/lib/ai/skills/image-prompt-skill'
 import { optimizeImageForWeb } from '@/lib/image/compressor'
 
-const IMAGE_MODEL = '@cf/black-forest-labs/flux-1-schnell'
 export const DEFAULT_ROUTER_MODEL = 'ag/gemini-3.1-flash-image-16x9'
+const CF_FALLBACK_MODEL = '@cf/black-forest-labs/flux-1-schnell'
 const REQUEST_TIMEOUT_MS = 30000 // 30 detik per request
 
 async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number): Promise<Response> {
@@ -55,7 +55,7 @@ export async function getImageRouterConfig(): Promise<ImageRouterConfig> {
 
     const url = (localOverrideUrl || kvUrl || process.env.IMAGE_ROUTER_URL || '').trim()
     const key = (kvKey || process.env.IMAGE_ROUTER_KEY || '').trim()
-    const model = (kvModel || process.env.IMAGE_ROUTER_MODEL || IMAGE_MODEL).trim()
+    const model = (kvModel || process.env.IMAGE_ROUTER_MODEL || DEFAULT_ROUTER_MODEL).trim()
 
     return { enabled, url, key, model }
   } catch {
@@ -63,7 +63,7 @@ export async function getImageRouterConfig(): Promise<ImageRouterConfig> {
       enabled: process.env.IMAGE_ROUTER_ENABLED === 'true' || process.env.IMAGE_ROUTER_ENABLED === '1',
       url: (localOverrideUrl || process.env.IMAGE_ROUTER_URL || '').trim(),
       key: (process.env.IMAGE_ROUTER_KEY || '').trim(),
-      model: (process.env.IMAGE_ROUTER_MODEL || IMAGE_MODEL).trim(),
+      model: (process.env.IMAGE_ROUTER_MODEL || DEFAULT_ROUTER_MODEL).trim(),
     }
   }
 }
@@ -116,15 +116,15 @@ export async function generateViaRouter(
   prompt: string,
   routerUrl: string,
   routerKey: string,
-  model: string = IMAGE_MODEL,
+  model: string = DEFAULT_ROUTER_MODEL,
   context?: ImagePromptContext
 ): Promise<ArrayBuffer> {
   let targetUrl = routerUrl.trim().replace(/\/+$/, '')
 
-  // Resolusi alias model (misal: "gemini" -> "ag/gemini-3.1-flash-image" untuk 9Router)
+  // Resolusi alias model (misal: "gemini" -> "ag/gemini-3.1-flash-image-16x9" untuk 9Router)
   let resolvedModel = model.trim()
   if (resolvedModel.toLowerCase() === 'gemini' || resolvedModel.toLowerCase() === 'gemini-image') {
-    resolvedModel = 'ag/gemini-3.1-flash-image'
+    resolvedModel = DEFAULT_ROUTER_MODEL
   }
 
   // Resolusi endpoint: jika URL belum mencakup path endpoint gambar
@@ -317,7 +317,7 @@ export async function generateViaRouter(
  */
 export async function generateViaCloudflare(
   prompt: string,
-  model: string = IMAGE_MODEL,
+  model: string = CF_FALLBACK_MODEL,
   context?: ImagePromptContext
 ): Promise<ArrayBuffer> {
   let cfAccountId = process.env.CF_ACCOUNT_ID
@@ -339,7 +339,7 @@ export async function generateViaCloudflare(
   }
 
   // Cloudflare Workers AI hanya menerima model berawalan @cf/ atau @hf/
-  const cfModel = (model.startsWith('@cf/') || model.startsWith('@hf/')) ? model : IMAGE_MODEL
+  const cfModel = (model.startsWith('@cf/') || model.startsWith('@hf/')) ? model : CF_FALLBACK_MODEL
 
   const enhancedPrompt = enhanceImagePromptToRealPhoto(prompt, context)
 
@@ -393,7 +393,7 @@ export async function generateGambar(
   context?: ImagePromptContext
 ): Promise<ArrayBuffer> {
   const routerConfig = await getImageRouterConfig()
-  const modelToUse = overrideModel || routerConfig.model || IMAGE_MODEL
+  const modelToUse = overrideModel || routerConfig.model || DEFAULT_ROUTER_MODEL
 
   // 1. Coba Image Router jika aktif dan URL terisi
   if (routerConfig.enabled && routerConfig.url) {
@@ -409,7 +409,7 @@ export async function generateGambar(
   }
 
   // 2. Direct Cloudflare Workers AI (gunakan fallback model Cloudflare jika modelToUse bukan @cf/ model)
-  const cfModel = (modelToUse.startsWith('@cf/') || modelToUse.startsWith('@hf/')) ? modelToUse : IMAGE_MODEL
+  const cfModel = (modelToUse.startsWith('@cf/') || modelToUse.startsWith('@hf/')) ? modelToUse : CF_FALLBACK_MODEL
   console.log(`[ImageGen] Menjalankan direct Cloudflare Workers AI (model: ${cfModel})...`)
   return await generateViaCloudflare(prompt, cfModel, context)
 }

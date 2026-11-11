@@ -344,7 +344,7 @@ export default function SettingsPage() {
         body: JSON.stringify({
           baseUrl: values['IMAGE_ROUTER_URL'] || '',
           apiKey: values['IMAGE_ROUTER_KEY'] || '',
-          model: values['IMAGE_ROUTER_MODEL'] || '@cf/black-forest-labs/flux-1-schnell',
+          model: values['IMAGE_ROUTER_MODEL'] || 'ag/gemini-3.1-flash-image-16x9',
           enabled: values['IMAGE_ROUTER_ENABLED'] === 'true',
         }),
       })
@@ -865,7 +865,7 @@ export default function SettingsPage() {
                         IMAGE_ROUTER_ENABLED: values['IMAGE_ROUTER_ENABLED'] || 'false',
                         IMAGE_ROUTER_URL: values['IMAGE_ROUTER_URL'] || '',
                         IMAGE_ROUTER_KEY: values['IMAGE_ROUTER_KEY'] || '',
-                        IMAGE_ROUTER_MODEL: values['IMAGE_ROUTER_MODEL'] || '@cf/black-forest-labs/flux-1-schnell',
+                        IMAGE_ROUTER_MODEL: values['IMAGE_ROUTER_MODEL'] || 'ag/gemini-3.1-flash-image-16x9',
                       }),
                     })
                     const data = await res.json()
