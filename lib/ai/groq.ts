@@ -76,6 +76,12 @@ export function buildFallbackImagePrompt(judul: string, kategori: string): strin
     case 'bawal':
       speciesVisual = 'Indonesian freshwater pomfret (ikan bawal / Colossoma macropomum) aquaculture pond, circular feeding ripples, authentic tropical setting'
       break
+    case 'kakap':
+      speciesVisual = 'commercial coastal floating net cage (KJA) aquaculture in calm Indonesian bay waters, silvery barramundi (Lates calcarifer) with concave head profile visible near the water surface during feeding'
+      break
+    case 'bandeng':
+      speciesVisual = 'traditional Indonesian coastal brackishwater tambak pond with natural green benthic klekap algae, streamlined silvery milkfish (Chanos chanos) with deeply forked tails breaking the water surface'
+      break
     case 'udang_galah':
       speciesVisual = 'Indonesian giant freshwater prawn (udang galah) earthen pond farm, clear shallow water with submerged branch shelters, farmer inspecting healthy prawns'
       break
@@ -289,13 +295,14 @@ ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
 
 SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris dengan standar Anti-AI Raw Realism (National Geographic / Reuters / 35mm raw documentary photojournalism style, BUKAN render CGI/3D plastik). Prompt HARUS menggambarkan SATU adegan visual KONKRET dan SPESIFIK dari isi artikel yang baru kamu tulis (bukan dari judul saja). Ikuti aturan ketat ini:
 - WAJIB gunakan gaya fotografi dokumenter mentah: candid eye-level, authentic Indonesian aquaculture setting.
-- WAJIB sebutkan spesifikasi kamera & pencahayaan alami: "Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle, diffused morning tropical overcast daylight, natural ambient shadows, no artificial studio glow".
-- WAJIB sebutkan tekstur otentik & ketidaksempurnaan alami: "authentic skin texture with visible pores, weathered hands, casual faded cotton work shirt, natural pond water with subtle aeration foam and organic biofloc particles".
+- WAJIB sebutkan spesifikasi kamera & pencahayaan alami: "Shot on 35mm lens at f/8, deep depth of field, natural eye-level candid documentary angle, diffused morning tropical overcast daylight, natural ambient shadows, flat ungraded color profile".
+- WAJIB sebutkan tekstur otentik & ketidaksempurnaan alami: "authentic skin texture with visible pores, weathered sun-tanned hands, casual faded cotton work shirt, natural murky pond water with subtle surface ripples and aeration foam".
 - KRITIS (LOGIKA FISIK & POSISI KOLAM): Saat memberi pakan, mengecek kualitas air, menebar benih, atau merawat kolam terpal/bioflok/beton, pembudidaya WAJIB berdiri di atas tanah kering/pematang DI LUAR dinding kolam sambil menjangkau air dari pinggir — DILARANG KERAS menggambar pembudidaya berdiri atau nyebur di dalam air kolam terpal/kolam pakan, dan hindari penyebutan sepatu bot karet kecuali panen kolam tanah dengan jaring.
 - KRITIS (AKURASI MORFOLOGI SPESIES INDONESIA):
   * Lele: "African catfish (Clarias gariepinus), smooth dark black skin, distinct barbels/whiskers, scaleless elongated body".
   * Nila: "Nile tilapia (Oreochromis niloticus), olive-grey body with distinct vertical dark stripes".
-  * Vaname: "Whiteleg shrimp (Litopenaeus vannamei), translucent body with pinkish hue in HDPE canvas ponds with paddlewheel splash".
+  * Vaname: "Whiteleg shrimp (Litopenaeus vannamei), translucent greyish-white body with pinkish hue and long antennae".
+  * Udang Galah: "Giant freshwater prawn (Macrobrachium rosenbergii), long blue claw appendages, translucent greenish body".
   * Gurame: "Giant gourami (Osphronemus goramy), deep oval laterally compressed body, elongated pelvic fin threads".
   * Patin: "Pangasius catfish (Pangasianodon hypophthalmus), iridescent silver-grey body, white belly, sleek scaleless skin".
   * Gabus: "Striped snakehead (Channa striata), cylindrical elongated body with dark mottled snake-like scale patterns".
@@ -305,8 +312,8 @@ SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam 
   * Bandeng: "Milkfish (Chanos chanos), streamlined silvery torpedo-shaped body with deeply forked tail".
   * Kakap: "Barramundi (Lates calcarifer), iridescent silver body, concave head profile with large dorsal spines".
 - DILARANG KERAS menggunakan buzzword AI/CGI: "photorealistic", "hyperrealistic", "8K", "4K", "unreal engine", "octane render", "trending on artstation", "cinematic lighting", "smooth plastic skin", "CGI", "3D render", "digital illustration".
-- WAJIB akhiri dengan: "authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration".
-Contoh benar: "An Indonesian fish farmer wearing a casual faded cotton work shirt standing safely on dry ground outside the pond wall beside a blue tarpaulin catfish pond, scattering floating feed pellets from a plastic scoop onto the murky green water surface where African catfish (Clarias gariepinus, smooth dark black skin, distinct barbels/whiskers, scaleless elongated body) rise to feed, Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle, authentic skin texture with visible pores, weathered hands, diffused morning tropical overcast daylight, natural ambient shadows, no artificial studio glow, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration"
+- WAJIB akhiri dengan: "authentic Indonesian aquaculture setting, 35mm documentary photojournalism, Reuters and National Geographic field reportage style, subtle film grain ISO 400, unedited raw documentary photograph. Clean documentary frame without any text overlays, watermarks, typography, or graphic banners."
+Contoh benar: "An Indonesian fish farmer wearing a casual faded cotton work shirt standing safely on dry ground outside the pond wall beside a blue tarpaulin catfish pond, scattering floating feed pellets from a plastic scoop onto the murky green water surface where African catfish (Clarias gariepinus, smooth dark black skin, distinct barbels/whiskers, scaleless elongated body) rise to feed. Shot on 35mm lens at f/8, deep depth of field, natural eye-level candid documentary angle. Authentic skin texture with visible pores, weathered sun-tanned hands. Natural murky pond water with subtle surface ripples and aeration foam. Diffused morning tropical overcast daylight, natural ambient shadows, flat ungraded color profile. Authentic Indonesian aquaculture setting, 35mm documentary photojournalism, Reuters and National Geographic field reportage style, subtle film grain ISO 400, unedited raw documentary photograph. Clean documentary frame without any text overlays, watermarks, typography, or graphic banners."
 Contoh SALAH: "hyperrealistic 8k render of modern aquaculture farm with cinematic lighting" atau "farmer wearing boots standing inside tarpaulin pond water" (DILARANG)`
 
   const userPrompt = `Tulis artikel tentang: "${req.topik}"
@@ -540,7 +547,7 @@ Asal: ${berita.asal === 'internasional' ? 'media internasional (berbahasa Inggri
 
 ${JOURNALISM_NEWS_PROMPT}
 
-Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris dengan standar Anti-AI Raw Realism dokumenter autentik — pastikan pembudidaya berdiri di luar kolam di atas tanah kering/pematang, tidak berdiri di dalam air kolam pakan/terpal (contoh: "Indonesian fish farmer standing safely on dry ground outside the pond wall inspecting pond water, Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle, authentic skin texture with visible pores, weathered hands, diffused morning tropical overcast daylight, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration").
+Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris dengan standar Anti-AI Raw Realism dokumenter autentik — pastikan pembudidaya berdiri di luar kolam di atas tanah kering/pematang, tidak berdiri di dalam air kolam pakan/terpal (contoh: "Indonesian fish farmer standing safely on dry ground outside the pond wall inspecting pond water, Shot on 35mm lens at f/8, deep depth of field, natural eye-level candid documentary angle, authentic skin texture with visible pores, weathered sun-tanned hands, diffused morning tropical overcast daylight, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, Reuters and National Geographic field reportage style, subtle film grain ISO 400, unedited raw documentary photograph. Clean documentary frame without any text overlays, watermarks, typography, or graphic banners.").
 
 Respons hanya JSON:
 {

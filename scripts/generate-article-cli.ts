@@ -9,7 +9,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 dotenv.config()
 
 import { writeFile, mkdir } from 'fs/promises'
-import { generateArtikel } from '@/lib/ai/groq'
+import { generateArtikel, buildFallbackImagePrompt } from '@/lib/ai/groq'
 import { generateGambarDenganFallback, getContextualAquacultureFallback } from '@/lib/ai/cloudflare-image'
 import { insertArtikel, generateUniqueSlug } from '@/lib/db/artikel'
 import { simpanArtikelKeGitHub } from '@/lib/db/github'
@@ -84,7 +84,7 @@ async function main() {
   // 3. Generate gambar banner 16:9 WebP via Antigravity Image Router
   console.log('🎨 [2/4] Memproses gambar banner 16:9 WebP via Antigravity Router...')
   const imgStart = Date.now()
-  const imagePrompt = rawResult.imagePrompt || `Dokumentasi budidaya pembibitan ${topik} di kolam perikanan Indonesia pagi hari`
+  const imagePrompt = rawResult.imagePrompt || buildFallbackImagePrompt(rawResult.judul || topik, kategori)
   const imgResult = await generateGambarDenganFallback(
     imagePrompt,
     finalSlug,

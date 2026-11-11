@@ -14,7 +14,8 @@ export type SectionBlueprint = z.infer<typeof SectionBlueprintSchema>
 
 export const ArticleBlueprintSchema = z.object({
   title: z.string().describe('Judul utama artikel (H1)'),
-  sections: z.array(SectionBlueprintSchema).min(8).max(15).describe('Daftar urutan section dari atas ke bawah')
+  sections: z.array(SectionBlueprintSchema).min(8).max(15).describe('Daftar urutan section dari atas ke bawah'),
+  imagePrompt: z.string().optional().describe('Prompt deskriptif gambar fotografi dokumenter akuakultur dalam Bahasa Inggris')
 })
 
 export type ArticleBlueprint = z.infer<typeof ArticleBlueprintSchema>

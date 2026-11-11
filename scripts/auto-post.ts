@@ -535,7 +535,9 @@ async function generateArtikel(
     seoTitle,
     seoDesc,
     kategori: topikData.kategori,
-    imagePrompt: buildFallbackImagePrompt(blueprint.title, topikData.kategori)
+    imagePrompt: blueprint.imagePrompt
+      ? enhanceImagePromptToRealPhoto(blueprint.imagePrompt, { judul: blueprint.title, kategori: topikData.kategori })
+      : buildFallbackImagePrompt(blueprint.title, topikData.kategori)
   }
 }
 

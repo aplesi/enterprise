@@ -501,7 +501,7 @@ export function sanitizeLatexMath(content: string): string {
   s = s.replace(/\$?H[_2]+S\$?|\$H2S\$/gi, 'H2S')
   s = s.replace(/\$?O[_2]+\$?|\$O2\$/gi, 'O2')
   s = s.replace(/\$?CO[_2]+\$?|\$CO2\$/gi, 'CO2')
-  s = s.replace(/\$([A-Za-z0-9%°\s\.\,\+\-\/\(\)]+)\$/g, '$1') // unwrap single dollar math
+  s = s.replace(/\$([^$\n]+)\$/g, '$1') // unwrap single dollar math
 
   // 6. Sanitasi tahun usang (2024/2025) menjadi 2026
   s = s.replace(/\b(2023|2024|2025)\b/g, '2026')
@@ -617,5 +617,47 @@ export function validateAndSanitizeArticle(
       clicheCount: detectedCliches.length,
       detectedCliches,
     },
+  }
+}
+
+/**
+ * Standar Pre-Publish Quality Gate APLESI Enterprise:
+ * Memvalidasi kepatuhan format sebelum publish ke D1/GitHub Pages:
+ * 1. Sanitasi kebocoran formula inline LaTeX (\text, \frac, $, dll).
+ * 2. Memastikan adanya minimal 1 blok ringkasan intisari (> [!NOTE] atau > [!IMPORTANT]).
+ * 3. Memastikan adanya minimal 1 tabel Markdown (| Kolom |).
+ * 4. Memastikan adanya minimal 3 sub-heading FAQ (### ...) jika terdapat seksi FAQ.
+ */
+export function validatePrePublishQualityGates(markdownContent: string): {
+  valid: boolean
+  errors: string[]
+  sanitized: string
+} {
+  const errors: string[] = []
+  const sanitized = sanitizeLatexMath(markdownContent || '')
+
+  // 1. Cek callout intisari (> [!NOTE] atau > [!IMPORTANT] atau > [!TIP])
+  const hasCallout = /^>\s*\[!(?:NOTE|IMPORTANT|TIP|WARNING)\]/im.test(sanitized)
+  if (!hasCallout) {
+    errors.push('Artikel belum memuat blok ringkasan intisari callout (> [!NOTE] atau > [!IMPORTANT])')
+  }
+
+  // 2. Cek tabel Markdown
+  const hasTable = /\|.+?\|[\r\n]+\|[-:| ]+\|/m.test(sanitized)
+  if (!hasTable) {
+    errors.push('Artikel belum memiliki tabel parameter atau perbandingan terstruktur')
+  }
+
+  // 3. Cek sub-heading FAQ (### ...) jika ada seksi FAQ
+  const hasFaqSection = /##\s*.*(?:FAQ|Tanya\s*Jawab|Pertanyaan\s*yang\s*Sering\s*Diajukan)/i.test(sanitized)
+  const faqHeadings = sanitized.match(/###\s+[^\n]+/g) || []
+  if (hasFaqSection && faqHeadings.length < 3) {
+    errors.push(`Seksi FAQ baru memiliki ${faqHeadings.length} pertanyaan, minimum adalah 3 pertanyaan (###)`)
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    sanitized,
   }
 }

@@ -1087,7 +1087,10 @@ async function main() {
       // Tier 3: Generate gambar via Cloudflare AI FLUX-1
       if (!gambarPath) {
         console.log('   🖼️ [Tier 3] Generate gambar via FLUX-1...')
-        const promptGambar = artikel.imagePrompt || `${artikel.judul}, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration`
+        const cleanJudul = (artikel.judul || '').replace(/[^\w\s-]/g, ' ').replace(/\s+/g, ' ').trim()
+        const promptGambar =
+          artikel.imagePrompt ||
+          `${cleanJudul}. Shot on 35mm lens at f/8, deep depth of field, natural eye-level candid documentary angle. Diffused morning tropical overcast daylight, natural ambient shadows, flat ungraded color profile. Authentic Indonesian aquaculture setting, 35mm documentary photojournalism, Reuters and National Geographic field reportage style, subtle film grain ISO 400, unedited raw documentary photograph. Clean documentary frame without any text overlays, watermarks, typography, or graphic banners.`
         const gambarBuffer = await generateGambarDenganKuota(promptGambar)
         if (gambarBuffer) {
           const imgFile = `news/${berita.id}-${Date.now()}.jpg`

@@ -18,11 +18,21 @@ export interface SpeciesPhotoFeature {
 /**
  * Metadata kamera realistis & ketidaksempurnaan alami (Anti-AI Raw Realism)
  */
-export const CAMERA_SPECS = 'Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle'
-export const REALISTIC_TEXTURES = 'authentic skin texture with visible pores, weathered hands, casual faded cotton work shirt, natural pond water with subtle aeration foam and organic biofloc particles'
-export const SPATIAL_REALISM = 'farmer standing safely on dry ground outside the pond wall beside the outer embankment, never wading or standing inside the pond water'
-export const NATURAL_LIGHTING = 'diffused morning tropical overcast daylight, natural ambient shadows, no artificial studio glow'
-export const CORE_RAW_STYLE = 'authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration'
+export const CAMERA_SPECS =
+  'Shot on 35mm lens at f/8, deep depth of field, natural eye-level candid documentary angle, slightly off-center handheld framing'
+export const HUMAN_REALISTIC_TEXTURES =
+  'authentic skin texture with visible pores, weathered sun-tanned hands, casual faded cotton work shirt'
+export const ENVIRONMENT_REALISTIC_TEXTURES =
+  'natural murky pond water with subtle surface ripples and aeration foam, weathered PVC pipes, damp concrete or tarpaulin embankment edges'
+export const SPATIAL_REALISM =
+  'farmer standing safely on dry ground outside the pond wall beside the outer embankment, working full-body from the dry exterior perimeter'
+export const NATURAL_LIGHTING =
+  'diffused morning tropical overcast daylight, natural ambient shadows, slight highlight reflection on water surface, flat ungraded color profile'
+export const CORE_RAW_STYLE =
+  'authentic Indonesian aquaculture setting, 35mm documentary photojournalism, Reuters and National Geographic field reportage style, subtle film grain ISO 400, unedited raw documentary photograph'
+
+// Pertahankan alias REALISTIC_TEXTURES untuk backward-compatibility jika di-import file lain:
+export const REALISTIC_TEXTURES = `${HUMAN_REALISTIC_TEXTURES}, ${ENVIRONMENT_REALISTIC_TEXTURES}`
 
 /**
  * Basis data visual morfologi spesies akuakultur Indonesia yang akurat
@@ -49,7 +59,8 @@ export const COMMODITY_SPECIES_VISUALS: Record<string, SpeciesPhotoFeature> = {
   vaname: {
     commodity: 'vaname',
     scientificName: 'Litopenaeus vannamei',
-    visualDescription: 'Whiteleg shrimp (Litopenaeus vannamei), translucent body with pinkish hue in HDPE canvas ponds with paddlewheel splash',
+    visualDescription:
+      'Whiteleg shrimp (Litopenaeus vannamei), translucent greyish-white body with pinkish hue and long antennae',
     keywords: ['vaname', 'vannamei', 'udang putih', 'shrimp', 'tambak udang', 'anco'],
   },
   lele: {
@@ -212,7 +223,7 @@ export function detectAquacultureCommodity(text: string): string | null {
   if (lower.includes('patin') || lower.includes('pangasius') || lower.includes('pangasianodon') || lower.includes('jambal')) {
     return 'patin'
   }
-  if (lower.includes('gabus') || lower.includes('channa') || lower.includes('snakehead') || lower.includes('haruan') || lower.includes('kutu')) {
+  if (/\b(ikan\s+kutu|haruan|channa|snakehead|gabus)\b/.test(lower)) {
     return 'gabus'
   }
   if (lower.includes('bawal') || lower.includes('colossoma') || lower.includes('piaractus') || lower.includes('pomfret')) {
@@ -286,15 +297,21 @@ export function enhanceImagePromptToRealPhoto(
     components.push(SPATIAL_REALISM)
   }
 
-  // 3. Injeksi spesifikasi kamera & sudut candid
+  // 3. Injeksi spesifikasi kamera & sudut candid (f/8, deep depth of field)
   const lowerComponents = components.join(' ').toLowerCase()
-  if (!lowerComponents.includes('35mm f/2.8') && !lowerComponents.includes('35mm lens')) {
+  if (!lowerComponents.includes('35mm lens') && !lowerComponents.includes('35mm f/2.8')) {
     components.push(CAMERA_SPECS)
   }
 
-  // 4. Injeksi tekstur realistis & ketidaksempurnaan alami
-  if (!lowerComponents.includes('authentic skin texture') && !lowerComponents.includes('weathered hands')) {
-    components.push(REALISTIC_TEXTURES)
+  // 4. Injeksi tekstur realistis: pisahkan tekstur manusia vs lingkungan
+  const hasHumanActor = /\b(farmer|farmers|technician|worker|workers|specialist|pembudidaya|peternak|petani|person|man|woman)\b/i.test(baseSubject)
+
+  if (hasHumanActor && !lowerComponents.includes('authentic skin texture') && !lowerComponents.includes('weathered')) {
+    components.push(HUMAN_REALISTIC_TEXTURES)
+  }
+
+  if (!lowerComponents.includes('natural murky pond water') && !lowerComponents.includes('aeration foam')) {
+    components.push(ENVIRONMENT_REALISTIC_TEXTURES)
   }
 
   // 5. Injeksi pencahayaan alami (diffused morning tropical daylight)
@@ -307,9 +324,21 @@ export function enhanceImagePromptToRealPhoto(
     components.push(CORE_RAW_STYLE)
   }
 
-  // Gabungkan dan rapikan
-  let finalPrompt = components.join(', ')
-  finalPrompt = finalPrompt.replace(/\s*,\s*/g, ', ').replace(/[,;](\s*[,;])+/g, ',').trim()
+  // Gabungkan dan rapikan (Mode Naratif untuk ag/gemini-3.1-flash-image-16x9)
+  let finalPrompt = components
+    .map((part) => part.trim().replace(/^[,.]+|[,.]+$/g, ''))
+    .filter(Boolean)
+    .join('. ')
 
-  return finalPrompt
+  if (!finalPrompt.toLowerCase().includes('without any text overlays')) {
+    finalPrompt +=
+      '. Clean documentary frame without any text overlays, watermarks, typography, or graphic banners.'
+  }
+
+  let final = finalPrompt.replace(/\.\s*\./g, '.').replace(/\s{2,}/g, ' ').trim()
+  if (!final.endsWith('.')) {
+    final += '.'
+  }
+
+  return final
 }

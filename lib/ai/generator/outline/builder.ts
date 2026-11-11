@@ -28,10 +28,12 @@ ATURAN STRUKTUR (GEO & SEO STANDAR):
 8. JANGAN gunakan bahasa yang bertele-tele di intent.${existingWarning}
 9. JANGAN tambahkan karakter '#' pada properti heading.
 10. TAHUN DAN WAKTU: Tahun saat ini adalah 2026. DILARANG KERAS mencantumkan tahun lampau seperti 2023, 2024, atau 2025 di judul maupun heading. Jika membutuhkan konteks waktu/tahun, gunakan '2026' atau format evergreen tanpa tahun.
-11. Kamu WAJIB merespons dengan JSON valid yang sesuai persis dengan skema berikut:
+11. GAMBAR UTAMA: Buat juga "imagePrompt" dalam Bahasa Inggris yang mendeskripsikan satu adegan visual dokumenter konkret dan spesifik di lapangan budidaya Indonesia (contoh: "Indonesian aquaculture technician checking lively whiteleg shrimp on a feeding tray outside pond edge").
+12. Kamu WAJIB merespons dengan JSON valid yang sesuai persis dengan skema berikut:
 
 {
   "title": "Judul SEO Friendly dan Otoritatif (Maks 60 Karakter)",
+  "imagePrompt": "Deskripsi adegan visual dokumenter akuakultur konkret dalam Bahasa Inggris",
   "sections": [
     {
       "id": "slug-huruf-kecil-strip",

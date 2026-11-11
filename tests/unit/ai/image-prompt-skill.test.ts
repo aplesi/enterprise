@@ -5,6 +5,8 @@ import {
   detectAquacultureCommodity,
   shouldEnforceDryLandPosture,
   CAMERA_SPECS,
+  HUMAN_REALISTIC_TEXTURES,
+  ENVIRONMENT_REALISTIC_TEXTURES,
   REALISTIC_TEXTURES,
   SPATIAL_REALISM,
   NATURAL_LIGHTING,
@@ -112,6 +114,8 @@ describe('Image Prompt Master Skill ("Anti-AI Raw Realism")', () => {
       expect(detectAquacultureCommodity('tambak ikan bandeng')).toBe('bandeng')
       expect(detectAquacultureCommodity('keramba jaring apung kakap putih barramundi')).toBe('kakap')
       expect(detectAquacultureCommodity('tambak udang galah')).toBe('udang_galah')
+      expect(detectAquacultureCommodity('kultur kutu air untuk pakan alami larva')).toBeNull()
+      expect(detectAquacultureCommodity('ekstraksi albumin ikan kutu gabus haruan')).toBe('gabus')
     })
 
     it('returns null when no species is mentioned', () => {
@@ -125,11 +129,24 @@ describe('Image Prompt Master Skill ("Anti-AI Raw Realism")', () => {
       const enhanced = enhanceImagePromptToRealPhoto(prompt)
 
       expect(enhanced).toContain(CAMERA_SPECS)
-      expect(enhanced).toContain(REALISTIC_TEXTURES)
+      expect(enhanced).toContain(HUMAN_REALISTIC_TEXTURES)
+      expect(enhanced).toContain(ENVIRONMENT_REALISTIC_TEXTURES)
       expect(enhanced).toContain(SPATIAL_REALISM)
       expect(enhanced).toContain(NATURAL_LIGHTING)
       expect(enhanced).toContain(CORE_RAW_STYLE)
+      expect(enhanced).toContain('Clean documentary frame without any text overlays')
       expect(enhanced).not.toContain('rubber farm boots')
+    })
+
+    it('injects only environment textures when no human actor is present', () => {
+      const prompt = 'HDPE tarpaulin aquaculture pond with aeration system and water ripples'
+      const enhanced = enhanceImagePromptToRealPhoto(prompt)
+
+      expect(enhanced).toContain(CAMERA_SPECS)
+      expect(enhanced).toContain(ENVIRONMENT_REALISTIC_TEXTURES)
+      expect(enhanced).not.toContain(HUMAN_REALISTIC_TEXTURES)
+      expect(enhanced).toContain(NATURAL_LIGHTING)
+      expect(enhanced).toContain(CORE_RAW_STYLE)
     })
 
     it('does not force dry-land posture on explicit seine-net earthen pond harvesting', () => {
@@ -165,13 +182,13 @@ describe('Image Prompt Master Skill ("Anti-AI Raw Realism")', () => {
       expect(enhanced).toContain('vertical dark stripes')
     })
 
-    it('maps vaname to Whiteleg shrimp Litopenaeus vannamei with paddlewheel splash', () => {
+    it('maps vaname to Whiteleg shrimp Litopenaeus vannamei with translucent body', () => {
       const enhanced = enhanceImagePromptToRealPhoto('Checking shrimp on anco tray', {
         judul: 'Manajemen Pakan Udang Vaname Tambak Intensif',
       })
       expect(enhanced).toContain(COMMODITY_SPECIES_VISUALS.vaname.visualDescription)
       expect(enhanced).toContain('Litopenaeus vannamei')
-      expect(enhanced).toContain('paddlewheel splash')
+      expect(enhanced).toContain('translucent greyish-white body')
     })
 
     it('maps gurame, patin, gabus, bawal, lobster, and kepiting accurately', () => {
@@ -245,15 +262,14 @@ describe('Image Prompt Master Skill ("Anti-AI Raw Realism")', () => {
       const fallbackPrompt = buildFallbackImagePrompt('Teknik Budidaya Lele Bioflok Intensif', 'Manajemen Kolam')
 
       expect(fallbackPrompt).toContain(CAMERA_SPECS)
-      expect(fallbackPrompt).toContain(REALISTIC_TEXTURES)
+      expect(fallbackPrompt).toContain(ENVIRONMENT_REALISTIC_TEXTURES)
       expect(fallbackPrompt).toContain(NATURAL_LIGHTING)
       expect(fallbackPrompt).toContain(CORE_RAW_STYLE)
       expect(fallbackPrompt).toContain('Clarias gariepinus')
       expect(fallbackPrompt).not.toContain('photorealistic')
       expect(fallbackPrompt).not.toContain('hyperrealistic')
       expect(fallbackPrompt).not.toContain('unreal engine')
-      expect(fallbackPrompt).toContain('no CGI')
-      expect(fallbackPrompt).toContain('no 3D render')
+      expect(fallbackPrompt).toContain('Clean documentary frame without any text overlays')
     })
 
     it('produces prompt for shrimp vaname correctly', () => {
@@ -262,6 +278,22 @@ describe('Image Prompt Master Skill ("Anti-AI Raw Realism")', () => {
       expect(fallbackPrompt).toContain('Litopenaeus vannamei')
       expect(fallbackPrompt).toContain(CAMERA_SPECS)
       expect(fallbackPrompt).toContain(CORE_RAW_STYLE)
+    })
+
+    it('produces prompt for kakap and bandeng correctly', () => {
+      const kakapPrompt = buildFallbackImagePrompt('Pembesaran Kakap Putih di KJA', 'Manajemen Kolam')
+      expect(kakapPrompt).toContain('Lates calcarifer')
+      expect(kakapPrompt).toContain(CAMERA_SPECS)
+
+      const bandengPrompt = buildFallbackImagePrompt('Budidaya Ikan Bandeng di Tambak Tradisional', 'Pembenihan')
+      expect(bandengPrompt).toContain('Chanos chanos')
+      expect(bandengPrompt).toContain(CAMERA_SPECS)
+    })
+
+    it('produces prompt for udang galah correctly', () => {
+      const galahPrompt = buildFallbackImagePrompt('Manajemen Kualitas Air Kolam Udang Galah', 'Manajemen Kolam')
+      expect(galahPrompt).toContain('udang galah')
+      expect(galahPrompt).toContain(CAMERA_SPECS)
     })
 
     it('produces prompt for bawal correctly', () => {
