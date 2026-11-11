@@ -2,7 +2,7 @@
 judul: "Ekstraksi Albumin Gabus untuk Industri Medis & Suplemen"
 slug: "ekstraksi-albumin-gabus-untuk-industri-medis-suplemen"
 ringkasan: "Panduan lengkap mengenai ekstraksi albumin ikan gabus untuk kebutuhan industri medis dan suplemen kesehatan untuk pembudidaya Ikan Gabus di Indonesia."
-gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/ekstraksi-albumin-gabus-untuk-industri-medis-suplemen-1794380313664.jpg"
+gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/ekstraksi-albumin-gabus-untuk-industri-medis-suplemen-antigravity.jpg"
 kategori: "Panen & Pascapanen"
 tags: ["ekstraksi albumin gabus", "albumin channa striata", "minyak ikan gabus"]
 penulis: "Tim Redaksi APLESI"
