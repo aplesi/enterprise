@@ -48,6 +48,7 @@ export async function POST(req: NextRequest) {
       const imgResult = await generateGambarDenganFallback(
         artikel.imagePrompt,
         artikel.slug,
+        { judul: artikel.judul, kategori: body.kategori }
       )
       artikel.gambarUrl = imgResult.url
       imageSource = imgResult.source

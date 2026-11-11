@@ -1,5 +1,5 @@
 // config/navigation.ts
-import { Home, Sparkles, Calendar, Folder, BarChart3, DollarSign, ShoppingBag, Users, Settings, Megaphone, ClipboardList, FileText } from 'lucide-react'
+import { Home, Sparkles, Calendar, Folder, BarChart3, DollarSign, ShoppingBag, Users, Settings, Megaphone, ClipboardList, FileText, KeyRound } from 'lucide-react'
 
 export const navPublic = [
   { label: 'Beranda', href: '/' },
@@ -22,5 +22,6 @@ export const navAdmin = [
   { label: 'Produk', href: '/admin/produk', icon: ShoppingBag },
   { label: 'Ads', href: '/admin/ads', icon: Megaphone },
   { label: 'Pengguna', href: '/admin/pengguna', icon: Users },
+  { label: 'Akun Google AI', href: '/admin/ai-accounts', icon: KeyRound },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
 ]

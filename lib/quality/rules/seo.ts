@@ -14,7 +14,7 @@ export const MinimumFaqRule: QualityRule = {
     const faqSection = doc.sections.find(s => s.id === 'faq' || s.id.includes('faq') || s.id.includes('pertanyaan'))
     if (!faqSection) {
       // Fallback: cek jika ada pertanyaan di seluruh dokumen
-      const totalFaqQuestions = (doc.rawMarkdown.match(/^###\s+[^?\n]+\?/gm) || []).length
+      const totalFaqQuestions = (doc.rawMarkdown?.match(/^###\s+[^?\n]+\?/gm) || []).length
       if (totalFaqQuestions >= 4) {
         return {
           passed: true,
@@ -31,7 +31,7 @@ export const MinimumFaqRule: QualityRule = {
       }
     }
 
-    const h3CountInFaq = (faqSection.content.match(/^### /gm) || []).length || (doc.rawMarkdown.match(/^###\s+[^?\n]+\?/gm) || []).length
+    const h3CountInFaq = (faqSection.content.match(/^### /gm) || []).length || (doc.rawMarkdown?.match(/^###\s+[^?\n]+\?/gm) || []).length
     
     const passed = h3CountInFaq >= 4
 

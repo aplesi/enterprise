@@ -602,7 +602,7 @@ PENTING: Artikel harus MINIMAL 1000 kata dan mencakup SEMUA informasi dari konte
 
 ${JOURNALISM_NEWS_PROMPT}
 
-Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk FLUX-1 / Stable Diffusion dengan gaya photojournalism dokumenter autentik (contoh: "editorial documentary photography, Indonesian fish farmers inspecting aquaculture pond at morning, realistic texture, natural lighting, shot on 35mm lens, high resolution photojournalism, authentic, no CGI, no 3D cartoon").
+Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk FLUX-1 / Stable Diffusion dengan standar Anti-AI Raw Realism dokumenter autentik (contoh: "Indonesian fish farmer inspecting pond, Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle, authentic skin texture with visible pores, weathered hands, diffused morning tropical overcast daylight, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration").
 
 Respons hanya JSON:
 {
@@ -828,7 +828,7 @@ async function generateGambar(prompt) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: `${prompt}, professional photography, high quality, 4k`,
+          prompt: prompt,
           num_steps: 4,
           width: 1024,
           height: 576,
@@ -1048,7 +1048,7 @@ async function main() {
       // Tier 3: Generate gambar via Cloudflare AI FLUX-1
       if (!gambarPath) {
         console.log('   🖼️ [Tier 3] Generate gambar via FLUX-1...')
-        const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
+        const promptGambar = artikel.imagePrompt || `${artikel.judul}, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration`
         const gambarBuffer = await generateGambarDenganKuota(promptGambar)
         if (gambarBuffer) {
           const imgFile = `news/${berita.id}-${Date.now()}.jpg`

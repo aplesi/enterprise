@@ -382,7 +382,10 @@ async function prosesGambarBerita(
       // Prioritas 3: Generate via FLUX-1 jika og:image juga nihil
       if (!gambarUrl) {
         const prompt = buildFallbackImagePrompt(judul, 'berita')
-        gambarUrl = await generateGambarDanSimpan(prompt, `news-${item.id}`)
+        gambarUrl = await generateGambarDanSimpan(prompt, `news-${item.id}`, {
+          judul,
+          kategori: 'Berita',
+        })
       }
 
       // Update D1 dengan URL gambar

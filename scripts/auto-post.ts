@@ -22,6 +22,7 @@ import { runEditorialReview } from '../lib/ai/editor/engine'
 import { metrics } from '../lib/metrics/collector'
 import { buildFallbackImagePrompt } from '../lib/ai/groq'
 import { getContextualAquacultureFallback } from '../lib/ai/cloudflare-image'
+import { enhanceImagePromptToRealPhoto } from '../lib/ai/skills/image-prompt-skill'
 import { validateAndSanitizeArticle, sanitizeLatexMath, detectCommodity, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
 import { notifySearchEngines } from '../lib/seo/indexer'
 
@@ -520,7 +521,7 @@ async function generateGambar(prompt) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: `${prompt}, realistic Indonesian aquaculture documentary photography, 4k`,
+          prompt: enhanceImagePromptToRealPhoto(prompt),
         }),
       }
     )
@@ -693,7 +694,7 @@ async function main() {
       // Generate dan simpan gambar, pakai imagePrompt spesifik dari
       // isi artikel (bukan judul artikel yang generik)
       let gambarPath = getContextualAquacultureFallback(slug)
-      const promptGambar = artikel.imagePrompt || `${artikel.judul}, Indonesian aquaculture, realistic photography`
+      const promptGambar = artikel.imagePrompt || enhanceImagePromptToRealPhoto(artikel.judul, { judul: artikel.judul, kategori: artikel.kategori })
       const gambarBuffer = await generateGambarDenganKuota(promptGambar)
       if (gambarBuffer) {
         const imgFile = `artikel/${slug}-${Date.now()}.jpg`

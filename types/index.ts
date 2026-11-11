@@ -163,3 +163,64 @@ export interface ApiResponse<T = unknown> {
   error?: string
   message?: string
 }
+
+// --- AI Image Router Settings ---
+export interface AiImageConfig {
+  enabled: boolean
+  baseUrl: string
+  apiKey: string
+  model: string
+}
+
+export interface AiImageTestResult {
+  success: boolean
+  latencyMs?: number
+  previewUrl?: string
+  message: string
+}
+
+// --- AI Router Managed Accounts (Opsi A) ---
+export type RouterStorageSource = 'kv' | 'env_secret_fallback'
+
+export interface SanitizedRouterAccount {
+  email: string
+  maskedEmail: string
+  projectId: string
+  priority: number
+  isActive: boolean
+  addedAt?: string
+  updatedAt?: string
+  cooldownUntilMs: number | null
+}
+
+export interface RouterHealthStatus {
+  status: string
+  service?: string
+  version?: string
+  antigravityAccountsActive: number
+  antigravityAccountsTotal: number
+  storageSource: RouterStorageSource
+  encryptionConfigured: boolean
+  kvCacheEnabled: boolean
+  oauthConfigured: boolean
+  timestamp?: string
+}
+
+export interface RouterModelQuotaInfo {
+  modelId: string
+  remainingFraction: number | null
+  remainingPercent: number | null
+  resetTime: string | null
+}
+
+export interface RouterAccountQuotaResult {
+  email: string
+  maskedEmail: string
+  projectId: string
+  isActive: boolean
+  authStatus: 'ok' | 'revoked' | 'error'
+  errorMessage?: string
+  checkedAt: string
+  models: RouterModelQuotaInfo[]
+}
+

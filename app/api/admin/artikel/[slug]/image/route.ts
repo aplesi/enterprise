@@ -25,7 +25,10 @@ export async function POST(
 
     // 2. Generate gambar via Cloudflare AI & simpan otomatis
     // generateGambarDanSimpan sudah melakukan upload ke GitHub untuk gambar tersebut.
-    const gambarUrl = await generateGambarDanSimpan(prompt, slug)
+    const gambarUrl = await generateGambarDanSimpan(prompt, slug, {
+      judul: artikel.judul,
+      kategori: artikel.kategori,
+    })
     if (!gambarUrl) {
       throw new Error('Gagal melakukan generate gambar')
     }

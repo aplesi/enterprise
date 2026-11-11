@@ -11,7 +11,11 @@ const ALLOWED_KEYS = [
   'RESEND_API_KEY', 'EMAIL_FROM',
   'ADMIN_EMAIL', 'ADMIN_PASSWORD', 'NEXTAUTH_SECRET',
   'NEXT_PUBLIC_GA_ID', 'NEXT_PUBLIC_ADSENSE_ID', 'ADSENSE_SCRIPT_RAW', 'AFFILIATE_SECRET',
+  'IMAGE_ROUTER_ENABLED', 'IMAGE_ROUTER_URL', 'IMAGE_ROUTER_KEY', 'IMAGE_ROUTER_MODEL',
 ]
+
+const isLocalDevUrl = (val: string) =>
+  /^https?:\/\/(localhost|127\.0\.0\.1)\b/i.test(val.trim())
 
 export async function GET() {
   try {
@@ -22,6 +26,11 @@ export async function GET() {
         if (val) settings[key] = val
       })
     )
+
+    if (process.env.NODE_ENV === 'development' && process.env.LOCAL_IMAGE_ROUTER_URL?.trim()) {
+      settings.IMAGE_ROUTER_URL = process.env.LOCAL_IMAGE_ROUTER_URL.trim()
+    }
+
     return NextResponse.json({ success: true, data: settings })
   } catch (err) {
     return NextResponse.json({ success: false, error: 'Gagal membaca settings' }, { status: 500 })
@@ -31,12 +40,26 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body: Record<string, string> = await req.json()
+    let skippedLocalRouterUrl = false
+
     await Promise.all(
       Object.entries(body)
         .filter(([key]) => ALLOWED_KEYS.includes(key))
-        .map(([key, value]) => kvSet(`settings:${key}`, value))
+        .map(([key, value]) => {
+          // Cegah URL localhost menimpa KV production saat dev lokal
+          if (process.env.NODE_ENV === 'development' && key === 'IMAGE_ROUTER_URL' && isLocalDevUrl(value)) {
+            skippedLocalRouterUrl = true
+            return Promise.resolve(true)
+          }
+          return kvSet(`settings:${key}`, value)
+        })
     )
-    return NextResponse.json({ success: true, message: 'Settings berhasil disimpan ke Cloudflare KV' })
+
+    const message = skippedLocalRouterUrl
+      ? 'Settings disimpan ke Cloudflare KV (URL localhost diabaikan agar production tetap aman)'
+      : 'Settings berhasil disimpan ke Cloudflare KV'
+
+    return NextResponse.json({ success: true, message })
   } catch (err) {
     return NextResponse.json({ success: false, error: 'Gagal menyimpan settings' }, { status: 500 })
   }

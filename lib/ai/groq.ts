@@ -17,6 +17,7 @@ import {
   type GroqChatParams,
 } from '@/lib/ai/groq-pool'
 import { detectCommodity } from '@/lib/ai/skills/article-writer-skill'
+import { enhanceImagePromptToRealPhoto } from '@/lib/ai/skills/image-prompt-skill'
 
 /**
  * Rakit image prompt deterministik dari judul + kategori berbasis multi-komoditas.
@@ -50,6 +51,9 @@ export function buildFallbackImagePrompt(judul: string, kategori: string): strin
     case 'gabus':
       speciesVisual = 'Indonesian snakehead fish (ikan gabus / Channa striata) farming facility, secured raised canvas ponds with protective netting, clear water, documentary photojournalism'
       break
+    case 'bawal':
+      speciesVisual = 'Indonesian freshwater pomfret (ikan bawal / Colossoma macropomum) aquaculture pond, circular feeding ripples, authentic tropical setting'
+      break
     case 'udang_galah':
       speciesVisual = 'Indonesian giant freshwater prawn (udang galah) earthen pond farm, clear shallow water with submerged branch shelters, farmer inspecting healthy prawns'
       break
@@ -63,7 +67,7 @@ export function buildFallbackImagePrompt(judul: string, kategori: string): strin
 
   const kategoriMap: Record<string, string> = {
     'Pembenihan': 'Indonesian freshwater aquaculture hatchery facility, nursery tanks with aeration, Indonesian specialist inspecting water quality, morning daylight',
-    'Pakan': 'Indonesian aquaculture farmer scattering feed pellets into a large pond, water ripples and splashes, wearing farm boots, lush tropical farm backdrop',
+    'Pakan': 'Indonesian aquaculture farmer standing on dry ground outside the pond edge scattering feed pellets into a tarpaulin or earthen pond, water ripples and splashes, lush tropical farm backdrop',
     'Penyakit & Pengobatan': 'Indonesian aquaculture technician testing water parameters with digital dissolved oxygen and pH probe at pond edge, natural outdoor daylight',
     'Penyakit': 'Indonesian aquaculture technician testing water parameters with digital dissolved oxygen and pH probe at pond edge, natural outdoor daylight',
     'Manajemen Kolam': 'Commercial aquaculture ponds under tropical sky in Indonesia, aerators splashing water, clean modern aquaculture infrastructure',
@@ -81,8 +85,9 @@ export function buildFallbackImagePrompt(judul: string, kategori: string): strin
 
   const categoryScene = kategoriMap[kategori] || 'Indonesian modern aquaculture facility, clean ponds, lush tropical rural background'
   const primaryScene = speciesVisual || categoryScene
+  const basePrompt = `${primaryScene}, context: ${cleanJudul.slice(0, 80)}`
 
-  return `${primaryScene}, context: ${cleanJudul.slice(0, 80)}, 35mm documentary photography, photojournalism style, natural ambient daylight, sharp focus, authentic Indonesian setting, no CGI, no cartoon, no distorted anatomy`
+  return enhanceImagePromptToRealPhoto(basePrompt, { judul, kategori })
 }
 
 const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'
@@ -238,16 +243,27 @@ ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
 3. PANDUAN LANGKAH: Jika artikel berupa panduan langkah-demi-langkah, gunakan heading H3 bernomor eksplisit ("### 1. Nama Langkah", "### 2. Nama Langkah", dst).
 4. KONTEKS LOKAL INDONESIA: Sebutkan tren pasar perikanan lokal, kondisi iklim tropis, atau referensi ke standar praktik KKP (Kementerian Kelautan dan Perikanan) jika relevan agar artikel terasa akrab bagi peternak lokal.
 
-SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk model FLUX-1. Prompt HARUS menggambarkan SATU adegan visual KONKRET dan SPESIFIK dari isi artikel yang baru kamu tulis (bukan dari judul saja). Ikuti aturan ketat ini:
-- WAJIB sebutkan: jenis ikan/spesies yang dibahas, jenis kolam/media yang disebutkan, alat/bahan yang dipakai, tahapan spesifik yang sedang dijelaskan
-- WAJIB sebutkan setting: indoor/outdoor, waktu (pagi/siang/sore), kondisi cuaca
-- WAJIB sebutkan detail visual: warna air, warna ikan, tekstur pakan, material kolam
-- KRITIS (IDENTITAS IKAN): Jika membahas ikan Lele/Lele Dumbo, KAMU WAJIB menggunakan bahasa Inggris: "African catfish, dark black skin, long whiskers/barbels, no scales, elongated body". JANGAN pernah hanya menulis "fish" atau AI akan menggambar ikan Koi/Mas. Jika membahas ikan Nila, gunakan "Tilapia fish".
-- WAJIB akhiri dengan: "Indonesian aquaculture, natural lighting, editorial photography"
-- JANGAN gunakan kata-kata abstrak seperti "modern", "professional", "advanced"
-- JANGAN buat prompt umum — harus spesifik ke konten artikel
-Contoh benar: "a young Indonesian farmer releasing thousands of tiny silver catfish fry into a rectangular concrete pond filled with green-tinged water, morning sunlight casting long shadows, plastic bucket nearby, rural Java village background, Indonesian aquaculture, natural lighting, editorial photography"
-Contoh SALAH: "modern fish farming technology in Indonesia" (terlalu umum)`
+SETELAH menulis artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris dengan standar Anti-AI Raw Realism (National Geographic / Reuters / 35mm raw documentary photojournalism style, BUKAN render CGI/3D plastik). Prompt HARUS menggambarkan SATU adegan visual KONKRET dan SPESIFIK dari isi artikel yang baru kamu tulis (bukan dari judul saja). Ikuti aturan ketat ini:
+- WAJIB gunakan gaya fotografi dokumenter mentah: candid eye-level, authentic Indonesian aquaculture setting.
+- WAJIB sebutkan spesifikasi kamera & pencahayaan alami: "Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle, diffused morning tropical overcast daylight, natural ambient shadows, no artificial studio glow".
+- WAJIB sebutkan tekstur otentik & ketidaksempurnaan alami: "authentic skin texture with visible pores, weathered hands, casual faded cotton work shirt, natural pond water with subtle aeration foam and organic biofloc particles".
+- KRITIS (LOGIKA FISIK & POSISI KOLAM): Saat memberi pakan, mengecek kualitas air, menebar benih, atau merawat kolam terpal/bioflok/beton, pembudidaya WAJIB berdiri di atas tanah kering/pematang DI LUAR dinding kolam sambil menjangkau air dari pinggir — DILARANG KERAS menggambar pembudidaya berdiri atau nyebur di dalam air kolam terpal/kolam pakan, dan hindari penyebutan sepatu bot karet kecuali panen kolam tanah dengan jaring.
+- KRITIS (AKURASI MORFOLOGI SPESIES INDONESIA):
+  * Lele: "African catfish (Clarias gariepinus), smooth dark black skin, distinct barbels/whiskers, scaleless elongated body".
+  * Nila: "Nile tilapia (Oreochromis niloticus), olive-grey body with distinct vertical dark stripes".
+  * Vaname: "Whiteleg shrimp (Litopenaeus vannamei), translucent body with pinkish hue in HDPE canvas ponds with paddlewheel splash".
+  * Gurame: "Giant gourami (Osphronemus goramy), deep oval laterally compressed body, elongated pelvic fin threads".
+  * Patin: "Pangasius catfish (Pangasianodon hypophthalmus), iridescent silver-grey body, white belly, sleek scaleless skin".
+  * Gabus: "Striped snakehead (Channa striata), cylindrical elongated body with dark mottled snake-like scale patterns".
+  * Lobster: "Freshwater redclaw crayfish (Cherax quadricarinatus), mottled blue-green carapace with bright red patch on male claws".
+  * Kepiting: "Mud crab (Scylla serrata), heavy dark olive-green carapace with robust crushing claws".
+  * Bawal: "Freshwater pomfret (Colossoma macropomum), deep round laterally compressed silver body with reddish throat and belly".
+  * Bandeng: "Milkfish (Chanos chanos), streamlined silvery torpedo-shaped body with deeply forked tail".
+  * Kakap: "Barramundi (Lates calcarifer), iridescent silver body, concave head profile with large dorsal spines".
+- DILARANG KERAS menggunakan buzzword AI/CGI: "photorealistic", "hyperrealistic", "8K", "4K", "unreal engine", "octane render", "trending on artstation", "cinematic lighting", "smooth plastic skin", "CGI", "3D render", "digital illustration".
+- WAJIB akhiri dengan: "authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration".
+Contoh benar: "An Indonesian fish farmer wearing a casual faded cotton work shirt standing safely on dry ground outside the pond wall beside a blue tarpaulin catfish pond, scattering floating feed pellets from a plastic scoop onto the murky green water surface where African catfish (Clarias gariepinus, smooth dark black skin, distinct barbels/whiskers, scaleless elongated body) rise to feed, Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle, authentic skin texture with visible pores, weathered hands, diffused morning tropical overcast daylight, natural ambient shadows, no artificial studio glow, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration"
+Contoh SALAH: "hyperrealistic 8k render of modern aquaculture farm with cinematic lighting" atau "farmer wearing boots standing inside tarpaulin pond water" (DILARANG)`
 
   const userPrompt = `Tulis artikel tentang: "${req.topik}"
 
@@ -341,7 +357,9 @@ Respons format JSON yang sama.`,
     tags: parsed.tags || [],
     seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
     seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
-    imagePrompt: parsed.imagePrompt || buildFallbackImagePrompt(parsed.judul, req.kategori),
+    imagePrompt: parsed.imagePrompt
+      ? enhanceImagePromptToRealPhoto(parsed.imagePrompt, { judul: parsed.judul, kategori: req.kategori })
+      : buildFallbackImagePrompt(parsed.judul, req.kategori),
     slug,
   }
 }
@@ -469,7 +487,7 @@ Asal: ${berita.asal === 'internasional' ? 'media internasional (berbahasa Inggri
 
 ${JOURNALISM_NEWS_PROMPT}
 
-Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris untuk FLUX-1 / Stable Diffusion dengan gaya photojournalism dokumenter autentik (contoh: "editorial documentary photography, Indonesian fish farmers inspecting aquaculture pond at morning, realistic texture, natural lighting, shot on 35mm lens, high resolution photojournalism, authentic, no CGI, no 3D cartoon").
+Setelah artikel, buat juga "imagePrompt": prompt image-generation dalam Bahasa Inggris dengan standar Anti-AI Raw Realism dokumenter autentik — pastikan pembudidaya berdiri di luar kolam di atas tanah kering/pematang, tidak berdiri di dalam air kolam pakan/terpal (contoh: "Indonesian fish farmer standing safely on dry ground outside the pond wall inspecting pond water, Shot on 35mm f/2.8 lens, natural eye-level candid documentary angle, authentic skin texture with visible pores, weathered hands, diffused morning tropical overcast daylight, authentic Indonesian aquaculture setting, 35mm documentary photojournalism, subtle film grain ISO 400, unedited raw documentary photograph, no CGI, no 3D render, no plastic skin, no digital illustration").
 
 Respons hanya JSON:
 {
@@ -547,7 +565,9 @@ Respons format JSON yang sama.`,
     tags: parsed.tags || [],
     seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
     seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
-    imagePrompt: parsed.imagePrompt || buildFallbackImagePrompt(parsed.judul, 'Berita'),
+    imagePrompt: parsed.imagePrompt
+      ? enhanceImagePromptToRealPhoto(parsed.imagePrompt, { judul: parsed.judul, kategori: 'Berita' })
+      : buildFallbackImagePrompt(parsed.judul, 'Berita'),
     slug: slugify(parsed.judul),
     sumberAsli: { nama: berita.sumberNama, url: berita.link },
   }

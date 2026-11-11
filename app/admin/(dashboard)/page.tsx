@@ -2,7 +2,7 @@
 // app/admin/(dashboard)/page.tsx
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { FileText, Clock, Folder, Sparkles, Calendar, BarChart3, DollarSign, Users } from 'lucide-react'
+import { FileText, Clock, Folder, Sparkles, Calendar, BarChart3, DollarSign, Users, KeyRound } from 'lucide-react'
 
 interface ArtikelItem {
   slug: string
@@ -79,6 +79,13 @@ export default function AdminDashboard() {
       judul: 'Pengguna',
       deskripsi: 'Kelola editor dan admin (Super Admin only)',
       accent: 'border-accent/30 hover:border-accent/60',
+    },
+    {
+      href: '/admin/ai-accounts',
+      icon: KeyRound,
+      judul: 'Akun Google AI',
+      deskripsi: 'Kelola akun Google AI Router 24/7, OAuth & cek kuota real-time',
+      accent: 'border-aqua-glow/30 hover:border-aqua-glow/60',
     },
   ]
 

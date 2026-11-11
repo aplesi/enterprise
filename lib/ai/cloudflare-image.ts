@@ -1,10 +1,13 @@
 // lib/ai/cloudflare-image.ts
-// Generate gambar menggunakan Cloudflare Workers AI (gratis)
+// Generate gambar menggunakan Cloudflare Workers AI atau AI Image Router eksternal (9Router dsb.)
 // Edge-compatible: tidak menggunakan fs atau path
-// Fallback: placeholder image jika Cloudflare AI gagal
+// Fallback: placeholder image jika Cloudflare AI / Router gagal
+
+import { kvGet } from '@/lib/cloudflare/kv'
+import { enhanceImagePromptToRealPhoto, type ImagePromptContext } from '@/lib/ai/skills/image-prompt-skill'
 
 const IMAGE_MODEL = '@cf/black-forest-labs/flux-1-schnell'
-const REQUEST_TIMEOUT_MS = 30000 // 30 detik per request (FLUX butuh waktu lebih)
+const REQUEST_TIMEOUT_MS = 30000 // 30 detik per request
 
 async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number): Promise<Response> {
   const controller = new AbortController()
@@ -17,24 +20,331 @@ async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: nu
   }
 }
 
-export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
-  const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID
-  const CF_API_TOKEN = process.env.CF_API_TOKEN
+export interface ImageRouterConfig {
+  enabled: boolean
+  url: string
+  key: string
+  model: string
+}
 
-  if (!CF_ACCOUNT_ID || !CF_API_TOKEN) {
-    throw new Error('CF_ACCOUNT_ID atau CF_API_TOKEN belum diset di environment')
+/**
+ * Membaca konfigurasi AI Image Router secara dinamis:
+ * Memeriksa KV (settings:IMAGE_ROUTER_*) dengan fallback ke process.env.
+ * Pada mode development lokal, LOCAL_IMAGE_ROUTER_URL di .env.local diprioritaskan
+ * agar pengujian 9Router lokal tidak menimpa konfigurasi production di Cloudflare KV.
+ */
+export async function getImageRouterConfig(): Promise<ImageRouterConfig> {
+  const localOverrideUrl =
+    process.env.NODE_ENV === 'development'
+      ? (process.env.LOCAL_IMAGE_ROUTER_URL || '').trim()
+      : ''
+
+  try {
+    const [kvEnabled, kvUrl, kvKey, kvModel] = await Promise.all([
+      kvGet('settings:IMAGE_ROUTER_ENABLED'),
+      kvGet('settings:IMAGE_ROUTER_URL'),
+      kvGet('settings:IMAGE_ROUTER_KEY'),
+      kvGet('settings:IMAGE_ROUTER_MODEL'),
+    ])
+
+    const enabled = kvEnabled !== null
+      ? (kvEnabled === 'true' || kvEnabled === '1')
+      : (process.env.IMAGE_ROUTER_ENABLED === 'true' || process.env.IMAGE_ROUTER_ENABLED === '1')
+
+    const url = (localOverrideUrl || kvUrl || process.env.IMAGE_ROUTER_URL || '').trim()
+    const key = (kvKey || process.env.IMAGE_ROUTER_KEY || '').trim()
+    const model = (kvModel || process.env.IMAGE_ROUTER_MODEL || IMAGE_MODEL).trim()
+
+    return { enabled, url, key, model }
+  } catch {
+    return {
+      enabled: process.env.IMAGE_ROUTER_ENABLED === 'true' || process.env.IMAGE_ROUTER_ENABLED === '1',
+      url: (localOverrideUrl || process.env.IMAGE_ROUTER_URL || '').trim(),
+      key: (process.env.IMAGE_ROUTER_KEY || '').trim(),
+      model: (process.env.IMAGE_ROUTER_MODEL || IMAGE_MODEL).trim(),
+    }
+  }
+}
+
+/**
+ * Mendeteksi ekstensi file gambar dari magic bytes buffer
+ */
+export function detectImageExtension(buffer: ArrayBuffer): 'jpg' | 'png' | 'webp' | 'gif' {
+  const bytes = new Uint8Array(buffer)
+  if (bytes.length >= 8 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
+    return 'png'
+  }
+  if (bytes.length >= 3 && bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+    return 'jpg'
+  }
+  if (
+    bytes.length >= 12 &&
+    bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46 &&
+    bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50
+  ) {
+    return 'webp'
+  }
+  if (bytes.length >= 3 && bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46) {
+    return 'gif'
+  }
+  return 'jpg'
+}
+
+/**
+ * Mendeteksi MIME type gambar dari magic bytes buffer
+ */
+export function detectImageMimeType(buffer: ArrayBuffer): 'image/jpeg' | 'image/png' | 'image/webp' | 'image/gif' {
+  const ext = detectImageExtension(buffer)
+  switch (ext) {
+    case 'png':
+      return 'image/png'
+    case 'webp':
+      return 'image/webp'
+    case 'gif':
+      return 'image/gif'
+    default:
+      return 'image/jpeg'
+  }
+}
+
+/**
+ * Generate gambar via Image Router eksternal (9Router, Cloudflare Gateway, LiteLLM, dsb.)
+ */
+export async function generateViaRouter(
+  prompt: string,
+  routerUrl: string,
+  routerKey: string,
+  model: string = IMAGE_MODEL,
+  context?: ImagePromptContext
+): Promise<ArrayBuffer> {
+  let targetUrl = routerUrl.trim().replace(/\/+$/, '')
+
+  // Resolusi alias model (misal: "gemini" -> "ag/gemini-3.1-flash-image" untuk 9Router)
+  let resolvedModel = model.trim()
+  if (resolvedModel.toLowerCase() === 'gemini' || resolvedModel.toLowerCase() === 'gemini-image') {
+    resolvedModel = 'ag/gemini-3.1-flash-image'
   }
 
-  // FLUX-1 works best with detailed, descriptive prompts
-  // Only add quality suffix, NOT generic fish farming terms that dilute specificity
-  const enhancedPrompt = `${prompt}, sharp focus, well-lit, realistic photojournalism style, high resolution`
+  // Resolusi endpoint: jika URL belum mencakup path endpoint gambar
+  if (targetUrl.includes('gateway.ai.cloudflare.com')) {
+    if (!targetUrl.includes('/workers-ai')) {
+      targetUrl = `${targetUrl}/workers-ai`
+    }
+    if (!targetUrl.includes(resolvedModel) && !targetUrl.includes('@cf/')) {
+      targetUrl = `${targetUrl}/${resolvedModel}`
+    }
+  } else if (!targetUrl.includes('/images/generations') && !targetUrl.includes(resolvedModel) && !targetUrl.includes('@cf/')) {
+    if (targetUrl.includes('/workers-ai')) {
+      targetUrl = `${targetUrl}/${resolvedModel}`
+    } else {
+      // Standar OpenAI-compatible router (9Router, LiteLLM, OneAPI)
+      targetUrl = `${targetUrl}/images/generations`
+    }
+  }
+
+  const enhancedPrompt = enhanceImagePromptToRealPhoto(prompt, context)
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  }
+  if (routerKey) {
+    headers['Authorization'] = `Bearer ${routerKey}`
+  }
+
+  // Cloudflare Workers AI endpoint hanya menerima { prompt }, sedangkan OpenAI-compatible menerima opsi lengkap
+  const isWorkersAiEndpoint = targetUrl.includes('gateway.ai.cloudflare.com') || targetUrl.includes('/workers-ai')
+  const body = isWorkersAiEndpoint
+    ? JSON.stringify({ prompt: enhancedPrompt })
+    : JSON.stringify({
+        prompt: enhancedPrompt,
+        model: resolvedModel,
+        response_format: 'b64_json',
+        n: 1,
+        size: '1024x1024',
+      })
+
+  let response = await fetchWithTimeout(
+    targetUrl,
+    {
+      method: 'POST',
+      headers,
+      body,
+    },
+    REQUEST_TIMEOUT_MS
+  )
+
+  // Jika 404 pada /images/generations, coba alternatif path model langsung (Workers AI style)
+  if (response.status === 404 && targetUrl.endsWith('/images/generations')) {
+    const altUrl = `${routerUrl.trim().replace(/\/+$/, '')}/${model}`
+    try {
+      const altRes = await fetchWithTimeout(
+        altUrl,
+        {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ prompt: enhancedPrompt }),
+        },
+        REQUEST_TIMEOUT_MS
+      )
+      if (altRes.ok) {
+        response = altRes
+      }
+    } catch {
+      // Biarkan respons awal untuk pesan error
+    }
+  }
+
+  if (!response.ok) {
+    const errText = await response.text()
+    throw new Error(`Image Router error (${response.status} ${response.statusText}): ${errText.slice(0, 300)}`)
+  }
+
+  // Jika router mengembalikan binary image langsung (content-type: image/*)
+  const contentType = response.headers.get('content-type') || ''
+  if (contentType.startsWith('image/')) {
+    const buf = await response.arrayBuffer()
+    if (buf.byteLength === 0) {
+      throw new Error('Data binary gambar dari router kosong (0 bytes)')
+    }
+    return buf
+  }
+
+  // Parse JSON response
+  const result = (await response.json()) as Record<string, unknown>
+  let base64Image: string | undefined
+
+  // 1. Format Cloudflare Workers AI: { result: { image: string } }
+  if (result.result && typeof result.result === 'object' && 'image' in (result.result as Record<string, unknown>)) {
+    base64Image = (result.result as { image?: string }).image
+  }
+  // 2. Format OpenAI-compatible: { data: [{ b64_json?: string, url?: string }] } atau { data: [ string ] }
+  else if (Array.isArray(result.data) && result.data.length > 0) {
+    const firstItem = result.data[0]
+    if (typeof firstItem === 'string') {
+      if (firstItem.startsWith('http://') || firstItem.startsWith('https://')) {
+        const imgRes = await fetchWithTimeout(firstItem, {}, REQUEST_TIMEOUT_MS)
+        if (!imgRes.ok) throw new Error(`Gagal mengunduh gambar dari URL router: ${imgRes.status}`)
+        return await imgRes.arrayBuffer()
+      }
+      base64Image = firstItem
+    } else if (typeof firstItem === 'object' && firstItem !== null) {
+      const item = firstItem as { b64_json?: string; url?: string }
+      if (item.b64_json) {
+        base64Image = item.b64_json
+      } else if (item.url) {
+        const imgRes = await fetchWithTimeout(item.url, {}, REQUEST_TIMEOUT_MS)
+        if (!imgRes.ok) {
+          throw new Error(`Gagal mengunduh gambar dari URL OpenAI router: ${imgRes.status}`)
+        }
+        return await imgRes.arrayBuffer()
+      }
+    }
+  }
+  // 3. Format array gambar: { images: [...] } (Automatic1111 / Fal.ai / Together)
+  else if (Array.isArray(result.images) && result.images.length > 0) {
+    const firstItem = result.images[0]
+    if (typeof firstItem === 'string') {
+      if (firstItem.startsWith('http://') || firstItem.startsWith('https://')) {
+        const imgRes = await fetchWithTimeout(firstItem, {}, REQUEST_TIMEOUT_MS)
+        if (!imgRes.ok) throw new Error(`Gagal mengunduh gambar dari URL router: ${imgRes.status}`)
+        return await imgRes.arrayBuffer()
+      }
+      base64Image = firstItem
+    } else if (typeof firstItem === 'object' && firstItem !== null) {
+      const item = firstItem as { b64_json?: string; url?: string; image?: string }
+      if (item.b64_json) base64Image = item.b64_json
+      else if (item.image) base64Image = item.image
+      else if (item.url) {
+        const imgRes = await fetchWithTimeout(item.url, {}, REQUEST_TIMEOUT_MS)
+        if (!imgRes.ok) throw new Error(`Gagal mengunduh gambar dari URL router: ${imgRes.status}`)
+        return await imgRes.arrayBuffer()
+      }
+    }
+  }
+  // 4. Format output array (Replicate): { output: [...] }
+  else if (Array.isArray(result.output) && result.output.length > 0) {
+    const firstItem = result.output[0]
+    if (typeof firstItem === 'string') {
+      if (firstItem.startsWith('http://') || firstItem.startsWith('https://')) {
+        const imgRes = await fetchWithTimeout(firstItem, {}, REQUEST_TIMEOUT_MS)
+        if (!imgRes.ok) throw new Error(`Gagal mengunduh gambar dari URL router: ${imgRes.status}`)
+        return await imgRes.arrayBuffer()
+      }
+      base64Image = firstItem
+    }
+  }
+  // 5. Format langsung: { image: string } atau { b64_json: string }
+  else if (typeof result.image === 'string') {
+    base64Image = result.image
+  } else if (typeof result.b64_json === 'string') {
+    base64Image = result.b64_json
+  }
+
+  if (!base64Image || typeof base64Image !== 'string') {
+    throw new Error(`Format respons router tidak dikenali (tidak ada data gambar): ${JSON.stringify(result).slice(0, 200)}`)
+  }
+
+  // Hapus prefix data URL scheme jika ada
+  if (base64Image.includes(',')) {
+    base64Image = base64Image.split(',')[1]
+  }
+
+  // Bersihkan whitespace/newlines
+  base64Image = base64Image.replace(/\s+/g, '')
+  if (!base64Image) {
+    throw new Error('Data gambar base64 dari router kosong')
+  }
+
+  const binaryString = atob(base64Image)
+  const bytes = new Uint8Array(binaryString.length)
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i)
+  }
+
+  if (bytes.length === 0) {
+    throw new Error('Data gambar hasil decode kosong (0 bytes)')
+  }
+
+  return bytes.buffer
+}
+
+/**
+ * Generate gambar langsung via Cloudflare Workers AI (menggunakan CF_ACCOUNT_ID & CF_API_TOKEN)
+ */
+export async function generateViaCloudflare(
+  prompt: string,
+  model: string = IMAGE_MODEL,
+  context?: ImagePromptContext
+): Promise<ArrayBuffer> {
+  let cfAccountId = process.env.CF_ACCOUNT_ID
+  let cfApiToken = process.env.CF_API_TOKEN
+
+  try {
+    const [kvAcc, kvTok] = await Promise.all([
+      kvGet('settings:CF_ACCOUNT_ID'),
+      kvGet('settings:CF_API_TOKEN'),
+    ])
+    if (kvAcc) cfAccountId = kvAcc
+    if (kvTok) cfApiToken = kvTok
+  } catch {
+    // Abaikan jika KV belum siap
+  }
+
+  if (!cfAccountId || !cfApiToken) {
+    throw new Error('CF_ACCOUNT_ID atau CF_API_TOKEN belum diset di environment / settings KV')
+  }
+
+  // Cloudflare Workers AI hanya menerima model berawalan @cf/ atau @hf/
+  const cfModel = (model.startsWith('@cf/') || model.startsWith('@hf/')) ? model : IMAGE_MODEL
+
+  const enhancedPrompt = enhanceImagePromptToRealPhoto(prompt, context)
 
   const response = await fetchWithTimeout(
-    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/${IMAGE_MODEL}`,
+    `https://api.cloudflare.com/client/v4/accounts/${cfAccountId}/ai/run/${cfModel}`,
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${CF_API_TOKEN}`,
+        Authorization: `Bearer ${cfApiToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -52,14 +362,18 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
     throw new Error(`Cloudflare AI error (${response.status} ${response.statusText}): ${err}`)
   }
 
-  const result = await response.json() as { result?: { image?: string }; errors?: unknown[] }
-  
+  const result = (await response.json()) as { result?: { image?: string }; errors?: unknown[] }
+
   if (!result.result?.image) {
-    throw new Error(`FLUX-1 no image in response: ${JSON.stringify(result.errors || result).slice(0, 200)}`)
+    throw new Error(`Cloudflare AI no image in response: ${JSON.stringify(result.errors || result).slice(0, 200)}`)
   }
 
-  // Decode base64 to ArrayBuffer
-  const base64 = result.result.image
+  let base64 = result.result.image
+  if (base64.includes(',')) {
+    base64 = base64.split(',')[1]
+  }
+
+  base64 = base64.replace(/\s+/g, '')
   const binaryString = atob(base64)
   const bytes = new Uint8Array(binaryString.length)
   for (let i = 0; i < binaryString.length; i++) {
@@ -68,6 +382,34 @@ export async function generateGambar(prompt: string): Promise<ArrayBuffer> {
 
   return bytes.buffer
 }
+
+export async function generateGambar(
+  prompt: string,
+  overrideModel?: string,
+  context?: ImagePromptContext
+): Promise<ArrayBuffer> {
+  const routerConfig = await getImageRouterConfig()
+  const modelToUse = overrideModel || routerConfig.model || IMAGE_MODEL
+
+  // 1. Coba Image Router jika aktif dan URL terisi
+  if (routerConfig.enabled && routerConfig.url) {
+    try {
+      console.log(`[ImageGen] Mencoba Image Router (${routerConfig.url}, model: ${modelToUse})...`)
+      return await generateViaRouter(prompt, routerConfig.url, routerConfig.key, modelToUse, context)
+    } catch (routerErr) {
+      console.warn(
+        '[ImageGen] Router gambar gagal, beralih (fallback) ke direct Cloudflare Workers AI:',
+        routerErr instanceof Error ? routerErr.message : String(routerErr)
+      )
+    }
+  }
+
+  // 2. Direct Cloudflare Workers AI (gunakan fallback model Cloudflare jika modelToUse bukan @cf/ model)
+  const cfModel = (modelToUse.startsWith('@cf/') || modelToUse.startsWith('@hf/')) ? modelToUse : IMAGE_MODEL
+  console.log(`[ImageGen] Menjalankan direct Cloudflare Workers AI (model: ${cfModel})...`)
+  return await generateViaCloudflare(prompt, cfModel, context)
+}
+
 
 /**
  * Dapatkan URL gambar fallback kontekstual berbasis topik/slug saat AI FLUX-1 kuotanya habis.
@@ -111,20 +453,18 @@ export function getContextualAquacultureFallback(slug: string): string {
 export async function generateGambarDenganFallback(
   prompt: string,
   slug: string,
+  context?: ImagePromptContext
 ): Promise<{ url: string; source: 'ai' | 'placeholder' }> {
-  const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID
-  const CF_API_TOKEN = process.env.CF_API_TOKEN
-
-  // 1. Try Cloudflare AI (single attempt, with timeout)
+  // 1. Try AI image generation (router or Cloudflare AI, with timeout)
   try {
-    console.log('[ImageGen] Starting FLUX-1 generation...')
-    const arrayBuffer = await generateGambar(prompt)
-    console.log(`[ImageGen] FLUX-1 success, image size: ${arrayBuffer.byteLength} bytes`)
+    console.log('[ImageGen] Starting image generation...')
+    const arrayBuffer = await generateGambar(prompt, undefined, context)
+    console.log(`[ImageGen] AI image success, size: ${arrayBuffer.byteLength} bytes`)
 
     // Save image to GitHub repo (public/images/artikel/)
-    // FLUX-1 outputs JPEG, so use .jpg extension to match actual content type
-    // (Next.js /_next/image rejects files where extension doesn't match content)
-    const fileName = `${slug}-${Date.now()}.jpg`
+    // Detect image type to use correct extension (.jpg, .png, .webp) so Next.js /_next/image renders properly
+    const ext = detectImageExtension(arrayBuffer)
+    const fileName = `${slug}-${Date.now()}.${ext}`
     const filePath = `public/images/artikel/${fileName}`
     
     console.log(`[ImageGen] Saving to GitHub: ${filePath}...`)
@@ -189,9 +529,10 @@ export async function generateGambarDenganFallback(
 
 export async function generateGambarDanSimpan(
   prompt: string,
-  slug: string
+  slug: string,
+  context?: ImagePromptContext
 ): Promise<string> {
-  const result = await generateGambarDenganFallback(prompt, slug)
+  const result = await generateGambarDenganFallback(prompt, slug, context)
   return result.url
 }
 

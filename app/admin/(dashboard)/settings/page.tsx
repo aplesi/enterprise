@@ -1,12 +1,22 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Link from 'next/link'
 import {
   Cloud, FileCode2, Mail, Lock, DollarSign,
   Settings as SettingsIcon, Loader2, Save, XCircle, Check,
   Eye, EyeOff, ExternalLink, RefreshCw, CheckCircle2,
-  Clock, Key, Zap, Cpu, Plus, Trash2, AlertTriangle
+  Clock, Key, Zap, Cpu, Plus, Trash2, AlertTriangle,
+  Sparkles, Image as ImageIcon
 } from 'lucide-react'
+import type { AiImageTestResult } from '@/types'
+
+const IMAGE_MODEL_PRESETS = [
+  'ag/gemini-3.1-flash-image',
+  '@cf/black-forest-labs/flux-1-schnell',
+  '@cf/leonardoai/phoenix-1.0',
+  '@cf/stabilityai/stable-diffusion-xl-base-1.0',
+]
 
 interface SettingField {
   key: string
@@ -204,10 +214,23 @@ export default function SettingsPage() {
   const [deletingKey, setDeletingKey] = useState<string | null>(null)
   const [keyActionMsg, setKeyActionMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
+  // AI Image Router state
+  const [testingImage, setTestingImage] = useState(false)
+  const [imageTestResult, setImageTestResult] = useState<AiImageTestResult | null>(null)
+  const [isCustomModel, setIsCustomModel] = useState(false)
+
   useEffect(() => {
     fetch('/api/settings')
       .then((r) => r.json())
-      .then((data) => { if (data.success) setValues(data.data || {}) })
+      .then((data) => {
+        if (data.success) {
+          const loaded = data.data || {}
+          setValues(loaded)
+          if (loaded.IMAGE_ROUTER_MODEL && !IMAGE_MODEL_PRESETS.includes(loaded.IMAGE_ROUTER_MODEL)) {
+            setIsCustomModel(true)
+          }
+        }
+      })
       .catch(() => {})
   }, [])
 
@@ -307,6 +330,32 @@ export default function SettingsPage() {
       setError(err instanceof Error ? err.message : 'Gagal menyimpan')
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function testImageGeneration() {
+    setTestingImage(true)
+    setImageTestResult(null)
+    try {
+      const res = await fetch('/api/settings/test-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          baseUrl: values['IMAGE_ROUTER_URL'] || '',
+          apiKey: values['IMAGE_ROUTER_KEY'] || '',
+          model: values['IMAGE_ROUTER_MODEL'] || '@cf/black-forest-labs/flux-1-schnell',
+          enabled: values['IMAGE_ROUTER_ENABLED'] === 'true',
+        }),
+      })
+      const data: AiImageTestResult = await res.json()
+      setImageTestResult(data)
+    } catch (err: unknown) {
+      setImageTestResult({
+        success: false,
+        message: err instanceof Error ? err.message : 'Koneksi gagal atau jaringan terputus',
+      })
+    } finally {
+      setTestingImage(false)
     }
   }
 
@@ -598,6 +647,319 @@ export default function SettingsPage() {
               </a>
               {' '}— maksimal 10 key. Setiap key = ~14.400 request/hari.
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ==================== AI IMAGE GENERATOR & ROUTER ==================== */}
+      <div className="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h2 className="font-bold text-white text-base flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-aqua-glow" />
+              AI Image Generator &amp; Router
+            </h2>
+            <p className="text-xs text-white/50 mt-1">
+              Atur router visual AI eksternal (misal: 9Router, Cloudflare AI Gateway) atau gunakan Cloudflare Workers AI langsung.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={() => {
+                const nextVal = values['IMAGE_ROUTER_ENABLED'] === 'true' ? 'false' : 'true'
+                setValues((prev) => ({ ...prev, IMAGE_ROUTER_ENABLED: nextVal }))
+              }}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                values['IMAGE_ROUTER_ENABLED'] === 'true' ? 'bg-aqua-glow' : 'bg-white/20'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-slate-900 transition-transform ${
+                  values['IMAGE_ROUTER_ENABLED'] === 'true' ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className="text-xs font-semibold text-white/80">
+              {values['IMAGE_ROUTER_ENABLED'] === 'true' ? (
+                <span className="text-aqua-glow font-bold">Gunakan AI Image Router</span>
+              ) : (
+                <span className="text-white/40">Direct Cloudflare</span>
+              )}
+            </span>
+          </div>
+        </div>
+
+        {/* Info Box */}
+        <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4 text-xs text-white/60 space-y-1">
+          <p>
+            💡 <strong className="text-white">Catatan:</strong> Pengaturan ini <span className="text-aqua-glow font-semibold">khusus untuk pembuatan gambar</span> artikel (visual). Teks artikel tetap dikelola secara terpisah oleh Groq AI (LLaMA 3.3 70B).
+          </p>
+          {values['IMAGE_ROUTER_ENABLED'] !== 'true' && (
+            <p className="text-white/40 text-[11px] pt-1 border-t border-white/5">
+              Saat router dinonaktifkan, generator memakai kredensial Cloudflare Workers AI langsung dari kartu Cloudflare di bawah.
+            </p>
+          )}
+        </div>
+
+        {/* Router Fields */}
+        <div className="space-y-4">
+          {/* Base URL */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-white/70">
+                Image Router Base URL
+              </label>
+              {saved['IMAGE_ROUTER_URL'] && (
+                <span className="flex items-center gap-1 text-xs text-aqua-glow font-bold">
+                  <Check className="h-3.5 w-3.5" />
+                  Tersimpan
+                </span>
+              )}
+            </div>
+            <input
+              type="text"
+              value={values['IMAGE_ROUTER_URL'] || ''}
+              onChange={(e) => setValues((prev) => ({ ...prev, IMAGE_ROUTER_URL: e.target.value }))}
+              placeholder="https://ai.aplesi.my.id/v1"
+              className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
+            />
+            <p className="text-xs text-white/50 mt-1.5">
+              URL endpoint proxy router (misal: 9Router, Cloudflare AI Gateway, LiteLLM). Default placeholder: <code className="text-white/70">https://ai.aplesi.my.id/v1</code>
+            </p>
+          </div>
+
+          {/* API Key */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-white/70">
+                Image Router API Key
+              </label>
+              {saved['IMAGE_ROUTER_KEY'] && (
+                <span className="flex items-center gap-1 text-xs text-aqua-glow font-bold">
+                  <Check className="h-3.5 w-3.5" />
+                  Tersimpan
+                </span>
+              )}
+            </div>
+            <div className="relative">
+              <input
+                type={show['IMAGE_ROUTER_KEY'] ? 'text' : 'password'}
+                value={values['IMAGE_ROUTER_KEY'] || ''}
+                onChange={(e) => setValues((prev) => ({ ...prev, IMAGE_ROUTER_KEY: e.target.value }))}
+                placeholder="Bearer token / API Key router"
+                className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 pr-10 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setShow((prev) => ({ ...prev, IMAGE_ROUTER_KEY: !prev['IMAGE_ROUTER_KEY'] }))}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+              >
+                {show['IMAGE_ROUTER_KEY'] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+            <p className="text-xs text-white/50 mt-1.5">
+              Token autentikasi Bearer untuk router visual. Biarkan kosong jika router lokal tanpa otorisasi.
+            </p>
+          </div>
+
+          {/* Model Selection */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-white/70">
+                Pilihan Model Gambar
+              </label>
+              {saved['IMAGE_ROUTER_MODEL'] && (
+                <span className="flex items-center gap-1 text-xs text-aqua-glow font-bold">
+                  <Check className="h-3.5 w-3.5" />
+                  Tersimpan
+                </span>
+              )}
+            </div>
+            <div className="space-y-2">
+              <select
+                value={
+                  isCustomModel
+                    ? 'custom'
+                    : (values['IMAGE_ROUTER_MODEL'] || '@cf/black-forest-labs/flux-1-schnell')
+                }
+                onChange={(e) => {
+                  const val = e.target.value
+                  if (val === 'custom') {
+                    setIsCustomModel(true)
+                    if (IMAGE_MODEL_PRESETS.includes(values['IMAGE_ROUTER_MODEL'] || '')) {
+                      setValues((prev) => ({ ...prev, IMAGE_ROUTER_MODEL: '' }))
+                    }
+                  } else {
+                    setIsCustomModel(false)
+                    setValues((prev) => ({ ...prev, IMAGE_ROUTER_MODEL: val }))
+                  }
+                }}
+                className="w-full rounded-lg border border-white/15 bg-[#121824] px-4 py-2.5 text-sm text-white focus:border-aqua-glow/60 focus:outline-none transition-all"
+              >
+                <option value="ag/gemini-3.1-flash-image">
+                  Google Gemini Flash Image (ag/gemini-3.1-flash-image) — 9Router Antigravity
+                </option>
+                <option value="@cf/black-forest-labs/flux-1-schnell">
+                  FLUX-1 Schnell (@cf/black-forest-labs/flux-1-schnell) — Rekomendasi (Cepat &amp; Tajam)
+                </option>
+                <option value="@cf/leonardoai/phoenix-1.0">
+                  Leonardo Phoenix (@cf/leonardoai/phoenix-1.0) — Fotografi Sinematik Realistis
+                </option>
+                <option value="@cf/stabilityai/stable-diffusion-xl-base-1.0">
+                  SDXL Base (@cf/stabilityai/stable-diffusion-xl-base-1.0) — Stable Diffusion XL
+                </option>
+                <option value="custom">Model Kustom Lainnya...</option>
+              </select>
+
+              {isCustomModel && (
+                <input
+                  type="text"
+                  value={values['IMAGE_ROUTER_MODEL'] || ''}
+                  onChange={(e) => setValues((prev) => ({ ...prev, IMAGE_ROUTER_MODEL: e.target.value }))}
+                  placeholder="Masukkan nama model kustom (misal: lucid-origin, dall-e-3, dll)"
+                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-aqua-glow/60 focus:bg-white/10 focus:outline-none transition-all"
+                />
+              )}
+            </div>
+            <p className="text-xs text-white/50 mt-1.5">
+              Model visual yang digunakan untuk generate gambar artikel. Default: <code className="text-white/70">@cf/black-forest-labs/flux-1-schnell</code>
+            </p>
+          </div>
+
+          {/* Action & Test Area */}
+          <div className="pt-2 border-t border-white/10">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={testImageGeneration}
+                disabled={testingImage}
+                className="flex items-center gap-2 rounded-lg border border-aqua-glow/30 bg-aqua-glow/10 px-4 py-2 text-sm font-bold text-aqua-glow hover:bg-aqua-glow/20 transition-all disabled:opacity-50"
+              >
+                {testingImage ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Menguji Generate Gambar...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4" />
+                    Uji Generate Gambar
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  setSaving(true)
+                  try {
+                    const res = await fetch('/api/settings', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        IMAGE_ROUTER_ENABLED: values['IMAGE_ROUTER_ENABLED'] || 'false',
+                        IMAGE_ROUTER_URL: values['IMAGE_ROUTER_URL'] || '',
+                        IMAGE_ROUTER_KEY: values['IMAGE_ROUTER_KEY'] || '',
+                        IMAGE_ROUTER_MODEL: values['IMAGE_ROUTER_MODEL'] || '@cf/black-forest-labs/flux-1-schnell',
+                      }),
+                    })
+                    const data = await res.json()
+                    if (!data.success) throw new Error(data.error)
+                    setSaved((prev) => ({
+                      ...prev,
+                      IMAGE_ROUTER_ENABLED: true,
+                      IMAGE_ROUTER_URL: true,
+                      IMAGE_ROUTER_KEY: true,
+                      IMAGE_ROUTER_MODEL: true,
+                    }))
+                    setTimeout(() => {
+                      setSaved((prev) => {
+                        const copy = { ...prev }
+                        delete copy.IMAGE_ROUTER_ENABLED
+                        delete copy.IMAGE_ROUTER_URL
+                        delete copy.IMAGE_ROUTER_KEY
+                        delete copy.IMAGE_ROUTER_MODEL
+                        return copy
+                      })
+                    }, 3000)
+                  } catch (err: unknown) {
+                    setError(err instanceof Error ? err.message : 'Gagal menyimpan pengaturan router')
+                  } finally {
+                    setSaving(false)
+                  }
+                }}
+                disabled={saving}
+                className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 hover:bg-white/10 hover:text-white transition-all disabled:opacity-50"
+              >
+                {saving ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Menyimpan...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4" />
+                    Simpan Pengaturan Router
+                  </>
+                )}
+              </button>
+
+              <Link
+                href="/admin/ai-accounts"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-aqua-glow/30 bg-aqua-glow/10 px-3 py-1.5 text-xs font-semibold text-aqua-glow hover:bg-aqua-glow/20 transition"
+              >
+                <Key className="w-3.5 h-3.5" />
+                Kelola Akun Google AI (OAuth &amp; Kuota)
+              </Link>
+
+              <span className="text-[11px] text-white/40">
+                Uji koneksi router/Cloudflare dan tampilkan latency serta preview gambar sampel
+              </span>
+            </div>
+
+            {/* Test Result Feedback */}
+            {imageTestResult && (
+              <div className={`mt-4 rounded-xl border p-4 text-xs transition-all ${
+                imageTestResult.success
+                  ? 'border-green-400/30 bg-green-500/10 text-green-300'
+                  : 'border-red-400/30 bg-red-500/10 text-red-300'
+              }`}>
+                <div className="flex items-start gap-3">
+                  {imageTestResult.success ? (
+                    <CheckCircle2 className="h-5 w-5 shrink-0 text-green-400 mt-0.5" />
+                  ) : (
+                    <XCircle className="h-5 w-5 shrink-0 text-red-400 mt-0.5" />
+                  )}
+                  <div className="space-y-2 flex-1">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <span className="font-semibold text-sm">
+                        {imageTestResult.success ? 'Koneksi Berhasil!' : 'Koneksi Gagal'}
+                      </span>
+                      {imageTestResult.latencyMs !== undefined && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-mono text-white/80">
+                          <Zap className="h-3 w-3 text-aqua-glow" />
+                          {imageTestResult.latencyMs} ms
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs opacity-90">{imageTestResult.message}</p>
+
+                    {/* Image Preview Thumbnail */}
+                    {imageTestResult.previewUrl && (
+                      <div className="pt-2">
+                        <p className="text-[10px] uppercase font-bold text-white/50 mb-1.5">Hasil Gambar Preview:</p>
+                        <img
+                          src={imageTestResult.previewUrl}
+                          alt="Preview hasil generate"
+                          className="h-36 w-36 object-cover rounded-lg border border-white/20 shadow-md"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

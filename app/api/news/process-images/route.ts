@@ -71,7 +71,10 @@ export async function POST(req: NextRequest) {
           try {
             console.log(`[ProcessImages] Stage 2 AI trigger untuk "${berita.judul.slice(0, 30)}..."`)
             const prompt = buildFallbackImagePrompt(berita.judul, 'berita')
-            const aiImage = await generateGambarDanSimpan(prompt, `news-${berita.ext_id}`)
+            const aiImage = await generateGambarDanSimpan(prompt, `news-${berita.ext_id}`, {
+              judul: berita.judul,
+              kategori: 'Berita',
+            })
             if (aiImage && (aiImage.startsWith('http') || aiImage.startsWith('/'))) {
               gambarUrl = aiImage
               source = aiImage.startsWith('http') ? 'ai' : 'fallback'

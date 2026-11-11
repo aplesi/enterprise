@@ -1,0 +1,19 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "aplesi-ai-router",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    { "pattern": "ai.aplesi.my.id/*", "zone_name": "aplesi.my.id" }
+  ],
+  "ai": {
+    "binding": "AI"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "ROUTER_KV",
+      "id": "06dd3f37b5d74679bc5a6bc46c314595"
+    }
+  ]
+}
