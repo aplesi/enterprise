@@ -10,7 +10,7 @@ export interface OptimizeImageOptions {
   quality?: number
   effort?: number
   lossless?: boolean
-  fit?: keyof sharp.FitEnum
+  fit?: 'contain' | 'cover' | 'fill' | 'inside' | 'outside'
   withoutEnlargement?: boolean
 }
 
@@ -81,7 +81,7 @@ export async function optimizeImageForWeb(
   } = options
 
   try {
-    const pipeline = sharp(rawBuffer, { failOnError: false })
+    const pipeline = sharp(rawBuffer, { failOn: 'none' })
     const metadata = await pipeline.metadata()
 
     const resized = pipeline.resize({

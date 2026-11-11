@@ -18,12 +18,17 @@ import { generateFrontmatter } from '@/lib/utils'
 import { sanitizeLatexMath } from '@/lib/ai/skills/article-writer-skill'
 import { truncateAtWordBoundary } from '@/lib/ai/groq'
 
-function parseArgs(): { topik: string; kategori: string; panjang: 'pendek' | 'sedang' | 'panjang'; tone: string } {
+function parseArgs(): {
+  topik: string
+  kategori: string
+  panjang: 'pendek' | 'sedang' | 'panjang'
+  tone: 'informatif' | 'tutorial' | 'berita'
+} {
   const args = process.argv.slice(2)
   let topik = 'Cara Pembibitan Ikan Nila dari Nol sampai Panen'
   let kategori = 'Pembenihan'
   let panjang: 'pendek' | 'sedang' | 'panjang' = 'panjang'
-  let tone = 'informatif'
+  let tone: 'informatif' | 'tutorial' | 'berita' = 'informatif'
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--topik' && args[i + 1]) {
@@ -36,7 +41,10 @@ function parseArgs(): { topik: string; kategori: string; panjang: 'pendek' | 'se
         panjang = val
       }
     } else if (args[i] === '--tone' && args[i + 1]) {
-      tone = args[++i]
+      const val = args[++i].toLowerCase()
+      if (val === 'informatif' || val === 'tutorial' || val === 'berita') {
+        tone = val
+      }
     }
   }
 
@@ -58,8 +66,10 @@ async function main() {
   const rawResult = await generateArtikel({
     topik,
     kategori,
+    keywords: [],
     panjang,
     tone,
+    generateGambar: true,
   })
 
   console.log(`✅ [1/4] Teks selesai dalam ${((Date.now() - startTime) / 1000).toFixed(1)}s`)
