@@ -12,6 +12,7 @@ import {
 import type { AiImageTestResult } from '@/types'
 
 const IMAGE_MODEL_PRESETS = [
+  'ag/gemini-3.1-flash-image-16x9',
   'ag/gemini-3.1-flash-image',
   '@cf/black-forest-labs/flux-1-schnell',
   '@cf/leonardoai/phoenix-1.0',
@@ -781,7 +782,7 @@ export default function SettingsPage() {
                 value={
                   isCustomModel
                     ? 'custom'
-                    : (values['IMAGE_ROUTER_MODEL'] || '@cf/black-forest-labs/flux-1-schnell')
+                    : (values['IMAGE_ROUTER_MODEL'] || 'ag/gemini-3.1-flash-image-16x9')
                 }
                 onChange={(e) => {
                   const val = e.target.value
@@ -797,11 +798,14 @@ export default function SettingsPage() {
                 }}
                 className="w-full rounded-lg border border-white/15 bg-[#121824] px-4 py-2.5 text-sm text-white focus:border-aqua-glow/60 focus:outline-none transition-all"
               >
+                <option value="ag/gemini-3.1-flash-image-16x9">
+                  Google Gemini 3.1 Flash Image 16:9 (ag/gemini-3.1-flash-image-16x9) — Banner Lanskap (Rekomendasi Utama)
+                </option>
                 <option value="ag/gemini-3.1-flash-image">
-                  Google Gemini Flash Image (ag/gemini-3.1-flash-image) — 9Router Antigravity
+                  Google Gemini 3.1 Flash Image (ag/gemini-3.1-flash-image) — Antigravity 24/7 (Kotak 1:1)
                 </option>
                 <option value="@cf/black-forest-labs/flux-1-schnell">
-                  FLUX-1 Schnell (@cf/black-forest-labs/flux-1-schnell) — Rekomendasi (Cepat &amp; Tajam)
+                  FLUX-1 Schnell (@cf/black-forest-labs/flux-1-schnell) — Fallback Cloudflare Workers AI
                 </option>
                 <option value="@cf/leonardoai/phoenix-1.0">
                   Leonardo Phoenix (@cf/leonardoai/phoenix-1.0) — Fotografi Sinematik Realistis
@@ -823,7 +827,7 @@ export default function SettingsPage() {
               )}
             </div>
             <p className="text-xs text-white/50 mt-1.5">
-              Model visual yang digunakan untuk generate gambar artikel. Default: <code className="text-white/70">@cf/black-forest-labs/flux-1-schnell</code>
+              Model visual yang digunakan untuk generate gambar artikel. Default: <code className="text-white/70">ag/gemini-3.1-flash-image-16x9</code> (Google Antigravity)
             </p>
           </div>
 

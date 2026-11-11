@@ -42,6 +42,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_OWNER: ${{ github.repository_owner }}
           GITHUB_REPO: ${{ github.event.repository.name }}
+          IMAGE_ROUTER_ENABLED: 'true'
+          IMAGE_ROUTER_URL: 'https://ai.aplesi.my.id/v1'
+          IMAGE_ROUTER_MODEL: 'ag/gemini-3.1-flash-image-16x9'
+          IMAGE_ROUTER_KEY: ${{ secrets.IMAGE_ROUTER_KEY }}
         run: npx tsx scripts/auto-post.ts
 
       - name: Commit dan Push Perubahan

@@ -815,9 +815,47 @@ async function scrapeOgImage(pageUrl) {
   }
 }
 
-// ---------- Generate gambar via FLUX-1 Schnell (duplikat dari lib/ai/cloudflare-image.ts) ----------
+// ---------- Generate gambar: Prioritas Google Antigravity Router (Gemini 3.1 Flash Image) dengan Fallback FLUX-1 ----------
 async function generateGambar(prompt) {
-  console.log('   🖼️ Generating gambar via FLUX-1...')
+  const routerUrl = (process.env.IMAGE_ROUTER_URL || 'https://ai.aplesi.my.id/v1').trim().replace(/\/+$/, '')
+  const routerKey = (process.env.IMAGE_ROUTER_KEY || '').trim()
+  const routerModel = (process.env.IMAGE_ROUTER_MODEL || 'ag/gemini-3.1-flash-image-16x9').trim()
+
+  // 1. Prioritas Utama: Google Antigravity (Gemini 3.1 Flash Image)
+  try {
+    console.log(`   🖼️ Generating gambar via Antigravity Router (${routerModel})...`)
+    const headers = { 'Content-Type': 'application/json' }
+    if (routerKey) headers['Authorization'] = `Bearer ${routerKey}`
+
+    const res = await fetch(`${routerUrl}/images/generations`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        prompt,
+        model: routerModel,
+        response_format: 'b64_json',
+        n: 1,
+        size: '1280x720',
+      }),
+    })
+
+    if (res.ok) {
+      const json = await res.json()
+      const b64 = json.data?.[0]?.b64_json || json.result?.image
+      if (b64) {
+        console.log('   ✅ Sukses generate gambar via Antigravity Gemini 3.1 Flash Image')
+        return Buffer.from(b64.replace(/\s+/g, ''), 'base64')
+      }
+    } else {
+      const errText = await res.text().catch(() => '')
+      console.warn(`   ⚠️ Router status ${res.status}: ${errText.slice(0, 100)}`)
+    }
+  } catch (routerErr) {
+    console.warn('   ⚠️ Router Antigravity gagal, beralih ke fallback Workers AI:', routerErr.message)
+  }
+
+  // 2. Fallback: Cloudflare Workers AI FLUX-1
+  console.log('   🖼️ Generating gambar via Cloudflare FLUX-1 (fallback)...')
   try {
     const response = await fetch(
       `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
