@@ -34,7 +34,7 @@ describe('AI Image Router Unit Tests', () => {
       expect(config.enabled).toBe(false)
       expect(config.url).toBe('')
       expect(config.key).toBe('')
-      expect(config.model).toBe('@cf/black-forest-labs/flux-1-schnell')
+      expect(config.model).toBe('ag/gemini-3.1-flash-image-16x9')
     })
 
     it('reads configuration from Cloudflare KV when available', async () => {

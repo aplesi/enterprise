@@ -52,7 +52,7 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     feedingRate: '3% – 5% total biomassa/hari (pembesaran), 1% – 2% (indukan matang gonad)',
     harvestSize: '8 – 12 ekor/kg (bobot 80 – 125 gram/ekor konsumsi warung/pecel lele)',
     culturePeriod: '60 – 75 hari dari benih ukur 7-9 cm',
-    marketPriceIDR: 'Rp 20.000 – Rp 24.000 per kg di tingkat kolam pembudidaya',
+    marketPriceIDR: 'Rp 20.000 – Rp 24.000 per kg di tingkat kolam pembudidaya (farm gate)',
     keyRiskMitigation: 'Volume flok bioflok dijaga 15–40 mL/L, garam krosok 1–2 kg/m³ untuk cegah moncong putih/aeromonas, grading per 15-20 hari cegah kanibalisme.',
   },
   nila: {
@@ -68,7 +68,7 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     feedingRate: '2.5% – 3.5% total biomassa/hari (dibagi 2-3 kali)',
     harvestSize: '3 – 5 ekor/kg (bobot 200 – 350 gram/ekor konsumsi lokal/restoran) atau 500 – 800 gram/ekor (fillet ekspor)',
     culturePeriod: '90 – 120 hari dari benih 5-7 cm',
-    marketPriceIDR: 'Rp 26.000 – Rp 32.000 per kg di tingkat pembudidaya',
+    marketPriceIDR: 'Rp 26.000 – Rp 32.000 per kg di tingkat pembudidaya (farm gate)',
     keyRiskMitigation: 'Aerasi kontinu mencegah kematian masal hipoksia malam hari, vaksinasi Streptococcus agalactiae untuk cegah penyakit mata menonjol (pop-eye/streptococcosis).',
   },
   gurame: {
@@ -84,7 +84,7 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     feedingRate: '2% – 3% biomassa pelet/hari ditambah hijauan 5%–10% bobot ikan',
     harvestSize: '500 – 800 gram/ekor (size 1-2 ekor/kg) atau porsi restoran 350–500 gram/ekor',
     culturePeriod: '8 – 12 bulan (pembesaran bertahap dengan beberapa kali pendederan)',
-    marketPriceIDR: 'Rp 35.000 – Rp 45.000 per kg (komoditas kuliner bernilai tinggi)',
+    marketPriceIDR: 'Rp 35.000 – Rp 45.000 per kg di tingkat pembudidaya (farm gate)',
     keyRiskMitigation: 'Pemberian daun sente/talas melancarkan pencernaan dan mencegah infeksi Aeromonas/jamur Saprolegnia; air kolam harus tenang dengan kedalaman minimal 1–1.2 m.',
   },
   vaname: {
@@ -94,15 +94,15 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     pH: '7.5 – 8.3 (fluktuasi harian maksimum 0.5 unit antara pagi dan sore)',
     dissolvedOxygen: '> 4.5 mg/L (wajib kincir air tambak paddlewheel kontinu, terutama pukul 22:00 – 06:00)',
     salinityOrHardness: 'Salinitas optimal 15 – 25 ppt (tambak pesisir) atau 2 – 5 ppt (low-salinity kolam darat terpal HDPE dengan fortifikasi mineral Mg:Ca rasio 3:1)',
-    tanAmmonia: '< 0.1 mg/L',
-    nitrite: '< 0.1 mg/L',
+    tanAmmonia: '< 0.02 mg/L (NH3)',
+    nitrite: '< 0.1 mg/L (NO2)',
     fcr: '1.2 – 1.5',
     feedProtein: '32% – 38% pelet crumble/pellet khusus udang',
     feedingRate: 'Disesuaikan hasil cek anco (feeding tray) per 2 – 2.5 jam pasca pemberian pakan',
     harvestSize: 'Size 40 – 80 ekor/kg (DOC 90 – 110 hari)',
     culturePeriod: '90 – 110 hari (Days of Culture / DOC)',
-    marketPriceIDR: 'Rp 65.000 – Rp 90.000 per kg (size 40-50 bernilai premium ekspor)',
-    keyRiskMitigation: 'Alkalinitas wajib > 120 ppm (CaCO3) untuk sukses ganti kulit (molting); biosekuriti ketat cegah White Spot Syndrome Virus (WSSV) dan Enterocytozoon hepatopenaei (EHP).',
+    marketPriceIDR: 'Rp 65.000 – Rp 90.000 per kg di tingkat kolam pembudidaya (farm gate)',
+    keyRiskMitigation: 'Alkalinitas wajib > 120 ppm (CaCO3, ideal 130–160 ppm) untuk sukses ganti kulit (molting); biosekuriti ketat cegah White Spot Syndrome Virus (WSSV) dan Enterocytozoon hepatopenaei (EHP).',
   },
   lobster: {
     scientificName: 'Cherax quadricarinatus',
@@ -111,14 +111,14 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     pH: '7.0 – 8.5 (cenderung alkali/basa)',
     dissolvedOxygen: '> 4.0 mg/L',
     salinityOrHardness: 'Kesadahan Kalsium (Calcium Hardness): > 50 – 100 ppm CaCO3',
-    tanAmmonia: '< 0.05 mg/L',
-    nitrite: '< 0.05 mg/L',
+    tanAmmonia: '< 0.02 mg/L (NH3)',
+    nitrite: '< 0.05 mg/L (NO2)',
     fcr: '1.2 – 1.6',
     feedProtein: '30% – 35% pelet tenggelam (sinking pellet) + pakan alami segar (cacing beku, tauge, wortel, keong)',
     feedingRate: '2% – 3% dari biomassa populasi per hari, diberikan pada sore/malam hari (nokturnal)',
     harvestSize: '10 – 15 ekor/kg (bobot 70 – 100 gram/ekor konsumsi restoran/ekspor)',
     culturePeriod: '6 – 8 bulan dari burayak/benih 2 inci',
-    marketPriceIDR: 'Rp 120.000 – Rp 180.000 per kg untuk ukuran konsumsi, indukan Rp 25.000 – Rp 50.000/set',
+    marketPriceIDR: 'Rp 120.000 – Rp 180.000 per kg di tingkat pembudidaya (farm gate) untuk ukuran konsumsi, indukan Rp 25.000 – Rp 50.000/set',
     keyRiskMitigation: 'SHELTER WAJIB: Sediakan potongan pipa paralon PVC / roster bata berlubang dengan rasio minimal 1.5x dari total populasi untuk cegah kanibalisme saat molting (cangkang lunak).',
   },
   patin: {
@@ -134,7 +134,7 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     feedingRate: '2.5% – 3.5% biomassa/hari',
     harvestSize: '800 – 1.200 gram/ekor (bobot fillet industri/pasar tradisional)',
     culturePeriod: '5 – 6 bulan dari benih ukur 2 inci',
-    marketPriceIDR: 'Rp 18.000 – Rp 23.000 per kg',
+    marketPriceIDR: 'Rp 18.000 – Rp 23.000 per kg di tingkat pembudidaya (farm gate)',
     keyRiskMitigation: 'Dasar kolam wajib bersih dari endapan hidrogen sulfida (H2S) agar daging ikan tidak berbau lumpur (off-flavor geosmin).',
   },
   gabus: {
@@ -150,7 +150,7 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     feedingRate: '3% – 5% biomassa/hari',
     harvestSize: '300 – 600 gram/ekor (usia 6–8 bulan, kadar albumin optimal)',
     culturePeriod: '6 – 8 bulan',
-    marketPriceIDR: 'Rp 50.000 – Rp 75.000 per kg (bernilai tinggi untuk industri farmasi ekstrak albumin & kuliner)',
+    marketPriceIDR: 'Rp 50.000 – Rp 75.000 per kg di tingkat pembudidaya (farm gate)',
     keyRiskMitigation: 'Waring/jaring penutup kolam setinggi 50 cm wajib dipasang karena gabus sangat lincah melompat keluar kolam saat malam/hujan.',
   },
   bawal: {
@@ -166,7 +166,7 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     feedingRate: '3% – 4% biomassa/hari',
     harvestSize: '3 – 4 ekor/kg (bobot 250 – 350 gram/ekor)',
     culturePeriod: '90 – 110 hari dari benih 2-3 inci',
-    marketPriceIDR: 'Rp 22.000 – Rp 27.000 per kg',
+    marketPriceIDR: 'Rp 22.000 – Rp 27.000 per kg di tingkat pembudidaya (farm gate)',
     keyRiskMitigation: 'Konstruksi kolam terpal harus tebal karena gigi bawal tajam dapat merobek dinding terpal tipis saat lapar.',
   },
   udang_galah: {
@@ -175,16 +175,16 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     temperature: '28°C – 31°C',
     pH: '7.0 – 8.5',
     dissolvedOxygen: '> 4.0 mg/L',
-    salinityOrHardness: 'Air tawar murni (larva butuh air payau 12 ppt, pembesaran 0 ppt), kesadahan > 50 ppm',
-    tanAmmonia: '< 0.05 mg/L',
-    nitrite: '< 0.05 mg/L',
+    salinityOrHardness: '10 – 12 ppt (fase larva pembenihan wajib air payau) | 0 – 2 ppt (fase pendederan & pembesaran air tawar), Kesadahan (Hardness): 60 – 120 ppm CaCO3',
+    tanAmmonia: '< 0.02 mg/L (NH3)',
+    nitrite: '< 0.05 mg/L (NO2)',
     fcr: '1.3 – 1.6',
-    feedProtein: '30% – 35%',
-    feedingRate: '3% – 5% biomassa/hari (pelet tenggelam)',
-    harvestSize: '20 – 30 ekor/kg (bobot 35 – 50 gram/ekor)',
-    culturePeriod: '4 – 6 bulan',
-    marketPriceIDR: 'Rp 80.000 – Rp 120.000 per kg',
-    keyRiskMitigation: 'Pemberian ranting/waring shelter di dasar kolam mengurangi sifat agresif capit panjang (cheliped) jantan dominan.',
+    feedProtein: '32% – 38% (benih), 28% – 32% (pembesaran)',
+    feedingRate: '3% – 5% biomassa/hari (pelet tenggelam slow-sinking)',
+    harvestSize: '15 – 30 ekor/kg (DOC 120–150 hari, sistem sortir bertahap/panen selektif)',
+    culturePeriod: '4 – 5 bulan (DOC 120–150 hari)',
+    marketPriceIDR: 'Rp 75.000 – Rp 110.000 per kg di tingkat kolam pembudidaya (farm gate)',
+    keyRiskMitigation: 'Pemberian ranting/waring shelter di dasar kolam mengurangi sifat agresif kanibalisme capit panjang (cheliped) jantan dominan.',
   },
   kepiting: {
     scientificName: 'Scylla serrata',
@@ -193,14 +193,14 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     pH: '7.5 – 8.5',
     dissolvedOxygen: '> 4.0 mg/L',
     salinityOrHardness: 'Salinitas 15 – 25 ppt (RAS air laut/payau sintetis atau tambak)',
-    tanAmmonia: '< 0.1 mg/L',
-    nitrite: '< 0.1 mg/L',
+    tanAmmonia: '< 0.05 mg/L (NH3)',
+    nitrite: '< 0.05 mg/L (NO2)',
     fcr: 'Efisiensi pakan segar 3% – 5% bobot tubuh',
     feedProtein: 'Ikan rucah segar, keong mas, atau kerang (protein hewani segar)',
     feedingRate: '1 kali sehari di sore hari (3%–5% bobot badan)',
     harvestSize: '250 – 500 gram/ekor (kepiting gemuk isi daging, kepiting telur, atau kepiting cangkang lunak/soka)',
     culturePeriod: '20 – 30 hari untuk fattening (penggemukan) atau 15-20 hari untuk soka',
-    marketPriceIDR: 'Rp 90.000 – Rp 160.000 per kg (super jantan/telur bernilai ekspor)',
+    marketPriceIDR: 'Rp 90.000 – Rp 160.000 per kg di tingkat pembudidaya (farm gate)',
     keyRiskMitigation: 'Sistem box vertikal individual 1 box = 1 kepiting mengeliminasi kanibalisme 100%, sirkulasi air RAS dengan protein skimmer wajib aktif.',
   },
   bandeng: {
@@ -210,32 +210,32 @@ export const COMMODITY_STANDARDS: Record<AquacultureCommodity, CommodityParamete
     pH: '7.5 – 8.5',
     dissolvedOxygen: '> 3.5 mg/L',
     salinityOrHardness: 'Salinitas euryhaline 10 – 30 ppt (dapat diadaptasi ke air tawar)',
-    tanAmmonia: '< 0.1 mg/L',
-    nitrite: '< 0.1 mg/L',
+    tanAmmonia: '< 0.05 mg/L (NH3)',
+    nitrite: '< 0.1 mg/L (NO2)',
     fcr: '1.1 – 1.3',
     feedProtein: '24% – 28% (memanfaatkan klekap/lumut tambak + pelet tambahan)',
     feedingRate: '2% – 3% biomassa/hari',
     harvestSize: '4 – 6 ekor/kg (bobot 160 – 250 gram/ekor)',
     culturePeriod: '90 – 120 hari',
-    marketPriceIDR: 'Rp 24.000 – Rp 30.000 per kg (komoditas bandeng presto & umpan pancing)',
+    marketPriceIDR: 'Rp 24.000 – Rp 30.000 per kg di tingkat pembudidaya (farm gate)',
     keyRiskMitigation: 'Penumbuhan pakan alami klekap dengan pemupukan dasar kolam tanah/terpal menghemat biaya pakan hingga 40%.',
   },
   kakap: {
     scientificName: 'Lates calcarifer',
-    commonName: 'Kakap Putih (Barramundi / Siakap)',
-    temperature: '28°C – 32°C',
+    commonName: 'Kakap Putih / Barramundi (Siakap)',
+    temperature: '27°C – 31°C',
     pH: '7.5 – 8.5',
-    dissolvedOxygen: '> 4.5 mg/L',
-    salinityOrHardness: 'Salinitas 15 – 32 ppt (Keramba Jaring Apung laut/muara atau kolam darat)',
-    tanAmmonia: '< 0.05 mg/L',
-    nitrite: '< 0.05 mg/L',
-    fcr: '1.2 – 1.5',
-    feedProtein: '40% – 45% (karnivora laut, pelet laut slow-sinking)',
+    dissolvedOxygen: '> 4.5 mg/L (KJA laut/tambak intensif)',
+    salinityOrHardness: 'Salinitas 15 – 32 ppt (euryhaline, optimal 20–30 ppt)',
+    tanAmmonia: '< 0.02 mg/L (NH3)',
+    nitrite: '< 0.05 mg/L (NO2)',
+    fcr: '1.2 – 1.5 (pelet karnivora slow-sinking)',
+    feedProtein: '42% – 48% (pendederan), 38% – 42% (pembesaran) — wajib grading ketat tiap 2 minggu pada fase fingerling untuk mencegah kanibalisme',
     feedingRate: '3% – 4% biomassa/hari',
-    harvestSize: '500 – 800 gram/ekor (ukuran porsi pasar ekspor & horeka)',
-    culturePeriod: '6 – 8 bulan',
-    marketPriceIDR: 'Rp 65.000 – Rp 85.000 per kg',
-    keyRiskMitigation: 'Grading ketat setiap 10 hari pada fase benih untuk mencegah kanibalisme ekstrem sesama anakan kakap.',
+    harvestSize: '500 – 800 gram/ekor (porsi restoran, DOC 5–7 bulan) atau 1.5 – 3.0 kg (fillet)',
+    culturePeriod: '5 – 7 bulan',
+    marketPriceIDR: 'Rp 55.000 – Rp 75.000 per kg di tingkat pembudidaya (farm gate)',
+    keyRiskMitigation: 'Grading ketat setiap 2 minggu pada fase fingerling untuk mencegah kanibalisme ekstrem sesama anakan kakap.',
   },
   general: {
     scientificName: 'Multi-Spesies Akuakultur Indonesia',
@@ -315,6 +315,21 @@ export interface WriterSkillContext {
   internalLinkTargets?: InternalLinkTarget[]
 }
 
+export const FORBIDDEN_AI_CLICHES = [
+  'di era modern ini',
+  'dalam dunia akuakultur yang terus berkembang',
+  'bukan sekadar',
+  'mari kita selami',
+  'penting untuk diingat bahwa',
+  'sebagai kesimpulan',
+  'dengan menerapkan langkah-langkah di atas',
+  'tidak dapat dipungkiri bahwa',
+  'perlu kita ketahui bersama',
+  'kesuksesan menanti anda',
+  'menjanjikan keuntungan yang menggiurkan',
+  'langkah pertama yang harus diambil',
+]
+
 /**
  * Menyusun batasan domain pengetahuan standar SNI / KKP untuk prompt AI.
  * Mendukung deteksi komoditas spesifik (Nila, Gurame, Udang Vaname, Lobster, dll.)
@@ -341,25 +356,48 @@ export function buildTechnicalDomainBounds(topicOrKeywords?: string | string[]):
 3. Metrik Panen & Ekonomi Pasar Indonesia:
    - Ukuran Panen Standar Pasar: ${c.harvestSize}
    - Masa Pemeliharaan (Siklus Budidaya): ${c.culturePeriod}
-   - Estimasi Harga Jual Panen Pembudidaya: ${c.marketPriceIDR}
+   - Estimasi Harga Farm Gate: ${c.marketPriceIDR}
    - Mitigasi Risiko Kritis Lapangan: ${c.keyRiskMitigation}`
     : `🎯 MATRIKS STANDAR TEKNIS AKUAKULTUR MULTI-KOMODITAS INDONESIA (SNI / KKP):
-- LELE (Clarias sp.): Suhu 26–30°C, pH 6.5–8.0, DO > 3.0 mg/L, FCR 0.8–1.1, panen 8–12 ekor/kg (80–125g), harga Rp 20rb–24rb/kg.
-- NILA (Oreochromis niloticus): Suhu 25–30°C, pH 6.5–8.5, DO > 4.0 mg/L (aerobik ketat), FCR 1.1–1.3, protein 28–32%, panen 3–5 ekor/kg (200–350g), harga Rp 26rb–32rb/kg.
-- GURAME (Osphronemus goramy): Suhu 25–28°C, pH 6.5–8.0, DO > 3.0 mg/L, FCR 1.3–1.6, pelet 28–32% + daun sente/talas, panen 500–800g/ekor, harga Rp 35rb–45rb/kg.
-- UDANG VANAME (Litopenaeus vannamei): Suhu 28–31°C, pH 7.5–8.3 (fluktuasi < 0.5), DO > 4.5 mg/L, Salinitas 15–25 ppt (atau 2–5 ppt fortifikasi mineral), Alkalinitas > 120 ppm, FCR 1.2–1.5, panen size 40–80 ekor/kg, harga Rp 65rb–90rb/kg.
-- LOBSTER AIR TAWAR (Cherax quadricarinatus): Suhu 24–29°C, pH 7.0–8.5, DO > 4.0 mg/L, Kesadahan Ca > 50–100 ppm, shelter PVC wajib, FCR 1.2–1.6, panen 10–15 ekor/kg, harga Rp 120rb–180rb/kg.
-- PATIN (Pangasius sp.): Suhu 27–30°C, pH 6.5–8.0, FCR 1.1–1.3, protein 26–30%, panen 800–1.200g, harga Rp 18rb–23rb/kg.
-- GABUS (Channa striata): Suhu 26–31°C, pH 6.5–8.0, FCR 1.2–1.5, protein 38–45%, panen 300–600g (kaya albumin), harga Rp 50rb–75rb/kg.
-- KEPITING BAKAU (Scylla serrata): Suhu 27–31°C, salinitas 15–25 ppt, vertical crab box RAS, panen 250–500g, harga Rp 90rb–160rb/kg.`
+- LELE (Clarias sp.): Suhu 26–30°C, pH 6.5–8.0, DO > 3.0 mg/L, FCR 0.8–1.1, panen 8–12 ekor/kg (80–125g), harga farm gate Rp 20rb–24rb/kg.
+- NILA (Oreochromis niloticus): Suhu 25–30°C, pH 6.5–8.5, DO > 4.0 mg/L (aerobik ketat), FCR 1.1–1.3, protein 28–32%, panen 3–5 ekor/kg (200–350g), harga farm gate Rp 26rb–32rb/kg.
+- GURAME (Osphronemus goramy): Suhu 25–28°C, pH 6.5–8.0, DO > 3.0 mg/L, FCR 1.3–1.6, pelet 28–32% + daun sente/talas, panen 500–800g/ekor, harga farm gate Rp 35rb–45rb/kg.
+- UDANG VANAME (Litopenaeus vannamei): Suhu 28–31°C, pH 7.5–8.3 (fluktuasi < 0.5), DO > 4.5 mg/L, Salinitas 15–25 ppt (atau 2–5 ppt fortifikasi mineral), Alkalinitas > 120 ppm CaCO3, FCR 1.2–1.5, panen size 40–80 ekor/kg, harga farm gate Rp 65rb–90rb/kg.
+- LOBSTER AIR TAWAR (Cherax quadricarinatus): Suhu 24–29°C, pH 7.0–8.5, DO > 4.0 mg/L, Kesadahan Ca > 50–100 ppm CaCO3, shelter PVC wajib, FCR 1.2–1.6, panen 10–15 ekor/kg, harga farm gate Rp 120rb–180rb/kg.
+- PATIN (Pangasius sp.): Suhu 27–30°C, pH 6.5–8.0, FCR 1.1–1.3, protein 26–30%, panen 800–1.200g, harga farm gate Rp 18rb–23rb/kg.
+- GABUS (Channa striata): Suhu 26–31°C, pH 6.5–8.0, FCR 1.2–1.5, protein 38–45%, panen 300–600g (kaya albumin), harga farm gate Rp 50rb–75rb/kg.
+- UDANG GALAH (Macrobrachium rosenbergii): Suhu 28–31°C, pH 7.0–8.5, DO > 4.0 mg/L, salinitas larva 10–12 ppt, pembesaran 0–2 ppt, FCR 1.3–1.6, panen 15–30 ekor/kg, harga farm gate Rp 75rb–110rb/kg.
+- KAKAP PUTIH (Lates calcarifer): Suhu 27–31°C, pH 7.5–8.5, DO > 4.5 mg/L, salinitas 15–32 ppt, FCR 1.2–1.5, protein 38–48%, panen 500–800g, harga farm gate Rp 55rb–75rb/kg.
+- BAWAL (Colossoma macropomum): Suhu 25–29°C, pH 6.5–7.5, DO > 3.5 mg/L, FCR 1.1–1.4, panen 3–4 ekor/kg, harga farm gate Rp 22rb–27rb/kg.
+- KEPITING BAKAU (Scylla serrata): Suhu 27–31°C, salinitas 15–25 ppt, vertical crab box RAS, panen 250–500g, harga farm gate Rp 90rb–160rb/kg.
+- BANDENG (Chanos chanos): Suhu 27–31°C, salinitas 10–30 ppt, FCR 1.1–1.3, panen 4–6 ekor/kg, harga farm gate Rp 24rb–30rb/kg.`
 
   return `=== STANDAR TEKNIS AKUAKULTUR INDONESIA (SNI / KKP) — WAJIB DIPATUHI ===
 ${specificSection}
 
-ATURAN UNIVERSAL AKUAKULTUR:
-1. DILARANG menerapkan parameter ikan lele ke komoditas lain (misalnya: udang vaname butuh alkalinitas >120 ppm dan DO >4.5 mg/L, nila aerobik ketat butuh DO >4 mg/L, lobster air tawar wajib shelter paralon untuk cegah kanibalisme molting).
-2. TAHUN SAAT INI ADALAH 2026. DILARANG KERAS mencantumkan tahun lampau (2023, 2024, 2025) pada judul, heading, slug, atau teks artikel! Gunakan '2026' jika relevan, atau tuliskan secara evergreen tanpa tahun.
-3. Semua rumus matematis WAJIB menggunakan format teks biasa (plain text), DILARANG menggunakan sintaks LaTeX math (\\frac, \\text, \\[, \\], $$, dll).`
+AMBANG BATAS TOKSISITAS AIR WAJIB (SELURUH KOMODITAS SNI):
+- Amonia Bebas (NH3): < 0.02 mg/L (pembenihan/krustasea) hingga < 0.05 mg/L (pembesaran ikan air tawar)
+- Nitrit (NO2): < 0.2 mg/L (air tawar) | < 0.1 mg/L (udang vaname & krustasea)
+- Kepadatan Flok (Khusus Sistem Bioflok): 20 – 40 mL/L (Lele) dan 15 – 30 mL/L (Nila) diukur dengan kerucut Imhoff (Imhoff cone) setelah pengendapan 20 menit.
+
+ATURAN GAYA BAHASA PRAKTISI & ANTI-AI PROSE:
+1. ZERO-FLUFF OPENING: Kalimat pertama paragraf pembuka WAJIB langsung mengangkat masalah teknis operasional, angka biaya pakan/mortalitas, atau fakta biologis komoditas.
+   DILARANG KERAS menggunakan frasa klise AI:
+   - "Di era modern ini..." / "Dalam dunia akuakultur yang terus berkembang..."
+   - "Budidaya [komoditas] bukan sekadar..., melainkan..."
+   - "Mari kita selami lebih dalam..." / "Penting untuk diingat bahwa..."
+   - "Sebagai kesimpulan..." / "Dengan menerapkan langkah-langkah di atas, kesuksesan menanti Anda."
+   - "Tidak dapat dipungkiri bahwa..." / "Perlu kita ketahui bersama..."
+2. TERMINOLOGI LAPANGAN AKUAKULTUR INDONESIA:
+   Gunakan istilah praktisi nyata: sipon lumpur dasar, kocok air, aplikasi kapur dolomit (CaMg(CO3)2) atau kapur tohor (CaO), fermentasi probiotik (Bacillus sp. + molase/tetes tebu), pergantian air (water exchange), pemuasaan 24 jam sebelum panen, sampling ABW, tingkat kelangsungan hidup (SR), grading ukuran, cek anco.
+3. KONSISTENSI KALKULASI EKONOMI:
+   - Populasi Panen = Jumlah Tebar × SR (%)
+   - Total Tonase Panen (kg) = Populasi Panen ÷ Size Panen (ekor/kg)
+   - Total Kebutuhan Pakan (kg) = Total Tonase Panen (kg) × FCR
+   - Biaya Pakan (Rp) = Total Kebutuhan Pakan (kg) × Harga Pakan/kg
+   - Nyatakan harga jual sebagai Estimasi Harga Farm Gate (tingkat pembudidaya) dengan asumsi SR realistis.
+4. TAHUN SAAT INI ADALAH 2026. DILARANG KERAS mencantumkan tahun lampau (2023, 2024, 2025).
+5. Semua rumus matematis WAJIB format teks biasa (plain text), DILARANG menggunakan sintaks LaTeX math (\\frac, \\text, \\[, \\], $$, dll).`
 }
 
 /**
@@ -449,12 +487,21 @@ export function sanitizeLatexMath(content: string): string {
   s = s.replace(/\\+cdot/g, '·')
   s = s.replace(/\\+approx/g, '≈')
 
-  // 5. Delimiter blok matematika
+  // 5. Delimiter blok matematika & simbol dolar LaTeX
   s = s.replace(/\\+\[\s*/g, '')
   s = s.replace(/\s*\\+\]/g, '')
   s = s.replace(/\\+\(\s*/g, '')
   s = s.replace(/\s*\\+\)/g, '')
   s = s.replace(/\$\$\s*/g, '')
+
+  // 5b. Sanitasi penulisan rumus kimia LaTeX ($CaCO_3$, $NH_3$, $NO_2$, dll.) menjadi plain text
+  s = s.replace(/\$?CaCO[_3]+\$?|\$CaCO3\$/gi, 'CaCO3')
+  s = s.replace(/\$?NH[_3]+\$?|\$NH3\$/gi, 'NH3')
+  s = s.replace(/\$?NO[_2]+\$?|\$NO2\$/gi, 'NO2')
+  s = s.replace(/\$?H[_2]+S\$?|\$H2S\$/gi, 'H2S')
+  s = s.replace(/\$?O[_2]+\$?|\$O2\$/gi, 'O2')
+  s = s.replace(/\$?CO[_2]+\$?|\$CO2\$/gi, 'CO2')
+  s = s.replace(/\$([A-Za-z0-9%°\s\.\,\+\-\/\(\)]+)\$/g, '$1') // unwrap single dollar math
 
   // 6. Sanitasi tahun usang (2024/2025) menjadi 2026
   s = s.replace(/\b(2023|2024|2025)\b/g, '2026')
@@ -472,6 +519,8 @@ export interface ValidationReport {
     internalLinkCount: number
     faqCount: number
     strippedHallucinatedLinks: number
+    clicheCount?: number
+    detectedCliches?: string[]
   }
 }
 
@@ -483,6 +532,7 @@ export interface ValidationReport {
  * 4. Memeriksa keberadaan FAQ.
  * 5. Memverifikasi internal links: Link ke /artikel/(slug) yang tidak ada di validSlugs
  *    otomatis dibersihkan menjadi plain text agar tidak menghasilkan 404 broken link!
+ * 6. Memeriksa keberadaan frasa klise robot AI.
  */
 export function validateAndSanitizeArticle(
   content: string,
@@ -513,7 +563,19 @@ export function validateAndSanitizeArticle(
     errors.push(`Jumlah pertanyaan FAQ (${faqCount}) kurang dari minimal 3 pertanyaan`)
   }
 
-  // 4. Validasi dan Sanitasi Internal Links
+  // 4. Deteksi Frasa Klise Robot AI
+  const lowerContent = cleanLatex.toLowerCase()
+  const detectedCliches = FORBIDDEN_AI_CLICHES.filter(c => lowerContent.includes(c))
+  if (detectedCliches.length > 0) {
+    // Jika klise muncul di paragraf awal (100 kata pertama), anggap sebagai error/pelanggaran gaya bahasa
+    const firstParagraph = cleanLatex.split('\n\n')[0]?.toLowerCase() || ''
+    const hasOpeningCliche = detectedCliches.some(c => firstParagraph.includes(c))
+    if (hasOpeningCliche) {
+      errors.push(`Artikel dibuka dengan frasa klise AI yang dilarang (${detectedCliches.join(', ')})`)
+    }
+  }
+
+  // 5. Validasi dan Sanitasi Internal Links
   // Pola: [Anchor Text](/artikel/slug-target)
   let internalLinkCount = 0
   let strippedHallucinatedLinks = 0
@@ -552,6 +614,8 @@ export function validateAndSanitizeArticle(
       internalLinkCount,
       faqCount,
       strippedHallucinatedLinks,
+      clicheCount: detectedCliches.length,
+      detectedCliches,
     },
   }
 }
