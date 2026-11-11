@@ -907,7 +907,7 @@ export default function SettingsPage() {
 
               <Link
                 href="/admin/ai-accounts"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-aqua-glow/30 bg-aqua-glow/10 px-3 py-1.5 text-xs font-semibold text-aqua-glow hover:bg-aqua-glow/20 transition"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-400/60 bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-cyan-200 hover:bg-slate-800 hover:text-white transition"
               >
                 <Key className="w-3.5 h-3.5" />
                 Kelola Akun Google AI (OAuth &amp; Kuota)

@@ -475,28 +475,28 @@ export default function AiAccountsPage() {
   return (
     <div className="space-y-6">
       {/* Header & Aksi Utama */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-aqua-glow">
-            <Sparkles className="h-3.5 w-3.5" />
+      <div className="rounded-2xl border border-slate-600/50 bg-[#091526]/90 p-5 md:p-6 shadow-xl flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-300">
+            <Sparkles className="h-4 w-4" />
             Cloudflare Edge Pool 24/7 (Mandiri)
           </div>
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-white mt-1">
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-white mt-1.5">
             Manajemen Akun Google AI Router
           </h1>
-          <p className="text-sm text-white/60 mt-1">
+          <p className="text-sm text-slate-200 mt-1.5 leading-relaxed">
             Tambah, hapus, nonaktifkan, atau cek kuota akun Google Antigravity langsung dari panel
             tanpa bergantung pada 9Router lokal.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5 xl:justify-end shrink-0">
           <button
             type="button"
             onClick={() => void openOAuthModal()}
-            className="inline-flex items-center gap-2 rounded-xl gradient-aqua px-4 py-2.5 text-sm font-bold text-white shadow-glow hover:opacity-90 transition"
+            className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-4 py-2.5 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-500/20 hover:bg-cyan-300 transition"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4 stroke-[2.5]" />
             Hubungkan Akun Google
           </button>
 
@@ -504,7 +504,7 @@ export default function AiAccountsPage() {
             type="button"
             onClick={() => void handleCheckQuota()}
             disabled={checkingAllQuota || accounts.length === 0}
-            className="inline-flex items-center gap-2 rounded-xl border border-aqua-glow/30 bg-aqua-glow/10 px-4 py-2.5 text-sm font-semibold text-aqua-glow hover:bg-aqua-glow/20 disabled:opacity-40 transition"
+            className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/60 bg-slate-900 px-4 py-2.5 text-sm font-semibold text-cyan-200 hover:bg-slate-800 hover:text-white disabled:opacity-40 transition"
           >
             <Activity className={cn('h-4 w-4', checkingAllQuota && 'animate-spin')} />
             {checkingAllQuota ? 'Mengecek Kuota...' : 'Cek Semua Kuota'}
@@ -515,7 +515,7 @@ export default function AiAccountsPage() {
             onClick={() => void handleSyncFromEnv('merge')}
             disabled={syncingEnv}
             title="Gabungkan akun dari secret ANTIGRAVITY_ACCOUNTS tanpa menimpa akun OAuth baru"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm font-medium text-white/80 hover:bg-white/10 disabled:opacity-40 transition"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-500/80 bg-slate-900 px-3.5 py-2.5 text-sm font-semibold text-slate-100 hover:bg-slate-800 disabled:opacity-40 transition"
           >
             <RefreshCw className={cn('h-4 w-4', syncingEnv && 'animate-spin')} />
             Sync Env (Merge)
@@ -523,7 +523,7 @@ export default function AiAccountsPage() {
 
           <Link
             href="/admin/settings"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white/60 hover:text-white hover:bg-white/10 transition"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-900/90 px-3.5 py-2.5 text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800 transition"
           >
             Pengaturan Router
           </Link>
@@ -534,25 +534,25 @@ export default function AiAccountsPage() {
       {notice && (
         <div
           className={cn(
-            'rounded-xl border px-4 py-3 text-sm flex items-start justify-between gap-3',
+            'rounded-xl border px-4 py-3.5 text-sm font-medium flex items-start justify-between gap-3 shadow-md',
             notice.type === 'success' &&
-              'border-emerald-400/30 bg-emerald-400/10 text-emerald-200',
-            notice.type === 'error' && 'border-red-400/30 bg-red-400/10 text-red-200',
-            notice.type === 'info' && 'border-aqua-glow/30 bg-aqua-glow/10 text-aqua-glow'
+              'border-emerald-400/60 bg-emerald-950/90 text-emerald-100',
+            notice.type === 'error' && 'border-red-400/60 bg-red-950/90 text-red-100',
+            notice.type === 'info' && 'border-cyan-400/60 bg-slate-900/95 text-cyan-100'
           )}
         >
           <div className="flex items-start gap-2.5">
             {notice.type === 'error' ? (
-              <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+              <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 text-red-300" />
             ) : (
-              <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5" />
+              <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-emerald-300" />
             )}
             <span>{notice.message}</span>
           </div>
           <button
             type="button"
             onClick={() => setNotice(null)}
-            className="text-white/60 hover:text-white shrink-0"
+            className="text-slate-300 hover:text-white shrink-0"
             aria-label="Tutup notifikasi"
           >
             <X className="h-4 w-4" />
@@ -562,45 +562,53 @@ export default function AiAccountsPage() {
 
       {/* Ringkasan Status Edge & Pool */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
-          <div className="text-xs font-medium text-white/50">Status Cloudflare Worker</div>
-          <div className="mt-1.5 flex items-center justify-between">
+        <div className="rounded-xl border border-slate-600/50 bg-[#091526]/90 p-4 shadow-md">
+          <div className="text-xs font-semibold uppercase tracking-wide text-slate-300">
+            Status Cloudflare Worker
+          </div>
+          <div className="mt-2 flex items-center justify-between">
             <span className="text-lg font-bold text-white">
               {health?.status === 'online' ? 'Online 24/7' : loading ? 'Memuat...' : 'Perlu Cek'}
             </span>
             <span
               className={cn(
-                'rounded-full border px-2 py-0.5 text-[11px] font-semibold',
+                'rounded-full border px-2.5 py-0.5 text-xs font-semibold',
                 health?.status === 'online'
-                  ? 'border-emerald-400/30 bg-emerald-400/15 text-emerald-300'
-                  : 'border-amber-400/30 bg-amber-400/15 text-amber-300'
+                  ? 'border-emerald-400/60 bg-emerald-500/20 text-emerald-200'
+                  : 'border-amber-400/60 bg-amber-500/20 text-amber-200'
               )}
             >
               {health?.version ? `v${health.version}` : 'Edge'}
             </span>
           </div>
-          <div className="mt-2 text-xs text-white/50">
+          <div className="mt-2 text-xs text-slate-300">
             Sumber data:{' '}
-            <span className="text-white/80 font-medium">
+            <span className="text-white font-semibold">
               {storageSource === 'kv' ? 'Cloudflare KV (Terenkripsi)' : 'Env Secret Fallback'}
             </span>
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
-          <div className="text-xs font-medium text-white/50">Pool Akun Aktif</div>
-          <div className="mt-1.5 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-aqua-glow">{activeAccounts}</span>
-            <span className="text-sm text-white/50">/ {totalAccounts} akun terdaftar</span>
+        <div className="rounded-xl border border-slate-600/50 bg-[#091526]/90 p-4 shadow-md">
+          <div className="text-xs font-semibold uppercase tracking-wide text-slate-300">
+            Pool Akun Aktif
           </div>
-          <div className="mt-2 text-xs text-white/50">
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl font-bold text-cyan-300">{activeAccounts}</span>
+            <span className="text-sm text-slate-200 font-medium">
+              / {totalAccounts} akun terdaftar
+            </span>
+          </div>
+          <div className="mt-2 text-xs text-slate-300">
             Rotasi round-robin otomatis + auto-skip cooldown 429
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
-          <div className="text-xs font-medium text-white/50">Keamanan & OAuth</div>
-          <div className="mt-1.5 flex items-center gap-2 text-sm font-semibold text-white">
+        <div className="rounded-xl border border-slate-600/50 bg-[#091526]/90 p-4 shadow-md">
+          <div className="text-xs font-semibold uppercase tracking-wide text-slate-300">
+            Keamanan &amp; OAuth
+          </div>
+          <div className="mt-2 flex items-center gap-2 text-sm font-bold text-white">
             <ShieldCheck
               className={cn(
                 'h-4 w-4',
@@ -609,26 +617,28 @@ export default function AiAccountsPage() {
             />
             {health?.encryptionConfigured ? 'AES-256-GCM Aktif' : 'Kunci Enkripsi Fallback'}
           </div>
-          <div className="mt-2 text-xs text-white/50 flex items-center gap-1.5">
-            <KeyRound className="h-3.5 w-3.5" />
+          <div className="mt-2 text-xs text-slate-300 flex items-center gap-1.5">
+            <KeyRound className="h-3.5 w-3.5 text-cyan-300" />
             {health?.oauthConfigured
               ? 'Client ID Google OAuth siap'
               : 'Cek secret ANTIGRAVITY_CLIENT_ID'}
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
-          <div className="text-xs font-medium text-white/50">Kesehatan Token & Kuota</div>
-          <div className="mt-1.5 text-lg font-bold text-white">
+        <div className="rounded-xl border border-slate-600/50 bg-[#091526]/90 p-4 shadow-md">
+          <div className="text-xs font-semibold uppercase tracking-wide text-slate-300">
+            Kesehatan Token &amp; Kuota
+          </div>
+          <div className="mt-2 text-lg font-bold text-white">
             {revokedAccountsCount > 0 ? (
               <span className="text-red-300">{revokedAccountsCount} Perlu Re-login</span>
             ) : lastQuotaCheckedAt ? (
               <span className="text-emerald-300">Semua Terverifikasi</span>
             ) : (
-              <span className="text-white/70">Belum Dicek</span>
+              <span className="text-slate-100">Belum Dicek</span>
             )}
           </div>
-          <div className="mt-2 text-xs text-white/50">
+          <div className="mt-2 text-xs text-slate-300">
             {lastQuotaCheckedAt
               ? `Terakhir dicek: ${formatDateTimeId(lastQuotaCheckedAt)}`
               : 'Klik "Cek Semua Kuota" untuk menarik data Google'}
@@ -638,18 +648,21 @@ export default function AiAccountsPage() {
 
       {/* Daftar Akun */}
       {loading ? (
-        <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center text-sm text-white/60">
+        <div className="rounded-xl border border-slate-600/50 bg-[#091526]/90 p-8 text-center text-sm font-medium text-slate-200">
           Memuat daftar akun Google AI Router dari Cloudflare Worker...
         </div>
       ) : accounts.length === 0 ? (
-        <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center space-y-3">
-          <p className="text-base font-semibold text-white">
+        <div className="rounded-xl border border-slate-600/50 bg-[#091526]/90 p-8 text-center space-y-3">
+          <p className="text-base font-bold text-white">
             Belum ada akun Google Antigravity di pool Worker
           </p>
-          <p className="text-sm text-white/60 max-w-lg mx-auto">
+          <p className="text-sm text-slate-200 max-w-lg mx-auto">
             Klik &ldquo;Hubungkan Akun Google&rdquo; untuk login OAuth atau klik &ldquo;Sync Env
-            (Merge)&rdquo; jika secret <code>ANTIGRAVITY_ACCOUNTS</code> sudah terpasang di
-            Cloudflare.
+            (Merge)&rdquo; jika secret{' '}
+            <code className="rounded bg-slate-800 px-1.5 py-0.5 text-cyan-200">
+              ANTIGRAVITY_ACCOUNTS
+            </code>{' '}
+            sudah terpasang di Cloudflare.
           </p>
         </div>
       ) : (
@@ -666,75 +679,84 @@ export default function AiAccountsPage() {
               <div
                 key={account.email}
                 className={cn(
-                  'rounded-xl border bg-white/[0.04] p-4 md:p-5 backdrop-blur-xl transition',
+                  'rounded-xl border p-4 md:p-5 shadow-md transition',
                   isRevoked
-                    ? 'border-red-400/40 bg-red-500/[0.04]'
+                    ? 'border-red-400/70 bg-[#230e16]/95'
                     : account.isActive
-                      ? 'border-white/10'
-                      : 'border-white/5 opacity-70'
+                      ? 'border-slate-600/55 bg-[#091526]/90'
+                      : 'border-slate-700/70 bg-[#060e1a]/90'
                 )}
               >
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   {/* Info Utama Akun */}
                   <div className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center rounded-md border border-white/15 bg-white/5 px-2 py-0.5 text-xs font-mono text-white/75">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="inline-flex items-center rounded-md border border-slate-500/80 bg-slate-800 px-2.5 py-0.5 text-xs font-mono font-bold text-white">
                         #{account.priority}
                       </span>
                       <h2 className="text-base font-bold text-white">{account.email}</h2>
 
                       {isRevoked ? (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-red-400/40 bg-red-500/20 px-2.5 py-0.5 text-xs font-bold text-red-200">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-red-400/70 bg-red-500/30 px-2.5 py-0.5 text-xs font-bold text-red-100">
                           <AlertTriangle className="h-3.5 w-3.5" />
                           Token Kedaluwarsa — Perlu Re-login
                         </span>
                       ) : !account.isActive ? (
-                        <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-xs font-semibold text-white/60">
+                        <span className="inline-flex items-center rounded-full border border-slate-500 bg-slate-700 px-2.5 py-0.5 text-xs font-semibold text-slate-100">
                           Nonaktif
                         </span>
                       ) : cooldownText ? (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/40 bg-amber-400/15 px-2.5 py-0.5 text-xs font-semibold text-amber-200">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/60 bg-amber-500/25 px-2.5 py-0.5 text-xs font-semibold text-amber-100">
                           <Clock className="h-3.5 w-3.5" />
                           Cooldown {cooldownText}
                         </span>
                       ) : (
-                        <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/15 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
+                        <span className="inline-flex items-center rounded-full border border-emerald-400/60 bg-emerald-500/25 px-2.5 py-0.5 text-xs font-semibold text-emerald-100">
                           Aktif
                         </span>
                       )}
 
                       {isQuotaError && quota?.errorMessage && (
-                        <span className="inline-flex items-center rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-0.5 text-xs text-amber-200">
+                        <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-500/20 px-2.5 py-0.5 text-xs font-semibold text-amber-100">
                           Error cek kuota
                         </span>
                       )}
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-white/55">
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-slate-300">
                       <span>
                         Project ID:{' '}
-                        <code className="text-white/80 font-mono">{account.projectId}</code>
+                        <code className="rounded bg-slate-800/90 px-1.5 py-0.5 text-cyan-200 font-mono font-medium">
+                          {account.projectId}
+                        </code>
                       </span>
-                      <span>Mask: {account.maskedEmail}</span>
+                      <span>
+                        Mask: <span className="text-slate-100 font-medium">{account.maskedEmail}</span>
+                      </span>
                       {account.updatedAt && (
-                        <span>Diperbarui: {formatDateTimeId(account.updatedAt)}</span>
+                        <span>
+                          Diperbarui:{' '}
+                          <span className="text-slate-100 font-medium">
+                            {formatDateTimeId(account.updatedAt)}
+                          </span>
+                        </span>
                       )}
                     </div>
 
                     {quota?.errorMessage && (
-                      <p className="text-xs text-red-300/90 mt-1">{quota.errorMessage}</p>
+                      <p className="text-xs font-medium text-red-200 mt-1">{quota.errorMessage}</p>
                     )}
                   </div>
 
                   {/* Tombol Aksi Per Akun */}
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
-                    <div className="inline-flex items-center rounded-lg border border-white/10 bg-white/5">
+                    <div className="inline-flex items-center rounded-lg border border-slate-600 bg-slate-900">
                       <button
                         type="button"
                         disabled={isMutating || account.priority <= 1}
                         onClick={() => void handleAdjustPriority(account, -1)}
                         title="Naikkan prioritas rotasi"
-                        className="p-1.5 text-white/70 hover:text-white disabled:opacity-30"
+                        className="p-1.5 text-slate-200 hover:text-white hover:bg-slate-800 rounded-l-lg disabled:opacity-35"
                       >
                         <ArrowUp className="h-3.5 w-3.5" />
                       </button>
@@ -743,7 +765,7 @@ export default function AiAccountsPage() {
                         disabled={isMutating}
                         onClick={() => void handleAdjustPriority(account, 1)}
                         title="Turunkan prioritas rotasi"
-                        className="p-1.5 text-white/70 hover:text-white border-l border-white/10 disabled:opacity-30"
+                        className="p-1.5 text-slate-200 hover:text-white hover:bg-slate-800 rounded-r-lg border-l border-slate-600 disabled:opacity-35"
                       >
                         <ArrowDown className="h-3.5 w-3.5" />
                       </button>
@@ -753,7 +775,7 @@ export default function AiAccountsPage() {
                       type="button"
                       disabled={isCheckingQuota || checkingAllQuota}
                       onClick={() => void handleCheckQuota(account.email)}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10 disabled:opacity-40 transition"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-500/80 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-100 hover:bg-slate-800 disabled:opacity-40 transition"
                     >
                       <Activity className={cn('h-3.5 w-3.5', isCheckingQuota && 'animate-spin')} />
                       Cek Kuota
@@ -765,8 +787,8 @@ export default function AiAccountsPage() {
                       className={cn(
                         'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition',
                         isRevoked
-                          ? 'border-red-400/50 bg-red-500/25 text-red-100 hover:bg-red-500/35'
-                          : 'border-aqua-glow/30 bg-aqua-glow/10 text-aqua-glow hover:bg-aqua-glow/20'
+                          ? 'border-red-400/70 bg-red-500/35 text-red-50 hover:bg-red-500/50'
+                          : 'border-cyan-400/60 bg-cyan-500/20 text-cyan-100 hover:bg-cyan-500/35'
                       )}
                     >
                       <Link2 className="h-3.5 w-3.5" />
@@ -778,10 +800,10 @@ export default function AiAccountsPage() {
                       disabled={isMutating}
                       onClick={() => void handleToggleAccount(account)}
                       className={cn(
-                        'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition disabled:opacity-40',
+                        'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition disabled:opacity-40',
                         account.isActive
-                          ? 'border-amber-400/30 bg-amber-400/10 text-amber-200 hover:bg-amber-400/20'
-                          : 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20'
+                          ? 'border-amber-400/60 bg-amber-500/20 text-amber-100 hover:bg-amber-500/35'
+                          : 'border-emerald-400/60 bg-emerald-500/20 text-emerald-100 hover:bg-emerald-500/35'
                       )}
                     >
                       <Power className="h-3.5 w-3.5" />
@@ -801,7 +823,7 @@ export default function AiAccountsPage() {
                         <button
                           type="button"
                           onClick={() => setConfirmDeleteEmail(null)}
-                          className="rounded-lg border border-white/15 px-2.5 py-1.5 text-xs text-white/70 hover:bg-white/10"
+                          className="rounded-lg border border-slate-500 bg-slate-800 px-2.5 py-1.5 text-xs font-medium text-slate-100 hover:bg-slate-700"
                         >
                           Batal
                         </button>
@@ -811,7 +833,7 @@ export default function AiAccountsPage() {
                         type="button"
                         onClick={() => setConfirmDeleteEmail(account.email)}
                         title="Hapus akun dari pool"
-                        className="inline-flex items-center gap-1 rounded-lg border border-red-400/25 bg-red-500/10 px-2.5 py-1.5 text-xs text-red-300 hover:bg-red-500/20 transition"
+                        className="inline-flex items-center gap-1 rounded-lg border border-red-400/50 bg-red-500/20 px-2.5 py-1.5 text-xs font-semibold text-red-100 hover:bg-red-500/35 transition"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                         Hapus
@@ -822,15 +844,15 @@ export default function AiAccountsPage() {
 
                 {/* Progress Bar Kuota Per Model */}
                 {quota && quota.models.length > 0 && (
-                  <div className="mt-4 pt-3 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                  <div className="mt-4 pt-3 border-t border-slate-700/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                     {quota.models.map((model) => (
                       <div
                         key={model.modelId}
-                        className="rounded-lg border border-white/10 bg-black/20 p-2.5 space-y-1.5"
+                        className="rounded-lg border border-slate-600/60 bg-slate-950/90 p-3 space-y-2"
                       >
-                        <div className="flex items-center justify-between gap-2 text-[11px]">
+                        <div className="flex items-center justify-between gap-2 text-xs">
                           <span
-                            className="font-medium text-white/80 truncate"
+                            className="font-medium text-slate-200 truncate"
                             title={model.modelId}
                           >
                             {MODEL_LABELS[model.modelId] ?? model.modelId}
@@ -841,7 +863,7 @@ export default function AiAccountsPage() {
                               : 'N/A'}
                           </span>
                         </div>
-                        <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+                        <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
                           <div
                             className={cn(
                               'h-full rounded-full transition-all',
@@ -851,7 +873,7 @@ export default function AiAccountsPage() {
                           />
                         </div>
                         {model.resetTime && (
-                          <div className="text-[10px] text-white/45 truncate">
+                          <div className="text-xs text-slate-300 truncate">
                             Reset: {formatDateTimeId(model.resetTime)}
                           </div>
                         )}
@@ -866,18 +888,21 @@ export default function AiAccountsPage() {
       )}
 
       {/* Aksi Lanjutan: Reset ke Env Secret */}
-      <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="text-xs text-white/55">
-          <span className="font-semibold text-white/80">Catatan Sinkronisasi:</span>{' '}
+      <div className="rounded-xl border border-slate-600/50 bg-[#091526]/90 p-4 shadow-md flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="text-xs text-slate-200 leading-relaxed">
+          <span className="font-bold text-white">Catatan Sinkronisasi:</span>{' '}
           &ldquo;Sync Env (Merge)&rdquo; menjaga akun baru hasil OAuth di KV. Gunakan Reset hanya
           bila ingin menyamakan seluruh daftar dengan secret Cloudflare{' '}
-          <code>ANTIGRAVITY_ACCOUNTS</code>.
+          <code className="rounded bg-slate-800 px-1.5 py-0.5 text-cyan-200 font-mono">
+            ANTIGRAVITY_ACCOUNTS
+          </code>
+          .
         </div>
         <button
           type="button"
           disabled={syncingEnv}
           onClick={() => void handleSyncFromEnv('reset')}
-          className="shrink-0 rounded-lg border border-amber-400/25 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-200 hover:bg-amber-400/20 disabled:opacity-40 transition"
+          className="shrink-0 rounded-lg border border-amber-400/60 bg-amber-500/20 px-3.5 py-2 text-xs font-semibold text-amber-100 hover:bg-amber-500/35 disabled:opacity-40 transition"
         >
           Reset Pool ke Env Secret
         </button>
@@ -885,8 +910,8 @@ export default function AiAccountsPage() {
 
       {/* Modal Tambah / Re-login Akun Google OAuth */}
       {oauthModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="w-full max-w-xl rounded-2xl border border-white/15 bg-[#0e211b] p-6 shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-xl rounded-2xl border border-slate-500/70 bg-[#091526] p-6 shadow-2xl space-y-5">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-lg font-bold text-white">
@@ -894,7 +919,7 @@ export default function AiAccountsPage() {
                     ? `Re-login Akun ${oauthTargetLabel}`
                     : 'Hubungkan Akun Google Baru'}
                 </h2>
-                <p className="text-xs text-white/60 mt-1">
+                <p className="text-xs text-slate-200 mt-1 leading-relaxed">
                   Login via Google OAuth Antigravity, ambil project Cloud Code otomatis, lalu
                   simpan refresh token terenkripsi AES-256-GCM ke Cloudflare KV.
                 </p>
@@ -905,31 +930,31 @@ export default function AiAccountsPage() {
                   setOauthModalOpen(false)
                   setOauthSession(null)
                 }}
-                className="rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-1.5 text-slate-300 hover:bg-slate-800 hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
             {oauthLoading ? (
-              <div className="py-8 text-center text-sm text-white/60">
-                Menyiapkan sesi & link OAuth Google dari Cloudflare Worker...
+              <div className="py-8 text-center text-sm text-slate-200">
+                Menyiapkan sesi &amp; link OAuth Google dari Cloudflare Worker...
               </div>
             ) : oauthSession ? (
               <div className="space-y-4">
-                <div className="rounded-xl border border-aqua-glow/25 bg-aqua-glow/5 p-4 space-y-3">
+                <div className="rounded-xl border border-cyan-400/50 bg-slate-900/90 p-4 space-y-3">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-aqua-glow">
+                    <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
                       Langkah 1 — Login di Akun Google
                     </span>
-                    <span className="rounded-full border border-white/15 px-2 py-0.5 text-[11px] text-white/70">
+                    <span className="rounded-full border border-slate-500 bg-slate-800 px-2.5 py-0.5 text-xs font-medium text-slate-100">
                       {oauthSession.mode === 'auto_popup'
                         ? 'Mode Otomatis (Localhost)'
                         : 'Mode Produksi (Salin Callback)'}
                     </span>
                   </div>
 
-                  <p className="text-xs text-white/75 leading-relaxed">
+                  <p className="text-xs text-slate-200 leading-relaxed">
                     {oauthSession.mode === 'auto_popup'
                       ? 'Klik tombol di bawah untuk membuka popup login Google. Setelah Anda klik Allow/Izinkan, jendela akan mengirim kode ke panel ini dan tertutup otomatis.'
                       : 'Klik tombol di bawah untuk login Google di tab baru. Setelah selesai, browser akan mengarah ke http://localhost:8080/callback?code=... (tampilan "This site can\'t be reached" adalah NORMAL). Salin seluruh URL di address bar lalu tempelkan pada Langkah 2.'}
@@ -939,7 +964,7 @@ export default function AiAccountsPage() {
                     <button
                       type="button"
                       onClick={handleOpenGooglePopup}
-                      className="inline-flex items-center gap-2 rounded-xl gradient-aqua px-4 py-2 text-sm font-bold text-white shadow-glow hover:opacity-90 transition"
+                      className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-4 py-2 text-sm font-bold text-slate-950 shadow-lg hover:bg-cyan-300 transition"
                     >
                       <ExternalLink className="h-4 w-4" />
                       Buka Halaman Login Google
@@ -948,21 +973,21 @@ export default function AiAccountsPage() {
                       href={oauthSession.authUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10 transition"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-500 bg-slate-800 px-3.5 py-2 text-xs font-medium text-slate-100 hover:bg-slate-700 transition"
                     >
                       Buka di Tab Baru
                     </a>
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
-                  <div className="text-xs font-bold uppercase tracking-wider text-white/75">
+                <div className="rounded-xl border border-slate-600 bg-slate-900/90 p-4 space-y-3">
+                  <div className="text-xs font-bold uppercase tracking-wider text-white">
                     Langkah 2 — Tempel URL Callback atau Authorization Code
                   </div>
-                  <p className="text-[11px] text-white/55">
-                    Mendukung URL lengkap (<code>http://localhost:8080/callback?...</code>), query
-                    string (<code>?code=...&amp;state=...</code>), maupun kode mentah (
-                    <code>4/0A...</code>). Jika popup otomatis di localhost berhasil, bagian ini
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Mendukung URL lengkap (<code className="text-cyan-200">http://localhost:8080/callback?...</code>), query
+                    string (<code className="text-cyan-200">?code=...&amp;state=...</code>), maupun kode mentah (
+                    <code className="text-cyan-200">4/0A...</code>). Jika popup otomatis di localhost berhasil, bagian ini
                     tidak perlu diisi.
                   </p>
                   <textarea
@@ -970,13 +995,13 @@ export default function AiAccountsPage() {
                     value={callbackInput}
                     onChange={(e) => setCallbackInput(e.target.value)}
                     placeholder="Tempel URL dari address bar browser setelah login Google (contoh: http://localhost:8080/callback?state=...&code=4/0A...)"
-                    className="w-full rounded-xl border border-white/15 bg-black/30 px-3 py-2.5 text-xs font-mono text-white placeholder:text-white/35 focus:border-aqua-glow/60 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-500 bg-slate-950 px-3 py-2.5 text-xs font-mono text-white placeholder:text-slate-400 focus:border-cyan-400 focus:outline-none"
                   />
                   <div className="flex items-center justify-end gap-2">
                     <button
                       type="button"
                       onClick={() => void openOAuthModal(oauthTargetLabel ?? undefined)}
-                      className="rounded-xl border border-white/15 px-3.5 py-2 text-xs text-white/70 hover:bg-white/10 transition"
+                      className="rounded-xl border border-slate-500 bg-slate-800 px-3.5 py-2 text-xs font-medium text-slate-100 hover:bg-slate-700 transition"
                     >
                       Muat Ulang State
                     </button>
@@ -989,7 +1014,7 @@ export default function AiAccountsPage() {
                           state: oauthSession.state,
                         })
                       }
-                      className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-black hover:bg-emerald-400 disabled:opacity-40 transition"
+                      className="inline-flex items-center gap-2 rounded-xl bg-emerald-400 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-emerald-300 disabled:opacity-40 transition"
                     >
                       {oauthExchanging ? 'Memproses Token...' : 'Simpan & Verifikasi Akun'}
                     </button>
@@ -998,11 +1023,13 @@ export default function AiAccountsPage() {
               </div>
             ) : (
               <div className="py-4 text-center space-y-3">
-                <p className="text-sm text-red-300">Gagal memuat link otorisasi OAuth.</p>
+                <p className="text-sm font-medium text-red-200">
+                  Gagal memuat link otorisasi OAuth.
+                </p>
                 <button
                   type="button"
                   onClick={() => void openOAuthModal(oauthTargetLabel ?? undefined)}
-                  className="rounded-xl border border-white/15 px-4 py-2 text-xs text-white hover:bg-white/10"
+                  className="rounded-xl border border-slate-500 bg-slate-800 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-700"
                 >
                   Coba Lagi
                 </button>
