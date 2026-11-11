@@ -57,7 +57,8 @@ jobs:
           fi
           
           git commit -m "feat: auto-generate artikel AI $(date +'%Y-%m-%d')"
-          git push
+          git pull --rebase origin main
+          git push origin main
 
   # Deploy otomatis setelah artikel baru di-push
   deploy:
