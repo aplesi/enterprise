@@ -35,7 +35,9 @@ export function ArticleImageWithFallback({
             src={src!}
             alt={alt}
             className="absolute inset-0 w-full h-full object-cover"
-            loading={priority ? undefined : 'lazy'}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchPriority={priority ? 'high' : 'auto'}
             referrerPolicy="no-referrer"
             onError={() => setHasError(true)}
           />
@@ -71,6 +73,8 @@ export function ArticleImageWithFallback({
             alt={alt}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
+            decoding="async"
+            fetchPriority="low"
             referrerPolicy="no-referrer"
             onError={() => setHasError(true)}
           />
@@ -91,7 +95,9 @@ export function ArticleImageWithFallback({
           src={src!}
           alt={alt}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchPriority={priority ? 'high' : 'auto'}
           referrerPolicy="no-referrer"
           onError={() => setHasError(true)}
         />

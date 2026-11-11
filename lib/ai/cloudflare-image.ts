@@ -5,8 +5,10 @@
 
 import { kvGet } from '@/lib/cloudflare/kv'
 import { enhanceImagePromptToRealPhoto, type ImagePromptContext } from '@/lib/ai/skills/image-prompt-skill'
+import { optimizeImageForWeb } from '@/lib/image/compressor'
 
 const IMAGE_MODEL = '@cf/black-forest-labs/flux-1-schnell'
+export const DEFAULT_ROUTER_MODEL = 'ag/gemini-3.1-flash-image-16x9'
 const REQUEST_TIMEOUT_MS = 30000 // 30 detik per request
 
 async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number): Promise<Response> {
@@ -153,6 +155,8 @@ export async function generateViaRouter(
 
   // Cloudflare Workers AI endpoint hanya menerima { prompt }, sedangkan OpenAI-compatible menerima opsi lengkap
   const isWorkersAiEndpoint = targetUrl.includes('gateway.ai.cloudflare.com') || targetUrl.includes('/workers-ai')
+  const is16x9Model = resolvedModel.includes('16x9')
+  const defaultSize = is16x9Model ? '1280x720' : '1024x1024'
   const body = isWorkersAiEndpoint
     ? JSON.stringify({ prompt: enhancedPrompt })
     : JSON.stringify({
@@ -160,7 +164,7 @@ export async function generateViaRouter(
         model: resolvedModel,
         response_format: 'b64_json',
         n: 1,
-        size: '1024x1024',
+        size: defaultSize,
       })
 
   let response = await fetchWithTimeout(
@@ -459,26 +463,22 @@ export async function generateGambarDenganFallback(
   try {
     console.log('[ImageGen] Starting image generation...')
     const arrayBuffer = await generateGambar(prompt, undefined, context)
-    console.log(`[ImageGen] AI image success, size: ${arrayBuffer.byteLength} bytes`)
+    console.log(`[ImageGen] AI image success, raw size: ${arrayBuffer.byteLength} bytes`)
+
+    // Optimasi kompresi WebP (1200x675 max / 16:9) via Sharp
+    const opt = await optimizeImageForWeb(arrayBuffer)
+    console.log(
+      `[ImageGen] Optimized: ${(opt.sizeBefore / 1024).toFixed(1)} KB -> ${(opt.sizeAfter / 1024).toFixed(1)} KB (-${opt.savingsPercent}%) [${opt.ext}]`
+    )
 
     // Save image to GitHub repo (public/images/artikel/)
-    // Detect image type to use correct extension (.jpg, .png, .webp) so Next.js /_next/image renders properly
-    const ext = detectImageExtension(arrayBuffer)
-    const fileName = `${slug}-${Date.now()}.${ext}`
+    const fileName = `${slug}-${Date.now()}.${opt.ext}`
     const filePath = `public/images/artikel/${fileName}`
     
     console.log(`[ImageGen] Saving to GitHub: ${filePath}...`)
     
     // Encode image to base64 for GitHub API
-    // Use chunked encoding to avoid call stack overflow with large images
-    const bytes = new Uint8Array(arrayBuffer)
-    const CHUNK_SIZE = 8192
-    let binaryString = ''
-    for (let i = 0; i < bytes.length; i += CHUNK_SIZE) {
-      const chunk = bytes.subarray(i, Math.min(i + CHUNK_SIZE, bytes.length))
-      binaryString += String.fromCharCode(...chunk)
-    }
-    const base64Content = btoa(binaryString)
+    const base64Content = opt.buffer.toString('base64')
     
     const githubToken = process.env.GITHUB_TOKEN
     const githubOwner = process.env.GITHUB_OWNER
@@ -588,29 +588,16 @@ export async function downloadDanSimpanGambar(
       return ''
     }
 
-    // 2. Tentukan ekstensi dari content-type
-    const extMap: Record<string, string> = {
-      'image/jpeg': 'jpg',
-      'image/jpg': 'jpg',
-      'image/png': 'png',
-      'image/webp': 'webp',
-      'image/gif': 'gif',
-    }
-    const ext = extMap[contentType.split(';')[0].trim()] || 'jpg'
+    // 2. Optimasi kompresi gambar eksternal ke WebP
+    const opt = await optimizeImageForWeb(arrayBuffer)
+    console.log(
+      `[ImageDownload] Optimized: ${(opt.sizeBefore / 1024).toFixed(1)} KB -> ${(opt.sizeAfter / 1024).toFixed(1)} KB (-${opt.savingsPercent}%) [${opt.ext}]`
+    )
 
     // 3. Simpan ke GitHub
-    const fileName = `news-${slug}-${Date.now()}.${ext}`
+    const fileName = `news-${slug}-${Date.now()}.${opt.ext}`
     const filePath = `public/images/news/${fileName}`
-
-    // Encode ke base64 (chunked untuk hindari stack overflow)
-    const bytes = new Uint8Array(arrayBuffer)
-    const CHUNK_SIZE = 8192
-    let binaryString = ''
-    for (let i = 0; i < bytes.length; i += CHUNK_SIZE) {
-      const chunk = bytes.subarray(i, Math.min(i + CHUNK_SIZE, bytes.length))
-      binaryString += String.fromCharCode(...chunk)
-    }
-    const base64Content = btoa(binaryString)
+    const base64Content = opt.buffer.toString('base64')
 
     const ghResponse = await fetch(
       `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`,

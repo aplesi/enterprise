@@ -26,6 +26,7 @@ import {
   getContextualAquacultureFallback
 } from '../lib/ai/cloudflare-image'
 import { enhanceImagePromptToRealPhoto } from '../lib/ai/skills/image-prompt-skill'
+import { optimizeImageForWeb } from '../lib/image/compressor'
 import {
   validateAndSanitizeArticle,
   sanitizeLatexMath,
@@ -706,8 +707,13 @@ async function main() {
         kategori: artikel.kategori,
       })
       if (gambarBuffer) {
-        const imgFile = `artikel/${slug}-${Date.now()}.jpg`
-        const githubUrl = await uploadToGithub(gambarBuffer, `public/images/${imgFile}`)
+        const opt = await optimizeImageForWeb(gambarBuffer)
+        console.log(
+          `🖼️ [AutoPost] Kompresi gambar: ${(opt.sizeBefore / 1024).toFixed(1)} KB -> ${(opt.sizeAfter / 1024).toFixed(1)} KB (-${opt.savingsPercent}%) [${opt.ext}]`
+        )
+
+        const imgFile = `artikel/${slug}-${Date.now()}.${opt.ext}`
+        const githubUrl = await uploadToGithub(opt.buffer, `public/images/${imgFile}`)
         if (githubUrl) {
           gambarPath = githubUrl
           console.log(`✅ Gambar tersimpan di GitHub: ${githubUrl}`)
@@ -716,9 +722,9 @@ async function main() {
           try {
             const imgDir = join(process.cwd(), 'public', 'images', 'artikel')
             await mkdir(imgDir, { recursive: true })
-            await writeFile(join(imgDir, `${slug}.jpg`), gambarBuffer)
-            gambarPath = `/images/artikel/${slug}.jpg`
-            console.log(`✅ Gambar disimpan lokal: ${slug}.jpg`)
+            await writeFile(join(imgDir, `${slug}.${opt.ext}`), opt.buffer)
+            gambarPath = `/images/artikel/${slug}.${opt.ext}`
+            console.log(`✅ Gambar disimpan lokal: ${slug}.${opt.ext}`)
           } catch (writeErr: any) {
             console.warn(`⚠️ Gagal simpan gambar lokal (read-only):`, writeErr.message)
           }
