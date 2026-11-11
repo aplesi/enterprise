@@ -45,6 +45,11 @@ const ENV_KEYS = [
   'GROQ_API_KEY_3',
   'GROQ_API_KEY_4',
   'GROQ_API_KEY_5',
+  'GROQ_API_KEY_6',
+  'GROQ_API_KEY_7',
+  'GROQ_API_KEY_8',
+  'GROQ_API_KEY_9',
+  'GROQ_API_KEY_10',
 ] as const
 
 let pool: KeyState[] | null = null

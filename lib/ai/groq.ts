@@ -169,9 +169,8 @@ function countWords(text: string): number {
  */
 export async function groqChatWithRotation(
   params: GroqChatParams
-
 ): Promise<string> {
-  const maxAttempts = 5
+  const maxAttempts = 8
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const state = await getAvailableKey()
     try {
@@ -202,7 +201,7 @@ export async function groqChatWithRotation(
     }
   }
   throw new GroqPoolExhaustedError(
-    'Semua API key Groq kena rate limit setelah 5 percobaan.',
+    'Semua API key Groq kena rate limit setelah percobaan rotasi pool.',
     60
   )
 }
@@ -361,34 +360,41 @@ Pastikan respons hanya JSON, tanpa teks tambahan apapun.`
     console.warn(
       `[Groq] Konten terlalu pendek: ${actualWords}/${panjangConfig.minWords} kata. Retry dengan prompt perluas...`
     )
-    const retryRaw = await groqChatWithRotation({
-      model: MODEL,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt },
-        { role: 'assistant', content: JSON.stringify(parsed) },
-        {
-          role: 'user',
-          content: `Artikel di atas hanya ${actualWords} kata, kurang dari target ${panjangConfig.minWords} kata. PERLUAS artikel ini menjadi ${panjangConfig.label} dengan menambahkan:
+    try {
+      const retryRaw = await groqChatWithRotation({
+        model: MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+          { role: 'assistant', content: JSON.stringify(parsed) },
+          {
+            role: 'user',
+            content: `Artikel di atas hanya ${actualWords} kata, kurang dari target ${panjangConfig.minWords} kata. PERLUAS artikel ini menjadi ${panjangConfig.label} dengan menambahkan:
 - Detail lebih dalam di setiap section yang sudah ada
 - Tambahkan 2-3 section baru yang relevan
 - Sertakan lebih banyak data konkret (angka, biaya, durasi)
 - Jangan hapus konten yang sudah ada, hanya TAMBAH dan PERLUAS
 
 Respons format JSON yang sama.`,
-        },
-      ],
-      temperature: 0.7,
-      max_tokens: panjangConfig.maxTokens,
-      response_format: { type: 'json_object' },
-    })
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: panjangConfig.maxTokens,
+        response_format: { type: 'json_object' },
+      })
 
-    const retryParsed = safeParseGroqJson<typeof parsed>(retryRaw)
-    const retryWords = countWords(retryParsed.konten)
-    // Pakai hasil retry kalau lebih panjang
-    if (retryWords > actualWords) {
-      console.warn(`[Groq] Retry berhasil: ${actualWords} → ${retryWords} kata`)
-      parsed = retryParsed
+      const retryParsed = safeParseGroqJson<typeof parsed>(retryRaw)
+      const retryWords = countWords(retryParsed.konten)
+      // Pakai hasil retry kalau lebih panjang
+      if (retryWords > actualWords) {
+        console.warn(`[Groq] Retry berhasil: ${actualWords} → ${retryWords} kata`)
+        parsed = retryParsed
+      }
+    } catch (retryErr: unknown) {
+      console.warn(
+        `[Groq] Retry perluasan gagal, mempertahankan artikel yang sudah ada (${actualWords} kata):`,
+        retryErr instanceof Error ? retryErr.message : String(retryErr)
+      )
     }
   }
 
