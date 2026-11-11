@@ -21,7 +21,10 @@ import { buildEditorContext } from '../lib/ai/editor/context'
 import { runEditorialReview } from '../lib/ai/editor/engine'
 import { metrics } from '../lib/metrics/collector'
 import { buildFallbackImagePrompt, truncateAtWordBoundary } from '../lib/ai/groq'
-import { getContextualAquacultureFallback } from '../lib/ai/cloudflare-image'
+import {
+  generateGambar as generateGambarCentral,
+  getContextualAquacultureFallback
+} from '../lib/ai/cloudflare-image'
 import { enhanceImagePromptToRealPhoto } from '../lib/ai/skills/image-prompt-skill'
 import {
   validateAndSanitizeArticle,
@@ -535,47 +538,15 @@ async function generateArtikel(
   }
 }
 
-async function generateGambar(prompt) {
-  console.log(`🖼️ Generating gambar via FLUX-1...`)
-  const accountId = process.env.CF_ACCOUNT_ID
-  const apiToken = process.env.CF_API_TOKEN
-  if (!accountId || !apiToken) {
-    console.warn('⚠️ CF_ACCOUNT_ID atau CF_API_TOKEN belum diset di environment.')
-    return null
-  }
+async function generateGambar(
+  prompt: string,
+  context?: { judul: string; kategori: string }
+): Promise<Buffer | null> {
   try {
-    const response = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          prompt: enhanceImagePromptToRealPhoto(prompt),
-        }),
-      }
-    )
-    if (!response.ok) {
-      const errText = await response.text()
-      if (response.status === 429) {
-        console.warn(`⚠️ Cloudflare Workers AI kuota harian habis (429 Too Many Requests - 10,000 neurons limit). Menggunakan visual akuakultur otentik.`)
-      } else {
-        console.warn(`⚠️ Cloudflare Workers AI HTTP ${response.status} ${response.statusText}: ${errText}`)
-      }
-      return null
-    }
-    const data = await response.json()
-    if (!data.result?.image) {
-      console.warn('⚠️ FLUX-1 response tidak memuat field result.image')
-      return null
-    }
-    // Decode base64 image (FLUX-1 returns JPEG)
-    const jpegBuffer = Buffer.from(data.result.image, 'base64')
-    return jpegBuffer
-  } catch (err: any) {
-    console.warn('⚠️ Generate gambar exception:', err.message)
+    const arrayBuffer = await generateGambarCentral(prompt, undefined, context)
+    return Buffer.from(arrayBuffer)
+  } catch (err: unknown) {
+    console.warn('⚠️ Generate gambar exception:', err instanceof Error ? err.message : String(err))
     return null
   }
 }
@@ -667,13 +638,16 @@ async function uploadToGithub(buffer, destPath) {
   }
 }
 
-async function generateGambarDenganKuota(prompt) {
+async function generateGambarDenganKuota(
+  prompt: string,
+  context?: { judul: string; kategori: string }
+): Promise<Buffer | null> {
   const kuotaSekarang = await kvAmbilKuotaGambarHariIni()
   if (kuotaSekarang >= BATAS_GAMBAR_PER_HARI) {
     console.warn(`⚠️ Kuota gambar harian tercapai (${kuotaSekarang}/${BATAS_GAMBAR_PER_HARI}), skip generate gambar -- pakai fallback.`)
     return null
   }
-  const buffer = await generateGambar(prompt)
+  const buffer = await generateGambar(prompt, context)
   if (buffer) await kvTambahKuotaGambar(kuotaSekarang)
   return buffer
 }
@@ -727,7 +701,10 @@ async function main() {
       // isi artikel (bukan judul artikel yang generik)
       let gambarPath = getContextualAquacultureFallback(slug)
       const promptGambar = artikel.imagePrompt || enhanceImagePromptToRealPhoto(artikel.judul, { judul: artikel.judul, kategori: artikel.kategori })
-      const gambarBuffer = await generateGambarDenganKuota(promptGambar)
+      const gambarBuffer = await generateGambarDenganKuota(promptGambar, {
+        judul: artikel.judul,
+        kategori: artikel.kategori,
+      })
       if (gambarBuffer) {
         const imgFile = `artikel/${slug}-${Date.now()}.jpg`
         const githubUrl = await uploadToGithub(gambarBuffer, `public/images/${imgFile}`)
