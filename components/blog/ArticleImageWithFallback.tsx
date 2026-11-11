@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getFallbackVisual } from '@/lib/news/visual'
 
 interface ArticleImageWithFallbackProps {
@@ -13,6 +13,19 @@ interface ArticleImageWithFallbackProps {
   priority?: boolean
 }
 
+function normalizeImageUrl(url?: string | null): string | null {
+  if (!url) return null
+  const trimmed = url.trim()
+  if (!trimmed) return null
+  // Normalisasi URL jsdelivr ke path internal Cloudflare Pages /images/...
+  const jsdelivrPattern = /^https?:\/\/cdn\.jsdelivr\.net\/gh\/[^/]+\/[^/]+@main\/public\/(.*)$/i
+  const match = trimmed.match(jsdelivrPattern)
+  if (match && match[1]) {
+    return `/${match[1]}`
+  }
+  return trimmed
+}
+
 export function ArticleImageWithFallback({
   src,
   alt,
@@ -22,9 +35,29 @@ export function ArticleImageWithFallback({
   className = '',
   priority = false,
 }: ArticleImageWithFallbackProps) {
+  const [currentSrc, setCurrentSrc] = useState<string | null>(() => normalizeImageUrl(src))
   const [hasError, setHasError] = useState(false)
+  const [triedRawGithub, setTriedRawGithub] = useState(false)
+
+  useEffect(() => {
+    setCurrentSrc(normalizeImageUrl(src))
+    setHasError(false)
+    setTriedRawGithub(false)
+  }, [src])
+
+  const handleError = () => {
+    // Jika path lokal /images/ gagal (misal build baru belum selesai deploy di Pages),
+    // coba ambil langsung dari GitHub raw CDN sebelum beralih ke placeholder visual
+    if (!triedRawGithub && currentSrc && currentSrc.startsWith('/images/')) {
+      setTriedRawGithub(true)
+      setCurrentSrc(`https://raw.githubusercontent.com/aplesi/enterprise/main/public${currentSrc}`)
+      return
+    }
+    setHasError(true)
+  }
+
   const visual = getFallbackVisual(judul)
-  const isImageValid = Boolean(src && src.trim() !== '' && !src.startsWith('fallback:') && !hasError)
+  const isImageValid = Boolean(currentSrc && currentSrc.trim() !== '' && !currentSrc.startsWith('fallback:') && !hasError)
 
   // 1. DETAIL HERO IMAGE
   if (variant === 'detail') {
@@ -32,14 +65,14 @@ export function ArticleImageWithFallback({
       <div className={`relative w-full h-64 md:h-[420px] rounded-2xl overflow-hidden mb-8 bg-gray-900 border border-border shadow-md ${className}`}>
         {isImageValid ? (
           <img
-            src={src!}
+            src={currentSrc!}
             alt={alt}
             className="absolute inset-0 w-full h-full object-cover"
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
             fetchPriority={priority ? 'high' : 'auto'}
             referrerPolicy="no-referrer"
-            onError={() => setHasError(true)}
+            onError={handleError}
           />
         ) : (
           <div className={`absolute inset-0 bg-gradient-to-br ${visual.bg} flex flex-col justify-between p-8 md:p-12 relative overflow-hidden`}>
@@ -69,14 +102,14 @@ export function ArticleImageWithFallback({
       <div className={`relative w-16 h-16 flex-shrink-0 bg-secondary rounded-xl overflow-hidden border border-border/50 ${className}`}>
         {isImageValid ? (
           <img
-            src={src!}
+            src={currentSrc!}
             alt={alt}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
             decoding="async"
             fetchPriority="low"
             referrerPolicy="no-referrer"
-            onError={() => setHasError(true)}
+            onError={handleError}
           />
         ) : (
           <div className={`absolute inset-0 bg-gradient-to-br ${visual.bg} flex items-center justify-center p-2 relative overflow-hidden`}>
@@ -92,14 +125,14 @@ export function ArticleImageWithFallback({
     <div className={`relative aspect-[16/10] overflow-hidden bg-secondary ${className}`}>
       {isImageValid ? (
         <img
-          src={src!}
+          src={currentSrc!}
           alt={alt}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"
           fetchPriority={priority ? 'high' : 'auto'}
           referrerPolicy="no-referrer"
-          onError={() => setHasError(true)}
+          onError={handleError}
         />
       ) : (
         <div className={`absolute inset-0 bg-gradient-to-br ${visual.bg} flex flex-col justify-between p-4 relative overflow-hidden`}>

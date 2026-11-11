@@ -506,10 +506,10 @@ export async function generateGambarDenganFallback(
       )
 
       if (ghResponse.ok) {
-        // Return jsDelivr CDN URL — correct content-type, unlike raw.githubusercontent.com (text/plain)
-        const cdnUrl = `https://cdn.jsdelivr.net/gh/${githubOwner}/${githubRepo}@main/public/images/artikel/${fileName}`
-        console.log(`[ImageGen] GitHub save success: ${cdnUrl}`)
-        return { url: cdnUrl, source: 'ai' }
+        // Return relative path for same-origin Cloudflare Pages serving
+        const localPath = `/images/artikel/${fileName}`
+        console.log(`[ImageGen] GitHub save success: ${localPath}`)
+        return { url: localPath, source: 'ai' }
       } else {
         const ghErr = await ghResponse.text()
         console.warn(`[ImageGen] GitHub upload failed (${ghResponse.status}): ${ghErr.slice(0, 200)}`)
@@ -616,10 +616,10 @@ export async function downloadDanSimpanGambar(
     )
 
     if (ghResponse.ok) {
-      // Return jsDelivr CDN URL — correct content-type, unlike raw.githubusercontent.com (text/plain)
-      const cdnUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_OWNER}/${GITHUB_REPO}@main/public/images/news/${fileName}`
-      console.log(`[ImageDownload] Saved to GitHub: ${cdnUrl}`)
-      return cdnUrl
+      // Return relative path for same-origin Cloudflare Pages serving
+      const localPath = `/images/news/${fileName}`
+      console.log(`[ImageDownload] Saved to GitHub: ${localPath}`)
+      return localPath
     } else {
       const ghErr = await ghResponse.text()
       console.warn(`[ImageDownload] GitHub upload failed (${ghResponse.status}): ${ghErr.slice(0, 200)}`)

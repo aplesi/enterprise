@@ -662,7 +662,8 @@ async function uploadToGithub(buffer, destPath) {
       return ''
     }
 
-    return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@main/${destPath}`
+    // Return path relatif untuk hosting Cloudflare Pages same-origin
+    return `/${destPath.replace(/^public\//, '')}`
   } catch (err) {
     console.warn(`   ⚠️ GitHub upload error:`, err.message)
     return ''
