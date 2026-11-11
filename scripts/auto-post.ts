@@ -20,10 +20,16 @@ import { enrichDocument } from '../lib/quality/enrichment/enricher'
 import { buildEditorContext } from '../lib/ai/editor/context'
 import { runEditorialReview } from '../lib/ai/editor/engine'
 import { metrics } from '../lib/metrics/collector'
-import { buildFallbackImagePrompt } from '../lib/ai/groq'
+import { buildFallbackImagePrompt, truncateAtWordBoundary } from '../lib/ai/groq'
 import { getContextualAquacultureFallback } from '../lib/ai/cloudflare-image'
 import { enhanceImagePromptToRealPhoto } from '../lib/ai/skills/image-prompt-skill'
-import { validateAndSanitizeArticle, sanitizeLatexMath, detectCommodity, type InternalLinkTarget } from '../lib/ai/skills/article-writer-skill'
+import {
+  validateAndSanitizeArticle,
+  sanitizeLatexMath,
+  detectCommodity,
+  COMMODITY_STANDARDS,
+  type InternalLinkTarget
+} from '../lib/ai/skills/article-writer-skill'
 import { notifySearchEngines } from '../lib/seo/indexer'
 
 function renderMarkdown(markdown) {
@@ -289,13 +295,13 @@ function slugify(text: string): string {
     .trim()
 }
 
-const DEDUP_STOPWORDS = new Set([
+export const DEDUP_STOPWORDS = new Set([
   'dan', 'atau', 'untuk', 'pada', 'di', 'ke', 'dari', 'yang', 'dengan', 'secara',
   'cara', 'panduan', 'teknik', 'metode', 'tips', 'trik', 'lengkap', 'praktis', 'optimal',
-  '2023', '2024', '2025', '2026', 'lele', 'ikan', 'budidaya'
+  '2023', '2024', '2025', '2026', 'ikan', 'budidaya'
 ])
 
-function extractTopicKeywords(text: string): Set<string> {
+export function extractTopicKeywords(text: string): Set<string> {
   const words = text.toLowerCase()
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
@@ -303,7 +309,7 @@ function extractTopicKeywords(text: string): Set<string> {
   return new Set(words)
 }
 
-function isTopicDuplicate(topic: string, existingTitles: string[], existingSlugs: Set<string>): boolean {
+export function isTopicDuplicate(topic: string, existingTitles: string[], existingSlugs: Set<string>): boolean {
   const topicKws = Array.from(extractTopicKeywords(topic))
   if (topicKws.length === 0) return false
 
@@ -319,6 +325,25 @@ function isTopicDuplicate(topic: string, existingTitles: string[], existingSlugs
     }
   }
   return false
+}
+
+export function buildCommoditySummary(
+  topik: string,
+  kategori: string,
+  keywords: string[] = []
+): { targetKomoditas: string; ringkasan: string; seoDesc: string } {
+  const detectedCommodity = detectCommodity([topik, kategori, ...keywords])
+  let targetKomoditas = 'perikanan dan akuakultur'
+  if (detectedCommodity !== 'general' && COMMODITY_STANDARDS[detectedCommodity]?.commonName) {
+    const rawCommonName = COMMODITY_STANDARDS[detectedCommodity].commonName
+    targetKomoditas = rawCommonName.split('(')[0].trim() || rawCommonName
+  }
+
+  const ringkasanRaw = `Panduan lengkap mengenai ${topik} untuk pembudidaya ${targetKomoditas} di Indonesia.`
+  const ringkasan = truncateAtWordBoundary(ringkasanRaw, 160)
+  const seoDesc = truncateAtWordBoundary(ringkasanRaw, 160)
+
+  return { targetKomoditas, ringkasan, seoDesc }
 }
 
 async function pilihTopikUnik(
@@ -491,13 +516,20 @@ async function generateArtikel(
 
   console.log(`[PIPELINE] DONE -> Ready to Publish.`)
 
+  const { ringkasan, seoDesc } = buildCommoditySummary(
+    topikData.topik,
+    topikData.kategori,
+    topikData.keywords
+  )
+  const seoTitle = truncateAtWordBoundary(blueprint.title, 60)
+
   return {
     judul: blueprint.title,
-    ringkasan: `Panduan lengkap mengenai ${topikData.topik} untuk pembudidaya lele di Indonesia.`,
+    ringkasan,
     konten: konten,
     tags: topikData.keywords,
-    seoTitle: blueprint.title.substring(0, 60),
-    seoDesc: `Panduan lengkap mengenai ${topikData.topik} untuk pembudidaya lele di Indonesia.`.substring(0, 160),
+    seoTitle,
+    seoDesc,
     kategori: topikData.kategori,
     imagePrompt: buildFallbackImagePrompt(blueprint.title, topikData.kategori)
   }
@@ -769,4 +801,6 @@ ${artikel.konten}`
   console.log('🎉 Auto-post selesai!')
 }
 
-main()
+if (!process.env.VITEST && process.env.NODE_ENV !== 'test') {
+  main()
+}

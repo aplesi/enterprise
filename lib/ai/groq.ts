@@ -16,8 +16,30 @@ import {
   groqFetchChatCompletion,
   type GroqChatParams,
 } from '@/lib/ai/groq-pool'
-import { detectCommodity } from '@/lib/ai/skills/article-writer-skill'
+import {
+  detectCommodity,
+  buildTechnicalDomainBounds,
+  buildGeoFormattingRules,
+  sanitizeLatexMath,
+  validateAndSanitizeArticle,
+} from '@/lib/ai/skills/article-writer-skill'
 import { enhanceImagePromptToRealPhoto } from '@/lib/ai/skills/image-prompt-skill'
+
+/**
+ * Memotong teks secara deterministik pada batas kata terdekat tanpa memotong kata di tengah,
+ * sekaligus membersihkan tanda baca menggantung seperti `,`, `:`, `-`, `;` di akhir potongan.
+ */
+export function truncateAtWordBoundary(text: string, maxLength: number): string {
+  const normalized = (text || '').replace(/\s+/g, ' ').trim()
+  if (!normalized || maxLength <= 0) return ''
+  if (normalized.length <= maxLength) return normalized
+
+  const window = normalized.slice(0, maxLength + 1)
+  const lastSpace = window.lastIndexOf(' ')
+  const sliced = lastSpace > 0 ? window.slice(0, lastSpace) : normalized.slice(0, maxLength)
+
+  return sliced.replace(/[\s,:;\-–—]+$/, '').trim()
+}
 
 /**
  * Rakit image prompt deterministik dari judul + kategori berbasis multi-komoditas.
@@ -186,6 +208,15 @@ export async function groqChatWithRotation(
 }
 
 /**
+ * Bersihkan konten markdown hasil LLM secara deterministik:
+ * hapus sintaks LaTeX mentah, tahun usang, dan link internal /artikel/... hasil halusinasi.
+ */
+function sanitizeGeneratedMarkdown(markdown: string): string {
+  const sanitizedRaw = sanitizeLatexMath(markdown)
+  return validateAndSanitizeArticle(sanitizedRaw, new Set<string>()).sanitizedContent
+}
+
+/**
  * Sisipkan section "Artikel Terkait" di akhir konten secara deterministik.
  * Query D1 by kategori — zero LLM cost, zero risk hallucinated slugs.
  */
@@ -221,11 +252,20 @@ export async function generateArtikel(
   }
 
   const panjangConfig = panjangMap[req.panjang] || panjangMap['sedang']
+  const commodity = detectCommodity(req.topik)
+  const domainBounds = buildTechnicalDomainBounds(
+    commodity !== 'general' ? [commodity, req.topik] : [req.topik, req.kategori, ...(req.keywords || [])]
+  )
+  const geoRules = buildGeoFormattingRules()
 
   const systemPrompt = `Kamu adalah penulis konten profesional untuk website budidaya ikan "Aplesi" (aplesi.my.id), menulis atas nama Tim Redaksi APLESI berdasarkan praktik budidaya nyata.
 Selalu tulis dalam Bahasa Indonesia yang baik dan benar.
 Fokus pada konten praktis dan berguna untuk peternak ikan di Indonesia.
 Gunakan heading H2 dan H3 yang terstruktur logis dan komprehensif.
+
+${domainBounds}
+
+${geoRules}
 
 ⚠️ KUALITAS & KEDALAMAN KONTEN (PENTING):
 - Target panjang konten: ${panjangConfig.label}.
@@ -233,8 +273,13 @@ Gunakan heading H2 dan H3 yang terstruktur logis dan komprehensif.
 - HINDARI pengulangan kalimat (fluff) atau basa-basi yang tidak perlu hanya untuk menambah jumlah kata. Setiap paragraf harus memberikan nilai atau informasi teknis baru.
 - Setiap section HARUS berisi penjelasan teknis yang mendalam, BUKAN hanya daftar bullet point dangkal.
 
+⚠️ ATURAN PRAKTIK KOLAM RAKYAT (ANTI-SOP LABORATORIUM FIKTIF):
+- Setiap SOP teknis budidaya seperti fermentasi atau pembibisan pakan, aplikasi probiotik, persiapan kolam, dan manajemen air WAJIB membumi dan dapat diterapkan langsung oleh pembudidaya rakyat di Indonesia.
+- DILARANG KERAS mengarang peralatan laboratorium atau industri yang tidak realistis untuk skala kolam rakyat, seperti sprayer stainless steel, ruang fermentasi bersuhu terkontrol 30-35°C, atau alat uji cepat plate count CFU untuk aplikasi pakan/probiotik harian.
+- Untuk pembibisan atau fermentasi pakan pelet, arahkan metode praktis lapangan menggunakan ember atau drum plastik bertutup rapat dengan campuran probiotik komersial (EM4 perikanan/bakteri probiotik budidaya), molase atau tetes tebu, dan air bersih.
+
 ⚠️ PENCEGAHAN HALUSINASI DATA:
-- Sertakan estimasi data (durasi, ukuran kolam, padat tebar), namun PASTIKAN masuk akal secara keilmuan perikanan.
+- Sertakan estimasi data (durasi, ukuran kolam, padat tebar, feeding rate), namun PASTIKAN masuk akal secara keilmuan perikanan dan PATUHI batas parameter komoditas (${commodity}) di atas — jangan mencampur istilah "densitas tebar" dengan "feeding rate".
 - Untuk data Harga (Rupiah) dan Dosis Obat/Kimia, JANGAN mengarang angka pasti yang berisiko menyesatkan peternak. Gunakan kata "estimasi rentang" (contoh: Rp 2.000.000 - Rp 3.000.000) dan tekankan bahwa harga/dosis "dapat bervariasi tergantung lokasi dan anjuran kemasan pabrik".
 
 ATURAN FORMAT WAJIB (penting untuk SEO & agar dikutip AI/Google):
@@ -274,7 +319,7 @@ Gaya penulisan: ${toneMap[req.tone] || toneMap['informatif']}
 
 ${AI_STRUCTURE_PROMPT}
 
-Target panjang total: 2000-3000 kata.
+Target panjang total: ${panjangConfig.label} (minimal ${panjangConfig.minWords} kata).
 
 Format respons HARUS dalam JSON valid seperti ini:
 {
@@ -348,15 +393,17 @@ Respons format JSON yang sama.`,
   }
 
   const slug = slugify(parsed.judul)
-  const kontenDenganLinks = await appendInternalLinks(parsed.konten, req.kategori, slug)
+  const sanitizedKonten = sanitizeGeneratedMarkdown(parsed.konten)
+  const kontenDenganLinks = await appendInternalLinks(sanitizedKonten, req.kategori, slug)
+  const cleanRingkasan = truncateAtWordBoundary(parsed.ringkasan || '', 160)
 
   return {
     judul: parsed.judul,
-    ringkasan: parsed.ringkasan,
+    ringkasan: cleanRingkasan,
     konten: kontenDenganLinks,
     tags: parsed.tags || [],
-    seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
-    seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
+    seoTitle: truncateAtWordBoundary(parsed.seoTitle || parsed.judul, 60),
+    seoDesc: truncateAtWordBoundary(parsed.seoDesc || cleanRingkasan, 160),
     imagePrompt: parsed.imagePrompt
       ? enhanceImagePromptToRealPhoto(parsed.imagePrompt, { judul: parsed.judul, kategori: req.kategori })
       : buildFallbackImagePrompt(parsed.judul, req.kategori),
@@ -558,13 +605,16 @@ Respons format JSON yang sama.`,
     }
   }
 
+  const cleanKontenBerita = sanitizeGeneratedMarkdown(parsed.konten)
+  const cleanRingkasanBerita = truncateAtWordBoundary(parsed.ringkasan || '', 160)
+
   return {
     judul: parsed.judul,
-    ringkasan: parsed.ringkasan,
-    konten: parsed.konten,
+    ringkasan: cleanRingkasanBerita,
+    konten: cleanKontenBerita,
     tags: parsed.tags || [],
-    seoTitle: parsed.seoTitle || parsed.judul.slice(0, 60),
-    seoDesc: parsed.seoDesc || parsed.ringkasan.slice(0, 160),
+    seoTitle: truncateAtWordBoundary(parsed.seoTitle || parsed.judul, 60),
+    seoDesc: truncateAtWordBoundary(parsed.seoDesc || cleanRingkasanBerita, 160),
     imagePrompt: parsed.imagePrompt
       ? enhanceImagePromptToRealPhoto(parsed.imagePrompt, { judul: parsed.judul, kategori: 'Berita' })
       : buildFallbackImagePrompt(parsed.judul, 'Berita'),

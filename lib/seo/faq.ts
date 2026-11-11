@@ -25,7 +25,7 @@ export function extractFaq(konten: string): FaqItem[] {
     // Cek apakah masuk ke section FAQ (mengabaikan kapitalisasi)
     if (line.startsWith('## ')) {
       const heading = line.replace(/^##\s+/, '').trim().toLowerCase()
-      inFaqSection = heading === 'faq' || heading === 'pertanyaan yang sering diajukan'
+      inFaqSection = heading.includes('faq') || heading.includes('pertanyaan') || heading.includes('tanya jawab')
       continue
     }
 

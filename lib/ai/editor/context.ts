@@ -1,5 +1,9 @@
 import { AplesiRichDocument } from '../../quality/domain/rich-document'
 import { QualityReport } from '../../quality/types'
+import {
+  buildTechnicalDomainBounds,
+  detectCommodity
+} from '@/lib/ai/skills/article-writer-skill'
 import { loadRubric } from './rubric'
 import { ArticleType, EditorContext, ReviewHistoryEntry } from './types'
 
@@ -60,6 +64,18 @@ export function formatContextForLLM(context: EditorContext): string {
     })
     out += `\nPERINGATAN: Periksa apakah penulis AI benar-benar memperbaiki hal di atas. Jika mereka mengabaikannya, hukum skor mereka dengan keras.\n\n`
   }
+
+  const commodityInputs = [
+    String(richDocument.frontmatter?.judul || ''),
+    (richDocument.rawMarkdown || '').slice(0, 1500)
+  ]
+  const commodity = detectCommodity(commodityInputs)
+  const technicalBounds = buildTechnicalDomainBounds(commodityInputs)
+
+  out += `=======================================\n`
+  out += `STANDAR TEKNIS SNI / KKP KOMODITAS (${String(commodity).toUpperCase()})\n`
+  out += `=======================================\n`
+  out += `${technicalBounds}\n\n`
 
   out += `=======================================\n`
   out += `KONTEN ARTIKEL (MARKDOWN)\n`

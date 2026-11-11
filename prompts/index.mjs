@@ -22,8 +22,8 @@ ATURAN PER SECTION:
 - Checklist: format markdown checkbox "- [ ] item", minimal 5 item actionable.
 - Studi Kasus: tuliskan ilustrasi contoh kasus secara umum dan realistis, JANGAN mengarang lokasi spesifik, nama orang, tahun spesifik (contoh: 2020), atau angka persentase fiktif.
 - FAQ: heading pertanyaan TANPA penomoran ("### Apa itu...?", bukan "### 1. Apa itu...?"), 4-6 pertanyaan.
-- Catatan Ahli APLESI: 1 paragraf, tuliskan pengalaman nyata atau rekomendasi tajam dari tim praktisi Aplesi untuk memperkuat otoritas artikel.
-- Referensi: list link ke referensi teoritis/konseptual umum.
+- Catatan Ahli APLESI: 1 paragraf rekomendasi praktis pencegahan risiko operasional kolam rakyat (misal: kehati-hatian cuaca ekstrem, sanitasi wadah pakan, uji organoleptik pakan/air) berlandaskan prinsip Cara Budidaya Ikan yang Baik (CBIB) KKP. DILARANG KERAS mengklaim pengujian laboratorium mandiri, survei fiktif, atau klaim 'diuji di X lokasi'.
+- Referensi: Daftarkan 2–3 standar acuan resmi nasional/internasional yang relevan (misal: Standar Nasional Indonesia / SNI pakan/budidaya terkait, Petunjuk Teknis Ditjen Perikanan Budidaya KKP, atau modul teknis FAO). DILARANG KERAS mengarang nama peneliti akademis, judul jurnal rekaan, volume/tahun terbitan, atau URL fiktif.
 - Ringkasan Poin Penting: bullet list 4-6 poin, masing-masing 1 kalimat.`;
 
 export const JOURNALISM_NEWS_PROMPT = `PERAN & PERSONA:

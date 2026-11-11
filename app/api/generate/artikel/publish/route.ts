@@ -10,6 +10,8 @@ import { insertArtikel, generateUniqueSlug } from '@/lib/db/artikel'
 import { renderMarkdown } from '@/lib/markdown'
 import { getContextualAquacultureFallback } from '@/lib/ai/cloudflare-image'
 import { notifySearchEngines } from '@/lib/seo/indexer'
+import { sanitizeLatexMath } from '@/lib/ai/skills/article-writer-skill'
+import { truncateAtWordBoundary } from '@/lib/ai/groq'
 import type { GenerateArtikelResponse } from '@/types'
 
 export async function POST(req: NextRequest) {
@@ -29,8 +31,14 @@ export async function POST(req: NextRequest) {
     // Pastikan slug terjamin 100% unik di Cloudflare D1
     const finalSlug = await generateUniqueSlug(artikel.slug)
 
+    // Sanitasi konten & batasi panjang metadata SEO secara deterministik sebelum disimpan ke D1/GitHub
+    const cleanKonten = sanitizeLatexMath(artikel.konten)
+    const cleanRingkasan = truncateAtWordBoundary(artikel.ringkasan || '', 160)
+    const cleanSeoTitle = truncateAtWordBoundary(artikel.seoTitle || artikel.judul, 60)
+    const cleanSeoDesc = truncateAtWordBoundary(artikel.seoDesc || cleanRingkasan, 160)
+
     // Hitung reading time: ~200 kata per menit
-    const wordCount = artikel.konten ? artikel.konten.split(/\s+/).filter(Boolean).length : 0
+    const wordCount = cleanKonten ? cleanKonten.split(/\s+/).filter(Boolean).length : 0
     const waktuBaca = Math.max(1, Math.ceil(wordCount / 200))
 
     const finalImage = artikel.gambarUrl || getContextualAquacultureFallback(finalSlug)
@@ -38,7 +46,7 @@ export async function POST(req: NextRequest) {
     const frontmatter = generateFrontmatter({
       judul: artikel.judul,
       slug: finalSlug,
-      ringkasan: artikel.ringkasan,
+      ringkasan: cleanRingkasan,
       gambar: finalImage,
       kategori,
       tags: artikel.tags,
@@ -46,23 +54,23 @@ export async function POST(req: NextRequest) {
       tanggal,
       waktu_baca: waktuBaca,
       status: 'published',
-      seoTitle: artikel.seoTitle,
-      seoDesc: artikel.seoDesc,
+      seoTitle: cleanSeoTitle,
+      seoDesc: cleanSeoDesc,
     })
 
-    const kontenLengkap = `${frontmatter}\n\n${artikel.konten}`
+    const kontenLengkap = `${frontmatter}\n\n${cleanKonten}`
 
     // 1. Simpan ke Cloudflare D1 terlebih dahulu (sehingga artikel LANGSUNG LIVE seketika)
     let d1Success = false
     try {
       // Pre-render markdown → HTML sekali di sini (eliminasi react-markdown CPU di render-time)
-      const kontenHtml = renderMarkdown(artikel.konten)
+      const kontenHtml = renderMarkdown(cleanKonten)
 
       await insertArtikel({
         slug: finalSlug,
         judul: artikel.judul,
-        ringkasan: artikel.ringkasan,
-        konten: artikel.konten,
+        ringkasan: cleanRingkasan,
+        konten: cleanKonten,
         kontenHtml,
         gambar: finalImage,
         kategori,
@@ -70,8 +78,8 @@ export async function POST(req: NextRequest) {
         penulis: 'Tim Redaksi APLESI',
         tanggal,
         waktuBaca,
-        seoTitle: artikel.seoTitle,
-        seoDesc: artikel.seoDesc,
+        seoTitle: cleanSeoTitle,
+        seoDesc: cleanSeoDesc,
         status: 'published',
       })
       d1Success = true

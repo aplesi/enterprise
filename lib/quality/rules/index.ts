@@ -4,6 +4,12 @@ import { MinimumWordCountRule, RequiredSectionsRule } from './content'
 import { MinimumFaqRule, MinimumLinksRule } from './seo'
 import { CoverageSuiteRule } from './coverage'
 import { InformationDensityRule } from './density'
+import {
+  GeoFormattingRule,
+  EeatCredibilityRule,
+  TechnicalAccuracyRule,
+  FreshnessRule
+} from './domain-geo-eeat'
 
 // Register all rules
 registry.register(MinimumWordCountRule)
@@ -12,8 +18,13 @@ registry.register(MinimumFaqRule)
 registry.register(MinimumLinksRule)
 registry.register(CoverageSuiteRule)
 registry.register(InformationDensityRule)
+registry.register(GeoFormattingRule)
+registry.register(EeatCredibilityRule)
+registry.register(TechnicalAccuracyRule)
+registry.register(FreshnessRule)
 
 export * from './content'
 export * from './seo'
 export * from './coverage'
 export * from './density'
+export * from './domain-geo-eeat'

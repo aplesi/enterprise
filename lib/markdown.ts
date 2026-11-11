@@ -1,6 +1,31 @@
 import { marked, Token, TokensList } from 'marked'
 import { sanitizeLatexMath } from './ai/skills/article-writer-skill'
 
+const CALLOUT_SELF_CLOSE_REGEX =
+  /^\s*<p>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*<\/p>\s*([\s\S]*)$/i
+const CALLOUT_INLINE_REGEX =
+  /^\s*<p>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](?:(?:\s*<br\s*\/?>\s*)+|\s+)([\s\S]*)$/i
+
+function transformCalloutBlockquotes(html: string): string {
+  return html.replace(/<blockquote>([\s\S]*?)<\/blockquote>/gi, (fullMatch, innerHtml: string) => {
+    const selfClosedMatch = innerHtml.match(CALLOUT_SELF_CLOSE_REGEX)
+    if (selfClosedMatch) {
+      const calloutType = selfClosedMatch[1].toLowerCase()
+      const bodyHtml = selfClosedMatch[2].trim()
+      return `<div class="my-6 rounded-xl border border-aqua-glow/30 bg-aqua-glow/5 p-4 not-prose callout-box" data-callout="${calloutType}">\n${bodyHtml}\n</div>`
+    }
+
+    const inlineMatch = innerHtml.match(CALLOUT_INLINE_REGEX)
+    if (inlineMatch) {
+      const calloutType = inlineMatch[1].toLowerCase()
+      const bodyHtml = `<p>${inlineMatch[2].trimStart()}`.trim()
+      return `<div class="my-6 rounded-xl border border-aqua-glow/30 bg-aqua-glow/5 p-4 not-prose callout-box" data-callout="${calloutType}">\n${bodyHtml}\n</div>`
+    }
+
+    return fullMatch
+  })
+}
+
 export function renderMarkdown(markdown: string): string {
   const cleanMarkdown = sanitizeLatexMath(markdown)
   const tokens = marked.lexer(cleanMarkdown)
@@ -30,7 +55,7 @@ export function renderMarkdown(markdown: string): string {
     const tokenList = group as TokensList
     tokenList.links = tokens.links // Penting agar referensi link [id] tetap jalan
     
-    const groupHtml = marked.parser(tokenList)
+    const groupHtml = transformCalloutBlockquotes(marked.parser(tokenList))
     
     if (firstToken && firstToken.type === 'heading' && firstToken.depth === 2) {
       // Hilangkan karakter khusus untuk membuat id yang valid
