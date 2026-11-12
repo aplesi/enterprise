@@ -2,7 +2,20 @@
 // Modul kompresi & optimasi gambar web modern (WebP 16:9) untuk APLESI Enterprise
 // Memakai library `sharp` dengan fallback aman (graceful degradation) jika sharp gagal/tidak tersedia
 
-import sharp from 'sharp'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SharpFn = any
+let sharpModule: SharpFn | null = null
+
+async function getSharpInstance(): Promise<SharpFn | null> {
+  if (sharpModule) return sharpModule
+  try {
+    const imported = await import('sharp')
+    sharpModule = imported.default || imported
+    return sharpModule
+  } catch {
+    return null
+  }
+}
 
 export interface OptimizeImageOptions {
   maxWidth?: number
@@ -81,6 +94,11 @@ export async function optimizeImageForWeb(
   } = options
 
   try {
+    const sharp = await getSharpInstance()
+    if (!sharp) {
+      throw new Error('Sharp module tidak tersedia di environment ini')
+    }
+
     const pipeline = sharp(rawBuffer, { failOn: 'none' })
     const metadata = await pipeline.metadata()
 

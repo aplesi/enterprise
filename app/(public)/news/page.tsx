@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getBeritaPerikanan } from '@/lib/news/scraper'
+import { getBeritaTerbaru, getBeritaByKategori } from '@/lib/db/berita'
 import { waktuRelatif, formatTanggal, bersihkanRingkasan } from '@/lib/utils'
 import { ItemListJsonLd } from '@/components/seo/JsonLd'
 import { NewsImageWithFallback } from '@/components/news/NewsImageWithFallback'
+import type { NewsItem } from '@/types'
 
 export const revalidate = 300 // cache 5 menit
 
@@ -33,21 +34,35 @@ export default async function NewsPage({
 }: {
   searchParams: Promise<{ kategori?: string; limit?: string }>
 }) {
-  const params = await searchParams
+  const params = (await searchParams) || {}
   const kategoriAktif = params.kategori === 'nasional' || params.kategori === 'internasional'
     ? params.kategori
     : 'semua'
   const limit = Math.max(parseInt(params.limit || '13', 10) || 13, 1)
 
-  const { data, updatedAt } = await getBeritaPerikanan()
+  let data: NewsItem[] = []
+  let updatedAt = new Date().toISOString()
 
-  const filtered =
-    kategoriAktif === 'semua' ? data : data.filter((n) => n.kategori === kategoriAktif)
+  try {
+    if (kategoriAktif === 'nasional') {
+      data = await getBeritaByKategori('indonesia', limit + 1)
+    } else if (kategoriAktif === 'internasional') {
+      data = await getBeritaByKategori('internasional', limit + 1)
+    } else {
+      data = await getBeritaTerbaru(limit + 1)
+    }
 
-  const ditampilkan = filtered.slice(0, limit)
+    if (data.length > 0 && data[0].tanggal) {
+      updatedAt = data[0].tanggal
+    }
+  } catch (err) {
+    console.error('[NewsPage] Gagal mengambil berita dari D1:', err)
+  }
+
+  const ditampilkan = data.slice(0, limit)
   const featured = ditampilkan[0]
   const sisanya = ditampilkan.slice(1)
-  const masihAda = filtered.length > limit
+  const masihAda = data.length > limit
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
