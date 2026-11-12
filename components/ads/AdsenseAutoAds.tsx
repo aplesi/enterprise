@@ -33,8 +33,13 @@ export function AdsenseAutoAds() {
         const publisherId: string = json?.data?.publisherId || ''
         if (!publisherId) return
 
-        // Hindari duplikat kalau komponen ini re-mount (mis. navigasi client-side)
-        if (document.getElementById(SCRIPT_ID)) return
+        // Hindari duplikat kalau komponen ini re-mount atau script sudah ada di <head>
+        if (
+          document.getElementById(SCRIPT_ID) ||
+          document.querySelector('script[src*="pagead2.googlesyndication.com"]')
+        ) {
+          return
+        }
 
         const script = document.createElement('script')
         script.id = SCRIPT_ID

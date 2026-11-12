@@ -7,6 +7,9 @@ import { AdsenseAutoAds } from '@/components/ads/AdsenseAutoAds'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const ADSENSE_PUBLISHER_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_ID || 'ca-pub-6392184859535334'
+
 export const metadata: Metadata = {
   title: {
     default: 'Aplesi - Portal Budidaya Ikan Terlengkap',
@@ -42,6 +45,11 @@ export default function RootLayout({
   return (
     <html lang="id">
       <head>
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`}
+          crossOrigin="anonymous"
+        />
       </head>
       <body className={inter.className}>
         <AdsenseAutoAds />
