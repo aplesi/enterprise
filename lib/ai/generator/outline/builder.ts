@@ -2,11 +2,34 @@ import { groqChatWithRotation } from '../../groq'
 import { ArticleBlueprint } from '../types'
 import { buildTechnicalDomainBounds } from '../../skills/article-writer-skill'
 
-export async function buildOutline(req: { topik: string, kategori: string, keywords: string[], targetWords: number, existingTitles?: string[] }): Promise<ArticleBlueprint> {
+export interface BuildOutlineRequest {
+  topik: string
+  kategori: string
+  keywords: string[]
+  targetWords: number
+  existingTitles?: string[]
+  retryErrors?: string[]
+  attempt?: number
+}
+
+export async function buildOutline(req: BuildOutlineRequest): Promise<ArticleBlueprint> {
   const existingWarning = req.existingTitles && req.existingTitles.length > 0
     ? `\n9. DILARANG KERAS MENGULANG SUDUT PANDANG dari artikel-artikel yang sudah ada di database kami berikut:
 ${req.existingTitles.slice(0, 15).map(t => `- "${t}"`).join('\n')}
 Pastikan judul dan struktur pembahasan mengambil sudut pandang baru, studi kasus praktis terkini, dan kata kunci turunan yang belum pernah dibahas untuk mencegah kanibalisasi kata kunci SEO.`
+    : ''
+
+  const retryFeedback = req.retryErrors && req.retryErrors.length > 0
+    ? `\n\n⚠️ CATATAN PERBAIKAN WAJIB DARI PERCOBAAN SEBELUMNYA (Percobaan ke-${(req.attempt ?? 1) + 1}):
+Percobaan sebelumnya ditolak validasi otomatis karena kesalahan berikut:
+${req.retryErrors.map((err, i) => `  ${i + 1}. ${err}`).join('\n')}
+
+PERBAIKAN MUTLAK YANG WAJIB DITERAPKAN:
+- Buat minimal 8 hingga 15 bab (sections) H2 lengkap dan mendalam.
+- Sertakan tepat satu bab khusus FAQ dengan properti "isFaq": true dan minimal 4-5 pertanyaan teknis di "faqsToAnswer".
+- Alokasikan targetWords setiap bab sehingga total seluruh bab minimal ${req.targetWords} kata (jangan sampai di bawah target).
+- Jangan gunakan karakter '#' pada nilai teks heading.
+- Format respon HARUS berupa JSON valid tanpa teks pembuka/penutup di luar JSON.`
     : ''
 
   const prompt = `Buatkan struktur outline hierarkis untuk artikel blog AI-First APLESI berstandar Master Article Writer.
@@ -45,7 +68,15 @@ ATURAN STRUKTUR (GEO & SEO STANDAR):
       "isFaq": false // true/false
     }
   ]
-}`
+}${retryFeedback}`
+
+  const attempt = req.attempt || 0
+  let temperature = 0.2
+  if (attempt === 1) {
+    temperature = 0.35
+  } else if (attempt >= 2) {
+    temperature = 0.45
+  }
 
   let raw = await groqChatWithRotation({
     model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
@@ -53,13 +84,37 @@ ATURAN STRUKTUR (GEO & SEO STANDAR):
       { role: 'system', content: 'Kamu adalah Principal Content Architect yang ahli merancang cetak biru (blueprint/outline) untuk artikel SEO super panjang, mendalam, tanpa fluff, dan berstruktur rapi.' },
       { role: 'user', content: prompt }
     ],
-    temperature: 0.2,
+    temperature,
     response_format: { type: 'json_object' }
   })
   
-  let stripped = raw.trim()
-  const match = stripped.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?\s*```$/)
-  if (match) stripped = match[1].trim()
-  
-  return JSON.parse(stripped) as ArticleBlueprint
+  return parseOutlineJson(raw)
+}
+
+/**
+ * Robust JSON extractor and parser for Groq outline responses.
+ * Handles markdown code fences, surrounding conversational prose, and raw JSON strings.
+ */
+export function parseOutlineJson(raw: string): ArticleBlueprint {
+  let s = raw.trim()
+  const fenceMatch = s.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
+  if (fenceMatch) {
+    s = fenceMatch[1].trim()
+  } else {
+    const firstBrace = s.indexOf('{')
+    const lastBrace = s.lastIndexOf('}')
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+      s = s.slice(firstBrace, lastBrace + 1).trim()
+    }
+  }
+
+  try {
+    return JSON.parse(s) as ArticleBlueprint
+  } catch (err: any) {
+    try {
+      return JSON.parse(raw.trim()) as ArticleBlueprint
+    } catch {
+      throw new Error(`Gagal parse JSON outline: ${err.message}. Output (150 char pertama): ${raw.slice(0, 150)}`)
+    }
+  }
 }

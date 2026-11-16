@@ -2,11 +2,28 @@ name: Auto Post Artikel AI
 
 on:
   schedule:
-    # Batch Pagi: 00:00 UTC (07:00 WIB) — Fokus Teknis (Manajemen Kolam, Pakan, Penyakit, Pembenihan)
-    - cron: '0 0 * * *'
-    # Batch Malam: 12:00 UTC (19:00 WIB) — Fokus Bisnis & Strategis (Pemasaran, Analisis Usaha, Teknologi)
+    # 1. Batch Pagi: 23:00 UTC (06:00 WIB) — Kolam, Pakan & Air
+    - cron: '0 23 * * *'
+    # 2. Batch Siang: 05:00 UTC (12:00 WIB) — Penyakit, Pengobatan & Benih
+    - cron: '0 5 * * *'
+    # 3. Batch Malam: 12:00 UTC (19:00 WIB) — Bisnis, Pasar, BEP & Panen
     - cron: '0 12 * * *'
-  workflow_dispatch: # Memungkinkan trigger manual
+  workflow_dispatch: # Memungkinkan trigger manual dengan parameter kustom
+    inputs:
+      batch_type:
+        description: 'Batch schedule override (morning / midday / evening)'
+        required: false
+        default: ''
+        type: choice
+        options:
+          - ''
+          - morning
+          - midday
+          - evening
+      jumlah:
+        description: 'Jumlah artikel yang digenerate'
+        required: false
+        default: '1'
 
 # Izin di level workflow — diturunkan ke semua job termasuk reusable workflow
 permissions:
@@ -46,6 +63,8 @@ jobs:
           IMAGE_ROUTER_URL: 'https://ai.aplesi.my.id/v1'
           IMAGE_ROUTER_MODEL: 'ag/gemini-3.1-flash-image-16x9'
           IMAGE_ROUTER_KEY: ${{ secrets.IMAGE_ROUTER_KEY }}
+          BATCH_TYPE: ${{ github.event.inputs.batch_type }}
+          JUMLAH_ARTIKEL: ${{ github.event.inputs.jumlah || '1' }}
         run: npx tsx scripts/auto-post.ts
 
       - name: Commit dan Push Perubahan

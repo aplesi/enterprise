@@ -267,28 +267,38 @@ const TOPIK_EVERGREEN_POOL: EvergreenTopic[] = [
   { topik: 'cara menaikkan kadar oksigen terlarut kolam nila secara darurat saat listrik padam', kategori: 'Tips & Trik', keywords: ['DO darurat kolam nila', 'genset aerator kolam', 'tips oksigen ikan'] },
 ]
 
-const MORNING_CLUSTER = ['Manajemen Kolam', 'Pembenihan', 'Pakan', 'Penyakit & Pengobatan']
-const EVENING_CLUSTER = ['Bisnis & Pemasaran', 'Teknologi', 'Panen & Pascapanen', 'Tips & Trik']
+export const MORNING_CLUSTER = ['Manajemen Kolam', 'Pakan', 'Teknologi']
+export const MIDDAY_CLUSTER  = ['Penyakit & Pengobatan', 'Pembenihan', 'Tips & Trik']
+export const EVENING_CLUSTER = ['Bisnis & Pemasaran', 'Panen & Pascapanen']
 
-function getBatchClusterTarget(): { name: string; categories: string[] } {
-  // BATCH_TYPE override jika diset manual via env
-  const envBatch = process.env.BATCH_TYPE?.toLowerCase()
-  if (envBatch === 'morning') {
-    return { name: 'Morning Batch (Manual - Teknis & Kolam)', categories: MORNING_CLUSTER }
+export function getBatchClusterTarget(): { name: string; categories: string[] } {
+  // BATCH_TYPE override jika diset manual via env (mendukung bahasa Inggris & Indonesia)
+  const envBatch = process.env.BATCH_TYPE?.toLowerCase()?.trim()
+  if (envBatch === 'morning' || envBatch === 'pagi') {
+    return { name: 'Morning Batch (06:00 WIB - Kolam & Pakan)', categories: MORNING_CLUSTER }
   }
-  if (envBatch === 'evening') {
-    return { name: 'Evening Batch (Manual - Bisnis & Strategi)', categories: EVENING_CLUSTER }
+  if (envBatch === 'midday' || envBatch === 'siang' || envBatch === 'afternoon') {
+    return { name: 'Midday Batch (12:00 WIB - Penyakit & Benih)', categories: MIDDAY_CLUSTER }
+  }
+  if (envBatch === 'evening' || envBatch === 'malam' || envBatch === 'night') {
+    return { name: 'Evening Batch (19:00 WIB - Bisnis & Pasar)', categories: EVENING_CLUSTER }
+  }
+  if (envBatch) {
+    console.warn(`⚠️ BATCH_TYPE '${envBatch}' tidak dikenali. Menggunakan deteksi waktu UTC otomatis.`)
   }
 
-  // Deteksi berdasarkan UTC Hour:
-  // 00:00 UTC = 07:00 WIB (Pagi) -> Morning cluster (< 6 atau >= 22)
-  // 12:00 UTC = 19:00 WIB (Malam) -> Evening cluster (antara 6 dan 21)
   const utcHour = new Date().getUTCHours()
-  if (utcHour < 6 || utcHour >= 22) {
-    return { name: 'Morning Batch (07:00 WIB - Teknis, Kolam & Pakan)', categories: MORNING_CLUSTER }
-  } else {
-    return { name: 'Evening Batch (19:00 WIB - Bisnis, Teknologi & Pasar)', categories: EVENING_CLUSTER }
+  
+  // 21:00 - 02:00 UTC (~04:00 - 09:00 WIB) -> Pagi (06:00 WIB = 23:00 UTC)
+  if (utcHour >= 21 || utcHour < 3) {
+    return { name: 'Morning Batch (06:00 WIB - Kolam, Pakan & Air)', categories: MORNING_CLUSTER }
   }
+  // 03:00 - 08:00 UTC (~10:00 - 15:00 WIB) -> Siang (12:00 WIB = 05:00 UTC)
+  if (utcHour >= 3 && utcHour < 9) {
+    return { name: 'Midday Batch (12:00 WIB - Penyakit, Obat & Benih)', categories: MIDDAY_CLUSTER }
+  }
+  // 09:00 - 20:00 UTC (~16:00 - 03:00 WIB) -> Malam (19:00 WIB = 12:00 UTC)
+  return { name: 'Evening Batch (19:00 WIB - Bisnis, BEP & Pascapanen)', categories: EVENING_CLUSTER }
 }
 
 function slugify(text: string): string {
