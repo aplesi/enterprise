@@ -103,8 +103,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // 3. Halaman artikel panduan pilar edukasi (D1 `artikel` table)
-  const halamanArtikel: MetadataRoute.Sitemap = artikelList
-    .filter((artikel) => !EXCLUDED_SLUGS.has(artikel.slug))
+  const safeList = Array.isArray(artikelList) ? artikelList : []
+  const halamanArtikel: MetadataRoute.Sitemap = safeList
+    .filter((artikel) => artikel && typeof artikel.slug === 'string' && artikel.slug.trim().length > 0 && !EXCLUDED_SLUGS.has(artikel.slug))
     .map((artikel) => ({
       url: `${SITE_URL}/artikel/${artikel.slug}`,
       lastModified: parseSafeDate(artikel.diperbarui || artikel.tanggal),

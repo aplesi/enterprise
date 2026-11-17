@@ -12,6 +12,12 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/admin/', '/api/', '/go/'],
       },
+      // Izinkan Googlebot secara eksplisit
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/admin/', '/api/', '/go/'],
+      },
       // Wajib: Izinkan crawler Google AdSense secara eksplisit
       {
         userAgent: 'Mediapartners-Google',
@@ -45,10 +51,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: [
-      'https://www.aplesi.my.id/sitemap.xml',
-      'https://www.aplesi.my.id/news-sitemap.xml',
-    ],
+    sitemap: 'https://www.aplesi.my.id/sitemap.xml',
     host: 'https://www.aplesi.my.id',
   }
 }
