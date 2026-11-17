@@ -78,5 +78,29 @@ describe('SEO sitemap & robots configuration', () => {
       expect(urls).toContain('https://www.aplesi.my.id')
       expect(urls).toContain('https://www.aplesi.my.id/kategori/pembenihan')
     })
+
+    it('menangani baris artikel yang korup, null, atau memiliki slug tidak valid tanpa crash', async () => {
+      vi.spyOn(dbArtikel, 'getSitemapData').mockResolvedValueOnce([
+        null as any,
+        undefined as any,
+        { slug: '' },
+        { slug: '   ' },
+        { slug: 12345 as any },
+        { slug: 'artikel-valid-dengan-tanggal-aneh', tanggal: 'tanggal-tidak-valid' },
+      ])
+
+      const sitemapEntries = await sitemap()
+      const urls = sitemapEntries.map((e) => e.url)
+
+      expect(urls).toContain('https://www.aplesi.my.id/artikel/artikel-valid-dengan-tanggal-aneh')
+      expect(urls).not.toContain('https://www.aplesi.my.id/artikel/')
+      expect(urls).not.toContain('https://www.aplesi.my.id/artikel/12345')
+
+      const validEntry = sitemapEntries.find(
+        (e) => e.url === 'https://www.aplesi.my.id/artikel/artikel-valid-dengan-tanggal-aneh'
+      )
+      expect(validEntry?.lastModified).toBeInstanceOf(Date)
+      expect(isNaN((validEntry?.lastModified as Date).getTime())).toBe(false)
+    })
   })
 })
