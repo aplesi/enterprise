@@ -1,10 +1,9 @@
 // app/sitemap.ts
 // Dynamic real-time sitemap.xml — terhubung langsung ke Cloudflare D1
-// Mengindeks artikel edukasi, berita industri akuakultur, kategori, dan halaman statis
+// Mengindeks artikel edukasi, kategori, dan halaman statis inti
 
 import type { MetadataRoute } from 'next'
 import { getSitemapData } from '@/lib/db/artikel'
-import { getBeritaSitemapData } from '@/lib/db/berita'
 import { KATEGORI_LIST } from '@/config/kategori'
 
 export const revalidate = 3600 // Auto-revalidate setiap 1 jam di Cloudflare Edge / Pages
@@ -13,6 +12,32 @@ const SITE_URL = 'https://www.aplesi.my.id'
 
 const KATEGORI_SLUGS = KATEGORI_LIST.map((k) => k.slug)
 
+// Daftar slug artikel placeholder / terlalu pendek / duplikat yang dikecualikan dari sitemap
+const EXCLUDED_SLUGS = new Set([
+  'hubungi-kami',
+  'manajemen-kualitas-air-kolam-lele',
+  'cara-budidaya-lele-dumbo-untuk-pemula',
+  'bisnis-lele-asap-peluang-usaha-menjanjikan',
+  'pakan-lele-organik-hemat-biaya',
+  'suplemen-probiotik-untuk-pertumbuhan-lele',
+  'kolam-terpal-vs-kolam-tanah-untuk-lele',
+  'mengatasi-penyakit-white-spot-pada-lele',
+  'panen-lele-yang-menguntungkan',
+  'bioflock',
+  'sytem-bioflock',
+  'budidaya-lele-dengan-system-bioflock',
+  'probitok-biofloc',
+  'probiotik-bioflok-untuk-lele',
+  'cara-mengatasi-kolam-lele-berbusa',
+  'akibat-dari-pemberian-pakan-lele-yang-berlebih',
+  'penkondisian-kolam-beton-yang-baru-untuk-lele',
+  'cara-membuat-kolam-menggunakan-terpal',
+  'pembuatan-dan-perisapan-kolam-terpal',
+  'ikan-lele-masamo',
+  'lele-masamo',
+  'jual-bibit-lele-masamo',
+])
+
 function parseSafeDate(dateStr?: string): Date {
   if (!dateStr) return new Date()
   const d = new Date(dateStr)
@@ -20,21 +45,15 @@ function parseSafeDate(dateStr?: string): Date {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Query paralel dari Cloudflare D1
-  const [artikelList, beritaList] = await Promise.all([
-    getSitemapData().catch((err) => {
-      console.warn('[Sitemap] Gagal mengambil artikel dari D1:', err)
-      return []
-    }),
-    getBeritaSitemapData(1000).catch((err) => {
-      console.warn('[Sitemap] Gagal mengambil berita dari D1:', err)
-      return []
-    }),
-  ])
+  // Query daftar artikel dari Cloudflare D1
+  const artikelList = await getSitemapData().catch((err) => {
+    console.warn('[Sitemap] Gagal mengambil artikel dari D1:', err)
+    return []
+  })
 
   const now = new Date()
 
-  // 1. Halaman statis inti
+  // 1. Halaman statis inti (tanpa /news dan /produk agar fokus pada konten edukasi orisinal saat review AdSense)
   const halamanStatis: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -47,18 +66,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: 'daily',
       priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/news`,
-      lastModified: now,
-      changeFrequency: 'hourly',
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/produk`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
     },
     // Mandatory Pages untuk AdSense & Kepatuhan Legalitas
     {
@@ -96,20 +103,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // 3. Halaman artikel panduan pilar edukasi (D1 `artikel` table)
-  const halamanArtikel: MetadataRoute.Sitemap = artikelList.map((artikel) => ({
-    url: `${SITE_URL}/artikel/${artikel.slug}`,
-    lastModified: parseSafeDate(artikel.diperbarui || artikel.tanggal),
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }))
+  const halamanArtikel: MetadataRoute.Sitemap = artikelList
+    .filter((artikel) => !EXCLUDED_SLUGS.has(artikel.slug))
+    .map((artikel) => ({
+      url: `${SITE_URL}/artikel/${artikel.slug}`,
+      lastModified: parseSafeDate(artikel.diperbarui || artikel.tanggal),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }))
 
-  // 4. Halaman berita industri akuakultur (D1 `berita` table)
-  const halamanBerita: MetadataRoute.Sitemap = beritaList.map((berita) => ({
-    url: `${SITE_URL}/news/${berita.slug}`,
-    lastModified: parseSafeDate(berita.tanggal),
-    changeFrequency: 'daily',
-    priority: 0.7,
-  }))
-
-  return [...halamanStatis, ...halamanKategori, ...halamanArtikel, ...halamanBerita]
+  return [...halamanStatis, ...halamanKategori, ...halamanArtikel]
 }
