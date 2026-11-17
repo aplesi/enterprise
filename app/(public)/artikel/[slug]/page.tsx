@@ -29,7 +29,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const artikel = await getArtikelBySlug(slug)
-  if (!artikel) return { title: 'Artikel tidak ditemukan' }
+  if (!artikel) {
+    return {
+      title: 'Artikel tidak ditemukan',
+      robots: {
+        index: false,
+        follow: false,
+        googleBot: {
+          index: false,
+          follow: false,
+        },
+      },
+    }
+  }
   return generateMetaArtikel(artikel)
 }
 

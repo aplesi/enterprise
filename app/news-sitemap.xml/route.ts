@@ -44,14 +44,10 @@ export async function GET() {
       return { results: [] }
     })
 
-    // Gabungkan list item berita dan artikel terbaru
+    // Selama masa peninjauan AdSense, halaman /news berstatus noindex sehingga dikecualikan dari sitemap.
+    // Sitemap berita difokuskan secara eksklusif pada artikel edukasi orisinal terkini.
     type NewsEntry = { loc: string; title: string; date: string }
     const entries: NewsEntry[] = [
-      ...beritaItems.map((b) => ({
-        loc: `${SITE_URL}/news/${b.slug}`,
-        title: b.judul,
-        date: formatIsoDate(b.tanggal),
-      })),
       ...recentArtikel.map((a) => ({
         loc: `${SITE_URL}/artikel/${a.slug}`,
         title: a.judul,

@@ -20,6 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
           robots: {
             index: false,
             follow: true,
+            googleBot: {
+              index: false,
+              follow: true,
+            },
           },
         }
       : {}),

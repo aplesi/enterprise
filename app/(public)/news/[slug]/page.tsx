@@ -27,6 +27,10 @@ export async function generateMetadata({
       robots: {
         index: false,
         follow: true,
+        googleBot: {
+          index: false,
+          follow: true,
+        },
       },
     }
   }
@@ -39,6 +43,10 @@ export async function generateMetadata({
     robots: {
       index: false,
       follow: true,
+      googleBot: {
+        index: false,
+        follow: true,
+      },
     },
     openGraph: {
       title: news.judul,

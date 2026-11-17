@@ -1,5 +1,18 @@
 // app/not-found.tsx
 import Link from 'next/link'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Halaman Tidak Ditemukan (404) | Aplesi',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+}
 
 export default function NotFound() {
   return (
