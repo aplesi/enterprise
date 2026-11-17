@@ -21,20 +21,32 @@ export async function generateMetadata({
   const { slug } = await params
   const news = await getBeritaBySlug(slug)
   
-  if (!news) return { title: 'Berita tidak ditemukan' }
+  if (!news) {
+    return {
+      title: 'Berita tidak ditemukan',
+      robots: {
+        index: false,
+        follow: true,
+      },
+    }
+  }
 
   const ringkasanBersih = bersihkanRingkasan(news.ringkasan, news.sumber)
   
   return {
     title: `${news.judul} | Aplesi News`,
     description: ringkasanBersih || `Berita selengkapnya mengenai ${news.judul} di Aplesi News.`,
+    robots: {
+      index: false,
+      follow: true,
+    },
     openGraph: {
       title: news.judul,
       description: ringkasanBersih,
       type: 'article',
       publishedTime: news.tanggal,
       images: news.imageUrl ? [news.imageUrl] : [],
-    }
+    },
   }
 }
 

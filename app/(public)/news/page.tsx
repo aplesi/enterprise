@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   description:
     'Kumpulan berita perikanan dan budidaya ikan terbaru dari media Indonesia maupun internasional, diperbarui otomatis.',
   alternates: { canonical: 'https://www.aplesi.my.id/news' },
+  robots: {
+    index: false,
+    follow: true,
+  },
 }
 
 const FILTER_OPTIONS: { label: string; value: string }[] = [

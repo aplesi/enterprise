@@ -1,13 +1,14 @@
 name: Auto Post Artikel AI
 
 on:
-  schedule:
-    # 1. Batch Pagi: 23:00 UTC (06:00 WIB) — Kolam, Pakan & Air
-    - cron: '0 23 * * *'
-    # 2. Batch Siang: 05:00 UTC (12:00 WIB) — Penyakit, Pengobatan & Benih
-    - cron: '0 5 * * *'
-    # 3. Batch Malam: 12:00 UTC (19:00 WIB) — Bisnis, Pasar, BEP & Panen
-    - cron: '0 12 * * *'
+  # schedule:
+  #   # Dinonaktifkan sementara selama masa peninjauan AdSense
+  #   # 1. Batch Pagi: 23:00 UTC (06:00 WIB) — Kolam, Pakan & Air
+  #   - cron: '0 23 * * *'
+  #   # 2. Batch Siang: 05:00 UTC (12:00 WIB) — Penyakit, Pengobatan & Benih
+  #   - cron: '0 5 * * *'
+  #   # 3. Batch Malam: 12:00 UTC (19:00 WIB) — Bisnis, Pasar, BEP & Panen
+  #   - cron: '0 12 * * *'
   workflow_dispatch: # Memungkinkan trigger manual dengan parameter kustom
     inputs:
       batch_type:

@@ -1,9 +1,9 @@
 name: Generate Artikel Recap dari Berita
 
 on:
-  schedule:
-    # Jalan tiap 3 jam
-    - cron: '0 */3 * * *'
+  # schedule:
+  #   # Jalan tiap 3 jam (dinonaktifkan sementara selama masa peninjauan AdSense)
+  #   - cron: '0 */3 * * *'
   workflow_dispatch: # Memungkinkan trigger manual
 
 # Izin di level workflow — diturunkan ke semua job termasuk reusable workflow

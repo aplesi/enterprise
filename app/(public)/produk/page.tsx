@@ -3,9 +3,27 @@ import Link from 'next/link'
 import { ShoppingBag, Star, ExternalLink } from 'lucide-react'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Produk Rekomendasi — Aplesi',
-  description: 'Produk peralatan budidaya ikan pilihan dan terverifikasi oleh Tim Aplesi',
+export async function generateMetadata(): Promise<Metadata> {
+  let isKosong = false
+  try {
+    const produkList = await getAllProduk()
+    isKosong = produkList.length === 0
+  } catch {
+    isKosong = true
+  }
+
+  return {
+    title: 'Produk Rekomendasi — Aplesi',
+    description: 'Produk peralatan budidaya ikan pilihan dan terverifikasi oleh Tim Aplesi',
+    ...(isKosong
+      ? {
+          robots: {
+            index: false,
+            follow: true,
+          },
+        }
+      : {}),
+  }
 }
 
 function formatRupiah(n: number): string {

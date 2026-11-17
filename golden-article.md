@@ -78,5 +78,5 @@ Sistem bioflok adalah metode budidaya lele yang efektif dan ramah lingkungan. De
 ## Baca Juga
 
 - [Sistem Bioflok Budidaya Lele Intensif](/artikel/sistem-bioflok-budidaya-lele-intensif)
-- [Suplemen Probiotik untuk Pertumbuhan Lele](/artikel/suplemen-probiotik-untuk-pertumbuhan-lele)
-- [Bisnis Lele Asap: Peluang Usaha Menjanjikan](/artikel/bisnis-lele-asap-peluang-usaha-menjanjikan)
+- [Cara Mengganti Air Kolam Lele](/artikel/cara-mengganti-air-kolam-lele)
+- [Pemberian Pakan Ikan Lele yang Benar](/artikel/pemberian-pakan-ikan-lele-yang-benar)

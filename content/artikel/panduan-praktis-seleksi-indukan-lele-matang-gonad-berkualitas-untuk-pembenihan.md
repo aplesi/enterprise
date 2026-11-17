@@ -29,7 +29,7 @@ Ekonomi pembenihan lele sangat dipengaruhi oleh biaya benih (Rp 180‑350/ekor
 - Seleksi genetik yang ketat menurunkan akumulasi mutasi dan meningkatkan ketahanan penyakit, selaras dengan standar kualitas air SNI.  
 - Penerapan seleksi ini menurunkan FCR (0.8‑1.1) dan meningkatkan profitabilitas melalui biaya benih yang lebih efisien dan nilai jual panen yang optimal.  
 
-Untuk detail lebih lanjut tentang pengelolaan kualitas air yang mendukung reproduksi, lihat [Manajemen Kualitas Air Kolam Lele](/artikel/manajemen-kualitas-air-kolam-lele).
+Untuk detail lebih lanjut tentang pengelolaan kualitas air yang mendukung reproduksi, lihat [Cara Mengganti Air Kolam Lele](/artikel/cara-mengganti-air-kolam-lele).
 
 ## Pemahaman Dasar Pembenihan Lele di Era AI‑First  
 
@@ -56,7 +56,7 @@ AI memodelkan laju pertumbuhan berdasarkan **FCR** (0.8‑1.1) dan kadar protein
 
 Kepatuhan pada SNI bukan sekadar checklist; AI memastikan setiap parameter berada dalam rentang yang ditetapkan secara kontinu. Bila nilai menyimpang, sistem otomatis mengaktifkan protokol koreksi (mis. penambahan karbon, perubahan aliran air) dan mencatat log audit untuk verifikasi regulator.  
 
-> Untuk detail prosedur operasional bioflok, lihat [Manajemen Kualitas Air Kolam Lele](/artikel/manajemen-kualitas-air-kolam-lele).
+> Untuk detail prosedur operasional bioflok, lihat [Panduan Sistem Bioflok Budidaya Lele Intensif](/artikel/sistem-bioflok-budidaya-lele-intensif).
 
 ## Pentingnya Seleksi Indukan Lele Matang Gonad untuk Produksi Berkualitas  
 Seleksi indukan lele yang telah mencapai gonad matang meningkatkan kualitas benih secara signifikan; ikan muda menampilkan pertumbuhan lebih cepat, FCR menurun ke kisaran 0.8‑1.1, dan nilai jual mencapai premium. Gonad matang juga menstabilkan rasio C/N bioflok (12:1‑15:1), memperkuat efisiensi mikroba dan kualitas air.
@@ -95,7 +95,7 @@ Konsentrasi DO optimal 5,0 – 6,5 mg/L dijaga dengan pompa udara berkapas
 
 Volume flok bioflok 25 – 35 mL/L menandakan populasi mikroba aktif yang cukup untuk mengubah amonia menjadi nitrat, sekaligus menyediakan protein mikroba sebagai sumber nutrisi tambahan bagi indukan. Pengukuran rutin menggunakan kerucut Imhoff tiap 4 jam memastikan tidak terjadi over‑floc, yang dapat menurunkan transparansi air dan menurunkan fertilitas.
 
-Untuk prosedur pemantauan terperinci, lihat [Manajemen Kualitas Air Kolam Lele](/artikel/manajemen-kualitas-air-kolam-lele).
+Untuk prosedur pemantauan dan pengelolaan pergantian air terperinci, lihat [Cara Mengganti Air Kolam Lele](/artikel/cara-mengganti-air-kolam-lele).
 
 ## Kriteria Teknis Seleksi Indukan Lele Berkualitas  
 Seleksi indukan lele matang gonad harus memenuhi tiga dimensi utama: fisik (bobot indukan standar 700–1.200 gram dengan penampilan eksterior bebas luka atau deformitas), biokimia (kandungan nutrisi tubuh prima dan kadar lemak terkontrol tidak melebihi 8% agar tidak menimbun lemak di sekitar kantung gonad yang menghambat ovulasi), serta reproduktif (stadium gonad III–IV yang teridentifikasi melalui kanulasi atau visual papila urogenital). Hanya individu yang lolos ketiga kriteria ini yang layak dijadikan indukan unggul sesuai SNI/KKP.
@@ -107,7 +107,7 @@ Seleksi indukan lele matang gonad harus memenuhi tiga dimensi utama: fisik (bobo
 4. Warna insang harus merah segar menandakan sirkulasi oksigen optimal, bebas dari parasit insang (*Dactylogyrus*).
 
 ### 2. Kriteria Biokimia (Protein & Lemak Tubuh)  
-1. Protein tubuh harus berada pada 30‑35 % dari berat basah, yang tercapai dengan pemberian pakan benih 30‑35 % protein selama fase pertumbuhan awal (referensi: [Manajemen Kualitas Air Kolam Lele](/artikel/manajemen-kualitas-air-kolam-lele)). Analisis proximate dilakukan dengan metode Kjeldahl.  
+1. Protein tubuh harus berada pada 30‑35 % dari berat basah, yang tercapai dengan pemberian pakan benih 30‑35 % protein selama fase pertumbuhan awal (referensi: [Pemberian Pakan Ikan Lele yang Benar](/artikel/pemberian-pakan-ikan-lele-yang-benar)). Analisis proximate dilakukan dengan metode Kjeldahl.  
 2. Kadar lemak tidak boleh melebihi 8 % karena lemak berlebih menurunkan densitas sperma dan mengganggu ovulasi. Pengukuran lemak menggunakan metode Soxhlet.  
 3. Rasio C/N bioflok harus dipertahankan 12:1‑15:1; nilai ini memastikan konversi nitrogen menjadi biomassa mikroba, yang secara tidak langsung meningkatkan ketersediaan asam amino esensial bagi lele.  
 4. Indikator biokimia lain meliputi kadar glukosa serum < 5 mmol/L; nilai lebih tinggi mengindikasikan stres metabolik yang dapat menurunkan fertilitas.
@@ -351,4 +351,4 @@ Seleksi indukan matang gonad yang mematuhi standar SNI merupakan kunci stabilita
 | 4 | **Terapkan Dosis Garam Krosok 1‑2 kg/m³** | Garam non‑yodium meningkatkan osmoregulasi dan mengurangi patogen pada indukan selama fase pemijahan. |
 | 5 | **Catat FCR dan Sesuaikan Pakan** | Hitung FCR harian; pertahankan 0.8‑1.1 dengan pakan 30‑35 % protein untuk benih dan 26‑30 % untuk fase pembesaran. |
 
-Implementasi konsisten dari lima aksi di atas akan menurunkan mortalitas, memperbaiki kualitas gonad, dan memastikan kepatuhan penuh terhadap SNI. Untuk detail manajemen kualitas air, lihat panduan lengkap di [Manajemen Kualitas Air Kolam Lele](/artikel/manajemen-kualitas-air-kolam-lele).
+Implementasi konsisten dari lima aksi di atas akan menurunkan mortalitas, memperbaiki kualitas gonad, dan memastikan kepatuhan penuh terhadap SNI. Untuk detail manajemen kualitas dan pergantian air, lihat panduan lengkap di [Cara Mengganti Air Kolam Lele](/artikel/cara-mengganti-air-kolam-lele).
