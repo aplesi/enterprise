@@ -449,16 +449,22 @@ export function getContextualAquacultureFallback(slug: string): string {
   return '/images/fallbacks/biofloc-pond.jpg'
 }
 
+export interface GenerateGambarFallbackResult {
+  url: string
+  previewUrl?: string
+  source: 'ai' | 'placeholder'
+}
+
 /**
  * Generate gambar dengan fallback ke placeholder
  * TIDAK PERNAH THROW — selalu return result
- * Returns: { url: string, source: 'ai' | 'placeholder' }
+ * Returns: { url: string, previewUrl?: string, source: 'ai' | 'placeholder' }
  */
 export async function generateGambarDenganFallback(
   prompt: string,
   slug: string,
   context?: ImagePromptContext
-): Promise<{ url: string; source: 'ai' | 'placeholder' }> {
+): Promise<GenerateGambarFallbackResult> {
   // 1. Try AI image generation (router or Cloudflare AI, with timeout)
   try {
     console.log('[ImageGen] Starting image generation...')
@@ -477,8 +483,9 @@ export async function generateGambarDenganFallback(
     
     console.log(`[ImageGen] Saving to GitHub: ${filePath}...`)
     
-    // Encode image to base64 for GitHub API
+    // Encode image to base64 for GitHub API & instant preview data URL
     const base64Content = opt.buffer.toString('base64')
+    const previewUrl = `data:${opt.mimeType};base64,${base64Content}`
     
     const githubToken = process.env.GITHUB_TOKEN
     const githubOwner = process.env.GITHUB_OWNER
@@ -509,13 +516,15 @@ export async function generateGambarDenganFallback(
         // Return relative path for same-origin Cloudflare Pages serving
         const localPath = `/images/artikel/${fileName}`
         console.log(`[ImageGen] GitHub save success: ${localPath}`)
-        return { url: localPath, source: 'ai' }
+        return { url: localPath, previewUrl, source: 'ai' }
       } else {
         const ghErr = await ghResponse.text()
         console.warn(`[ImageGen] GitHub upload failed (${ghResponse.status}): ${ghErr.slice(0, 200)}`)
+        return { url: `/images/artikel/${fileName}`, previewUrl, source: 'ai' }
       }
     } else {
       console.warn('[ImageGen] GitHub credentials not configured, skipping image save')
+      return { url: `/images/artikel/${fileName}`, previewUrl, source: 'ai' }
     }
   } catch (err) {
     console.error('[ImageGen] Failed:', err instanceof Error ? err.message : String(err))
@@ -524,7 +533,7 @@ export async function generateGambarDenganFallback(
   // 2. Final fallback: placeholder kontekstual (TIDAK PERNAH THROW)
   const fallbackUrl = getContextualAquacultureFallback(slug)
   console.log(`[ImageGen] Using contextual fallback: ${fallbackUrl}`)
-  return { url: fallbackUrl, source: 'placeholder' }
+  return { url: fallbackUrl, previewUrl: fallbackUrl, source: 'placeholder' }
 }
 
 export async function generateGambarDanSimpan(

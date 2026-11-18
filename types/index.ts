@@ -87,6 +87,7 @@ export interface GenerateArtikelResponse {
   seoDesc: string
   imagePrompt: string
   gambarUrl?: string
+  previewUrl?: string
   slug: string
   sumberAsli?: { nama: string; url: string }
 }

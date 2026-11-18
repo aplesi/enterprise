@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
         { judul: artikel.judul, kategori: body.kategori }
       )
       artikel.gambarUrl = imgResult.url
+      artikel.previewUrl = imgResult.previewUrl || imgResult.url
       imageSource = imgResult.source
       if (imgResult.source !== 'ai') {
         console.warn(`Image from fallback source: ${imgResult.source}`)

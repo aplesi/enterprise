@@ -42,6 +42,7 @@ interface HasilGenerate {
   seoDesc: string
   slug: string
   gambarUrl?: string
+  previewUrl?: string
   imagePrompt?: string
 }
 
@@ -389,15 +390,32 @@ export default function GeneratePage() {
           </div>
 
           {/* Gambar Artikel Preview */}
-          {hasil.gambarUrl && (
+          {(hasil.previewUrl || hasil.gambarUrl) && (
             <div className="space-y-1.5">
-              <div className="text-xs font-bold uppercase tracking-wider text-white/70">
-                Gambar Utama
+              <div className="flex items-center justify-between">
+                <div className="text-xs font-bold uppercase tracking-wider text-white/70">
+                  Gambar Utama
+                </div>
+                {hasil.previewUrl && hasil.previewUrl.startsWith('data:') && (
+                  <span className="text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                    Preview Instan AI
+                  </span>
+                )}
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={hasil.gambarUrl}
+                src={hasil.previewUrl || hasil.gambarUrl}
                 alt={hasil.judul}
+                onError={(e) => {
+                  // Fallback bertingkat jika gambar relative path belum selesai dideploy oleh Cloudflare
+                  const target = e.currentTarget
+                  if (hasil.gambarUrl && !target.src.includes('cdn.jsdelivr.net') && !target.src.startsWith('data:')) {
+                    const cleanPath = hasil.gambarUrl.startsWith('/') ? hasil.gambarUrl.slice(1) : hasil.gambarUrl
+                    target.src = `https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/${cleanPath}`
+                  } else {
+                    target.src = '/images/fallbacks/biofloc-pond.jpg'
+                  }
+                }}
                 className="w-full h-64 sm:h-80 object-cover rounded-lg border border-white/10 shadow-lg"
               />
             </div>
