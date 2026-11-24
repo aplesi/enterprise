@@ -75,9 +75,16 @@ export const KATEGORI_LIST: KategoriInfo[] = [
 ]
 
 export function cariKategoriBySlug(slug: string): KategoriInfo | undefined {
-  return KATEGORI_LIST.find((k) => k.slug === slug)
+  if (!slug) return undefined
+  const s = slug.trim().toLowerCase()
+  return KATEGORI_LIST.find((k) => k.slug.toLowerCase() === s)
 }
 
 export function cariKategoriByNama(nama: string): KategoriInfo | undefined {
-  return KATEGORI_LIST.find((k) => k.nama === nama)
+  if (!nama) return undefined
+  const trimmed = nama.trim()
+  return (
+    KATEGORI_LIST.find((k) => k.nama === trimmed) ||
+    KATEGORI_LIST.find((k) => k.nama.toLowerCase() === trimmed.toLowerCase())
+  )
 }

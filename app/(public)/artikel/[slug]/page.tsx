@@ -11,6 +11,7 @@ import { extractFaq } from '@/lib/seo/faq'
 import { extractHowToSteps } from '@/lib/seo/howto'
 import { AdsenseDisplay } from '@/components/ads/AdsenseDisplay'
 import { ArticleImageWithFallback } from '@/components/blog/ArticleImageWithFallback'
+import { cariKategoriByNama } from '@/config/kategori'
 
 export const revalidate = 300 // cache 5 menit
 export const dynamicParams = true // Mengizinkan artikel D1 baru langsung dirender tanpa menunggu rebuild statis
@@ -29,19 +30,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const artikel = await getArtikelBySlug(slug)
-  if (!artikel) {
-    return {
-      title: 'Artikel tidak ditemukan',
-      robots: {
-        index: false,
-        follow: false,
-        googleBot: {
-          index: false,
-          follow: false,
-        },
-      },
-    }
-  }
+  if (!artikel) notFound()
   return generateMetaArtikel(artikel)
 }
 
@@ -55,7 +44,6 @@ export default async function ArtikelDetailPage({
   if (!artikel) notFound()
 
   // Ambil artikel terkait (kategori sama, bukan artikel ini)
-  // Ambil artikel terkait (kategori sama, bukan artikel ini)
   const artikelTerkait = await getArtikelTerkait(artikel.kategori, artikel.slug, 3)
 
   // Extract FAQ dari konten artikel (heading yang berbentuk pertanyaan)
@@ -64,9 +52,13 @@ export default async function ArtikelDetailPage({
   // Extract langkah-langkah HowTo dari konten artikel (heading bernomor)
   const howToSteps = extractHowToSteps(artikel.konten)
 
+  const kategoriInfo = cariKategoriByNama(artikel.kategori)
+  const kategoriHref = kategoriInfo ? `/kategori/${kategoriInfo.slug}` : '/artikel'
+  const kategoriUrl = kategoriInfo ? `https://aplesi.my.id/kategori/${kategoriInfo.slug}` : 'https://aplesi.my.id/artikel'
+
   const breadcrumbs = [
     { name: 'Beranda', url: 'https://aplesi.my.id' },
-    { name: artikel.kategori, url: `https://aplesi.my.id/kategori/${artikel.kategori.toLowerCase()}` },
+    { name: artikel.kategori, url: kategoriUrl },
     { name: artikel.judul, url: `https://aplesi.my.id/artikel/${artikel.slug}` },
   ]
 
@@ -98,7 +90,7 @@ export default async function ArtikelDetailPage({
             <nav aria-label="breadcrumb" className="flex items-center gap-2 text-sm text-gray-400 mb-6">
               <Link href="/" className="hover:text-green-600">Beranda</Link>
               <span>›</span>
-              <Link href={`/kategori/${artikel.kategori.toLowerCase()}`} className="hover:text-green-600">
+              <Link href={kategoriHref} className="hover:text-green-600">
                 {artikel.kategori}
               </Link>
               <span>›</span>
@@ -109,7 +101,7 @@ export default async function ArtikelDetailPage({
             <header className="mb-8">
               <div className="flex flex-wrap items-center gap-2 mb-3">
                 <Link
-                  href={`/kategori/${artikel.kategori.toLowerCase()}`}
+                  href={kategoriHref}
                   className="badge-green hover:bg-green-200 transition-colors"
                 >
                   {artikel.kategori}

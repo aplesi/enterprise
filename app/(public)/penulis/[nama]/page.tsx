@@ -44,7 +44,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ nama: string }> }): Promise<Metadata> {
   const { nama } = await params
   const info = PENULIS_INFO[nama]
-  if (!info) return { title: 'Penulis tidak ditemukan' }
+  if (!info) notFound()
   return {
     title: `${info.nama} — Profil Penulis | ${siteConfig.name}`,
     description: info.bio,

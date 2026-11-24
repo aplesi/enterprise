@@ -938,9 +938,9 @@ async function pingSearchEnginesBerita(urls) {
   if (!urls || urls.length === 0) return
   const key = process.env.INDEXNOW_KEY || 'aplesi9f8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a'
   const payload = {
-    host: 'www.aplesi.my.id',
+    host: 'aplesi.my.id',
     key,
-    keyLocation: `https://www.aplesi.my.id/${key}.txt`,
+    keyLocation: `https://aplesi.my.id/${key}.txt`,
     urlList: urls,
   }
   try {
@@ -953,9 +953,6 @@ async function pingSearchEnginesBerita(urls) {
   } catch (err) {
     console.warn(`   ⚠️ IndexNow ping gagal:`, err.message)
   }
-  try {
-    fetch('https://www.google.com/ping?sitemap=' + encodeURIComponent('https://www.aplesi.my.id/news-sitemap.xml')).catch(() => {})
-  } catch {}
 }
 
 async function main() {
@@ -1109,7 +1106,7 @@ async function main() {
       try {
         await d1UpdateBeritaRecap(berita.id, slug, artikel, gambarPath)
         console.log(`   ✅ Recap disimpan ke D1 berita: ${berita.id}`)
-        newlyPublishedUrls.push(`https://www.aplesi.my.id/news/${slug}`)
+        newlyPublishedUrls.push(`https://aplesi.my.id/news/${slug}`)
       } catch (err) {
         console.warn(`   ⚠️ Gagal update recap ke D1 berita:`, err.message)
       }

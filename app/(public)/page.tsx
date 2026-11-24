@@ -14,6 +14,8 @@ import {
 import { getArtikelTerbaru } from '@/lib/db/artikel'
 import { formatTanggal } from '@/lib/utils'
 import { ArticleSearch } from '@/components/blog/ArticleSearch'
+import { cariKategoriByNama } from '@/config/kategori'
+import type { Artikel } from '@/types'
 
 export const revalidate = 300 // cache 5 menit
 
@@ -63,7 +65,7 @@ function Hero() {
   )
 }
 
-function ArticlesSection({ articles }: { articles: any[] }) {
+function ArticlesSection({ articles }: { articles: Artikel[] }) {
   return (
     <section className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -83,29 +85,42 @@ function ArticlesSection({ articles }: { articles: any[] }) {
 
         <div className="mt-12 grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
           {articles.slice(0, 6).map((artikel) => {
+            const katInfo = cariKategoriByNama(artikel.kategori)
+            const kategoriSlug = katInfo?.slug
+            const kategoriHref = kategoriSlug ? `/kategori/${kategoriSlug}` : '/artikel'
+
             return (
-              <Link
+              <div
                 key={artikel.slug}
-                href={`/artikel/${artikel.slug}`}
-                prefetch={false}
-                className="group overflow-hidden rounded-2xl bg-card shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover"
+                className="group flex flex-col overflow-hidden rounded-2xl bg-card shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-secondary">
-                  {artikel.gambar ? (
-                    <Image
-                      src={artikel.gambar}
-                      alt={artikel.judul}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-4xl opacity-20">🐟</div>
-                  )}
-                  <span className="absolute left-4 top-4 rounded-full gradient-aqua px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-glow">
+                  <Link
+                    href={`/artikel/${artikel.slug}`}
+                    prefetch={false}
+                    aria-label={artikel.judul}
+                    className="absolute inset-0"
+                  >
+                    {artikel.gambar ? (
+                      <Image
+                        src={artikel.gambar}
+                        alt={artikel.judul}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-4xl opacity-20">🐟</div>
+                    )}
+                  </Link>
+                  <Link
+                    href={kategoriHref}
+                    prefetch={false}
+                    className="relative z-10 m-4 inline-block rounded-full gradient-aqua px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-glow transition-transform hover:scale-105"
+                  >
                     {artikel.kategori}
-                  </span>
+                  </Link>
                 </div>
-                <div className="p-6">
+                <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-center gap-3 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3.5 w-3.5" />
@@ -118,19 +133,27 @@ function ArticlesSection({ articles }: { articles: any[] }) {
                     </span>
                   </div>
                   <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug text-primary transition-colors group-hover:text-accent">
-                    {artikel.judul}
+                    <Link href={`/artikel/${artikel.slug}`} prefetch={false} className="hover:underline">
+                      {artikel.judul}
+                    </Link>
                   </h3>
                   {artikel.ringkasan && (
                     <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
                       {artikel.ringkasan}
                     </p>
                   )}
-                  <div className="mt-4 flex items-center justify-between text-xs">
+                  <div className="mt-auto pt-4 flex items-center justify-between text-xs">
                     <span className="text-muted-foreground">{artikel.penulis}</span>
-                    <span className="font-semibold text-accent group-hover:underline">Baca →</span>
+                    <Link
+                      href={`/artikel/${artikel.slug}`}
+                      prefetch={false}
+                      className="font-semibold text-accent hover:underline"
+                    >
+                      Baca →
+                    </Link>
                   </div>
                 </div>
-              </Link>
+              </div>
             )
           })}
         </div>

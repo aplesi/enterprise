@@ -784,7 +784,7 @@ ${artikel.konten}`
         console.log(`✅ Artikel disimpan ke D1: ${slug} (waktu_baca: ${waktuBaca})`)
 
         // Instant Indexing Ping: Notifikasi ke Google, Bing, Perplexity & ChatGPT Search
-        const publishedUrl = `https://www.aplesi.my.id/artikel/${slug}`
+        const publishedUrl = `https://aplesi.my.id/artikel/${slug}`
         await notifySearchEngines(publishedUrl)
       } catch (err: any) {
         console.warn(`⚠️ Gagal simpan ke D1 atau ping search engines:`, err.message)

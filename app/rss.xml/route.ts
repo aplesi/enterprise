@@ -4,11 +4,28 @@
 import { NextResponse } from 'next/server'
 import { getRssData } from '@/lib/db/artikel'
 
-
 const SITE_URL = 'https://aplesi.my.id'
 const SITE_NAME = 'Aplesi — Portal Budidaya Ikan'
 const SITE_DESC = 'Tips, tutorial, dan panduan lengkap budidaya ikan terlengkap di Indonesia'
 
+function escapeXmlAttr(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+function escapeCdata(str: string): string {
+  return str.replace(/]]>/g, ']]]]><![CDATA[>')
+}
+
+function parseSafeDate(dateStr?: string): Date {
+  if (!dateStr) return new Date()
+  const d = new Date(dateStr)
+  return isNaN(d.getTime()) ? new Date() : d
+}
 
 export async function GET() {
   const artikelList = await getRssData() // 50 artikel terbaru
@@ -17,18 +34,18 @@ export async function GET() {
     .map(
       (artikel) => `
     <item>
-      <title><![CDATA[${artikel.judul}]]></title>
+      <title><![CDATA[${escapeCdata(artikel.judul || '')}]]></title>
       <link>${SITE_URL}/artikel/${artikel.slug}</link>
       <guid isPermaLink="true">${SITE_URL}/artikel/${artikel.slug}</guid>
-      <description><![CDATA[${artikel.ringkasan}]]></description>
-      <pubDate>${new Date(artikel.tanggal).toUTCString()}</pubDate>
-      <author>redaksi@aplesi.my.id (${artikel.penulis})</author>
-      <category>${artikel.kategori}</category>
-      ${artikel.tags.map((tag) => `<category>${tag}</category>`).join('\n      ')}
-      ${artikel.gambar ? `<enclosure url="${artikel.gambar.startsWith('http') ? artikel.gambar : SITE_URL + artikel.gambar}" type="image/jpeg" length="0" />` : ''}
+      <description><![CDATA[${escapeCdata(artikel.ringkasan || '')}]]></description>
+      <pubDate>${parseSafeDate(artikel.tanggal).toUTCString()}</pubDate>
+      <author>redaksi@aplesi.my.id (${escapeCdata(artikel.penulis || 'Tim Redaksi APLESI')})</author>
+      <category><![CDATA[${escapeCdata(artikel.kategori || '')}]]></category>
+      ${(artikel.tags || []).map((tag) => `<category><![CDATA[${escapeCdata(tag)}]]></category>`).join('\n      ')}
+      ${artikel.gambar ? `<enclosure url="${escapeXmlAttr(artikel.gambar.startsWith('http') ? artikel.gambar : SITE_URL + artikel.gambar)}" type="image/jpeg" length="0" />` : ''}
       <content:encoded><![CDATA[
-        <img src="${artikel.gambar?.startsWith('http') ? artikel.gambar : SITE_URL + (artikel.gambar || '')}" alt="${artikel.judul}" />
-        <p>${artikel.ringkasan}</p>
+        <img src="${escapeXmlAttr(artikel.gambar?.startsWith('http') ? artikel.gambar : SITE_URL + (artikel.gambar || ''))}" alt="${escapeXmlAttr(artikel.judul || '')}" />
+        <p>${artikel.ringkasan || ''}</p>
         <p><a href="${SITE_URL}/artikel/${artikel.slug}">Baca artikel lengkap →</a></p>
       ]]></content:encoded>
     </item>`

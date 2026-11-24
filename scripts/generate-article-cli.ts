@@ -172,7 +172,7 @@ async function main() {
   console.log('Kategori    :', kategori)
   console.log('Jumlah Kata :', wordCount)
   console.log('Gambar      :', finalImage)
-  console.log('URL Live    : https://www.aplesi.my.id/artikel/' + finalSlug)
+  console.log('URL Live    : https://aplesi.my.id/artikel/' + finalSlug)
   console.log('=====================================================')
 }
 

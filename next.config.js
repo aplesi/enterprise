@@ -23,6 +23,31 @@ const nextConfig = {
     SITE_URL: 'https://aplesi.my.id',
     SITE_DESCRIPTION: 'Portal Budidaya Lele Terlengkap di Indonesia',
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/:year(\\d{4})/:month(\\d{2})/:slug([a-zA-Z0-9_-]+).html',
+        destination: '/artikel/:slug',
+        permanent: true,
+      },
+      {
+        source: '/:slug([a-zA-Z0-9_-]+).html',
+        destination: '/artikel/:slug',
+        permanent: true,
+      },
+      {
+        source: '/search/label/:label*',
+        destination: '/artikel',
+        permanent: true,
+      },
+      {
+        source: '/feeds/posts/default',
+        destination: '/rss.xml',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 // Mengaktifkan akses ke Cloudflare bindings (KV, D1, dll) versi lokal saat

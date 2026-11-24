@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Mail, Clock, Fish, BookOpen } from 'lucide-react'
+import { KATEGORI_LIST } from '@/config/kategori'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -9,7 +10,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Brand Section */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-3">
               <div className="grid h-11 w-11 place-items-center rounded-xl gradient-aqua shadow-glow">
                 <Fish className="h-6 w-6 text-primary-foreground" strokeWidth={2.5} />
@@ -26,8 +27,22 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Kategori Budidaya */}
           <div className="lg:col-span-3">
+            <h4 className="text-sm font-bold uppercase tracking-wider text-aqua-glow">Kategori Budidaya</h4>
+            <ul className="mt-5 space-y-2.5 text-sm text-white/70">
+              {KATEGORI_LIST.map((kat) => (
+                <li key={kat.slug}>
+                  <Link href={`/kategori/${kat.slug}`} prefetch={false} className="transition-colors hover:text-aqua-glow">
+                    {kat.nama}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Quick Links */}
+          <div className="lg:col-span-2">
             <h4 className="text-sm font-bold uppercase tracking-wider text-aqua-glow">Tautan Cepat</h4>
             <ul className="mt-5 space-y-3 text-sm text-white/70">
               {[
@@ -46,7 +61,7 @@ export function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-3">
             <h4 className="text-sm font-bold uppercase tracking-wider text-aqua-glow">Kontak Redaksi</h4>
             <ul className="mt-5 space-y-3 text-sm text-white/70">
               <li className="flex items-start gap-3">

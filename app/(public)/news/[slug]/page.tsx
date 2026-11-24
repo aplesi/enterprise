@@ -21,19 +21,7 @@ export async function generateMetadata({
   const { slug } = await params
   const news = await getBeritaBySlug(slug)
   
-  if (!news) {
-    return {
-      title: 'Berita tidak ditemukan',
-      robots: {
-        index: false,
-        follow: true,
-        googleBot: {
-          index: false,
-          follow: true,
-        },
-      },
-    }
-  }
+  if (!news) notFound()
 
   const ringkasanBersih = bersihkanRingkasan(news.ringkasan, news.sumber)
   

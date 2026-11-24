@@ -12,19 +12,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const produk = await getProdukBySlug(slug)
-  if (!produk) {
-    return {
-      title: 'Produk Tidak Ditemukan',
-      robots: {
-        index: false,
-        follow: false,
-        googleBot: {
-          index: false,
-          follow: false,
-        },
-      },
-    }
-  }
+  if (!produk) notFound()
   return {
     title: `${produk.nama} — Aplesi`,
     description: produk.deskripsi || `Beli ${produk.nama} dengan harga terbaik di ${produk.platform}`,

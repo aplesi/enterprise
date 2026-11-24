@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const info = KATEGORI_INFO[slug]
-  if (!info) return { title: 'Kategori tidak ditemukan' }
+  if (!info) notFound()
   return {
     title: `${info.nama} — Artikel Budidaya Ikan`,
     description: info.deskripsi,
