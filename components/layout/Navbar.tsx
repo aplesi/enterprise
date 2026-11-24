@@ -4,14 +4,12 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Fish, Menu, X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 const navLinks = [
   { label: 'Beranda', href: '/' },
   { label: 'Artikel', href: '/artikel' },
-  { label: 'Berita', href: '/news' },
-  { label: 'Program', href: '/#program' },
-  { label: 'Toko', href: '/produk' },
+  { label: 'Tentang Kami', href: '/tentang-kami' },
+  { label: 'Kontak', href: '/kontak' },
 ]
 
 export function Navbar() {
@@ -36,7 +34,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass shadow-card' : 'bg-background/80 backdrop-blur-sm'
+        scrolled ? 'glass shadow-card' : 'bg-background/90 backdrop-blur-sm border-b border-gray-100'
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
@@ -47,7 +45,7 @@ export function Navbar() {
           <div className="min-w-0 leading-tight">
             <div className="text-xl font-black tracking-tight text-primary">APLESI</div>
             <div className="hidden text-[11px] font-bold uppercase tracking-wider text-foreground/60 sm:block">
-              Asosiasi Pembudidaya Ikan Indonesia
+              Portal Edukasi Budidaya Ikan
             </div>
           </div>
         </Link>
@@ -68,12 +66,13 @@ export function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Button variant="outline" className="border-primary/20 text-primary hover:bg-primary/5">
-            Login Portal
-          </Button>
-          <Button className="gradient-aqua text-primary-foreground shadow-glow hover:opacity-95">
-            Gabung Anggota
-          </Button>
+          <Link
+            href="/artikel"
+            prefetch={false}
+            className="inline-flex items-center justify-center rounded-lg gradient-aqua px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition-opacity hover:opacity-95"
+          >
+            Baca Panduan
+          </Link>
         </div>
 
         <button
@@ -101,11 +100,15 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <div className="flex flex-col gap-2 pt-3">
-              <Button variant="outline" className="border-primary/20 text-primary">
-                Login Portal
-              </Button>
-              <Button className="gradient-aqua text-primary-foreground">Gabung Anggota</Button>
+            <div className="pt-3">
+              <Link
+                href="/artikel"
+                prefetch={false}
+                onClick={() => setOpen(false)}
+                className="block w-full rounded-lg gradient-aqua px-4 py-2.5 text-center text-sm font-semibold text-white"
+              >
+                Baca Panduan
+              </Link>
             </div>
           </div>
         </div>

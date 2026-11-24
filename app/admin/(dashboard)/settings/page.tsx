@@ -798,22 +798,22 @@ export default function SettingsPage() {
                 }}
                 className="w-full rounded-lg border border-white/15 bg-[#121824] px-4 py-2.5 text-sm text-white focus:border-aqua-glow/60 focus:outline-none transition-all"
               >
-                <option value="ag/gemini-3.1-flash-image-16x9">
+                <option value="ag/gemini-3.1-flash-image-16x9" className="bg-navy-deep text-white">
                   Google Gemini 3.1 Flash Image 16:9 (ag/gemini-3.1-flash-image-16x9) — Banner Lanskap (Rekomendasi Utama)
                 </option>
-                <option value="ag/gemini-3.1-flash-image">
+                <option value="ag/gemini-3.1-flash-image" className="bg-navy-deep text-white">
                   Google Gemini 3.1 Flash Image (ag/gemini-3.1-flash-image) — Antigravity 24/7 (Kotak 1:1)
                 </option>
-                <option value="@cf/black-forest-labs/flux-1-schnell">
+                <option value="@cf/black-forest-labs/flux-1-schnell" className="bg-navy-deep text-white">
                   FLUX-1 Schnell (@cf/black-forest-labs/flux-1-schnell) — Fallback Cloudflare Workers AI
                 </option>
-                <option value="@cf/leonardoai/phoenix-1.0">
+                <option value="@cf/leonardoai/phoenix-1.0" className="bg-navy-deep text-white">
                   Leonardo Phoenix (@cf/leonardoai/phoenix-1.0) — Fotografi Sinematik Realistis
                 </option>
-                <option value="@cf/stabilityai/stable-diffusion-xl-base-1.0">
+                <option value="@cf/stabilityai/stable-diffusion-xl-base-1.0" className="bg-navy-deep text-white">
                   SDXL Base (@cf/stabilityai/stable-diffusion-xl-base-1.0) — Stable Diffusion XL
                 </option>
-                <option value="custom">Model Kustom Lainnya...</option>
+                <option value="custom" className="bg-navy-deep text-white">Model Kustom Lainnya...</option>
               </select>
 
               {isCustomModel && (

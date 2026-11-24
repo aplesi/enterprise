@@ -1,20 +1,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { 
-  ArrowRight, 
+import {
+  ArrowRight,
   Calendar,
   Clock,
-  Sparkles, 
-  GraduationCap, 
-  Sprout, 
-  ShoppingBag, 
+  Sparkles,
+  GraduationCap,
+  Sprout,
+  ShoppingBag,
   ShieldCheck,
   BookOpen,
-  Users,
-  MapPin,
-  Award,
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { getArtikelTerbaru } from '@/lib/db/artikel'
 import { formatTanggal } from '@/lib/utils'
 import { ArticleSearch } from '@/components/blog/ArticleSearch'
@@ -32,26 +28,26 @@ function Hero() {
       <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full glass-dark px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-aqua-glow">
           <Sparkles className="h-3.5 w-3.5" />
-          Mesin Pencari Budidaya Ikan Nusantara
+          Portal Edukasi Budidaya Ikan Nusantara
         </div>
         <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
           Cari Apa Saja Tentang{' '}
           <span className="text-gradient-aqua">Budidaya Ikan</span>
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
-          Panduan, riset, dan praktik terbaik dari para ahli APLESI — semua dalam satu pencarian.
+          Panduan teknis, riset kolam, dan praktik terbaik budidaya ikan air tawar — semua dalam satu pencarian.
         </p>
 
         <div className="mt-10 flex w-full justify-center">
           <ArticleSearch />
         </div>
 
-        {/* Stats */}
+        {/* Highlights */}
         <div className="mt-14 grid grid-cols-3 gap-6">
           {[
-            { icon: BookOpen, num: '1.000+', label: 'Artikel & Panduan' },
-            { icon: Users, num: '12.000+', label: 'Anggota Aktif' },
-            { icon: MapPin, num: '34', label: 'Provinsi Terjangkau' },
+            { icon: BookOpen, num: '100+', label: 'Panduan Teknis' },
+            { icon: ShieldCheck, num: 'CBIB', label: 'Standar Budidaya' },
+            { icon: Sprout, num: 'Gratis', label: 'Akses Edukasi' },
           ].map((stat) => (
             <div key={stat.label} className="flex flex-col items-center gap-1">
               <div className="mb-1 grid h-10 w-10 place-items-center rounded-xl gradient-aqua shadow-glow">
@@ -74,7 +70,7 @@ function ArticlesSection({ articles }: { articles: any[] }) {
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">Artikel</div>
-            <h2 className="text-3xl font-black tracking-tight text-primary sm:text-4xl">Kabar & Panduan Budidaya</h2>
+            <h2 className="text-3xl font-black tracking-tight text-primary sm:text-4xl">Kabar &amp; Panduan Budidaya</h2>
           </div>
           <Link
             href="/artikel"
@@ -147,36 +143,36 @@ function Programs() {
   const items = [
     {
       icon: GraduationCap,
-      title: 'Pelatihan & Edukasi',
-      desc: 'Kurikulum budidaya modern dari ahli perikanan bersertifikat.',
+      title: 'Panduan Pemula hingga Pro',
+      desc: 'Materi budidaya modern yang terstruktur dari persiapan kolam hingga panen.',
     },
     {
       icon: Sprout,
-      title: 'Pendampingan Tambak',
-      desc: 'Tim lapangan APLESI siap mendampingi siklus budidaya Anda.',
+      title: 'Manajemen Kualitas Air',
+      desc: 'Teknik sistem bioflok, pengendalian pH, amonia, dan pencegahan penyakit ikan.',
     },
     {
       icon: ShoppingBag,
-      title: 'Koperasi & Pasar',
-      desc: 'Akses harga anggota dan jaringan pembeli skala nasional.',
+      title: 'Efisiensi Pakan & FCR',
+      desc: 'Strategi pemberian pakan terukur dan formulasi pakan alternatif untuk menekan biaya.',
     },
     {
       icon: ShieldCheck,
-      title: 'Sertifikasi Mutu',
-      desc: 'Dukungan sertifikasi CBIB dan standar ekspor.',
+      title: 'Standar Mutu CBIB',
+      desc: 'Rujukan praktik Cara Budidaya Ikan yang Baik untuk hasil panen sehat dan berkualitas.',
     },
   ]
-  
+
   return (
     <section id="program" className="relative bg-secondary/50 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">Program Unggulan</div>
+          <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">Fokus Edukasi</div>
           <h2 className="text-3xl font-black tracking-tight text-primary sm:text-4xl">
-            Dukungan Lengkap untuk Pembudidaya
+            Materi Lengkap untuk Pembudidaya
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Empat pilar layanan APLESI yang membantu anggota dari hulu ke hilir.
+            Empat pilar edukasi APLESI yang membantu pembudidaya ikan air tawar dari hulu ke hilir.
           </p>
         </div>
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -207,14 +203,14 @@ function CtaBand() {
           <div className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
             <div>
               <h2 className="text-2xl font-black text-white sm:text-3xl">
-                Jadi Bagian dari Komunitas Pembudidaya Ikan Terbesar di Indonesia
+                Pelajari Panduan Budidaya Ikan Air Tawar Secara Lengkap
               </h2>
               <p className="mt-3 max-w-xl text-white/75">
-                Daftar keanggotaan APLESI untuk akses program, harga koperasi, dan jaringan pasar nasional.
+                Akses ratusan artikel teknis mulai dari persiapan kolam, manajemen pakan, sistem bioflok, hingga penanganan penyakit ikan.
               </p>
             </div>
-            <Link href="/kontak" className="shrink-0 inline-flex items-center gap-1 rounded-full bg-white px-7 py-3 text-sm font-bold text-[#0a1628] shadow-card hover:bg-white/90 transition-colors">
-              Daftar Anggota Sekarang <ArrowRight className="ml-1 h-4 w-4" />
+            <Link href="/artikel" className="shrink-0 inline-flex items-center gap-1 rounded-full bg-white px-7 py-3 text-sm font-bold text-[#0a1628] shadow-card hover:bg-white/90 transition-colors">
+              Jelajahi Semua Panduan <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -225,7 +221,7 @@ function CtaBand() {
 
 export default async function HomePage() {
   const artikelTerbaru = await getArtikelTerbaru(6)
-  
+
   return (
     <main className="min-h-screen bg-background">
       <Hero />

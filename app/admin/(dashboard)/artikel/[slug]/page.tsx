@@ -280,8 +280,8 @@ export default function EditArtikelPage({
                 onChange={handleChange}
                 className="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-aqua-glow/50"
               >
-                <option value="published">Published (Terbit)</option>
-                <option value="draft">Draft (Konsep)</option>
+                <option value="published" className="bg-navy-deep text-white">Published (Terbit)</option>
+                <option value="draft" className="bg-navy-deep text-white">Draft (Konsep)</option>
               </select>
             </div>
           </div>

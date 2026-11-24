@@ -2,16 +2,18 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — APLESI',
-  description: 'Kebijakan privasi dan penggunaan data di APLESI Enterprise.',
+  description: 'Kebijakan privasi dan penggunaan data di APLESI (https://www.aplesi.my.id).',
 }
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-black text-white mb-8">Privacy Policy</h1>
-      
-      <div className="prose prose-invert max-w-none prose-a:text-aqua-glow hover:prose-a:text-aqua">
-        <p>Terakhir diperbarui: {new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+      <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-8">Privacy Policy</h1>
+
+      <div className="prose max-w-none">
+        <p className="text-sm text-gray-500">
+          Terakhir diperbarui: 17 November 2026
+        </p>
 
         <p>
           Selamat datang di APLESI (https://www.aplesi.my.id). Privasi pengunjung adalah salah satu prioritas utama kami. Dokumen Kebijakan Privasi ini menguraikan jenis informasi pribadi yang diterima dan dikumpulkan oleh APLESI dan bagaimana informasi tersebut digunakan.
@@ -24,14 +26,18 @@ export default function PrivacyPolicyPage() {
 
         <h2>Cookies dan Web Beacons</h2>
         <p>
-          APLESI menggunakan "cookies" untuk menyimpan informasi tentang preferensi pengunjung, merekam informasi spesifik pengguna di halaman mana yang diakses atau dikunjungi pengguna, dan untuk menyesuaikan konten halaman web kami berdasarkan jenis browser pengunjung atau informasi lain yang dikirimkan pengunjung melalui browser mereka.
+          APLESI menggunakan &quot;cookies&quot; untuk menyimpan informasi tentang preferensi pengunjung, merekam informasi spesifik pengguna di halaman mana yang diakses atau dikunjungi pengguna, dan untuk menyesuaikan konten halaman web kami berdasarkan jenis browser pengunjung atau informasi lain yang dikirimkan pengunjung melalui browser mereka.
         </p>
 
         <h2>Google DoubleClick DART Cookie</h2>
         <p>
           Google, sebagai vendor pihak ketiga, menggunakan cookies untuk menayangkan iklan di APLESI. Penggunaan cookie DART oleh Google memungkinkannya untuk menayangkan iklan kepada pengunjung situs kami berdasarkan kunjungan mereka ke APLESI dan situs lain di Internet.
-          <br /><br />
-          Pengguna dapat memilih keluar dari penggunaan cookie DART dengan mengunjungi kebijakan privasi iklan dan jaringan konten Google di URL berikut: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">https://policies.google.com/technologies/ads</a>
+        </p>
+        <p>
+          Pengguna dapat memilih keluar dari penggunaan cookie DART dengan mengunjungi kebijakan privasi iklan dan jaringan konten Google di URL berikut:{' '}
+          <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">
+            https://policies.google.com/technologies/ads
+          </a>
         </p>
 
         <h2>Mitra Periklanan Kami</h2>
@@ -55,7 +61,7 @@ export default function PrivacyPolicyPage() {
 
         <h2>Persetujuan</h2>
         <p>
-          Dengan menggunakan situs web kami, Anda dengan ini menyetujui Kebijakan Privasi kami dan menyetujui syarat-syaratnya.
+          Dengan menggunakan situs web kami, Anda dengan ini menyetujui Kebijakan Privasi kami dan menyetujui syarat-syaratnya. Jika ada pertanyaan mengenai kebijakan ini, hubungi kami melalui <a href="mailto:admin@aplesi.my.id">admin@aplesi.my.id</a>.
         </p>
       </div>
     </div>

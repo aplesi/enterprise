@@ -202,6 +202,72 @@
   .prose section#studi-kasus p {
     color: var(--mist);
   }
+
+  /* === Prose Invert (Dark Mode / Admin Preview & Halaman Legal) === */
+  .prose-invert,
+  .prose.prose-invert {
+    color: #FFFFFF;
+  }
+
+  .prose.prose-invert h1,
+  .prose.prose-invert h2,
+  .prose.prose-invert h3,
+  .prose.prose-invert h4,
+  .prose.prose-invert h5,
+  .prose.prose-invert h6,
+  .prose.prose-invert strong,
+  .prose.prose-invert b {
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .prose.prose-invert p,
+  .prose.prose-invert ul,
+  .prose.prose-invert ol,
+  .prose.prose-invert li {
+    color: #FFFFFF;
+  }
+
+  .prose.prose-invert blockquote {
+    color: rgba(255, 255, 255, 0.9);
+    border-color: var(--aqua-glow);
+  }
+
+  .prose.prose-invert code {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--aqua-glow);
+  }
+
+  .prose.prose-invert a {
+    color: var(--aqua-glow);
+  }
+
+  .prose.prose-invert th {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .prose.prose-invert td {
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .prose.prose-invert section#ringkasan-singkat,
+  .prose.prose-invert section#jawaban-singkat,
+  .prose.prose-invert section#checklist {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: var(--aqua-glow);
+    color: #FFFFFF;
+  }
+
+  .prose.prose-invert section#ringkasan-singkat p:first-of-type,
+  .prose.prose-invert section#jawaban-singkat p:first-of-type,
+  .prose.prose-invert section#ringkasan-singkat p,
+  .prose.prose-invert section#jawaban-singkat p,
+  .prose.prose-invert section#checklist li {
+    color: #FFFFFF;
+  }
 }
 
 @layer components {

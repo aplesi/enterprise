@@ -15,7 +15,7 @@ export default async function AdminLayout({
   if (!isAuth) redirect('/admin/login')
 
   return (
-    <div className="relative min-h-screen flex gradient-hero">
+    <div className="relative min-h-screen flex gradient-hero text-white [color-scheme:dark]">
       {/* Background blur circles */}
       <div className="pointer-events-none fixed -top-40 -left-40 h-[28rem] w-[28rem] rounded-full bg-accent/20 blur-3xl" />
       <div className="pointer-events-none fixed -bottom-40 -right-40 h-[28rem] w-[28rem] rounded-full bg-aqua-glow/15 blur-3xl" />

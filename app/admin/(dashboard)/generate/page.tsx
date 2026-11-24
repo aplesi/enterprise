@@ -630,7 +630,7 @@ export default function GeneratePage() {
 
             {previewMode === 'preview' ? (
               <div
-                className="prose prose-invert prose-sm max-w-none rounded-lg border border-white/15 bg-white/5 p-6 overflow-y-auto max-h-[550px]"
+                className="prose prose-invert prose-sm max-w-none rounded-lg border border-white/15 bg-white/5 p-6 text-white [&_h1]:text-white [&_h2]:text-white [&_h3]:text-white [&_h4]:text-white [&_p]:text-white [&_li]:text-white [&_strong]:text-white [&_th]:text-white [&_td]:text-white overflow-y-auto max-h-[550px]"
                 dangerouslySetInnerHTML={{ __html: previewHtml }}
               />
             ) : (
