@@ -100,8 +100,8 @@ export function OrganizationJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Aplesi',
-    url: 'https://www.aplesi.my.id',
-    logo: 'https://www.aplesi.my.id/images/logo.png',
+    url: 'https://aplesi.my.id',
+    logo: 'https://aplesi.my.id/images/logo.png',
     description: 'Portal budidaya ikan terlengkap di Indonesia',
     sameAs: [
       'https://www.facebook.com/aplesi',
@@ -129,12 +129,12 @@ export function WebsiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Aplesi',
-    url: 'https://www.aplesi.my.id',
+    url: 'https://aplesi.my.id',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://www.aplesi.my.id/cari?q={search_term_string}',
+        urlTemplate: 'https://aplesi.my.id/cari?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },

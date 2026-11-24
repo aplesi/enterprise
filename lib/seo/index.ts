@@ -5,7 +5,7 @@ import type { Artikel } from '@/types'
 import { extractRingkasanSingkat } from './ringkasan-singkat'
 import { extractReferensi } from './referensi'
 
-const SITE_URL = process.env.SITE_URL || 'https://www.aplesi.my.id'
+const SITE_URL = process.env.SITE_URL || 'https://aplesi.my.id'
 const SITE_NAME = 'Aplesi'
 
 export function generateMetaArtikel(artikel: Artikel): Metadata {

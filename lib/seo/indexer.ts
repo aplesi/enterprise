@@ -7,7 +7,7 @@
 
 import crypto from 'crypto'
 
-export const SITE_URL = 'https://www.aplesi.my.id'
+export const SITE_URL = 'https://aplesi.my.id'
 export const INDEXNOW_KEY = process.env.INDEXNOW_KEY || 'aplesi9f8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a'
 
 function base64UrlEncode(input: string | Buffer): string {
@@ -77,7 +77,7 @@ export async function pingIndexNow(urls: string[]): Promise<boolean> {
   const sanitizedUrls = urls.map((u) => (u.startsWith('http') ? u : `${SITE_URL}${u.startsWith('/') ? '' : '/'}${u}`))
 
   const payload = {
-    host: 'www.aplesi.my.id',
+    host: 'aplesi.my.id',
     key: INDEXNOW_KEY,
     keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
     urlList: sanitizedUrls,

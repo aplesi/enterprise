@@ -100,9 +100,9 @@ Tim Redaksi APLESI menggarisbawahi pentingnya penerapan Cara Budidaya Ikan yang 
   const faqItems = extractFaq(kontenMarkdown)
 
   const breadcrumbs = [
-    { name: 'Beranda', url: 'https://www.aplesi.my.id' },
-    { name: 'News', url: 'https://www.aplesi.my.id/news' },
-    { name: news.judul, url: `https://www.aplesi.my.id/news/${news.slug || slug}` },
+    { name: 'Beranda', url: 'https://aplesi.my.id' },
+    { name: 'News', url: 'https://aplesi.my.id/news' },
+    { name: news.judul, url: `https://aplesi.my.id/news/${news.slug || slug}` },
   ]
 
   // Render markdown to HTML

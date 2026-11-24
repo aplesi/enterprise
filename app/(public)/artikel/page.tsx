@@ -12,7 +12,7 @@ import { KATEGORI_LIST as KATEGORI_TAKSONOMI } from '@/config/kategori'
 export const metadata: Metadata = {
   title: 'Artikel & Panduan Budidaya Ikan — APLESI',
   description: 'Kumpulan panduan teknis mendalam dan analisis berita perikanan terpercaya dari para ahli APLESI untuk pembudidaya Indonesia.',
-  alternates: { canonical: 'https://www.aplesi.my.id/artikel' },
+  alternates: { canonical: 'https://aplesi.my.id/artikel' },
 }
 
 const KATEGORI_LIST = [

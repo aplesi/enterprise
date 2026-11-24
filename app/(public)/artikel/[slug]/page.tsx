@@ -65,9 +65,9 @@ export default async function ArtikelDetailPage({
   const howToSteps = extractHowToSteps(artikel.konten)
 
   const breadcrumbs = [
-    { name: 'Beranda', url: 'https://www.aplesi.my.id' },
-    { name: artikel.kategori, url: `https://www.aplesi.my.id/kategori/${artikel.kategori.toLowerCase()}` },
-    { name: artikel.judul, url: `https://www.aplesi.my.id/artikel/${artikel.slug}` },
+    { name: 'Beranda', url: 'https://aplesi.my.id' },
+    { name: artikel.kategori, url: `https://aplesi.my.id/kategori/${artikel.kategori.toLowerCase()}` },
+    { name: artikel.judul, url: `https://aplesi.my.id/artikel/${artikel.slug}` },
   ]
 
   return (
@@ -229,9 +229,9 @@ export default async function ArtikelDetailPage({
               </p>
               <div className="flex gap-2 flex-wrap">
                 {[
-                  { label: 'WhatsApp', url: `https://wa.me/?text=${encodeURIComponent(artikel.judul + ' - https://www.aplesi.my.id/artikel/' + artikel.slug)}`, warna: 'bg-green-500 hover:bg-green-600' },
-                  { label: 'Facebook', url: `https://facebook.com/sharer/sharer.php?u=https://www.aplesi.my.id/artikel/${artikel.slug}`, warna: 'bg-blue-600 hover:bg-blue-700' },
-                  { label: 'Twitter/X', url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(artikel.judul)}&url=https://www.aplesi.my.id/artikel/${artikel.slug}`, warna: 'bg-gray-800 hover:bg-gray-900' },
+                  { label: 'WhatsApp', url: `https://wa.me/?text=${encodeURIComponent(artikel.judul + ' - https://aplesi.my.id/artikel/' + artikel.slug)}`, warna: 'bg-green-500 hover:bg-green-600' },
+                  { label: 'Facebook', url: `https://facebook.com/sharer/sharer.php?u=https://aplesi.my.id/artikel/${artikel.slug}`, warna: 'bg-blue-600 hover:bg-blue-700' },
+                  { label: 'Twitter/X', url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(artikel.judul)}&url=https://aplesi.my.id/artikel/${artikel.slug}`, warna: 'bg-gray-800 hover:bg-gray-900' },
                 ].map((s) => (
                   <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer"
                     className={`text-sm text-white px-4 py-2 rounded-lg font-medium transition-colors ${s.warna}`}>

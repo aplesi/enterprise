@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Instant Search Engine Ping (IndexNow, Google Sitemap, Bing, Perplexity)
-    const liveArticleUrl = `https://www.aplesi.my.id/artikel/${finalSlug}`
+    const liveArticleUrl = `https://aplesi.my.id/artikel/${finalSlug}`
     notifySearchEngines(liveArticleUrl).catch((err) => {
       console.warn('[Indexer] Gagal trigger ping dari admin publish:', err)
     })

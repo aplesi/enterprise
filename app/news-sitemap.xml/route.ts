@@ -8,7 +8,7 @@ import { query } from '@/lib/db/d1'
 
 export const revalidate = 1800 // Revalidate setiap 30 menit
 
-const SITE_URL = 'https://www.aplesi.my.id'
+const SITE_URL = 'https://aplesi.my.id'
 const PUBLICATION_NAME = 'APLESI Enterprise'
 const LANGUAGE = 'id'
 

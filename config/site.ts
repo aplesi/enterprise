@@ -3,8 +3,8 @@ export const siteConfig = {
   name: 'Aplesi',
   fullName: 'Asosiasi Pembudidaya Ikan Seluruh Indonesia',
   description: 'Portal budidaya ikan terlengkap di Indonesia. Tips, tutorial, dan panduan lengkap.',
-  url: 'https://www.aplesi.my.id',
-  ogImage: 'https://www.aplesi.my.id/images/og-default.png',
+  url: 'https://aplesi.my.id',
+  ogImage: 'https://aplesi.my.id/images/og-default.png',
   links: {
     facebook: 'https://facebook.com/aplesi',
     instagram: 'https://instagram.com/aplesi',

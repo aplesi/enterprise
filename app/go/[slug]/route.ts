@@ -22,7 +22,7 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params
-  const fallbackUrl = 'https://www.aplesi.my.id/produk'
+  const fallbackUrl = 'https://aplesi.my.id/produk'
 
   try {
     const produk = await getProdukBySlug(slug)

@@ -51,7 +51,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://www.aplesi.my.id/sitemap.xml',
-    host: 'https://www.aplesi.my.id',
+    sitemap: 'https://aplesi.my.id/sitemap.xml',
+    host: 'https://aplesi.my.id',
   }
 }

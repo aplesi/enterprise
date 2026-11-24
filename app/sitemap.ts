@@ -8,7 +8,7 @@ import { KATEGORI_LIST } from '@/config/kategori'
 
 export const revalidate = 3600 // Auto-revalidate setiap 1 jam di Cloudflare Edge / Pages
 
-const SITE_URL = 'https://www.aplesi.my.id'
+const SITE_URL = 'https://aplesi.my.id'
 
 const KATEGORI_SLUGS = KATEGORI_LIST.map((k) => k.slug)
 

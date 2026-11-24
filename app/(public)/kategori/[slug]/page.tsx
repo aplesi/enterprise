@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${info.nama} — Artikel Budidaya Ikan`,
     description: info.deskripsi,
-    alternates: { canonical: `https://www.aplesi.my.id/kategori/${slug}` },
+    alternates: { canonical: `https://aplesi.my.id/kategori/${slug}` },
     openGraph: { title: `${info.nama} | Aplesi`, description: info.deskripsi },
   }
 }
@@ -43,9 +43,9 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Beranda', item: 'https://www.aplesi.my.id' },
-      { '@type': 'ListItem', position: 2, name: 'Kategori', item: 'https://www.aplesi.my.id/artikel' },
-      { '@type': 'ListItem', position: 3, name: info.nama, item: `https://www.aplesi.my.id/kategori/${slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Beranda', item: 'https://aplesi.my.id' },
+      { '@type': 'ListItem', position: 2, name: 'Kategori', item: 'https://aplesi.my.id/artikel' },
+      { '@type': 'ListItem', position: 3, name: info.nama, item: `https://aplesi.my.id/kategori/${slug}` },
     ],
   })
 

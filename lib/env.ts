@@ -38,7 +38,7 @@ export const env = {
   nextPublicGaId: process.env.NEXT_PUBLIC_GA_ID || '',
   nextPublicAdsenseId: process.env.NEXT_PUBLIC_ADSENSE_ID || '',
   affiliateSecret: process.env.AFFILIATE_SECRET || '',
-  siteUrl: process.env.SITE_URL || 'https://www.aplesi.my.id',
+  siteUrl: process.env.SITE_URL || 'https://aplesi.my.id',
 
   isDev: process.env.NODE_ENV === 'development',
   isProd: process.env.NODE_ENV === 'production',

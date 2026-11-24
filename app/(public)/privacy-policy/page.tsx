@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — APLESI',
-  description: 'Kebijakan privasi dan penggunaan data di APLESI (https://www.aplesi.my.id).',
+  description: 'Kebijakan privasi dan penggunaan data di APLESI (https://aplesi.my.id).',
 }
 
 export default function PrivacyPolicyPage() {
@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage() {
         </p>
 
         <p>
-          Selamat datang di APLESI (https://www.aplesi.my.id). Privasi pengunjung adalah salah satu prioritas utama kami. Dokumen Kebijakan Privasi ini menguraikan jenis informasi pribadi yang diterima dan dikumpulkan oleh APLESI dan bagaimana informasi tersebut digunakan.
+          Selamat datang di APLESI (https://aplesi.my.id). Privasi pengunjung adalah salah satu prioritas utama kami. Dokumen Kebijakan Privasi ini menguraikan jenis informasi pribadi yang diterima dan dikumpulkan oleh APLESI dan bagaimana informasi tersebut digunakan.
         </p>
 
         <h2>File Log (Log Files)</h2>

@@ -9,10 +9,10 @@ describe('SEO sitemap & robots configuration', () => {
   })
 
   describe('robots()', () => {
-    it('mengembalikan hanya satu sitemap https://www.aplesi.my.id/sitemap.xml tanpa news-sitemap.xml', () => {
+    it('mengembalikan hanya satu sitemap https://aplesi.my.id/sitemap.xml tanpa news-sitemap.xml', () => {
       const robotsConfig = robots()
-      expect(robotsConfig.sitemap).toBe('https://www.aplesi.my.id/sitemap.xml')
-      expect(robotsConfig.host).toBe('https://www.aplesi.my.id')
+      expect(robotsConfig.sitemap).toBe('https://aplesi.my.id/sitemap.xml')
+      expect(robotsConfig.host).toBe('https://aplesi.my.id')
     })
 
     it('memiliki aturan untuk Googlebot dan crawler AdSense yang mengizinkan crawl', () => {
@@ -47,22 +47,22 @@ describe('SEO sitemap & robots configuration', () => {
 
       // Memastikan URL root, artikel, privacy-policy, disclaimer ada
       const urls = sitemapEntries.map((e) => e.url)
-      expect(urls).toContain('https://www.aplesi.my.id')
-      expect(urls).toContain('https://www.aplesi.my.id/artikel')
-      expect(urls).toContain('https://www.aplesi.my.id/privacy-policy')
-      expect(urls).toContain('https://www.aplesi.my.id/disclaimer')
-      expect(urls).toContain('https://www.aplesi.my.id/kontak')
-      expect(urls).toContain('https://www.aplesi.my.id/tentang-kami')
+      expect(urls).toContain('https://aplesi.my.id')
+      expect(urls).toContain('https://aplesi.my.id/artikel')
+      expect(urls).toContain('https://aplesi.my.id/privacy-policy')
+      expect(urls).toContain('https://aplesi.my.id/disclaimer')
+      expect(urls).toContain('https://aplesi.my.id/kontak')
+      expect(urls).toContain('https://aplesi.my.id/tentang-kami')
 
       // Artikel yang di-exclude tidak boleh masuk
-      expect(urls).not.toContain('https://www.aplesi.my.id/artikel/hubungi-kami')
+      expect(urls).not.toContain('https://aplesi.my.id/artikel/hubungi-kami')
 
       // Artikel yang valid harus masuk
-      expect(urls).toContain('https://www.aplesi.my.id/artikel/panduan-budidaya-lele-bioflok')
+      expect(urls).toContain('https://aplesi.my.id/artikel/panduan-budidaya-lele-bioflok')
 
       // Validasi struktur setiap entry
       for (const entry of sitemapEntries) {
-        expect(entry.url).toMatch(/^https:\/\/www\.aplesi\.my\.id/)
+        expect(entry.url).toMatch(/^https:\/\/aplesi\.my\.id/)
         expect(entry.lastModified).toBeInstanceOf(Date)
         expect(entry.changeFrequency).toBeDefined()
         expect(typeof entry.priority).toBe('number')
@@ -75,8 +75,8 @@ describe('SEO sitemap & robots configuration', () => {
       const sitemapEntries = await sitemap()
       expect(sitemapEntries.length).toBeGreaterThan(0)
       const urls = sitemapEntries.map((e) => e.url)
-      expect(urls).toContain('https://www.aplesi.my.id')
-      expect(urls).toContain('https://www.aplesi.my.id/kategori/pembenihan')
+      expect(urls).toContain('https://aplesi.my.id')
+      expect(urls).toContain('https://aplesi.my.id/kategori/pembenihan')
     })
 
     it('menangani baris artikel yang korup, null, atau memiliki slug tidak valid tanpa crash', async () => {
@@ -92,12 +92,12 @@ describe('SEO sitemap & robots configuration', () => {
       const sitemapEntries = await sitemap()
       const urls = sitemapEntries.map((e) => e.url)
 
-      expect(urls).toContain('https://www.aplesi.my.id/artikel/artikel-valid-dengan-tanggal-aneh')
-      expect(urls).not.toContain('https://www.aplesi.my.id/artikel/')
-      expect(urls).not.toContain('https://www.aplesi.my.id/artikel/12345')
+      expect(urls).toContain('https://aplesi.my.id/artikel/artikel-valid-dengan-tanggal-aneh')
+      expect(urls).not.toContain('https://aplesi.my.id/artikel/')
+      expect(urls).not.toContain('https://aplesi.my.id/artikel/12345')
 
       const validEntry = sitemapEntries.find(
-        (e) => e.url === 'https://www.aplesi.my.id/artikel/artikel-valid-dengan-tanggal-aneh'
+        (e) => e.url === 'https://aplesi.my.id/artikel/artikel-valid-dengan-tanggal-aneh'
       )
       expect(validEntry?.lastModified).toBeInstanceOf(Date)
       expect(isNaN((validEntry?.lastModified as Date).getTime())).toBe(false)

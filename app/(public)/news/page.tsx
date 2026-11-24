@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Berita Perikanan Terkini',
   description:
     'Kumpulan berita perikanan dan budidaya ikan terbaru dari media Indonesia maupun internasional, diperbarui otomatis.',
-  alternates: { canonical: 'https://www.aplesi.my.id/news' },
+  alternates: { canonical: 'https://aplesi.my.id/news' },
   robots: {
     index: false,
     follow: true,
@@ -77,7 +77,7 @@ export default async function NewsPage({
       <ItemListJsonLd
         namaHalaman="Berita Perikanan Terkini"
         deskripsi="Kumpulan berita perikanan dan budidaya ikan terbaru dari media Indonesia maupun internasional, diperbarui otomatis."
-        urlHalaman="https://www.aplesi.my.id/news"
+        urlHalaman="https://aplesi.my.id/news"
         items={ditampilkan.map((n) => ({ nama: n.judul, url: n.url }))}
       />
       <div className="container-custom pt-28 pb-16">

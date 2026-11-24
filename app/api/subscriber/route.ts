@@ -30,12 +30,12 @@ export async function POST(req: NextRequest) {
               <h1 style="color:#166534">🐟 Selamat datang di Aplesi!</h1>
               <p>Terima kasih sudah mendaftar newsletter kami.</p>
               <p>Kamu akan mendapatkan artikel terbaru tentang budidaya ikan setiap hari langsung di inbox-mu.</p>
-              <a href="https://www.aplesi.my.id/artikel"
+              <a href="https://aplesi.my.id/artikel"
                 style="display:inline-block;background:#166534;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;margin-top:16px">
                 Baca Artikel Terbaru →
               </a>
               <p style="color:#9ca3af;font-size:12px;margin-top:24px">
-                Untuk berhenti berlangganan, <a href="https://www.aplesi.my.id/unsubscribe?email=${encodeURIComponent(email)}">klik di sini</a>
+                Untuk berhenti berlangganan, <a href="https://aplesi.my.id/unsubscribe?email=${encodeURIComponent(email)}">klik di sini</a>
               </p>
             </div>
           `,

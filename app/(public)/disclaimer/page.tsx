@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Disclaimer — APLESI',
-  description: 'Penyangkalan (Disclaimer) penggunaan informasi di APLESI (https://www.aplesi.my.id).',
+  description: 'Penyangkalan (Disclaimer) penggunaan informasi di APLESI (https://aplesi.my.id).',
 }
 
 export default function DisclaimerPage() {
@@ -18,7 +18,7 @@ export default function DisclaimerPage() {
 
         <h2>Penyangkalan untuk APLESI</h2>
         <p>
-          Semua informasi di situs web ini (https://www.aplesi.my.id) diterbitkan dengan itikad baik dan hanya untuk tujuan informasi umum serta edukasi mengenai budidaya ikan dan perikanan air tawar. APLESI tidak memberikan jaminan apa pun tentang kelengkapan, keandalan, dan keakuratan mutlak informasi ini di setiap kondisi kolam yang berbeda.
+          Semua informasi di situs web ini (https://aplesi.my.id) diterbitkan dengan itikad baik dan hanya untuk tujuan informasi umum serta edukasi mengenai budidaya ikan dan perikanan air tawar. APLESI tidak memberikan jaminan apa pun tentang kelengkapan, keandalan, dan keakuratan mutlak informasi ini di setiap kondisi kolam yang berbeda.
         </p>
         <p>
           Segala tindakan yang Anda ambil atas informasi yang Anda temukan di situs web ini (APLESI) adalah sepenuhnya merupakan risiko Anda sendiri. APLESI tidak akan bertanggung jawab atas kerugian dan/atau kerusakan apa pun sehubungan dengan penggunaan situs web kami, termasuk namun tidak terbatas pada kerugian finansial akibat kegagalan panen, penyakit ikan, atau risiko teknis operasional perikanan.

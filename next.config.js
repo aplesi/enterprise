@@ -20,7 +20,7 @@ const nextConfig = {
 
   env: {
     SITE_NAME: 'Aplesi',
-    SITE_URL: 'https://www.aplesi.my.id',
+    SITE_URL: 'https://aplesi.my.id',
     SITE_DESCRIPTION: 'Portal Budidaya Lele Terlengkap di Indonesia',
   },
 }

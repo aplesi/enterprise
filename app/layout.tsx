@@ -17,7 +17,10 @@ export const metadata: Metadata = {
   },
   description: 'Portal budidaya ikan terlengkap di Indonesia. Tips, tutorial, dan panduan lengkap untuk peternak ikan pemula hingga profesional.',
   keywords: ['budidaya ikan', 'ternak ikan', 'ikan air tawar', 'ikan konsumsi', 'kolam ikan', 'pakan ikan'],
-  metadataBase: new URL('https://www.aplesi.my.id'),
+  metadataBase: new URL('https://aplesi.my.id'),
+  alternates: {
+    canonical: './',
+  },
   openGraph: {
     siteName: 'Aplesi',
     type: 'website',
