@@ -6,7 +6,7 @@ ringkasan: >-
   dapat meningkatkan kualitas pakan ikan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7trxiTun8azeF5sym4qqkaGHvS1JWY8g60yQVoPukLbZZdXhMG3hqY2ImgBX3QcKRRHfxobFguSXzirvyXt1zkR7LL9xs1xZJB9nR-QfiQz23EB1yJJtbpDarIhGFOAxTHlugzzbal5wc/s320/2.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - Daphnia
   - Pakan Ikan

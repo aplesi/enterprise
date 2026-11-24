@@ -6,7 +6,7 @@ ringkasan: >-
   kalangan peternak lele.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/induk-lele-sukhoi-1784129590930.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - induk lele sukhoi
   - lele masamo

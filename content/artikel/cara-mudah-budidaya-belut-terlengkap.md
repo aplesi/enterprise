@@ -6,7 +6,7 @@ ringkasan: >-
   terutama bagi mereka yang memiliki lahan terbatas.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivV0Ge06cWhwGm1GDusWWLPJWKmc4aJxejTmUu0I4xl-AWox-huUTdE2QFbpyRte1SpWY7ro5dyfJPiWkfifvZwf1YSa99W1sUNYmLytuaSBfQxr0N2IZk-NsRXzW_Qt2jWUY5Q1dmPyEQ/s640/Panduan+Lengkap+Cara+Budidaya+Belut.jpg
-kategori: Budidaya
+kategori: "Tips & Trik"
 tags:
   - budidaya belut
   - belut sawah

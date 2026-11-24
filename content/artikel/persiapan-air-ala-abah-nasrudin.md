@@ -7,7 +7,7 @@ ringkasan: >-
   efektif.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVV3NWAH_vFqbxJdlUt_8VTXEVvSED7cBxaZef8YVqqvx0lsQT6ZOoh8UjIiCQxzxwCEwvPl01uLgmhlQrO-KqVdUj3YM8xdeo5ZHzy4DnSG6E_4dxvmkMoN5r-4cYj2_hDp7Vd26YlxjA/s320/1.jpg
-kategori: manajemen air
+kategori: "Manajemen Kolam"
 tags:
   - persiapan air kolam ikan
   - Abah Nasrudin

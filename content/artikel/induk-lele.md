@@ -6,7 +6,7 @@ ringkasan: >-
   tentang cara memilih induk lele yang sehat dan berkualitas.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj8Pvx7c7a2GSCEwwXJj-I2gGKhiPReHvUYXK3gYDdmrIBNJDERlLCHwdRz8ZcBqxUWlEa6f6YOihWuInJ9f6Dw0fbGoMHfb1AbkUAH6DpJY8rE3K200kMFr8LsimCOiztOuhzqTEYazgdH/s1600/lele.jpg
-kategori: lelesangkuriang
+kategori: "Pembenihan"
 tags:
   - induk lele
   - budidaya lele

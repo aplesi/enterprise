@@ -6,7 +6,7 @@ ringkasan: >-
   meningkatkan kesehatan ikan lele dan lingkungan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijMEChOdPQhYvXNPh7sjcVgJWPlONWvklaTAA9EggaWNgmeN8YlDrXKL9-6eb1alXBGFGkpGwj9rGVprLa0KtnGw1M7zzWmO6uL6rvtQ78n3MmLoNG4jX85NjNxjfoCJ-ISiZdJpOT2VID/s640/ikan+mengantung.jpg
-kategori: pembesaran lele
+kategori: "Manajemen Kolam"
 tags:
   - pemberian pakan lele
   - dampak pemberian pakan lele berlebih

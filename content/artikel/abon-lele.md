@@ -6,7 +6,7 @@ ringkasan: >-
   meningkatkan kualitas dan kesegaran olahan ikan lele.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSZ4V_TyPjZdts6RnCCUkx3P6oB8cFmm-n8MNTW_ivgBWf1hh2X45CTc4LQpzjOOJB6SSi7tLMlN4lQ4urlbzPPILzLvajn7uwKJGtJKlVol2qwI_St-GT_InWwYB3Q4T8VyQsa0R2GKfU/s320/5.JPG
-kategori: Blog
+kategori: "Panen & Pascapanen"
 tags:
   - abon lele
   - ikan lele

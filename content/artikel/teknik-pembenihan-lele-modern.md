@@ -3,7 +3,7 @@ judul: "Teknik Pembenihan Lele Modern"
 slug: "teknik-pembenihan-lele-modern"
 ringkasan: "Meningkatkan produksi lele dengan teknik pembenihan modern"
 gambar: "/images/artikel/teknik-pembenihan-lele-modern.png"
-kategori: "Budidaya Lele"
+kategori: "Manajemen Kolam"
 tags: ["pembenihan lele", "teknik pembenihan lele modern", "budidaya lele"]
 penulis: "Tim Redaksi APLESI"
 tanggal: "2026-08-12"

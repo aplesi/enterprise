@@ -6,7 +6,7 @@ ringkasan: >-
   Pelajari lebih lanjut tentang sistem ini.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp9KYoGF4zWt7paeXD9ImcyF4xWiYSJcU95vDo6e2swxgFMqW7RaOIC85qEpUhJlsBEzRg6rl407n6vnjfgxW4dNZDGaxwx1hlrG_zNZhpT-A7kBmIzk8fj3c_CvzFi-dGJk86yIXZ7H-E/s640/Sistem+Padat+Tebar+Budidaya+Lele+Serta+Kekuranganya.jpg
-kategori: Budidaya
+kategori: "Manajemen Kolam"
 tags:
   - budidaya lele
   - sistem padat tebar

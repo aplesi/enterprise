@@ -4,7 +4,7 @@ slug: harga-pakan-lele-sekarang
 ringkasan: 'Harga pakan lele terus meningkat, bagaimana dampaknya pada petani lele?'
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg68N0W-Z-kAalc8MBBUKhMi7ZL8GDnvnqWTBFj_T8rxGnHTETaD9kY9u0UCOq1PPDj0pcxAIXB62TitDKagvSsqkFay_Kt1V1-J1jAwfWYqvUVSG9v3TRcakZLcyii4IaLrpYav3OMUuQ-/s1600/aaa.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - harga pakan lele
   - kenaikan harga

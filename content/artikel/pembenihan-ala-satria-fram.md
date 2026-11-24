@@ -4,7 +4,7 @@ slug: pembenihan-ala-satria-fram
 ringkasan: Teknik pembenihan ikan lele ala Satria Fram yang efektif dan efisien
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMBKqkiCWlhVWGu0byRaVokG6znbn1H-Q1LulTqGiRVMOyFrgCTlSgJJqlPpUNxfyGK5wpewAfFx9JkC2zym1cmW-mtaGfakb4oQbADikS8f_SAF9l7du3-4jJ5RQeT6scvHvGL-kLvd8K/s320/392906_215107051894098_1000824015_n.jpg
-kategori: pembibitan lele
+kategori: "Pembenihan"
 tags:
   - pembenihan ikan
   - satria fram

@@ -6,7 +6,7 @@ ringkasan: >-
   kaya akan nutrisi dan protein.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjMpE1X5u8Jw5mjg0PVvWqYoEZ0uhDk2MJvHwGHH-x5ZHl-c3L15QbTdh7CqbhQJiy5XkrBIfozxc5pAvhg6lM2492OS6UE0Yrd2r-z7ylH_QYrSuFjbv3b9nDOBWWfe6V1PKFr-gFfIAc7/s320/artemia-salina-90525.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - Artemia
   - Makanan Hidup

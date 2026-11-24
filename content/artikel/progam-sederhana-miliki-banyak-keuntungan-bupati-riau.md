@@ -4,7 +4,7 @@ slug: progam-sederhana-miliki-banyak-keuntungan-bupati-riau
 ringkasan: Program DMPE untuk mewujudkan Tri Zero di Kabupaten Kampar
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgbvtlUTEZAifnZENmpjVZMRaIqey6tu-trb8-ZyTdXVtDDiXmV0BnBSPh4WmvI3lYcl2O48JVq5x5l6Nglv3ikhW5T9YhRGADOLMy-RgHxJZzxOCoY9-BDxgqGpzud6hK6VY1KoqpXzoS4/s1600/bupati.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - DMPE
   - Tri Zero

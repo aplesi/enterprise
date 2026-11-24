@@ -6,7 +6,7 @@ ringkasan: >-
   pengeluaran telur dan penetasan telur.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjL8JyDK8sUDQeIuKgyUWX2OtiYIYgUADFa5zclqreAtomC3Mei1b6wIsfJYk72igtKpdp4vYBrjoMZkWX0B25_W1LMpYmlDxLePGrerw4LMMSGJA5deAV0yVNyQ9JJnMsZ-Y5LgFCVpiCV/s1600/telur+lele+masamo.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - striping lele
   - pengeluaran telur

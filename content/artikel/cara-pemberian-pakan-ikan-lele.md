@@ -6,7 +6,7 @@ ringkasan: >-
   adalah cara pemberian pakan lele yang efektif.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixaM9e6Hwc77-T3BzzE-r9ZgVqlc6ue7_PvnKQqj1cwTqzEU0O-g_ofxc_qCvakie2fbDkPJZAbtj73t3MWfReEJOS-nSVpFK0GcOZaQka4XJ7IsOY92wEh7A-RJvA910QsvncgvmYn9jK/s640/pemberian+pakan+lele.jpg
-kategori: pembeinhan lele
+kategori: "Pembenihan"
 tags:
   - pemberian pakan ikan lele
   - cara pemberian pakan lele

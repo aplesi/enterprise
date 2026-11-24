@@ -4,7 +4,7 @@ slug: panduan-budidaya-ikan-lele-padat-tebar
 ringkasan: Budidaya ikan lele padat tebar dengan teknologi bioflok dan NWS
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh43EY1cfBtEPwqw2pZqtKh8ZQWkAcGQAJJxiGJPwQc4dgz74pSvidNHOfeWAN0JipIsV-KjH4cgTuWRM4W2rGnWWal2NeEUf_KbqUGHz3j7QjSdCDSLmE026m-J-Ji7GmWm3McSWwPRCbs/s400/Panduan+Budidaya+ikan+lele+padat+tebar.jpg
-kategori: Budidaya
+kategori: "Manajemen Kolam"
 tags:
   - budidaya ikan lele
   - padat tebar

@@ -4,7 +4,7 @@ slug: memisahkan-dan-membersikan-cacing-sutra-dari-lumpur
 ringkasan: Cara efektif memisahkan cacing sutra dari lumpur untuk budidaya ikan
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/memisahkan-dan-membersikan-cacing-sutra-dari-lumpur-1784129617143.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - cacing sutra
   - budidaya ikan

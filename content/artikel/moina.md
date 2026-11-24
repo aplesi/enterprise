@@ -6,7 +6,7 @@ ringkasan: >-
   dan pertumbuhan ikan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjP-GLKmq5eOiime6qBn603ZNs3UhbEpND6e4qUi1-0tKNsl8056kgyYtpl7Wz7OSl3dq5O7f4mNi30YcNSCTuxbIMy20xZdkt2ZY0lnqe9x_nrelcUH0XgIRki5yqnogMVo0cVhp0e1VcV/s320/6Moina.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - Moina
   - Kutu Air

@@ -7,7 +7,7 @@ ringkasan: >-
   ditingkatkan secara signifikan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcEX_hyphenhyphen0lojlzm3QnIgX7ZZEpYauIjHI3WeHYbz-O10NtYEw0hRjJaCcEIXSeMyfgaqpamNOkhtJZpA4pmoyeldVHkvLR9sF1dUvaTBqbWQSPZL2CUXLOszzi_xRuJIpTHIsw1Avkwy6Zc/s400/IMG-20120414-00340.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - biofilter
   - sistem resirkulasi

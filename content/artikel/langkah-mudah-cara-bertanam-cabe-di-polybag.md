@@ -6,7 +6,7 @@ ringkasan: >-
   yang melimpah.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi7N5_hIQqmKNGTKZxgLqxIbguuXB04TQzCUreoAUz1zumwmCQbh7_5uhzmRnx-YzlD5C352gdPmJeCRrGrIhVEuQT__WCaJI6JG3N1yALSJiteFnwys8yD_I4xToF1gI9L0XQqQN6psb0b/s640/tanam+cabe+di+polybag.jpg
-kategori: Budidaya
+kategori: "Tips & Trik"
 tags:
   - cara bertanam cabe
   - polybag

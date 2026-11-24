@@ -6,7 +6,7 @@ ringkasan: >-
   yang tepat, Anda bisa mendapatkan hasil yang maksimal.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/ternak-lele-1784129675527.jpg
-kategori: Blog
+kategori: "Bisnis & Pemasaran"
 tags:
   - ternak lele
   - budi daya ikan lele

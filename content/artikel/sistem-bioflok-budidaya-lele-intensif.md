@@ -3,7 +3,7 @@ judul: "Panduan Lengkap Sistem Bioflok Budidaya Lele Intensif: SOP dari Persiapa
 slug: "sistem-bioflok-budidaya-lele-intensif"
 ringkasan: "Panduan praktis budidaya lele sistem bioflok intensif: resep penumbuhan flok, padat tebar 1.000 ekor/m³, rasio C:N, manajemen aerasi, hingga target FCR 0,85."
 gambar: "/images/artikel/sistem-bioflok-budidaya-lele-intensif.jpg"
-kategori: "Budidaya Lele"
+kategori: "Manajemen Kolam"
 tags:
   - sistem bioflok
   - budidaya lele

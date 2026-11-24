@@ -6,7 +6,7 @@ ringkasan: >-
   tepat.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHehPzKzns96q7Zu4XjFMTaVtQ4SN31AwhR620_YGGVGFsiwQtlwz1LC7lwl-eFQMKUZ4ZKpC5wx6cLMiMYkSvUxuw6kYhO8EtjTKzF_dyOeDUVnLusZexl4G_ZCB8ENL78_6HyGa2u6ka/s1600/aa.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - ikan lele
   - frekuensi bunyi

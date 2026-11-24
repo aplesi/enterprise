@@ -6,7 +6,7 @@ ringkasan: >-
   alami
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjdCJwujiE9I6I_Cwrht1tPeWBoRFMZwvYPC8YZMbpaSsSD0um_kXIZvVzkElxv8ynR-ed3cbk7689xRZxTb9TSS5fON8mItlK_XabBDVLzvn3rzZBaWkshzUMDnFFgSRGH6obypdufB89f/s400/Cara+mudah+membuat+pasta+untuk+larva+lele.jpg
-kategori: Pakan Larva lele
+kategori: "Pakan"
 tags:
   - pembuatan pakan larva lele
   - pakan alternatif

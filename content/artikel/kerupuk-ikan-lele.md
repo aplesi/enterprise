@@ -4,7 +4,7 @@ slug: kerupuk-ikan-lele
 ringkasan: Pelajari cara membuat kerupuk ikan lele yang renyah dan lezat
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdiGyl7yT6pf_Z-Q3GodE8uWVMSSZtcs_YcNmEltZnSGG7lKWbYojqREW9gBBU8CauwPcQX0Ogtf0DTmBXd39oCnE99-LXXjxcmSWS7_-NUeNx-QP7G9n1OBdwmolvAheEC5oSo00IorEv/s400/3.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - kerupuk ikan lele
   - cara membuat kerupuk

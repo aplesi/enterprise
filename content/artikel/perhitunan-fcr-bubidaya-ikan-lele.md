@@ -6,7 +6,7 @@ ringkasan: >-
   efisiensi
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0v2PHY5wGJgOiTaNtRG9ScEbJG-rh6Hk6rA7AISpTyRL9v1dBRHAWau3KpnGMDpVg0xGuRkPCek_FgPgAVYao6vb3Va0eu4FvzqewQ30xmDdc1r9FXfBa5z-A1zn8NvXBkc6yBEsTg9r7/s320/e094d55e0c2239c34f666549756d307e.png
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - FCR
   - Budidaya Ikan Lele

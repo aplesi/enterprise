@@ -6,7 +6,7 @@ ringkasan: >-
   biaya produksi. Pelajari cara menggunakannya!
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBXd9sXvwNRSJrUgQz0yqvp4M9V1Y4JZ-D_KQlraUicbLeolstFVvHedZ7WvTSKLwoY7ar03rU9-4vUSOXdRewF_cFQ7_xV7w9RHNU7BvoRDM5TttBm1wH7gp5COezXLkwWdaoivb3IHWg/s200/probiotik.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - Probiotik EBS Biofloc
   - Budidaya Lele

@@ -7,7 +7,7 @@ ringkasan: >-
   meningkatkan hasil panen.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg1stF79dDPNMIMfgS0lYJPhQlxvcu44CtWl1Nw2PgHeVxHrASVBzyuGdlu22RI536XXEo0_udAN8ibAgwzovI31fnvhlRe_H1kHa1QnDvR3PSwBirzM3EezwVTz5-EuyxTxLS220fcafsx/s1600/lol.jpg
-kategori: pembenihan
+kategori: "Pembenihan"
 tags:
   - pembenihan ikan lele
   - sistem mikroaerofilter

@@ -6,7 +6,7 @@ ringkasan: >-
   bernutrisi.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhQ6Jrb2JXjUVRXuZ55HbCfGA-Vu2pm0DJZ9y05Yt4uIJ_hHkQlpVuSH-O4v0yWqNAqiwdrCAN7N_4_pVOxIZCVRxktdF1lXyl1uInUZ1O8mDdoZvkBMDThjL3mnFus9CRsD-c1yQnPjzjv/s320/1.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - Azolla
   - Pakan Ikan Lele

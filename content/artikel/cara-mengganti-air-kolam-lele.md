@@ -6,7 +6,7 @@ ringkasan: >-
   Berikut adalah cara mengganti air kolam lele yang efektif.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgkFj9FguC2Gjp3oZd2Oa_ceyqGJXRmOtAk7fAaUy2p4LIkTA8eErQaWz_HT04dOiI71BGXAAm5AvB0J-XkW6X770Ot9txukcqoLfnrrCIr2i23GANxKPejK2LeZ22bLKB_4uZV3_drttML/s640/Mengganti+air+kolam+lele.jpg
-kategori: kolam lele
+kategori: "Manajemen Kolam"
 tags:
   - cara mengganti air kolam lele
   - budidaya lele

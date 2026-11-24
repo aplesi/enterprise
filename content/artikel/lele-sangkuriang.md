@@ -6,7 +6,7 @@ ringkasan: >-
   karakteristik unggul dalam budidaya.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuD9FhZRYczIJtX7AEOu06opb5-L3NTDY0ldCIPkuxNiC8zduUvRUkEiJIRkqkyM34IZqala0sGzBeoufNSr0cty17rzKuqgTygJhjeltb9EQk8ZOv2u5Yhqf1YttoaFs0Sq1RKwCx1TVi/s640/ff.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - Lele Sangkuriang
   - Budidaya Lele

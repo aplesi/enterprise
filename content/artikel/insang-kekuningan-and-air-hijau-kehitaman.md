@@ -4,7 +4,7 @@ slug: insang-kekuningan-and-air-hijau-kehitaman
 ringkasan: Penyebab dan solusi insang kekuningan dan air hijau kehitaman pada ikan
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/insang-kekuningan-and-air-hijau-kehitaman-1784129714950.jpg
-kategori: Blog
+kategori: "Penyakit & Pengobatan"
 tags:
   - insang kekuningan
   - air hijau kehitaman

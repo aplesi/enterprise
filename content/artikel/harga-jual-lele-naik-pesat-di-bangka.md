@@ -6,7 +6,7 @@ ringkasan: >-
   membuat peternakan ikan menjadi salah satu bisnis yang menjanjikan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJOYUZ-RFX-AI4ZDQXul388cWauplyj2dv4I2MVZ0T5A_uTSrfOFjaVdDdS8pBiloUVghaYQJ5QK4ZFleWkPXkXmUsS7Po6j22rZbIkSwvNoBLQMUiY4QpVok9dEJQ8E42Ogg8hTO10WtV/s1600/1001030_213771785443878_1977891589_n.jpg
-kategori: Blog
+kategori: "Bisnis & Pemasaran"
 tags:
   - harga jual lele
   - peternakan ikan

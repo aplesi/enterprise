@@ -4,7 +4,7 @@ slug: obat-alami-untuk-ikan
 ringkasan: Obat alami untuk ikan adalah solusi efektif untuk mengatasi penyakit ikan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfOC6jLgxzNIxwXmqtolvKvPEN_z31csugWPJRjok7aym6ntVLdrkBia8RqAaTUwTcWNbDwP5cH8IIjfMh6ihXXibX3OemKZX75-tPrJWjJZ-oLkWT42Ej5OxN_ipKRQhV_ofefIO6PS-h/s1600/meniran1.jpg
-kategori: Blog
+kategori: "Penyakit & Pengobatan"
 tags:
   - obat alami ikan
   - tanaman obat

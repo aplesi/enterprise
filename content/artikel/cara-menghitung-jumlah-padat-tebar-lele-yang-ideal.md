@@ -4,7 +4,7 @@ slug: cara-menghitung-jumlah-padat-tebar-lele-yang-ideal
 ringkasan: Menghitung jumlah padat tebar lele yang ideal untuk budidaya lele sukses
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjulOArbWexPDy1DokbFg74CwquAgCavHLqlVYVR52wI7bEXeUI1UpuUucbuGxry-XjreWW_0DEWNZpKQWhKc68n_VkHbIEnIJIxesQ-AfULGupz4W3oSJpcbm4ETXZO06rX2F5gqtsBBA/s640/Cara+Menghitung++Jumlah+Padat+Tebar+lele+Yang+Ideal.jpg
-kategori: Panduan Budidaya
+kategori: "Manajemen Kolam"
 tags:
   - budidaya lele
   - jumlah padat tebar

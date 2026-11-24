@@ -6,7 +6,7 @@ ringkasan: >-
   budidaya
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBHX8uivKrOAdDWrsKeZ1vc1Txh6XlX9yXPnHSSwuHf9x7otKO4MECXQxyR5Mxqh2u5s6EyTsfPkRBaUBgFsK_FoBkAmBUJNN-1HTLzi0eRjAL7P62y2VWL22vrlaCTj-rgeqf6Yk5gNmW/s1600/bibit+lele+masamo.jpg
-kategori: perawatan ikan
+kategori: "Penyakit & Pengobatan"
 tags:
   - Lele Masamo
   - Bibit Lele

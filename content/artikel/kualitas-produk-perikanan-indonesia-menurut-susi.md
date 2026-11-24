@@ -6,7 +6,7 @@ ringkasan: >-
   Perikanan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3VhzJ80hvkVwKe6Hn2cvgXUy_KPXiLZcqd9KHb5HFAMmIrdvIudh0Z0Oaq-6yPs-__Oo7cvejAaFOUU_5Vcr2bV2vDFwjB0qnd8BfVTt-2UMABoiSXwViE5p9Bzg770GBVXov_-QHN3Ra/s320/susi2.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - kualitas produk perikanan
   - Menteri Kelautan dan Perikanan

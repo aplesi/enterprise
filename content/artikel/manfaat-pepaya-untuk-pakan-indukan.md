@@ -6,7 +6,7 @@ ringkasan: >-
   kandungan kimia yang bermanfaat.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPI2wAzKkWkahOi0sO8zwW6rxof80h8DRpNgoQwJ3SFqi8ZwxLtZeZ7x19nQ1fu4q7_ktL4t3L0jM_C0D30Wqinus37s7hKGyFL2hlXXdU_TrKrFU13ll4tqX5Y5IULo3mjMldC1U1SDQA/s320/q.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - pepaya
   - pakan indukan ikan

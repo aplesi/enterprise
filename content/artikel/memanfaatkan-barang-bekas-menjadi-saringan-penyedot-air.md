@@ -6,7 +6,7 @@ ringkasan: >-
   dan efektif
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi0yPYxaH_K8GXLLnlA6nY74O54m4CigZ0dpuSBGGU-HPnDl-43hxKlAg_1FaRfo8znl0SQGed-Vk_oDyytO10hpTZ90fLbjmBhZ02mvZCS5KCUnj119hyICeN48Nu8oQbW5DqDqF3nbGqZ/s320/481263_237072699729268_380547387_n.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - saringan penyedot air
   - barang bekas

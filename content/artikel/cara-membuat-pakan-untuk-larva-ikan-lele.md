@@ -4,7 +4,7 @@ slug: cara-membuat-pakan-untuk-larva-ikan-lele
 ringkasan: Membuat pakan larva ikan lele sendiri bisa lebih hemat dan efektif.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjdCJwujiE9I6I_Cwrht1tPeWBoRFMZwvYPC8YZMbpaSsSD0um_kXIZvVzkElxv8ynR-ed3cbk7689xRZxTb9TSS5fON8mItlK_XabBDVLzvn3rzZBaWkshzUMDnFFgSRGH6obypdufB89f/s400/Cara+mudah+membuat+pasta+untuk+larva+lele.jpg
-kategori: Pakan bibit
+kategori: "Pakan"
 tags:
   - pakan larva ikan lele
   - cara membuat pakan

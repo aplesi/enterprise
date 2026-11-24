@@ -6,7 +6,7 @@ ringkasan: >-
   tentang kelebihan dan cara budidaya lele Burma.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcc9D6L8M4i_PvlOiKFlsL3feS8c2qvpE4Q2qLvo7n-lrL3RigkXLcNDG8N3BbzVt87cMK3wQf0wPqkVzdvkWRlzYLsBp6DmN-Y_lxtJR7nIl_4RQmMOaKtvgafDW0WkUDsvDGxZRCBu1F/s200/lele+burma.jpg
-kategori: sale
+kategori: "Tips & Trik"
 tags:
   - Lele Burma
   - Pembesaran Lele

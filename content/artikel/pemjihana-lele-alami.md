@@ -7,7 +7,7 @@ ringkasan: >-
   yang tepat.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi3d3nQRCBeIP7WrG4CQkqs_hYAuDsFDtTQjLw45j8IFNmOCSZUm08t1-JsC6rIUHQ3fF39afYx844Agj4w616oaNNdNyLWdiSeVqSk0SKyqrZunjsIRE33IjssD6Fw7RK4KmC2I1SSUEDy/s320/kolam-pemijahan.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - pemijahan ikan lele
   - ikan lele

@@ -6,7 +6,7 @@ ringkasan: >-
   seperti perawatan yang tepat dan penggunaan bahan alami.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjjI7bE1_LhhGVDVLTM5XjL_wmBDWjlToZOK6-3n1PBkBH07FG5FES3MZEknLkObjkbahFvCWO5u1yyc8s7zkVd-wSybQgl04sHRujV9eN0cxmzm3ehVXRMeRs7W2K2-hWV2HFJNoXMQ5Zj/s640/cara-mengatasi-atau-mengobati-jamur.png
-kategori: Jamur Pada Lele
+kategori: "Penyakit & Pengobatan"
 tags:
   - cara mengatasi jamur pada lele
   - mengobati jamur pada lele

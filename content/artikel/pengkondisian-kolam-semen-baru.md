@@ -6,7 +6,7 @@ ringkasan: >-
   cara mengkondisikan kolam semen baru dengan benar.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw1q_wN_FE9uqUxiGgbPvf3U9UFDMTm7i6Lm-rnE1ozDNHvnI_ieTSu4-GjlZg-Z11nK27h3k8Bq_S2p5HHkbQwS_l-tRvLO-IVqNPZP9SkeJXBSQR8v94aoJK5g90F_D9OgEEk0a6Tc4V/s320/1.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - pengkondisian kolam semen
   - budidaya ikan

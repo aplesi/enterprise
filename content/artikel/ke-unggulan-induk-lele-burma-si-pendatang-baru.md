@@ -6,7 +6,7 @@ ringkasan: >-
   menawarkan keunggulan dalam hal pertumbuhan dan ketahanan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEvez1IbKQ8-V9JkvFC2qS5K8emKMnTEyYHaC4vCBHN1NxwBRaCbPBtpqwzWOl4HjN4Qiru-h61AH0TUypy7fM12V8EJSSNfhfL-jvMsF_1GqbijfcHoYrdzodKF50LbTgwjcyXE9r72f8/s1600/lele+burma.jpg
-kategori: benih lele
+kategori: "Pembenihan"
 tags:
   - induk lele burma
   - benih lele burma

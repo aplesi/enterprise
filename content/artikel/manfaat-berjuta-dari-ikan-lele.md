@@ -6,7 +6,7 @@ ringkasan: >-
   pilihan makanan yang sangat bergizi.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNhLQTCgN4Vg9nhjNjRU_04wSLlJWUmeiO6wSbkLJ9XKzrnjJ3xhrunTnwGaU04ZBRzhUEfAZyFeHiXh0ZWVUsq29kX0AuMC_rbufFIuafBChuHziKPEZrDTD96_X8Dhje_otvUGHFATtD/s320/11Ikan_Lele_4b7b5c0e4a9b5.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - ikan lele
   - sumber zat gizi

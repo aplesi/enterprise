@@ -7,7 +7,7 @@ ringkasan: >-
   efektif
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNKrTHIX-7D4AURkTlSfHA2DHmAC419VDsAcSCVW1Mn-OQgfum8ET2xlWeO0qYa0nvFsATdSTxA0XbM4efpfRlEkiJkng7ktHc0Bajt4rNutHbA9iqBuRDML2iKk9mr0HN0PVjXd8fwizv/s320/7.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - BeKa Dekomposer Plus
   - Limbah Ternak

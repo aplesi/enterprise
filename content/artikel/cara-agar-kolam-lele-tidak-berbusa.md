@@ -4,7 +4,7 @@ slug: cara-agar-kolam-lele-tidak-berbusa
 ringkasan: Tips untuk mencegah busa di kolam lele dan menjaga kesehatan ikan
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi9TSjSk4wQB5YoFmwqaD4ZjQHZYQvv-9K6YlGkQa5DfDdXvAEY2jo7C7U7zNqW6yRPdXMsS1QyVTJlSIpCt_FgawkGrRUqmSk839mg0GP-5h74ZfZF3PZPPd6Ztrg8hzln5ObDNYs4KOwN/s400/3.jpg
-kategori: kolam lele
+kategori: "Manajemen Kolam"
 tags:
   - budidaya lele
   - kolam lele

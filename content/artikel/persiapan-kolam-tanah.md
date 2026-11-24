@@ -6,7 +6,7 @@ ringkasan: >-
   untuk meningkatkan hasil panen.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXj1vF7LAMDPlJQVGF8YppMbfkl8HYB6CG6cblWkTgUtfJ1NASdcPTEp9RiZ04FfrF1ACW9dHZ23i2pDIvL_lJIZ6BIXqoOXteK21cJEnMI7ShNjl0ieuJk-My9KZkTJpwBY9Mf2Bk_xL8/s320/55.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - budidaya ikan
   - kolam tanah

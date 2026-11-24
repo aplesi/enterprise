@@ -6,7 +6,7 @@ ringkasan: >-
   matang.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyvRiSZd8f3KBFjCNb-nTImIGHnDlg_tAnzJDdTYUBYlc9BUCitBN4Rk_SVMXoAy5v79QBTV-cWXvyRQ0yY9gYPMKUEy69dIlHjwCt3lpWsWXaOApW_kgxF4M6DE4zh6OXCX6rOTQJ1NnO/s400/4.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - sistem padat tebar tinggi
   - budidaya lele

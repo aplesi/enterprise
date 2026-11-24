@@ -4,7 +4,7 @@ slug: cara-menekan-fcr-pada-pembesaran-ikan-lele-dengan-benih-berkualitas
 ringkasan: Mengoptimalkan pembesaran ikan lele dengan benih berkualitas untuk menekan FCR
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjq-jJTt2CN68HJXFNz5FfbztPD1BSeliS8_Hmf4vK0Xvd0QdS0uZoF1n-Ky30FUBkhUbBdwx98a0j_X7v_L1jNjEJ1T_W8hv1VPi3u1cj2RRCbgWiTtR-vcxUO0ZpJ0pVhEUHWGLQzyWVu/s1600/benih+lele.jpg
-kategori: manajemen air
+kategori: "Manajemen Kolam"
 tags:
   - pembesaran ikan lele
   - FCR

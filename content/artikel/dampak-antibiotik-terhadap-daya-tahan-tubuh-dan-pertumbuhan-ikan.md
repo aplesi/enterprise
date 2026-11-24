@@ -7,7 +7,7 @@ ringkasan: >-
   menyebabkan resistensi dan gangguan keseimbangan mikrobiota.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhsrCA8Cghh-cfJz59W3GYautBwGLqYPKoWagKoP8-iuyBo2YCdHMdGZSnZW-S_CtBj4zayle_XfS14fGOZpSjlQIh9JjZrqP0l0-ABe_vKamIcGSZorbL6KR54U4e2qvr7zNKKGdoaIqkr/s1600/pertumbuhan+ikan.jpg
-kategori: penyakit ikan lele
+kategori: "Penyakit & Pengobatan"
 tags:
   - Antibiotik
   - Pertumbuhan Ikan

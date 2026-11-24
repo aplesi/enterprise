@@ -3,7 +3,7 @@ judul: "Cara Mengatasi Penyakit Ikan Lele"
 slug: "cara-mengatasi-penyakit-ikan-lele"
 ringkasan: "Cara mengatasi penyakit ikan lele dengan langkah-langkah yang efektif"
 gambar: "https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/cara-mengatasi-penyakit-ikan-lele-1784129576763.jpg"
-kategori: "Kesehatan Ikan"
+kategori: "Penyakit & Pengobatan"
 tags:
   - ikan lele
   - penyakit ikan

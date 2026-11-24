@@ -4,7 +4,7 @@ slug: perubahan-warna-air-pada-kolam-lele-system-floc
 ringkasan: Mengenal perubahan warna air pada kolam lele sistem floc dan cara mengatasinya
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-x-0jYIg3ble2oPbjgV-VPTuMfRhnY1wYhza4MRaaWfwbb3ZAuLjhRdiGMi0BE9-1_bUUldqPZT6-Q9gqOSlCST6HZNLJTxhbBuZrodIjbPxF2EC64osNBcU9SpMdH1QfnzVsOyjnJlCe/s320/545825_3230813218364_1806178846_n.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - kolam lele
   - sistem floc

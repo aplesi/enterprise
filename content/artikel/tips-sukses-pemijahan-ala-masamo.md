@@ -6,7 +6,7 @@ ringkasan: >-
   berkualitas, dan kolam pemijahan yang sesuai
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgav7p_PA7DnV-aU4p6d2449CLNOyPgZ1Dsf1C_EvYZyt9QnKdLxYYmfTS_3WoXlsWwnPeVMJrGUfhyphenhyphenvaiL3uq8lhYmdc2zVKPtDSYBkIN0vbxTToMwQLKVmAxbVckPHP8XHuPuL_tOfBqi/s400/22.jpg
-kategori: pembibitan lele
+kategori: "Pembenihan"
 tags:
   - pemijahan ikan
   - pemilihan induk

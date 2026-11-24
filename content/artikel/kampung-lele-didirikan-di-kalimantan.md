@@ -6,7 +6,7 @@ ringkasan: >-
   Dengan teknologi dan manajemen yang tepat, potensi ini dapat dimaksimalkan.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgI861krS_6Y9lsBagb83SGhUc10yTqvheRaIG52H2Z0IwiW-XkTb8YLzZ9mtTAuU2i0zbweYxO-zcTrIV0W1hFH4GijWUiXGEDB2cxM4UAdn221fLZg6tpQ7O_ZednT3o0Uv_q09mceE5q/s1600/1.jpg
-kategori: news
+kategori: "Tips & Trik"
 tags:
   - kampung lele
   - budi daya ikan

@@ -4,7 +4,7 @@ slug: beka-fish-probiotik-dan-limbah-tahu-untuk-media-budidaya-maggot
 ringkasan: Budidaya maggot dengan BeKa Fish Probiotik dan limbah tahu
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhTtiyusJulAeiQtfZTON1Y5K_CNUhOl4cUpsflCRFMa-9QyYk669hMpU4H7-oTtxb2o7vWhqDz_uU-EpulHxupSHHS3XkD7Hl1oX-fh_Ryu1STvm4pou1pzDSWF679JPGiLv0NcBPqaagl/s320/6.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - BeKa Fish Probiotik
   - Limbah Tahu

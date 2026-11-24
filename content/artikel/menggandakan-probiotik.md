@@ -7,7 +7,7 @@ ringkasan: >-
   dalam jumlah yang cukup, dapat memberikan manfaat kesehatan bagi tubuh.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/menggandakan-probiotik-1784129631043.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - prebiotik
   - menggandakan prebiotik

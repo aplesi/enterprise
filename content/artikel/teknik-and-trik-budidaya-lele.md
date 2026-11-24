@@ -6,7 +6,7 @@ ringkasan: >-
   keuntungan
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/teknik-and-trik-budidaya-lele-1784129667718.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - budidaya lele
   - pembenihan lele

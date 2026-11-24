@@ -6,7 +6,7 @@ ringkasan: >-
   organik
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEghfciAW7at21LEtLJxCR131gbCXy4uc29Xz57TfvYK1hDj2nOZKfoplXUWVuiLJNP9DptcVo1kN4TyKNgLcyJwAE2Os5ym5OHfMZ2fWKLMwnQTXJMsj1INayXQOBFUUYLnmg-uGVLwye3A/s400/zeloit.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - zeolit
   - amonia

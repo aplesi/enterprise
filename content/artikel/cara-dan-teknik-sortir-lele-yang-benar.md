@@ -4,7 +4,7 @@ slug: cara-dan-teknik-sortir-lele-yang-benar
 ringkasan: Sortir lele yang tepat dapat meningkatkan hasil budidaya lele
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj9-kKePFnN3Ql9pJcB3wbxcIsAO1sHyzesD2D2MKtVs7rZAjYuda1QuyfR1JX_T1VJ8WAXC_dhCXEU8s_UNwXwJ88ftRjKZ4nFKj6hxs_YMVVclCx2tGE1XIYfDKBAHlCBs0McuFtZuWhI/s400/Cara+Dan+Teknik+Sortir+Lele+Yang+Benar.jpg
-kategori: pembesaran lele
+kategori: "Manajemen Kolam"
 tags:
   - sortir lele
   - budidaya lele

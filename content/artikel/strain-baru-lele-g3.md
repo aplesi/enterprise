@@ -6,7 +6,7 @@ ringkasan: >-
   ikan lele
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhG2WDrKn6LG18o1ifmMm-Zyag92UmOIk-acZg1PhLfX6SJ-lZWSxXdgSdQh2TH1J2htlRp8lczn5musAEx9YhPyY26l_Itvw2Elppp4fAXRJHJmnXc9iWnlNLe3e4voD23iVFw5IPxXX3q/s1600/images.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - Lele G3
   - Budidaya Ikan

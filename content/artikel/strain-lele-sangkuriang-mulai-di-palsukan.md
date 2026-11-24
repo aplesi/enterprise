@@ -6,7 +6,7 @@ ringkasan: >-
   membahas tentang bagaimana menghadapi tantangan ini.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/strain-lele-sangkuriang-mulai-di-palsukan-1784129660651.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - Lele Sangkuriang
   - Pemalsuan Lele

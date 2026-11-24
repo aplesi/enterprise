@@ -4,7 +4,7 @@ slug: pakan-lele-roti-bs
 ringkasan: 'Membuat pakan lele dari roti tawar dengan bioaktifator, alternatif hemat biaya'
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiU93lxfiFCIrmqw-2MPJigGfJe2FGsNYzKlJPQvFqOeNdNbjU8meJ1fUTAVwp1DL-BuW5X6Q73zeKKKvytM8aWEmJp4XFMDEGijdwhfooIXRmvQmyc310cvlpFORypuvqmd_FO5ex_XuG8/s1600/roti+tawar+lirik+1.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - pakan lele
   - roti tawar

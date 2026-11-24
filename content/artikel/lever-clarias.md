@@ -6,7 +6,7 @@ ringkasan: >-
   yang tepat. Artikel ini membahas cara mengatasi penyakit ini secara efektif.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTKpdpdogFZgjMSSnzZslm6xBoqPSYdsZ502WoWhBVocoH9KPLDqPTNptbnhIO432HZhMbWRFlJz4HL1TI3S6HXRhren8aNA66ib8M_KaCCEeJ8jGyYWXO2AlkLVV1enFOeKisUzg8jfc0/s200/1.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - lever clarias
   - lele

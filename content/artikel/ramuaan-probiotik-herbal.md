@@ -4,7 +4,7 @@ slug: ramuaan-probiotik-herbal
 ringkasan: Ramuan probiotik dan herbal untuk meningkatkan kesehatan lele
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhl4zcjmT-OiJbacau6nDiAOB-9agv36NeAkX2NLw00gRQKezoJh39snh5kTUr2duouaRGDOHYYOx0ee8c3J_q8W0Ey26oHIt397eRLwys2SPK6bi6nep0r6BmZUvgKUxV0Vy_xJmtngwEr/s320/3.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - ramuan probiotik
   - herbal lele

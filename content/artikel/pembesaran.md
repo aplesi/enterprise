@@ -6,7 +6,7 @@ ringkasan: >-
   beberapa tips praktis.
 gambar: >-
   https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-ash3/q82/s720x720/945311_627463867281788_1425748585_n.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - pembesaran ikan
   - teknik pembesaran ikan

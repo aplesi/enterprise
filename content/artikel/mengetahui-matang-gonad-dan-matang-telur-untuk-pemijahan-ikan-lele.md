@@ -6,7 +6,7 @@ ringkasan: >-
   matang telur
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz0uJBneETm3SqOoW42enuBboGYb_zwH81RV0SpaDaz7x4XcWLXrl7kXCx2-yfSH_QbZDpQGT476YlIgclJc-ywPHdw91Nt2LzCjlQJm6XsMrZE5L5f4dg1ge8DiliSXlbrOp2RqdbHQw5/s1600/matang+gonad.jpg
-kategori: lele burma
+kategori: "Pembenihan"
 tags:
   - ikan lele
   - matang gonad

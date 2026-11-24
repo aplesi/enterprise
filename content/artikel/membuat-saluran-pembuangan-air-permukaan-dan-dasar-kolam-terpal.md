@@ -4,7 +4,7 @@ slug: membuat-saluran-pembuangan-air-permukaan-dan-dasar-kolam-terpal
 ringkasan: Membuat saluran pembuangan air yang efektif untuk kolam terpal
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZcRMHJKliagQcLaleTLDlsy658UhNUjWzZtKVWJOibja4AERwsf0geMNKO8hcwU40gQ2EL8qw-EeiIQkLjjfIjJvMmLD-IvP2-n0H_VCtsEGx6B9WP431kVoYFnRF9eN4-lJ76pf-gJnx/s320/01IMG_0178.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - kolam terpal
   - saluran pembuangan

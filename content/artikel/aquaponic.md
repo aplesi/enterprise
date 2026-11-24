@@ -5,7 +5,7 @@ ringkasan: >-
   Aquaponik adalah teknologi budidaya ikan ramah lingkungan yang menggabungkan
   aquakultur dengan hidroponik.
 gambar: 'http://i2.ytimg.com/vi/fCL68ETB_nM/0.jpg'
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - aquaponik
   - budidaya ikan

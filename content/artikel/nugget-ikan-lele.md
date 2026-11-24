@@ -7,7 +7,7 @@ ringkasan: >-
   sehat.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkV5qxI_zukG6jaA3dJ1LRAjMDKtPPDT0cK2ltLbPHDE2xefY8x8Fo5j5Wd-Xv1UVP_1uS9IHNNQTJjnyoZmpvk6L9IQBwrta5hgNha88XyDvJFps46VU1bzUYbc4Ag0ejkEZ30n03N4JO/s400/4.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - nugget ikan lele
   - makanan ringan

@@ -6,7 +6,7 @@ ringkasan: >-
   Dalam artikel ini, kita akan membahas tentang cara pemijahan lele yang tepat.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/cara-pemijahan-lele-yang-benar-1784129583902.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - pemijahan lele
   - budidaya lele

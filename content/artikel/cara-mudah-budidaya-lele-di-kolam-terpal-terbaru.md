@@ -4,7 +4,7 @@ slug: cara-mudah-budidaya-lele-di-kolam-terpal-terbaru
 ringkasan: Panduan budidaya lele di kolam terpal untuk hasil yang maksimal
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXywo5-RftrqXCOlf-ctI0LyHN_3AX52E97Jjzel3lZF9-97fs9io1gKf2i_EOATi6JcU4MDdFYzoUBvSLTLsOgjBro0Oa1NpyekDuhPrchN7ix6N8-o8W5V4loL4WdZw4l3W-dETVroBl/s400/lele.jpg
-kategori: Pemberian Pakan lele di kolam Terpal
+kategori: "Pakan"
 tags:
   - budidaya lele
   - kolam terpal

@@ -6,7 +6,7 @@ ringkasan: >-
   membuatnya sendiri dengan biaya yang efektif
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgulpmknfmjHeudF1eptMojtRlICbjJ3AaRJMIvDLtc5B4W6wNwBe_0aQOV7Bd8Z4C10tsaiY88-2KMMFQ3qOM45ARMuGmc3gw-nzZmtTXe7CjjcEzLXGYyERpLo5u2Bpg4dpjBW1dfj6kr/s320/1.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - bubur alternatif
   - larva ikan

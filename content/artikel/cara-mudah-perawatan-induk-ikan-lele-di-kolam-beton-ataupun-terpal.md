@@ -7,7 +7,7 @@ ringkasan: >-
   langkah-langkah yang dapat diikuti.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiAOfCDAt8Re0AD_k-MxnebBnOTXFEKdw0o_h0lqpiyzaTWLCAZmIDr8u7GmB5jwlara7heZtuWF0xladhI4GuHj77Kf73FrZcmcQlj7JpSk46VQRU70VUvdxLcWQyLMS0SdS5-FC-2eWUS/s1600/fajar.jpg
-kategori: pembenihan
+kategori: "Pembenihan"
 tags:
   - perawatan induk ikan lele
   - pakan induk ikan lele

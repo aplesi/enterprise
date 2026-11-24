@@ -6,7 +6,7 @@ ringkasan: >-
   produksi ikan
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhoukPG_WWJyjIU9_JiIbCyooCc1bp6EbD_KNJVft1CySPGF6lBWhEzLhDjZidxWHUePE6yhzNdRBacPTIZZ_f7Y30lwWabGWbcug3qissQ6uj2wwlA8z0D11qorWapGaozCLaknjbxK7g-/s400/7-aaf9bf0b2a.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - pemijahan buatan
   - induce breeding

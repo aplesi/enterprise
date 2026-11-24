@@ -4,7 +4,7 @@ slug: kultur-kolam-sederhana-anton-simssah-ssimo
 ringkasan: Membuat kolam kultur sederhana untuk ikan dengan biaya murah dan mudah.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvb2wvTRsXhAGGIqXtjCTsh0Mi8oNljbwax53Eo7xFzTaIys1Bumd_DHEGwI_tEgRNv2iW7XY-YCqmKyk-j8_Gdr9e_pAtAl7J_ir3riUadWYEWBT6ldVZssoxZvRhDPp1VAHxogopiDJk/s320/zzz.jpg
-kategori: Blog
+kategori: "Manajemen Kolam"
 tags:
   - Kolam Kultur
   - Ikan

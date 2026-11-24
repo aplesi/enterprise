@@ -6,7 +6,7 @@ ringkasan: >-
   kesuksesan budidaya lele.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhe3I3_L6hqZGOaAvn1XKe-txuwNAJn4DesPvALnO2iQRWwPFqEHLV2gsyyt-Wii6OYAOFYCTZMxpbT4TiQGIbbHJl2qAzScrVRLDbhVmD4F60xYENvrrT1sXlLn7gUIdShnllmvODspMAh/s1600/1.jpg
-kategori: gallery
+kategori: "Pembenihan"
 tags:
   - benih lele
   - indukan lele

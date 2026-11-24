@@ -6,7 +6,7 @@ ringkasan: >-
   mendukung budidaya ikan dan tanah yang sehat.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi0AF5JkTg7pTWBfdFkRemo3gIEudRpkcnbXz9jpH92dJ7zRSBt9drfaKU0KfekTWP7bZ73msZvHH7UuSO2r32ZvWjYMmPIa-2ZiA5KJ6S96EnY6EajIvv5oTH1RIaA6koSOwdW4erPN9zT/s320/9.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - cacing sutra
   - cacing tanah

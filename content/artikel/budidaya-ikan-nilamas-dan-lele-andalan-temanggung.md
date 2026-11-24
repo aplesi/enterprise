@@ -6,7 +6,7 @@ ringkasan: >-
   mas, dan lele.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLd0dDnWL1MUwb_lInaDbqEKyp9pWWiauX1fc3LSfiE8QlrwUVWRibEI4p8EAOLIINDrm8hzpFLi55BMqPvdIXOo6n4eww_z77YJhyUfIXKwvgzDX4y3qwvuVsLmB0HUoIgxZFBwUCVqWY/s1600/ikan+nila.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - budidaya ikan
   - ikan nila

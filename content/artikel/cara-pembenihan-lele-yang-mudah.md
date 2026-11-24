@@ -4,7 +4,7 @@ slug: cara-pembenihan-lele-yang-mudah
 ringkasan: Panduan pembenihan lele yang efektif dan menguntungkan untuk pembudidaya lele
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXrYlCbSiECpwqJWtmorFnV6-5riDh2j1oxgsYZLVSXVSKD6UthVpqcyIcBiuvyzf7nw5R1G6Q5ylFj4UX8tN6skxdaCZEnXDmoUwYM33EyW9NYweqM1sWxBzdXJEANly69bmBGn5K4HlR/s640/10.jpg
-kategori: pembeinhan lele
+kategori: "Pembenihan"
 tags:
   - pembenihan lele
   - lele masamo

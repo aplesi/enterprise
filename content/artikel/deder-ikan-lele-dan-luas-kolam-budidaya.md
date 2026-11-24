@@ -6,7 +6,7 @@ ringkasan: >-
   pemilihan ukuran kolam yang tepat dan penerapan tips budidaya yang efektif.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjy2mzVsDFnw93MrOHbWMvw-5gZCHUo5ZkQbiDWFMYRiKRT0zoKoGxqCVsaXZA2_ncdclztANNnVJ6ITL086B_d8bDxHsWjG7mOkNIfX3rzee3SE91SlnUnifEn5KpLDJom6f14NYE8OXZG/s1600/pendederan.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - pendederan ikan lele
   - ukuran kolam

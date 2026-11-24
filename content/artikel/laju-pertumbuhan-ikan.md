@@ -6,7 +6,7 @@ ringkasan: >-
   suhu air, kualitas air, pakan, dan genetik.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/laju-pertumbuhan-ikan-1784129610041.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - laju pertumbuhan ikan
   - faktor dalam

@@ -7,7 +7,7 @@ ringkasan: >-
   bonor.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjaAWEMv6jplQKWXMQ_2j6UncG__DP6DfoPtP8PCoeKHWrRk1-dXuRq44gF-uOUhwPczTJPJ13YIHDAQFFXRau8MWXxR8BIL8cosOpgSEq6n5oSlREJ4MVBh6GersjS5GxyRQZcgBoa4lm6/s400/telur+bonor.jpg
-kategori: Permasalahan Budidaya
+kategori: "Pembenihan"
 tags:
   - ikan lele
   - telur ikan lele

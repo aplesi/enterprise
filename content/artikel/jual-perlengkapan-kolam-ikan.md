@@ -6,7 +6,7 @@ ringkasan: >-
   lele, termasuk saringan pembuangan kolam dan ember sortir
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkzH4xSyTly0sMtOTFAp1ST6ULxG8mIb6RYtASkmk-t2uoSsO0TkCpu7E2zatxqgqVmyh3MDYHoy0JuqZ6Sh1_XBrqjXmOENNxpcpGZFQlpn6BIK60_ssIleclSxdDaUt5lcpHlVMjBqXT/s200/pipa+pembuangan+aplesi+1.jpg
-kategori: pembeinhan lele
+kategori: "Pembenihan"
 tags:
   - perlengkapan kolam ikan
   - saringan pembuangan kolam

@@ -9,7 +9,7 @@ ringkasan: >-
   masamo
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgp6wU9hAQAGg1Em49TVrzX1rblS3Nh85PyTAGK3Bof4g6gkKwv5XjcVpUULEL-pckfi5WOh3TPsGKfCKd0nX2EjGLb6zaLSFk4qOrxKcKZT37rfsHs5uiZv4Kd0Gsq_67m5YW8cHVWqjet/s320/582176_436192333073995_1132382636_n.jpg
-kategori: Blog
+kategori: "Pembenihan"
 tags:
   - indukan masamo
   - benih masamo

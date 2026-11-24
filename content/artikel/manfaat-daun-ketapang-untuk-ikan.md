@@ -6,7 +6,7 @@ ringkasan: >-
   peningkatan kualitas air.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgkAPw0LpDWJXRQzoe9kBU5vdl0OVqAgXXl4FlJkrvAQ9upwI10FLhhCB9lo3x2lymxXEXKy45C3m5URJwOay13_5zdk7ieW8J5cgaunNfyDTbm_yqxkmLv-gAMGFLqcjcoUIh8IwaY-olq/s320/ketapang7.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - daun ketapang
   - ikan

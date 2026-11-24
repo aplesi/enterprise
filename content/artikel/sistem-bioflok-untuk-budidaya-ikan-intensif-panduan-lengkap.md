@@ -7,7 +7,7 @@ ringkasan: >-
   untuk ikan nila dan manfaatnya.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/sistem-bioflok-untuk-budidaya-ikan-intensif-panduan-lengkap-1784129653274.jpg
-kategori: Tips & Trik
+kategori: "Tips & Trik"
 tags:
   - sistem bioflok
   - budidaya ikan

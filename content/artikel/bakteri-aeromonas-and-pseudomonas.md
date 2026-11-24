@@ -6,7 +6,7 @@ ringkasan: >-
   langkah-langkah yang tepat.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkVdEi7RNnqQQrTBtG6iaa-xKID3ziSKM8fuxK-py4X9jkLJZG-r4davam9ruGxb1yVFE3dRqK-vKldc2DWTevrsZYi1ktOcbEhgRnMSMJo1ASapat1oHy3iS_w7ArDkEkGIivJR9K8j7l/s320/563171_400277629985289_171492095_n.jpg
-kategori: Blog
+kategori: "Penyakit & Pengobatan"
 tags:
   - ikan lele
   - penyakit bakteri

@@ -6,7 +6,7 @@ ringkasan: >-
   beberapa tips untuk memberikan pakan yang tepat.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEju3WX-fmhdow03TtrT6rSU9qsQjffEeAK0KMma9RWw9BwdQoN0hN-UcI09CACtqbos3NlRcgrTcrzTA_4Ok4WRcIR3uVSNfGu9QigRT4Pgom4dFG-wSaNQ1Gi8ZY6b9GldFPeYQnTp1tgl/s640/Pemberian+Pakan+Ikan+Lele+Yang+Benar.jpg
-kategori: pembeinhan lele
+kategori: "Pembenihan"
 tags:
   - pemberian pakan ikan lele
   - pakan alami

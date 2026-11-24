@@ -4,7 +4,7 @@ slug: induk-lele-masamo
 ringkasan: Induk lele Masamo unggul untuk budidaya lele
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDjs_omvxeKwPvBb1g0SiAt9qdmqDWwohk5pzPPKdnJWui3dMAQCZgXYonEXQeYbwDc8iW0Vg_jAsrNXNNFlnQg4Fzlnro7Uc8c05Q4e_c8p7JcfCRmqWIj4n1bllsTkh662k1PTMir-FU/s320/lele+masamo.jpg
-kategori: benih lele
+kategori: "Pembenihan"
 tags:
   - induk lele masamo
   - budidaya lele

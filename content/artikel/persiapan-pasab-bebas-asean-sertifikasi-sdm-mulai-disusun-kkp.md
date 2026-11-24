@@ -9,7 +9,7 @@ ringkasan: >-
   perikanan
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/persiapan-pasab-bebas-asean-sertifikasi-sdm-mulai-disusun-kkp-1784129645861.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - BEAS Sertifikasi SDM
   - Pengembangan Sumber Daya Manusia

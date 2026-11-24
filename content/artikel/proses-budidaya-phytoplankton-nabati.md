@@ -6,7 +6,7 @@ ringkasan: >-
   Panduan lengkap untuk memulai budidaya phytoplankton nabati.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijhFAOkOaHX_vIxETc13lNXdc1prt34S1cM2DEgCiTBKAKH28TWOM-w0iiHTZ2YXDj-YbeColCZASZSY9FXZIEbOpUDUU0VwILevk9I4m0bjO9-Gp0JR4tBksHwKI8F2mtr0pNG4YzGsmz/s400/2.jpg
-kategori: Blog
+kategori: "Tips & Trik"
 tags:
   - budidaya phytoplankton
   - phytoplankton nabati

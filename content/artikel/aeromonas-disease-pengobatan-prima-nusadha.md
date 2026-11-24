@@ -4,7 +4,7 @@ slug: aeromonas-disease-pengobatan-prima-nusadha
 ringkasan: Pengobatan Aeromonas Disease pada Ikan
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiSSTtwpsmyBu2p3Vhp6_lSWp04tuqhaoSKIGa_JjFiToFXTxetJVHiz2BPM3-h-LpQCuztYAewobXwiC6pBhzyZl2lnN35XVCixzuql-za5IqJhu-ig7jzIMECxpkeDVgZYV07Yokkf1-v/s320/4.jpg
-kategori: Blog
+kategori: "Penyakit & Pengobatan"
 tags:
   - Aeromonas Disease
   - Pengobatan Ikan

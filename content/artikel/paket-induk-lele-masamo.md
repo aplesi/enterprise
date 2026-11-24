@@ -4,7 +4,7 @@ slug: paket-induk-lele-masamo
 ringkasan: Paket induk lele Masamo berkualitas untuk meningkatkan hasil budidaya lele
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkmEeG1j-TcWpO0kj-pW5rauBV42rlOWzzReREC1KiGR-TbvmMtcqabX6VNOffV6HvvaSa4YnLVRPhnheSPjTzvsSiqaQXs-hKMV0hLAxfcqHwyUienwSyRWGUnMluRHf6KDXXPve5_SWk/s640/paket+induk+lele+masamo.jpg
-kategori: Produk
+kategori: "Pembenihan"
 tags:
   - paket induk lele masamo
   - lele masamo

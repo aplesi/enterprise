@@ -6,7 +6,7 @@ ringkasan: >-
   Berikut adalah cara dan tips untuk membuat kolam tanah yang ideal.
 gambar: >-
   https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgZkgCbnhaaAhNMRvY9_roo2Z8Z4XSwN1uTl4tpkraZRfODzzby0L53bGHZpzdGM8yS_VxoTAxC9lciC-XX7ARIANq-xcu_tlRKXryxHBxPZkixJUvJKJj7JQbZxWjoLJa5oM_tRWltjP0l/s320/panduan-praktis-pembuatan-kolam-tanah.jpg
-kategori: Kolam Tanah
+kategori: "Manajemen Kolam"
 tags:
   - budidaya ikan
   - kolam tanah

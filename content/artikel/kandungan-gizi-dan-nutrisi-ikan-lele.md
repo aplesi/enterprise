@@ -6,7 +6,7 @@ ringkasan: >-
   makanan sehat. Temukan manfaat dan fakta menarik tentang ikan lele.
 gambar: >-
   https://cdn.jsdelivr.net/gh/aplesi/enterprise@main/public/images/artikel/kandungan-gizi-dan-nutrisi-ikan-lele-1784129603170.jpg
-kategori: Blog
+kategori: "Pakan"
 tags:
   - ikan lele
   - kandungan gizi
